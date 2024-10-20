@@ -1,0 +1,46 @@
+.formulario__input-error {
+  font-size: 12px;
+  margin-bottom: 0;
+  display:none;
+}
+
+.formulario__input-error-activo {
+  display:block;
+}
+
+.form-group {
+  position: relative;
+}
+
+.formulario__validacion-estado {
+  position: absolute;
+  right: 10px; /* Ajusta este valor según sea necesario */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none; /* Esto evita que el icono interfiera con la entrada de texto */
+  opacity: 0;
+}
+
+.form-control {
+  padding-right: 30px; /* Ajusta este valor según sea necesario para dar espacio al icono */
+}
+
+.formulario__grupo-correcto .formulario__validacion-estado {
+  color: #1ed12d;
+  opacity: 1;
+}
+.formulario__grupo-incorrecto .formulario__label {
+  color: #FF3933;
+}
+
+.formulario__grupo-incorrecto .formulario__validacion-estado {
+  color: #FF3933;
+  opacity: 1;
+}
+
+.formulario__grupo-incorrecto .formulario__validacion__input {
+  border: 2px solid #FF3933;
+}
+
+

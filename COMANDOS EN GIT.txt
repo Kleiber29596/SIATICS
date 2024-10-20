@@ -1,0 +1,17 @@
+el git clone funciona para clonar todo el projecto si se realizaron cambios fuertemente grandes en el repositorio
+- git clone "ruta del projecto en la nube (https//...)"
+
+git pull funciona para bajar cambios internos del projecto que no sea de gran magnitud y se hace desde adentro del repositorio local (C:\xampp\htdocs\Proyecto-socio-tecnologico)
+- git pull origin main
+
+funciona para ver el estatus del proyecto para poder subir los cambios (si esta en rojo aun no esta preparado y si esta e verde si esta preparado)
+- git status
+
+funciona para preparar los archivos que voy a subir al repositorio en la nuve // tambie se puede usar git add archivo.php para subir especificamente un archivo
+-git add .
+
+funciona para subir los cambios a la nube ya preparados y colocarle un nombre o una identificacion de lo que se esta subiendo
+- git commit -m "mas el nombre o mensaje del commit que se va a cargar"
+
+- git push -u origin main
+
