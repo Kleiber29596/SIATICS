@@ -5278,85 +5278,90 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
   }
 
   
-  document.getElementById('modificar_consulta').addEventListener('click', modificarConsulta);
-
-  function modificarConsulta() {
+  let modificar_consulta; 
+  if ( modificar_consulta = document.getElementById('modificar_consulta')) {
+    modificar_consulta.addEventListener('click', modificarConsulta)
+    function modificarConsulta() {
     
-    let id_consulta_update                 = document.getElementById("id_consulta_update").value;         
-    let update_tipo_consulta               = document.getElementById("update_tipo_consulta").value;
-    let update_peso                        = document.getElementById("update_peso").value;
-    let update_altura                      = document.getElementById("update_altura").value;
-    let update_presion_arterial            = document.getElementById("update_presion_arterial").value;
-    let update_diagnostico                 = document.getElementById("update_diagnostico").value;
-
-    /* comprobar campos vacios */
-    if (
-      id_consulta_update == "" ||
-      update_tipo_consulta == "" ||
-      update_peso == "" ||
-      update_altura == "" ||
-      update_presion_arterial == "" ||
-      update_diagnostico == ""
-
-    ) {
+      let id_consulta_update                 = document.getElementById("id_consulta_update").value;         
+      let update_tipo_consulta               = document.getElementById("update_tipo_consulta").value;
+      let update_peso                        = document.getElementById("update_peso").value;
+      let update_altura                      = document.getElementById("update_altura").value;
+      let update_presion_arterial            = document.getElementById("update_presion_arterial").value;
+      let update_diagnostico                 = document.getElementById("update_diagnostico").value;
   
-      Swal.fire({
-        icon: "error",
-        title: "Campos vacios",
-        text: "Todos los campos son obligatorios",
-        confirmButtonColor: "#3085d6",
-      });
-
-    }
-
-    $.ajax({
-      url: "index.php?page=modificarConsulta",
-      type: "post",
-      dataType: "json",
-      data: {
-        id_consulta_update:       id_consulta_update,
-        update_tipo_consulta:     update_tipo_consulta,
-        update_peso:              update_peso,
-        update_altura:            update_altura,
-        update_presion_arterial:  update_presion_arterial,
-        update_diagnostico:       update_diagnostico
-      },
-    })
-
-      .done(function (response) {
-
-        if (response.data.success == true) {
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-            
-          $("#modalActualizarConsultas").modal("show");
-        } else {
+      /* comprobar campos vacios */
+      if (
+        id_consulta_update == "" ||
+        update_tipo_consulta == "" ||
+        update_peso == "" ||
+        update_altura == "" ||
+        update_presion_arterial == "" ||
+        update_diagnostico == ""
+  
+      ) {
+    
+        Swal.fire({
+          icon: "error",
+          title: "Campos vacios",
+          text: "Todos los campos son obligatorios",
+          confirmButtonColor: "#3085d6",
+        });
+  
+      }
+  
+      $.ajax({
+        url: "index.php?page=modificarConsulta",
+        type: "post",
+        dataType: "json",
+        data: {
+          id_consulta_update:       id_consulta_update,
+          update_tipo_consulta:     update_tipo_consulta,
+          update_peso:              update_peso,
+          update_altura:            update_altura,
+          update_presion_arterial:  update_presion_arterial,
+          update_diagnostico:       update_diagnostico
+        },
+      })
+  
+        .done(function (response) {
+  
+          if (response.data.success == true) {
+  
+            Swal.fire({
+              icon: "success",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+              
+            $("#modalActualizarConsultas").modal("show");
+          } else {
+            document
+              .getElementById("cont-loader")
+              .setAttribute("style", "display:none;");
+  
+            Swal.fire({
+              icon: "error",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+          }
+        })
+        .fail(function () {
           document
             .getElementById("cont-loader")
             .setAttribute("style", "display:none;");
-
-          Swal.fire({
-            icon: "error",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        document
-          .getElementById("cont-loader")
-          .setAttribute("style", "display:none;");
-
-        console.log("error");
-      });
+  
+          console.log("error");
+        });
+    }
+  
   }
 
+  
+ 
 
   function cancelarRecetaUpdate() {
   
@@ -5370,7 +5375,7 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
 
 
 
-  /* -------------- Inactivar Cita ------------------ */
+  /* -------------- finalizar Cita ------------------ */
 function finalizarCita(id) {
   var id_cita = id;
 
@@ -5395,14 +5400,24 @@ function finalizarCita(id) {
       })
         .done(function (response) {
           if (response.data.success == true) {
+
+            Swal.fire({
+              icon: "success",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+
             $("#tabla_citas").DataTable().ajax.reload();
           } else {
+
             Swal.fire({
-              icon: "error",
+              icon: "success",
               title: response.data.message,
               confirmButtonColor: "#0d6efd",
               text: response.data.info,
             });
+
           }
         })
         .fail(function () {

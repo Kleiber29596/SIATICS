@@ -499,7 +499,7 @@ EOT;
 				'data' => [
 					'success'            =>  true,
 					'message'            => 'Guardado exitosamente',
-					'info'               =>  'La cita se ha finalizado exitosamente'
+					'info'               =>  'La cita se ha finalizado'
 				],
 				'code' => 1,
 			];
