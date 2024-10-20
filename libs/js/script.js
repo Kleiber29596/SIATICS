@@ -4552,7 +4552,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
     let fecha_cita = document.getElementById("fecha_cita").value;
     let observacion_cita = document.getElementById("observacion_cita").value;
     let id_especialidad_cita = document.getElementById("especialidad").value;
-    let estatus_cita = 0;
+    let estatus_cita = 1;
     let id_doctor_cita = document.getElementById("doctor").value;
 
     /*console.log(ID);

@@ -47,7 +47,15 @@ public function modificarEspecialidad($id, $datos) {
 public function selectEspecialidad()
 	{
 		$db = new ModeloBase();
-		$query = "SELECT * FROM  especialidad";
+		$query = "SELECT * FROM  especialidad ";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
+public function selectEspecialidadCitas()
+	{
+		$db = new ModeloBase();
+		$query = "SELECT * FROM  especialidad WHERE modalidad = 'Por cita'";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}

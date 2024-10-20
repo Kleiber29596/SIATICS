@@ -1,8 +1,8 @@
 <?php
 require_once 'controllers/EspecialidadController.php';
 $objeto  = new EspecialidadController();
-$especialidad = $objeto->selectEspecialidad();
-$update_especialidad = $objeto->selectEspecialidad();
+$especialidades = $objeto->selectEspecialidadCitas();
+// $update_especialidad = $objeto->selectEspecialidadCitas();
 /*require_once 'controllers/CitasController.php';
 $objeto  = new CitasController();
 $estados = $objeto->selectEstado();
@@ -57,9 +57,9 @@ $update_parroquias = $objeto->selectParroquia();*/
                                 <select class="form-control" name="especialidad" id="especialidad" required>
                                     <option value="" disabled selected>Seleccione</option>
                                     <?php
-                                    foreach ($update_especialidad  as  $update_especialidad) {
+                                    foreach ($especialidades  as  $especialidad) {
                                     ?>
-                                        <option value="<?= $update_especialidad['id_especialidad'] ?>"><?= $update_especialidad['nombre_especialidad'] ?></option>
+                                        <option value="<?= $especialidad['id_especialidad'] ?>"><?= $especialidad['nombre_especialidad'] ?></option>
                                     <?php
                                     }
                                     ?>

@@ -69,6 +69,15 @@ class EspecialidadController {
 	}
 
 
+	public function selectEspecialidadCitas()
+	{
+		$modelEspecialidad = new EspecialidadModel();
+		$especialidades = $modelEspecialidad->selectEspecialidadCitas();
+		return $especialidades;
+	}
+
+
+
 	
 
     public function registrarEspecialidad(){
