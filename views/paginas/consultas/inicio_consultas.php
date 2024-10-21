@@ -2,9 +2,9 @@
     require_once 'controllers/MedicamentosController.php';
     require_once 'controllers/ConsultasController.php';
     require_once 'controllers/EspecialidadController.php';
-    $objeto1        = new MedicamentosController();
-    $objeto2        = new ConsultasController();
-    $objeto3        = new EspecialidadController();
+    $objeto1               = new MedicamentosController();
+    $objeto2               = new ConsultasController();
+    $objeto3               = new EspecialidadController();
     $consultas             = $objeto2->selectTipoConsulta();
     $consultas_update      = $objeto2->selectTipoConsulta();
     $medicamentos          = $objeto1->selectMedicamentos();
@@ -70,19 +70,21 @@
                     <!-- Step 1 -->
                     <div class="step" id="step-1">
                         <div class="row">
-                             <div class="col-sm-11" id="grupo_n_documento">
-                            <label class="formulario__label" for="n_documento">Número de documento</label>
-                            <div class="form-group">
-                                <input type="hidden" name="ID" id="ID">
-                                <input class="form-control formulario__validacion__input" type="text" id="n_documento_persona"
-                                    name="n_documento_persona" placeholder="numero de documento...">
-                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            <div class="col-sm-11" id="grupo_n_documento">
+                                <label class="formulario__label" for="n_documento">Número de documento</label>
+                                <div class="form-group">
+                                    <input type="hidden" name="ID" id="ID">
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="n_documento_persona" name="n_documento_persona"
+                                        placeholder="numero de documento...">
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                                <p class="formulario__input-error">El numero de documento debe contener solo numeros y
+                                    un
+                                    mínimo de 7
+                                    digitos y máximo 8.
+                                </p>
                             </div>
-                            <p class="formulario__input-error">El numero de documento debe contener solo numeros y un
-                                mínimo de 7
-                                digitos y máximo 8.
-                            </p>
-                        </div>
                             <div class="col-sm-1"
                                 style="display: flex; justify-content: flex-start; align-items: flex-end;">
                                 <div class="form-group">
@@ -128,13 +130,13 @@
                                 <input class="form-control" type="hidden" id="edad" placeholder="Edad">
                             </div>
 
-                       
-                             <!-- Campo para el tipo de especialidad -->
-                             <div class="col-sm-6">
+
+                            <!-- Campo para el tipo de especialidad -->
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="especialidad">Especialidad</label>
-                                    <select class="select2-selection--single" name="especialidad" id="especialidad_consulta"
-                                        style="width:100%">
+                                    <select class="select2-selection--single" name="especialidad"
+                                        id="especialidad_consulta" style="width:100%">
                                         <option value="">Seleccione</option>
                                         <?php foreach ($especialidades as $especialidad) { ?>
                                         <option value="<?= $especialidad['id_especialidad'] ?>">
@@ -160,8 +162,8 @@
                                 </div>
                             </div>
 
-                                 <!-- Campo para el peso del paciente -->
-                                 <div class="col-sm-4">
+                            <!-- Campo para el peso del paciente -->
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="peso">Peso (kg)</label>
                                     <input class="form-control" type="number" id="peso" name="peso" min="1"

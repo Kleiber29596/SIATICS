@@ -4066,7 +4066,9 @@ function consultarPersona() {
         });
       } else {
         contenedor_datos_persona.setAttribute("style", "display: none;");
-
+         
+        // Establecer el ID en vacío
+        document.getElementById("ID").setAttribute("value", "");
         Swal.fire({
           icon: "warning",
           confirmButtonColor: "#3085d6",
@@ -4083,44 +4085,18 @@ function consultarPersona() {
 }
 
 
-function validarCamposVacios(field, button) {
-  let fieldValue = document.getElementById(field).value.trim();  // trim para eliminar espacios en blanco
-  
-  if (fieldValue === '') {
-    Swal.fire({
-      icon: 'info',
-      title: 'Atención',
-      text: 'Todos los campos son obligatorios'
-    });
-
-    document.getElementById(button).disabled = true;  // Desactiva el botón
-    return false;
-  } else {
-    document.getElementById(button).disabled = false;  // Activa el botón
-    return true;
-  }
-}
-
-let especialidadInput = document.getElementById('especialidad_consulta');
-let nextBtn = document.getElementById('nextBtn');  // Asegúrate de que el botón existe
-
-if (especialidadInput && nextBtn) {  // Verifica que ambos elementos existan
-  especialidadInput.addEventListener("blur", function() {
-    validarCamposVacios('especialidad_consulta', 'nextBtn');
-  });
-}
-
 
 let presionArterialInput = document.getElementById("presion_arterial");
 
 if (presionArterialInput) {
-  presionArterialInput.addEventListener("keyup", function () {
-    let presion_arterial = presionArterialInput.value;
+  presionArterialInput.addEventListener("blur", function () {
     const presionRegex = /^\d{2,3}\/\d{2,3}$/;
 
+    let presion_arterial = presionArterialInput.value;
+
     if (presion_arterial == "") {
-      document.getElementById("nextBtn").disabled = false;
-      return;
+    
+
     }else if (!presionRegex.test(presion_arterial)) {
       Swal.fire({
         icon: 'error',
@@ -4128,16 +4104,55 @@ if (presionArterialInput) {
         text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
       });
 
-      document.getElementById("nextBtn").disabled = true;
+      
       return false;
-    }else{
-
-      document.getElementById("nextBtn").disabled = false;
-
-
     }
   });
 }
+
+
+let alturaInput = document.getElementById("altura");
+
+if (alturaInput) {
+  alturaInput.addEventListener("keyup", function () {
+    let altura = alturaInput.value;
+    const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;  // No puede ser 0 ni un número negativo
+
+    if (altura == "") {
+      return;
+    } else if (!alturaRegex.test(altura)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Altura inválida',
+        text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
+      });
+     
+      return false;
+    } 
+  });
+}
+
+
+let pesoInput = document.getElementById("peso");
+
+if (pesoInput) {
+  pesoInput.addEventListener("keyup", function () {
+    let peso = pesoInput.value;
+    const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
+
+    if (peso == "") {
+
+    } else if (!pesoRegex.test(peso)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Peso inválido',
+        text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
+      });
+      return false;
+    }
+  });
+}
+
 
 
 if (document.getElementById("agregar_consulta")) {
@@ -4160,14 +4175,84 @@ if (document.getElementById("agregar_consulta")) {
     let presion_arterial     = document.getElementById("presion_arterial").value;
     let especialidad      = document.getElementById("especialidad_consulta").value;
 
-
-
-    
     // Datos del recipe
     let instrucciones = document.getElementById("instrucciones").value;
 
+    if(id_persona == ""){
+      Swal.fire({
+        icon: 'error',
+        title: 'Atención',
+        text: 'Paciente no seleccionado, debe cargar los datos del paciente.'
+      });
+      return false;
+
+    }
+    const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;  // No puede ser 0 ni un número negativo
+    const presionRegex = /^\d{2,3}\/\d{2,3}$/;
+    const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
+    
+    if (!pesoRegex.test(peso)) {
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Peso inválido',
+        text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
+      });
+     
+      return false;
+    }
+
+    if (!alturaRegex.test(altura)) {
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Altura inválida',
+        text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
+      });
+     
+      return false;
+    }
+
+
+    if (!presionRegex.test(presion_arterial)) {
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Presión Arterial inválida',
+        text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
+      });
+     
+      return false;
+    }
+
+
+    if(tipo_consulta == "" || diagnostico == "" || especialidad == "" ){
+      Swal.fire({
+        icon: 'error',
+        title: 'Atención',
+        text: 'Por favor, llene los campos faltantes.'
+      });
+      return false;
+
+
+    }
+
+    if(tipo_consulta == "" || diagnostico == "" || especialidad == "" ){
+      Swal.fire({
+        icon: 'error',
+        title: 'Atención',
+        text: 'Por favor, llene los campos faltantes.'
+      });
+      return false;
+
+
+    }
+
     const tablaMedicamentos = document.getElementById('multiples_medicamentos');
     var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
+
+
+
 
     const listaMedicamentos = datosMedicamentos.map(medicamento => {
       // Asegúrate de que `medicamento` sea un array
@@ -5430,3 +5515,17 @@ function finalizarCita(id) {
     }
   });
 }
+
+// Evento de cambio en el selector de especialidad
+const especialidad = document.getElementById('especialidad_consulta');
+
+if (especialidad) {
+    especialidad.addEventListener("change", ocultarCampos);
+}
+
+// Declarar la función ocultarCampos fuera del bloque if
+function ocultarCampos() {
+    console.log("Funciona!");
+}
+
+
