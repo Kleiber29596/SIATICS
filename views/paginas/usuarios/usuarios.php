@@ -90,14 +90,13 @@ if ($rol == 3) {
                             <table class="table datatable" id="tablaUsuario">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Cedula</th>
+                                        <th>Cédula</th>
                                         <th>Usuario</th>
-                                        <th>Nombre</th>
-                                        <th>Apellido</th>
+                                        <th>Rol</th>
+                                        <th>Nombres/Apellidos</th>
                                         <th>Correo</th>
                                         <th>Foto</th>
-                                        <th>Estado</th>
+                                        <th>Estatus</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -128,7 +127,7 @@ if ($rol == 3) {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregarUsuarioModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="agregarUsuarioModalLabel">Agregar Usuario <i class="fas fa-user"></i></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -137,8 +136,8 @@ if ($rol == 3) {
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="cedula">Cedula</label>
-                                    <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10" placeholder="Ingresa el número de Foto">
+                                    <label for="cedula">Cédula</label>
+                                    <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10" placeholder="Ingresa el número de cédula">
                                 </div>
                             </div>
                             <br>

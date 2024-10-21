@@ -140,36 +140,36 @@ $(document).ready(function () {
     columnDefs: [
       {
         orderable: false,
-        targets: 8,
+        targets: 7,
         render: function (data, type, row, meta) {
-          if (row[9] == 1) {
+          if (row[8] == 1) {
             let botones =
               `
                     <button type="button" class="btn btn-primary btn-sm" onclick="verUsuario(` +
-              row[0] +
+              row[7] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
     
                    <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionUsuario(` +
-              row[0] +
+              row[7] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
     
                    <button type="button" class="btn btn-danger btn-sm" onclick="inactivarUsuario(` +
-              row[0] +
+              row[7] +
               `)"><i class="fas fa-trash"></i></button>  `;
             return botones;
           } else {
             let botones =
               `
                 <button type="button" class="btn btn-primary btn-sm" onclick="verUsuario(` +
-              row[0] +
+              row[7] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
 
                <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionUsuario(` +
-              row[0] +
+              row[7] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
 
                <button type="button" class="btn btn-success btn-sm" onclick="inactivarUsuario(` +
-              row[0] +
+              row[7] +
               `)"><i class="fas fa-fas fa-retweet"></i></button>  `;
             return botones;
           }
@@ -4114,7 +4114,7 @@ if (especialidadInput && nextBtn) {  // Verifica que ambos elementos existan
 let presionArterialInput = document.getElementById("presion_arterial");
 
 if (presionArterialInput) {
-  presionArterialInput.addEventListener("blur", function () {
+  presionArterialInput.addEventListener("keyup", function () {
     let presion_arterial = presionArterialInput.value;
     const presionRegex = /^\d{2,3}\/\d{2,3}$/;
 
@@ -4306,6 +4306,10 @@ if (agregarMedicamentoButton) {
                     text: response.data.info
                 });
 
+
+                document.getElementById('Medicamento').value = "";
+                document.getElementById('Dosis').value;
+                document.getElementById('').value = "";
                 
 
                 contador = contador + 1;

@@ -114,27 +114,29 @@ class UsuarioController
 			'db'   => 'medicina'
 		);
 
-		// DB table to use 
-		$table = 'usuario';
-
-
 		// Table's primary key 
 		$primaryKey = 'id';
+
+		// DB table to use 
+		$table = <<<EOT
+        (
+			SELECT u.id, u.cedula, u.usuario, CONCAT(u.nombre,' ',u.apellido) AS nombres_apellidos, u.correo, u.foto, u.estatus, r.rol FROM usuario AS u INNER JOIN roles AS r ON u.rol = r.id ORDER BY u.id DESC) temp
+EOT;
+
 
 		// Array of database columns which should be read and sent back to DataTables. 
 		// The `db` parameter represents the column name in the database.  
 		// The `dt` parameter represents the DataTables column identifier. 
 		$columns = array(
 
-			array('db' => 'id', 		'dt' => 0),
-			array('db' => 'cedula',  		'dt' => 1),
-			array('db' => 'usuario',      	'dt' => 2),
-			array('db' => 'nombre',     	'dt' => 3),
-			array('db' => 'apellido',    	'dt' => 4),
-			array('db' => 'correo',    	'dt' => 5),
+			array('db' => 'cedula',  		    'dt' => 0),
+			array('db' => 'usuario',      	    'dt' => 1),
+			array('db' => 'rol',      	        'dt' => 2),
+			array('db' => 'nombres_apellidos',  'dt' => 3),
+			array('db' => 'correo',    		    'dt' => 4),
 			array(
 				'db'        => 'foto',
-				'dt'        => 6,
+				'dt'        => 5,
 				'formatter' => function ($d, $row) {
 					return '<img width="50" src="./foto_usuario/' . $d . '">';
 				}
@@ -143,13 +145,13 @@ class UsuarioController
 
 			array(
 				'db'        => 'estatus',
-				'dt'        => 7,
+				'dt'        => 6,
 				'formatter' => function ($d, $row) {
 					return ($d == 1) ? '<button class="btn btn-success btn-sm">Activo</button>' : '<button class="btn btn-danger btn-sm">Inactivo</button>';
 				}
 			),
-			array('db' => 'id', 'dt' => 8),
-			array('db' => 'estatus', 'dt' => 9)
+			array('db' => 'id', 'dt' => 7),
+			array('db' => 'estatus', 'dt' => 8)
 
 			//array( 'db' => 'fecha_registro','dt' => 9 ),
 

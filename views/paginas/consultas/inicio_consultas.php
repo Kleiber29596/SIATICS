@@ -70,14 +70,19 @@
                     <!-- Step 1 -->
                     <div class="step" id="step-1">
                         <div class="row">
-                            <div class="col-sm-11">
-                                <div class="form-group">
-                                    <label for="n_documento_persona">Número de documento</label>
-                                    <input class="form-control" type="text" id="n_documento_persona"
-                                        placeholder="Numero de documento">
-                                    <input type="hidden" id="ID" value="">
-                                </div>
+                             <div class="col-sm-11" id="grupo_n_documento">
+                            <label class="formulario__label" for="n_documento">Número de documento</label>
+                            <div class="form-group">
+                                <input type="hidden" name="ID" id="ID">
+                                <input class="form-control formulario__validacion__input" type="text" id="n_documento_persona"
+                                    name="n_documento_persona" placeholder="numero de documento...">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
+                            <p class="formulario__input-error">El numero de documento debe contener solo numeros y un
+                                mínimo de 7
+                                digitos y máximo 8.
+                            </p>
+                        </div>
                             <div class="col-sm-1"
                                 style="display: flex; justify-content: flex-start; align-items: flex-end;">
                                 <div class="form-group">
@@ -88,7 +93,7 @@
                         </div>
                         <div class="row" id="contenedor_datos_persona" style="display: none;">
                             <div class="col-sm-12">
-                                <p>Datos del Paciente</p>
+                                <p>Datos del paciente</p>
                                 <div class="table-responsive tbl_personas">
                                     <table class="table table-bordered table-secondary table-striped table-hover">
                                         <tr>
@@ -222,7 +227,7 @@
                                 <div class="form-group">
                                     <label for="dosis">Dosis</label>
                                     <input type="number" class="form-control" id="dosis" name="dosis"
-                                        placeholder="Ingrese la dosis">
+                                        placeholder="Ingrese la dosis" min="1">
                                 </div>
                             </div>
                             <div class="col-sm-4">

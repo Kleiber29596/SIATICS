@@ -37,7 +37,7 @@ const validarFormulario	 = (e) => {
 	}
 }
 
-const validarCampo = (expresion, input, campo) => {
+const validarCampo = (expresion, input, campo, button) => {
 
 	if(expresion.test(input.value)) {
 		document.getElementById(`grupo_${campo}`).classList.remove('formulario__grupo-incorrecto');
@@ -45,13 +45,16 @@ const validarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo_${campo} i`).classList.add('fa-check-circle');
 		document.querySelector(`#grupo_${campo} i`).classList.remove('fa-times-circle');
 		document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.remove('formulario__input-error-activo');
+		document.getElementById(`${button}`).disabled = false;
+
 	}else{
 		document.getElementById(`grupo_${campo}`).classList.add('formulario__grupo-incorrecto');
 		document.getElementById(`grupo_${campo}`).classList.remove('formulario__grupo-correcto');
 		document.querySelector(`#grupo_${campo} i`).classList.add('fa-times-circle');
 		document.querySelector(`#grupo_${campo} i`).classList.remove('fa-check-circle');
 		document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.add('formulario__input-error-activo');
-	}
+		document.getElementById(`${button}`).disabled = true;
+}
 }
  
 inputs.forEach((input) =>{
@@ -60,8 +63,20 @@ inputs.forEach((input) =>{
 
 });
 
+
+
+
+const validarFormularioConsulta	 = (e) => {
+	switch(e.target.name){
+		case "n_documento_persona":
+			validarCampo(expresiones.n_documento, e.target,'n_documento', 'consultar_persona');
+		break;
+	}
+}
+
+
 inputs_consulta.forEach((input) =>{
-	input.addEventListener('keyup', validarFormulario);
-	input.addEventListener('blur', validarFormulario);
+	input.addEventListener('keyup', validarFormularioConsulta);
+	input.addEventListener('blur', validarFormularioConsulta);
 
 });
