@@ -4066,6 +4066,8 @@ function consultarPersona() {
         });
       } else {
         contenedor_datos_persona.setAttribute("style", "display: none;");
+          // Eliminar el valor del campo ID
+          document.getElementById("ID").setAttribute("value", "");
 
         Swal.fire({
           icon: "warning",
@@ -4133,6 +4135,22 @@ if (document.getElementById("agregar_consulta")) {document
     let presion_arterial     = document.getElementById("presion_arterial").value;
     let especialidad         = document.getElementById("especialidad_consulta").value;
 
+    
+    
+   
+    
+    if(id_persona == ""){
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Atención',
+        confirmButtonColor: '#0d6efd',
+        text: 'Debe seleccionar un paciente'
+    });
+
+    return false;
+    }
+    
     
     
     const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
@@ -4360,17 +4378,17 @@ if (agregarMedicamentoButton) {
               confirmButtonColor: '#0d6efd',
               text: 'La duración debe ser mayor que 0'
           });
-          return;
+          return false;
       }
 
-      if (isNaN(intervalo) || intervalo <= 0) {
+      if (isNaN(cantidad) || cantidad <= 0) {
           Swal.fire({
               icon: 'error',
               title: 'Atención',
               confirmButtonColor: '#0d6efd',
               text: 'El intervalo debe ser mayor que 0'
           });
-          return;
+          return false;
       }
         $.ajax({
             url: "index.php?page=consultarMedicamento",

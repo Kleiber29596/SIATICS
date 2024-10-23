@@ -61,8 +61,6 @@ const validarCampo = (expresion, input, campo, button) => {
 		document.querySelector(`#grupo_${campo} i`).classList.remove('fa-check-circle');
 		document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.add('formulario__input-error-activo');
 		document.getElementById("consultar_persona").classList.add('button_consulta_persona');
-		document.getElementById("consultar_persona").disabled = true;
-
 }
 }
  

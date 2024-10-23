@@ -10,7 +10,9 @@
     $medicamentos          = $objeto1->selectMedicamentos();
     $medicamentos_update   = $objeto1->selectMedicamentos();
     $especialidades = $objeto3->selectEspecialidad(); 
-    
+        
+    $nombre             = $_SESSION['nombre_user'];
+
 ?>
 <div class="pagetitle">
     <h1>Consultas</h1>
@@ -71,16 +73,16 @@
                     <div class="step" id="step-1">
                         <div class="row">
                             <!--Comieza aqui campo tipo consulta-->
-                            <div class="col-sm-3">
+                            <!-- <div class="col-sm-3">
                                 <label class="formulario__label">Tipo cosulta</label>
                                 <select class="form-control" required>
                                     <option disabled selected>Elija una opción</option>
                                     <option>cita</option>
                                     <option>Cosulta general</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <!--finaliza aqui-->
-                            <div class="col-sm-8" id="grupo_n_documento">
+                            <div class="col-sm-11" id="grupo_n_documento">
                                 <label class="formulario__label" for="n_documento">Número de documento</label>
                                 <div class="form-group">
                                     <input type="hidden" name="ID" id="ID">
@@ -142,7 +144,7 @@
 
 
                             <!-- Campo para el tipo de especialidad -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="especialidad">Especialidad</label>
                                     <select class="select2-selection--single" name="especialidad"
@@ -157,8 +159,15 @@
                             </div>
 
 
+                            <div class="col-sm-4">
+                                <label class="formulario__label" for="nombre_doctor">Doctor</label>
+                                <input class="form-control" type="text" id="nombre_doctor" name="nombre_doctor"
+                                    value="<?php echo isset($_SESSION['nombre_user']) && isset($_SESSION['apellido_user']) ? $_SESSION['nombre_user'] . ' ' . $_SESSION['apellido_user'] : ''; ?>"
+                                    disabled>
+                            </div>
+
                             <!-- Campo para el tipo de consulta -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="tipo_consulta">Motivo</label>
                                     <select class="select2-selection--single" name="tipo_consulta" id="tipo_consulta"
@@ -348,7 +357,8 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalActualizarConsultasLabel">Consulta</h5>
+                <h5 class="modal-title" id="modalActualizarConsultasLabel">Consulta <i class="fas fa-edit"></i>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

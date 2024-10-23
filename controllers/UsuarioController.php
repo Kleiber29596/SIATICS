@@ -46,6 +46,8 @@ class UsuarioController
 			$foto_bd 			= $resultado['foto'];
 			$contrasena_bd 		= $resultado['contrasena'];
 			$rol_bd 			= $resultado['rol'];
+			$nombre_bd 			= $resultado['nombre'];
+			$apellido_bd 	    = $resultado['apellido'];
 			
 		}
 		
@@ -59,10 +61,11 @@ class UsuarioController
 			$_SESSION['usuario'] 		= $usuario_bd;
 			$_SESSION['foto'] 			= $foto_bd;
 			$_SESSION['rol_usuario'] 	= $rol_bd;
+			$_SESSION['nombre_user'] 	= $nombre_bd;
+			$_SESSION['apellido_user'] 	= $apellido_bd;
+		
 
-
-			$_SESSION['user_id'] = $id_bd;
-
+			
 			$data = [
 				'data' => [
 					'success'            =>  true,
