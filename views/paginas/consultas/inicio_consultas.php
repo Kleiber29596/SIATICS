@@ -70,7 +70,17 @@
                     <!-- Step 1 -->
                     <div class="step" id="step-1">
                         <div class="row">
-                            <div class="col-sm-11" id="grupo_n_documento">
+                            <!--Comieza aqui campo tipo consulta-->
+                            <div class="col-sm-3">
+                                <label class="formulario__label">Tipo cosulta</label>
+                                <select class="form-control" required>
+                                    <option disabled selected>Elija una opción</option>
+                                    <option>cita</option>
+                                    <option>Cosulta general</option>
+                                </select>
+                            </div>
+                            <!--finaliza aqui-->
+                            <div class="col-sm-8" id="grupo_n_documento">
                                 <label class="formulario__label" for="n_documento">Número de documento</label>
                                 <div class="form-group">
                                     <input type="hidden" name="ID" id="ID">
