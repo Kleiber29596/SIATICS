@@ -4066,9 +4066,7 @@ function consultarPersona() {
         });
       } else {
         contenedor_datos_persona.setAttribute("style", "display: none;");
-         
-        // Establecer el ID en vacío
-        document.getElementById("ID").setAttribute("value", "");
+
         Swal.fire({
           icon: "warning",
           confirmButtonColor: "#3085d6",
@@ -4086,17 +4084,19 @@ function consultarPersona() {
 
 
 
+
+
+
 let presionArterialInput = document.getElementById("presion_arterial");
 
 if (presionArterialInput) {
   presionArterialInput.addEventListener("blur", function () {
+    let presion_arterial = presionArterialInput.value;
     const presionRegex = /^\d{2,3}\/\d{2,3}$/;
 
-    let presion_arterial = presionArterialInput.value;
-
     if (presion_arterial == "") {
-    
-
+      
+      return;
     }else if (!presionRegex.test(presion_arterial)) {
       Swal.fire({
         icon: 'error',
@@ -4104,66 +4104,24 @@ if (presionArterialInput) {
         text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
       });
 
+    }else{
+
       
-      return false;
+
+
     }
   });
 }
 
 
-let alturaInput = document.getElementById("altura");
-
-if (alturaInput) {
-  alturaInput.addEventListener("keyup", function () {
-    let altura = alturaInput.value;
-    const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;  // No puede ser 0 ni un número negativo
-
-    if (altura == "") {
-      return;
-    } else if (!alturaRegex.test(altura)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Altura inválida',
-        text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
-      });
-     
-      return false;
-    } 
-  });
-}
-
-
-let pesoInput = document.getElementById("peso");
-
-if (pesoInput) {
-  pesoInput.addEventListener("keyup", function () {
-    let peso = pesoInput.value;
-    const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
-
-    if (peso == "") {
-
-    } else if (!pesoRegex.test(peso)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Peso inválido',
-        text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
-      });
-      return false;
-    }
-  });
-}
-
-
-
-if (document.getElementById("agregar_consulta")) {
-  document
+if (document.getElementById("agregar_consulta")) {document
     .getElementById("agregar_consulta")
     .addEventListener("click", agregarConsulta, false);
 
   function agregarConsulta() {
     // Datos de la consulta
     let id_persona           = document.getElementById("ID").value;
-    let persona              = document.getElementById("nombres_apellidos_persona")
+    let persona              = document.getElementById("nombres_apellidos_persona");
     let nombre_persona       = persona.textContent;
     let edad                 = document.getElementById("edad").value;
     let tipo_consulta        = document.getElementById("tipo_consulta").value;
@@ -4173,86 +4131,84 @@ if (document.getElementById("agregar_consulta")) {
     let peso                 = document.getElementById("peso").value;
     let altura               = document.getElementById("altura").value;
     let presion_arterial     = document.getElementById("presion_arterial").value;
-    let especialidad      = document.getElementById("especialidad_consulta").value;
+    let especialidad         = document.getElementById("especialidad_consulta").value;
 
-    // Datos del recipe
-    let instrucciones = document.getElementById("instrucciones").value;
-
-    if(id_persona == ""){
-      Swal.fire({
-        icon: 'error',
-        title: 'Atención',
-        text: 'Paciente no seleccionado, debe cargar los datos del paciente.'
-      });
-      return false;
-
-    }
-    const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;  // No puede ser 0 ni un número negativo
-    const presionRegex = /^\d{2,3}\/\d{2,3}$/;
-    const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
     
-    if (!pesoRegex.test(peso)) {
+    
+    const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
+    if(peso == ""){
       
+
+  
+     } else if(!pesoRegex.test(peso)) {
       Swal.fire({
         icon: 'error',
         title: 'Peso inválido',
         text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
       });
-     
       return false;
-    }
 
-    if (!alturaRegex.test(altura)) {
+     }
+    
+    
+    const presionRegex = /^\d{2,3}\/\d{2,3}$/;
+    if(presion_arterial == ""){
       
-      Swal.fire({
-        icon: 'error',
-        title: 'Altura inválida',
-        text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
-      });
-     
-      return false;
-    }
 
-
-    if (!presionRegex.test(presion_arterial)) {
-      
+  
+     } else if(!presionRegex.test(presion_arterial)) {
       Swal.fire({
         icon: 'error',
         title: 'Presión Arterial inválida',
         text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
       });
-     
       return false;
-    }
+
+     }
 
 
-    if(tipo_consulta == "" || diagnostico == "" || especialidad == "" ){
+     const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;
+    if(altura == ""){
+      
+
+  
+     } else if(!alturaRegex.test(altura)) {
       Swal.fire({
         icon: 'error',
-        title: 'Atención',
-        text: 'Por favor, llene los campos faltantes.'
+        title: 'Altura inválida',
+        text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
       });
       return false;
 
-
-    }
-
-    if(tipo_consulta == "" || diagnostico == "" || especialidad == "" ){
-      Swal.fire({
-        icon: 'error',
-        title: 'Atención',
-        text: 'Por favor, llene los campos faltantes.'
-      });
-      return false;
+     }
 
 
-    }
+  
+
+
+
+   if(id_persona == "" || especialidad == "" || tipo_consulta == "" || diagnostico == ""){
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Todos los campos son obligatorios',
+      text: 'Por favor, llene todos los campos.'
+    });
+
+    return false;
+
+   }
+
+   
+
+
+    
+
+    // Datos del recipe
+    let instrucciones = document.getElementById("instrucciones").value;
 
     const tablaMedicamentos = document.getElementById('multiples_medicamentos');
     var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
-
-
-
 
     const listaMedicamentos = datosMedicamentos.map(medicamento => {
       // Asegúrate de que `medicamento` sea un array
@@ -4367,6 +4323,55 @@ if (agregarMedicamentoButton) {
         let contenedor_datos_medicamentos   = document.getElementById("contenedor_datos_medicamentos");
         let multiples_medicamentos          = document.getElementById("multiples_medicamentos");
 
+        if(id_medicamento == "" || dosis == "" || unidad_medida == "" || frecuencia == "" || cantidad == "" || intervalo == ""){
+          Swal.fire({
+              icon: 'error',
+              title: 'Atención',
+              confirmButtonColor: '#0d6efd',
+              text: 'Debe llenar todos los campos'
+          });
+          return;
+      }
+
+      if (isNaN(dosis) || dosis <= 0) {
+          Swal.fire({
+              icon: 'error',
+              title: 'Atención',
+              confirmButtonColor: '#0d6efd',
+              text: 'La dosis debe ser un número mayor a 0'
+          });
+          return;
+      }
+
+      if (isNaN(frecuencia) || frecuencia <= 0) {
+          Swal.fire({
+              icon: 'error',
+              title: 'Atención',
+              confirmButtonColor: '#0d6efd',
+              text: 'La frecuencia debe ser un número válido'
+          });
+          return;
+      }
+
+      if (isNaN(cantidad) || cantidad <= 0) {
+          Swal.fire({
+              icon: 'error',
+              title: 'Atención',
+              confirmButtonColor: '#0d6efd',
+              text: 'La duración debe ser mayor que 0'
+          });
+          return;
+      }
+
+      if (isNaN(intervalo) || intervalo <= 0) {
+          Swal.fire({
+              icon: 'error',
+              title: 'Atención',
+              confirmButtonColor: '#0d6efd',
+              text: 'El intervalo debe ser mayor que 0'
+          });
+          return;
+      }
         $.ajax({
             url: "index.php?page=consultarMedicamento",
             type: 'post',
@@ -4392,9 +4397,7 @@ if (agregarMedicamentoButton) {
                 });
 
 
-                document.getElementById('Medicamento').value = "";
-                document.getElementById('Dosis').value;
-                document.getElementById('').value = "";
+              
                 
 
                 contador = contador + 1;
@@ -5515,17 +5518,3 @@ function finalizarCita(id) {
     }
   });
 }
-
-// Evento de cambio en el selector de especialidad
-const especialidad = document.getElementById('especialidad_consulta');
-
-if (especialidad) {
-    especialidad.addEventListener("change", ocultarCampos);
-}
-
-// Declarar la función ocultarCampos fuera del bloque if
-function ocultarCampos() {
-    console.log("Funciona!");
-}
-
-

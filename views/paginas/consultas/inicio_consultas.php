@@ -89,7 +89,7 @@
                                 style="display: flex; justify-content: flex-start; align-items: flex-end;">
                                 <div class="form-group">
                                     <button type="button" class="btn btn-primary" id="consultar_persona"
-                                        title="Buscar persona"><i class="fas fa-search"></i></button>
+                                        title="Buscar persona" disabled><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
                         </div>
