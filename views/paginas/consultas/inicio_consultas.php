@@ -72,16 +72,7 @@
                     <!-- Step 1 -->
                     <div class="step" id="step-1">
                         <div class="row">
-                            <!--Comieza aqui campo tipo consulta-->
-                            <!-- <div class="col-sm-3">
-                                <label class="formulario__label">Tipo cosulta</label>
-                                <select class="form-control" required>
-                                    <option disabled selected>Elija una opción</option>
-                                    <option>cita</option>
-                                    <option>Cosulta general</option>
-                                </select>
-                            </div> -->
-                            <!--finaliza aqui-->
+
                             <div class="col-sm-11" id="grupo_n_documento">
                                 <label class="formulario__label" for="n_documento">Número de documento</label>
                                 <div class="form-group">
@@ -357,7 +348,8 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalActualizarConsultasLabel">Consulta <i class="fas fa-edit"></i>
+                <h5 class="modal-title" id="modalActualizarConsultasLabel">Modificar consulta <i
+                        class="fas fa-edit"></i>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
