@@ -47,7 +47,10 @@ if (!empty($page)) {
 		'listarPersonas'   			=> array('model'   => 'PersonasModel', 'view'   => 'listarPersonas',        'controller'        => 'PersonasController'),
 		'modificarPersona' 			=> array('model'   => 'PersonasModel', 'view'   => 'modificarPersona',      'controller'      => 'PersonasController'),
 		'verificarDocumento'        => array('model'   => 'PersonasModel', 'view'   => 'verificarDocumento',    'controller'    => 'PersonasController'),
-		'consultarPersona'          => array('model'   => 'PersonasModel', 'view'  => 'consultarPersona',   'controller'    => 'PersonasController'),
+		'consultarPersona'          => array('model'   => 'PersonasModel', 'view'   => 'consultarPersona',   	'controller'    => 'PersonasController'),
+		'consultarEdad'             => array('model'   => 'PersonasModel', 'view'   => 'consultarEdad',   		'controller'    => 'PersonasController'),
+		'consultarRepresentante'    => array('model'   => 'PersonasModel', 'view'   => 'consultarRepresentante','controller'    => 'PersonasController'),
+
 		/* Modulo Doctor*/
 		'inicioDoctor' 				=> array('model' => 'DoctorModel',   'view' => 'inicioDoctor', 'controller' => 'DoctorController'),
 		'listarDoctores' 			=> array('model' => 'DoctorModel', 'view'   => 'listarDoctores', 'controller' => 'DoctorController'),

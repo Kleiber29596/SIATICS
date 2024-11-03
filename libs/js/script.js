@@ -1925,6 +1925,7 @@ if (document.getElementById("agregar_persona")) {
 
   function agregarPersona() {
 
+    /*Datos de la persona*/
     let nombres         = document.getElementById("nombres").value;
     let apellidos       = document.getElementById("apellidos").value;
     let tipo_documento  = document.getElementById("tipo_documento").value;
@@ -1935,6 +1936,36 @@ if (document.getElementById("agregar_persona")) {
     let correo          = document.getElementById("correo").value;
     let direccion       = document.getElementById("direccion").value;
 
+    /*Datos del representante */
+    let nombres_r        = document.getElementById("nombres_r").value;
+    let apellidos_r      = document.getElementById("apellidos_r").value;
+    let tipo_documento_r = document.getElementById("tipo_documento_r").value;
+    let n_documento_r    = document.getElementById("n_documento_r").value;
+    let telefono_r       = document.getElementById("telefono_r").value;
+    let correo_r         = document.getElementById("correo_r").value;
+    let direccion_r      = document.getElementById("direccion_r").value;
+    let id_representante = document.getElementById("id_representante").value;
+    let parentesco       = document.getElementById("parentesco").value;
+    let id_persona_r     = document.getElementById("id_persona_r").value;
+
+
+    /*-- Contenedores --*/
+
+    let contenedor_datos_representante = document.getElementById('contenedor_datos_representante');
+    let datos_representante            = document.getElementById('datos_representante');
+    let consultar_representante        = document.getElementById('consultar_representante');
+
+    /*-- Campos dinámicos */
+    let grupo_correo                   = document.getElementById('grupo_correo');
+    let grupo_tlf                      = document.getElementById('grupo_telefono');
+    let grupo_direccion                = document.getElementById('grupo_direccion');
+    let grupo_nombres                   = document.getElementById('grupo_nombres')
+    let grupo_apellidos                = document.getElementById('grupo_apellidos')
+    let grupo_cedula                   = document.getElementById('grupo_n_documento')
+
+
+
+    
 
     $.ajax({
       url: "index.php?page=registrarPersona",
@@ -1950,10 +1981,56 @@ if (document.getElementById("agregar_persona")) {
         sexo: sexo,
         correo: correo,
         direccion: direccion,
+        
+        // Datos del representante
+        nombres_r: nombres_r,
+        apellidos_r: apellidos_r,
+        tipo_documento_r: tipo_documento_r,
+        n_documento_r: n_documento_r,
+        telefono_r: telefono_r,
+        correo_r: correo_r,
+        direccion_r: direccion_r,
+        parentesco: parentesco,
+        id_representante: id_representante,
+        id_persona_r: id_persona_r
+
       },
     })
       .done(function (response) {
         if (response.data.success == true) {
+          /*Ocultar contenedores dinámicos */
+          contenedor_datos_representante.setAttribute('style', 'display: none;');
+          consultar_representante.setAttribute('style', 'display: none;');
+          datos_representante.setAttribute('style', 'display: none;');
+          /*hacer visibles campos de correo, tlf y direccion */
+          grupo_correo.removeAttribute('style');
+          grupo_tlf.removeAttribute('style');
+          grupo_direccion.removeAttribute('style');
+
+          const limpiarEstilosValidacion = () => {
+            // Listado de los campos a los que se les quiere quitar los estilos de validación
+            const campos = ['nombres', 'apellidos', 'n_documento', 'correo', 'direccion', 'telefono'];
+        
+            campos.forEach(campo => {
+                const grupo = document.getElementById(`grupo_${campo}`);
+                grupo.classList.remove('formulario__grupo-incorrecto', 'formulario__grupo-correcto'); // Remueve clases de validación
+                const icono = document.querySelector(`#grupo_${campo} i`);
+                if (icono) {
+                    icono.classList.remove('fa-check-circle', 'fa-times-circle'); // Remueve iconos de validación
+                }
+                const errorTexto = document.querySelector(`#grupo_${campo} .formulario__input-error`);
+                if (errorTexto) {
+                    errorTexto.classList.remove('formulario__input-error-activo'); // Oculta mensajes de error
+                }
+            });
+        };
+        
+        // Llamar a esta función cuando necesites limpiar los estilos de validación
+        limpiarEstilosValidacion();
+        
+
+
+          
           document.getElementById("formRegistrarPersona").reset();
 
           $("#modalAgregarPersona").modal("hide");
@@ -1967,9 +2044,11 @@ if (document.getElementById("agregar_persona")) {
 
           $("#tbl_personas").DataTable().ajax.reload();
           
-          contenedor_formulario_persona.setAttribute("style", "display: none;");
-          contenedor_datos_persona.removeAttribute("style");
+ 
+
+
         } else {
+          
           Swal.fire({
             icon: "danger",
             confirmButtonColor: "#3085d6",
@@ -2000,8 +2079,8 @@ document.getElementById("n_documento").addEventListener("blur", function () {
             Swal.fire({
               icon: "warning",
               confirmButtonColor: "#3085d6",
-              title: "Atención",
-              text: "El número de documento ingresado ya está registrado.",
+              title: "Número de documento ya existe",
+              text: "El número de documento ingresado ya está registrado. Por favor, verifique e intente nuevamente."
           });
 
               // Bloquear el botón de guardar si el documento ya existe
@@ -2018,6 +2097,76 @@ document.getElementById("n_documento").addEventListener("blur", function () {
 });
 
 
+function validarFecha(fechaIngresada) {
+  // Convertimos la fecha ingresada a un objeto Date
+  const fecha = new Date(fechaIngresada);
+
+  // Obtenemos la fecha actual
+  const fechaActual = new Date();
+
+  // Comparamos las fechas
+  if (fecha > fechaActual) {
+    return false; // Indicamos que la fecha no es válida
+  } else {
+    return true; // Indicamos que la fecha es válida
+  }
+}
+
+const fechaNacInput = document.getElementById("fecha_nac");
+
+if (fechaNacInput) {
+    fechaNacInput.addEventListener("blur", function () {
+        let fecha_nac = fechaNacInput.value;
+        
+        if (!validarFecha(fecha_nac)) {
+            Swal.fire({
+                icon: "warning",
+                confirmButtonColor: "#3085d6",
+                title: "Atención",
+                text: "Ingrese una fecha de nacimiento válida",
+            });
+            return false;
+        }
+
+        if (fecha_nac) {
+            $.ajax({
+                url: "index.php?page=consultarEdad",
+                type: "post",
+                dataType: "json",
+                data: { fecha_nac: fecha_nac },
+            })
+            .done(function (response) {
+                if (response.data.success === true) {
+                    if (response.data.edad >= 18) {
+                        // Si la persona es mayor de edad
+                        document.getElementById("consultar_representante").setAttribute("style","display: none;");
+                        document.getElementById("grupo_correo").removeAttribute("style");
+                        document.getElementById("grupo_telefono").removeAttribute("style");
+                        document.getElementById("grupo_direccion").removeAttribute("style");
+                    } else {
+                        // Si la persona es menor de edad, mostrar el div de datos del representante
+                        document.getElementById("consultar_representante").removeAttribute("style");
+                        document.getElementById("grupo_correo").setAttribute("style","display: none;");
+                        document.getElementById("grupo_telefono").setAttribute("style","display: none;");
+                        document.getElementById("grupo_direccion").setAttribute("style","display: none;");
+                        
+                        // Mostrar SweetAlert al desplegar el contenedor
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Persona menor de edad',
+                            text: 'Por favor, complete los datos del representante legal.'
+                        });
+                    }
+                } else {
+                    console.log("Error en la respuesta de la API.");
+                }
+            })
+            .fail(function () {
+                console.log("Error en la verificación de la edad.");
+            });
+        }
+    });
+}
 
 
 
@@ -3548,7 +3697,7 @@ if (
 
           $("#tabla_entrega_medicamentos").DataTable().ajax.reload();
           contenedor_datos_persona.setAttribute("style", "display: none;");
-          contenedor_formulario_persona.setAttribute("style", "display: none;");
+          // contenedor_formulario_persona.setAttribute("style", "display: none;");
         } else {
           Swal.fire({
             icon: "error",
@@ -4068,6 +4217,76 @@ function consultarPersona() {
         contenedor_datos_persona.setAttribute("style", "display: none;");
           // Eliminar el valor del campo ID
           document.getElementById("ID").setAttribute("value", "");
+
+        Swal.fire({
+          icon: "warning",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
+      }
+    })
+    .fail(function (error) {
+      console.log(error);
+    });
+  }
+  
+}
+
+
+/* -------------- Consultar Persona ------------------ */
+
+let buscar_representante;
+if (buscar_representante = document.getElementById("buscar_representante")) {
+ 
+  buscar_representante.addEventListener("click", consultarRepresentante, false);
+
+  function consultarRepresentante() {
+    let documento_representante = document.getElementById("documento_representante").value;
+
+    let contenedor_datos_representante = document.getElementById("contenedor_datos_representante");
+    let datos_representante = document.getElementById("datos_representante");
+    let id_representante = document.getElementById("id_representante");
+    let id_persona_r = document.getElementById("id_persona_r");
+
+    $.ajax({
+      url: "index.php?page=consultarRepresentante",
+      type: "post",
+      dataType: "json",
+      data: {
+        documento_representante: documento_representante,
+      },
+    })
+      .done(function (response) {
+        if (response.data.success) {
+          document.getElementById("documento_r").textContent = response.data.documento_representante;
+          document.getElementById("nombres_representante").textContent = response.data.nombres;
+          document.getElementById("apellidos_representante").textContent = response.data.apellidos;
+          document.getElementById("parentesco_representante").innerHTML = 
+            response.data.parentesco ? response.data.parentesco :
+            `<select class="form-control" id="parentesco" name="parentesco">
+                 <option value="">Seleccione</option>
+                 <option value="padre">Padre</option>
+                 <option value="madre">Madre</option>
+                 <option value="otro">Otro</option>
+             </select>`;
+        document.getElementById("id_representante").setAttribute("value", response.data.id_representante);
+        document.getElementById("id_persona_r").setAttribute("value", response.data.id_persona_r);
+        contenedor_datos_representante.removeAttribute("style");
+        datos_representante.setAttribute("style", "display: none;");
+        Swal.fire({
+          icon: "success",
+          title: response.data.message,
+          confirmButtonColor: "#0d6efd",
+          text: response.data.info,
+        });
+      } else {
+        contenedor_datos_representante.setAttribute("style", "display: none;");
+          // Eliminar el valor del campo ID
+        datos_representante.removeAttribute("style");
+        buscar_representante.removeAttribute("style")
+        document.getElementById("id_representante").setAttribute("value", "");
+        document.getElementById("documento_representante").setAttribute("value", "");
 
         Swal.fire({
           icon: "warning",
