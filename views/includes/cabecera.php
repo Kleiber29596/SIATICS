@@ -62,26 +62,27 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <link href="libs/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="libs/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="libs/vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
-
-
-
-
     <!-- Template Main CSS File -->
     <link href="libs/css/style.css" rel="stylesheet">
-
     <!-- Estilos de la validacion de formulario -->
     <link href="libs/css/validacion.css" rel="stylesheet">
     <script src="libs/vendor/calendar/index.global.min.js"></script>
     <script src="libs/vendor/calendar/es.js"></script>
-
-
-
-
-
-
+    <!-- AmChart Js -->
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/dark.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 </head>
 
 <body>
+
+    <style>
+        #grafica {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
 
     <!-- Loader -->
     <div class="cont-loader" id="cont-loader">

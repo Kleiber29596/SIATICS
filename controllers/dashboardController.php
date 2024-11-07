@@ -45,4 +45,12 @@ class dashboardController
                 /* FOOTER */
                 require_once('./views/includes/pie.php');
         }
+        public function grafica()
+        {
+                $modelDashboard = new dashboardModel();
+
+                $data = $modelDashboard->grafica();
+
+                echo json_encode($data);
+        }
 }

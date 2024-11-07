@@ -75,4 +75,14 @@ FROM dual;";
         $resultado = $db->obtenerTodos($query);
         return $resultado;
     }
+    public function grafica()
+    {
+        $db = new ModeloBase();
+        $query = "SELECT especialidad.nombre_especialidad, COUNT(*) AS total_consulta_especialidad
+                    FROM consultas
+                    JOIN especialidad ON consultas.id_especialidad = especialidad.id_especialidad
+                    GROUP BY especialidad.nombre_especialidad";
+        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
 }

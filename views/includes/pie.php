@@ -23,6 +23,7 @@
 <script src="libs/js/script.js"></script>
 <script src="libs/js/formulario.js"></script>
 <script src="libs/vendor/calendar/index.global.min.js"></script>
+<script src="libs/js/graficas.js"></script>
 
 
 

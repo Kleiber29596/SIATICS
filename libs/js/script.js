@@ -293,30 +293,40 @@ $("#formRegistrarUsuario")
     });
   });
 
-
+/*
   document.addEventListener('DOMContentLoaded', function() {
-  const fechaNacimientoInput = document.getElementById('fechaNacimiento');
-  
-  // Establecer la fecha máxima como hoy
+    const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+
+    if (fechaNacimientoInput) {
+        
+        const today = new Date();
+        const maxDate = today.toISOString().split('T')[0];
+        fechaNacimientoInput.setAttribute('max', maxDate);
+
+
+    } else {
+        console.error('Elemento con ID "fechaNacimiento" no encontrado.');
+    }
+});
+
+*/
+
+let fechaNacimientoInput;
+if((fechaNacimientoInput = document.getElementById('fechaNacimiento')))
+{
+	// Establecer la fecha máxima como hoy
   const today = new Date();
   const maxDate = today.toISOString().split('T')[0];
   fechaNacimientoInput.setAttribute('max', maxDate);
 
-  // Evento para validar la fecha en tiempo real
-  fechaNacimientoInput.addEventListener('input', function() {
-    const selectedDate = new Date(fechaNacimientoInput.value);
-    const age = today.getFullYear() - selectedDate.getFullYear();
-    const monthDiff = today.getMonth() - selectedDate.getMonth();
+  // ... Resto de tu código (eventos, validaciones, etc.)
+}
 
-    // Verificar si la persona es menor de edad
-    if (age < 18 || (age === 18 && monthDiff < 0)) {
-      alert('Debes ser mayor de edad para registrarte.');
-      fechaNacimientoInput.value = ''; // Limpiar el campo si no es válido
-    }
-  });
-});
 
-document.getElementById('confirmar_contrasena').addEventListener('input', function () {
+confirmar_contrasena = document.getElementById('confirmar_contrasena')
+
+if(confirmar_contrasena) {
+  confirmar_contrasena.addEventListener('input', function () {
     const contrasena = document.getElementById('contrasena').value;
     const confirmarContrasena = this.value;
     const messageElement = document.getElementById('check_password_match');
@@ -329,6 +339,8 @@ document.getElementById('confirmar_contrasena').addEventListener('input', functi
         messageElement.style.color = "green";
     }
 });
+}
+
 
   $(document).ready(function () {
     $("#tbl_consultas").DataTable({
@@ -1957,18 +1969,21 @@ if ((agregar_especialidad = document.getElementById("agregar_especialidad"))) {
       });
   }
 }
-
 const modalidad = document.getElementById('modalidad');
-const campoTM = document.getElementById('divTM');
+if(modalidad){
+  const campoTM = document.getElementById('divTM');
 
-modalidad.addEventListener('change', function() {
+  modalidad.addEventListener('change', function() {
     if (this.value == 'Por cita') {
-        campoTM.style.display = 'inline-block'; // Mostrar campo de texto
+      campoTM.style.display = 'inline-block'; // Mostrar campo de texto
     } else {
-        campoTM.style.display = 'none'; // Ocultar campo de texto
+      campoTM.style.display = 'none'; // Ocultar campo de texto
     }
-});
+  });
 
+}
+
+   
 
 /*-------------- Agregar Persona ------------------ */
 

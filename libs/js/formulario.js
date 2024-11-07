@@ -141,9 +141,11 @@ const validarFechaNacimiento = (e) => {
     }
 };
 
-document.getElementById('fecha_nac').addEventListener('change', validarFechaNacimiento);
-
-
+let fecha_nac_nac;
+if((fecha_nac_nac = document.getElementById('fecha_nac')))
+{
+	fecha_nac_nac.addEventListener('change', validarFechaNacimiento);
+}
 
 
 
