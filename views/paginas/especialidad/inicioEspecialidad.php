@@ -19,8 +19,7 @@ if ($rol == 3) {
                                 aria-selected="true">Especialidades</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="otras-tab" data-bs-toggle="tab" data-bs-target="#otras"
-                                type="button" role="tab" aria-controls="otras" aria-selected="false">Otras</button>
+                            <button class="nav-link" id="otras-tab" data-bs-toggle="tab" data-bs-target="#otras" type="button" role="tab" aria-controls="otras" aria-selected="false">Otras</button>
                         </li>
                     </ul>
 
@@ -39,7 +38,7 @@ if ($rol == 3) {
                                         <tr>
                                             <th>Especialidad</th>
                                             <th>Modalidad</th>
-                                            <th>Estatus</th>
+                                            <th>Tiempo maximo por cita</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -100,12 +99,12 @@ if ($rol == 3) {
                             <div class="form-group" id="divTM" style="display: none;">
                                 <label for="TM_cita">Tiempo maximo por cita</label>
                                 <select class="form-control" name="TM_cita" id="TM_cita" style="width:100%">
-                                    <option>10 Min</option>
-                                    <option>20 Min</option>
-                                    <option>30 Min</option>
-                                    <option>40 Min</option>
-                                    <option>50 Min</option>
-                                    <option>60 Min</option>
+                                    <option value="10 Min">10 Min</option>
+                                    <option value="20 Min">20 Min</option>
+                                    <option value="30 Min">30 Min</option>
+                                    <option value="40 Min">40 Min</option>
+                                    <option value="50 Min">50 Min</option>
+                                    <option value="60 Min">60 Min</option>
                                 </select>
                             </div>
                         </div>
