@@ -84,7 +84,7 @@ if ($rol == 3) {
                             <div class="form-group">
                                 <label for="especialidad">Especialidad</label>
                                 <input class="form-control" type="text" onkeyup="mayus(this);" id="especialidad"
-                                    name="especialidad" placeholder="Ingresa la especialidad">
+                                    name="especialidad" placeholder="Ingresa la especialidad" required>
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -97,12 +97,15 @@ if ($rol == 3) {
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="estatus">Estatus</label>
-                                <select class="form-control" name="estatus" id="estatus_especialidad">
-                                    <option value="">Seleccione</option>
-                                    <option value="1">Activo</option>
-                                    <option value="2">Inactivo</option>
+                            <div class="form-group" id="divTM" style="display: none;">
+                                <label for="TM_cita">Tiempo maximo por cita</label>
+                                <select class="form-control" name="TM_cita" id="TM_cita" style="width:100%">
+                                    <option>10 Min</option>
+                                    <option>20 Min</option>
+                                    <option>30 Min</option>
+                                    <option>40 Min</option>
+                                    <option>50 Min</option>
+                                    <option>60 Min</option>
                                 </select>
                             </div>
                         </div>

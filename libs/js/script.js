@@ -80,6 +80,9 @@ let contador = 0;
 function mayus(e) {
   e.value = e.value.toUpperCase();
 }
+function pmayus(e) {
+  e.value = e.value.charAt(0).toUpperCase();
+}
 
 // Función para obtener los datos de todas las filas
 
@@ -1916,6 +1919,17 @@ if ((agregar_especialidad = document.getElementById("agregar_especialidad"))) {
       });
   }
 }
+
+const modalidad = document.getElementById('modalidad');
+const campoTM = document.getElementById('divTM');
+
+modalidad.addEventListener('change', function() {
+    if (this.value == 'Por cita') {
+        campoTM.style.display = 'inline-block'; // Mostrar campo de texto
+    } else {
+        campoTM.style.display = 'none'; // Ocultar campo de texto
+    }
+});
 
 
 /*-------------- Agregar Persona ------------------ */
