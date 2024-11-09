@@ -61,9 +61,7 @@ class PersonasController
 
 			array('db' => 'documento',   	'dt' => 0),
 			array('db' => 'nombre_apellido','dt' => 1),
-			array('db' => 'sexo',     	    'dt' => 2),
-			array('db' => 'telefono',     	'dt' => 3),
-			array('db' => 'id_persona', 	'dt' => 4)
+			array('db' => 'id_persona', 	'dt' => 2)
 
 		);
 

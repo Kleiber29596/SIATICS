@@ -1,7 +1,7 @@
 const formulario = document.getElementById('formRegistrarPersona');
 const inputs = document.querySelectorAll('#formRegistrarPersona input');
+const selects = document.querySelectorAll('#formRegistrarPersona select');
 const inputs_consulta = document.querySelectorAll('#formRegistrarConsultas input');
-
 
 
 const expresiones = {
@@ -14,54 +14,135 @@ const expresiones = {
 	direccion:/^[a-zA-Z0-9\s.,#-]+$/
 }
 
-const validarFormulario	 = (e) => {
-	switch(e.target.name){
+
+
+const validarFormulario = (e) => {
+	switch(e.target.name) {
 		case "nombres":
-			validarCampo(expresiones.nombre, e.target,'nombres');
-		break;
+			validarCampo(expresiones.nombre, e.target, 'nombres');
+			break;
 		case "apellidos":
-			validarCampo(expresiones.nombre, e.target,'apellidos');
-		break;
+			validarCampo(expresiones.nombre, e.target, 'apellidos');
+			break;
 		case "n_documento":
-			validarCampo(expresiones.n_documento, e.target,'n_documento');
-		break;
+			validarCampo(expresiones.n_documento, e.target, 'n_documento');
+			break;
 		case "telefono":
-			validarCampo(expresiones.telefono, e.target,'telefono');
-		break;
+			validarCampo(expresiones.telefono, e.target, 'telefono');
+			break;
 		case "correo":
-			validarCampo(expresiones.correo, e.target,'correo');
-		break;
+			validarCampo(expresiones.correo, e.target, 'correo');
+			break;
 		case "direccion":
-			validarCampo(expresiones.direccion, e.target,'direccion');
-		break;
+			validarCampo(expresiones.direccion, e.target, 'direccion');
+			break;
+		case "tipo_documento":
+			validarCampoSelect(e.target, 'tipo_documento');
+			break;
+		case "sexo":
+			validarCampoSelect(e.target, 'sexo');
+			break;
+
+			/* Campos del representante */
+		case "nombres_r":
+			validarCampo(expresiones.nombre, e.target, 'nombres_r');
+			break;
+		
+		case "apellidos_r":
+			validarCampo(expresiones.nombre, e.target, 'apellidos_r');
+			break;	
+		
+		case "tipo_documento_r":
+			validarCampoSelect(e.target, 'tipo_documento_r');
+			break;	
+		
+		case "n_documento_r":
+			validarCampo(expresiones.n_documento, e.target, 'n_documento_r');
+			break;
+		
+		case "telefono_r":
+			validarCampo(expresiones.telefono, e.target, 'telefono_r');
+			break;
+		case "correo_r":
+			validarCampo(expresiones.correo, e.target, 'correo_r');
+			break;
+		case "direccion_r":
+			validarCampo(expresiones.direccion, e.target, 'direccion_r');
+			break;
+
+		case "parentesco":
+			validarCampoSelect(e.target, 'parentesco');
+			break;	
 		
 	}
 }
 
-const validarCampo = (expresion, input, campo, button) => {
-
-	if(expresion.test(input.value)) {
+const validarCampo = (expresion, input, campo) => {
+	if (expresion.test(input.value)) {
 		document.getElementById(`grupo_${campo}`).classList.remove('formulario__grupo-incorrecto');
 		document.getElementById(`grupo_${campo}`).classList.add('formulario__grupo-correcto');
 		document.querySelector(`#grupo_${campo} i`).classList.add('fa-check-circle');
 		document.querySelector(`#grupo_${campo} i`).classList.remove('fa-times-circle');
 		document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.remove('formulario__input-error-activo');
-
-
-	}else{
+	} else {
 		document.getElementById(`grupo_${campo}`).classList.add('formulario__grupo-incorrecto');
 		document.getElementById(`grupo_${campo}`).classList.remove('formulario__grupo-correcto');
 		document.querySelector(`#grupo_${campo} i`).classList.add('fa-times-circle');
 		document.querySelector(`#grupo_${campo} i`).classList.remove('fa-check-circle');
 		document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.add('formulario__input-error-activo');
+	}
 }
+
+const validarCampoSelect = (select, campo) => {
+	if (select.value !== "") {
+		document.getElementById(`grupo_${campo}`).classList.remove('formulario__grupo-incorrecto');
+		document.getElementById(`grupo_${campo}`).classList.add('formulario__grupo-correcto');
+		document.querySelector(`#grupo_${campo} i`).classList.add('fa-check-circle');
+		document.querySelector(`#grupo_${campo} i`).classList.remove('fa-times-circle');
+		document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.remove('formulario__input-error-activo');
+	} else {
+		document.getElementById(`grupo_${campo}`).classList.add('formulario__grupo-incorrecto');
+		document.getElementById(`grupo_${campo}`).classList.remove('formulario__grupo-correcto');
+		document.querySelector(`#grupo_${campo} i`).classList.add('fa-times-circle');
+		document.querySelector(`#grupo_${campo} i`).classList.remove('fa-check-circle');
+		document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.add('formulario__input-error-activo');
+	}
 }
+
  
 inputs.forEach((input) =>{
 	input.addEventListener('keyup', validarFormulario);
 	input.addEventListener('blur', validarFormulario);
 
 });
+
+selects.forEach((select) => {
+	select.addEventListener('change', validarFormulario);
+});
+
+
+const validarFechaNacimiento = (e) => {
+    const input = e.target;
+    const fechaSeleccionada = new Date(input.value);
+    const fechaActual = new Date();
+
+    if (fechaSeleccionada > fechaActual) {
+        document.getElementById(`grupo_fecha_nac`).classList.add('formulario__grupo-incorrecto');
+        document.getElementById(`grupo_fecha_nac`).classList.remove('formulario__grupo-correcto');
+        document.querySelector(`#grupo_fecha_nac i`).classList.add('fa-times-circle');
+        document.querySelector(`#grupo_fecha_nac i`).classList.remove('fa-check-circle');
+        document.querySelector(`#grupo_fecha_nac .formulario__input-error`).classList.add('formulario__input-error-activo');
+    } else {
+        document.getElementById(`grupo_fecha_nac`).classList.add('formulario__grupo-correcto');
+        document.getElementById(`grupo_fecha_nac`).classList.remove('formulario__grupo-incorrecto');
+        document.querySelector(`#grupo_fecha_nac i`).classList.add('fa-check-circle');
+        document.querySelector(`#grupo_fecha_nac i`).classList.remove('fa-times-circle');
+        document.querySelector(`#grupo_fecha_nac .formulario__input-error`).classList.remove('formulario__input-error-activo');
+    }
+};
+
+document.getElementById('fecha_nac').addEventListener('change', validarFechaNacimiento);
+
 
 
 

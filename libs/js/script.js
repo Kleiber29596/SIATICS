@@ -1936,6 +1936,53 @@ if (document.getElementById("agregar_persona")) {
     let correo          = document.getElementById("correo").value;
     let direccion       = document.getElementById("direccion").value;
 
+    if (fecha_nac === '') {
+        Swal.fire({
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            title: "Atención",
+            text: "Campo fecha de nacimiento vacío, por favor asegurese de que este lleno!",
+        });
+        return false;
+
+    }
+
+    if(nombres == '' ) {
+        
+        Swal.fire({
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            title: "Atención",
+            text: "Campo nombres vacío, por favor asegurese de que este lleno!",
+        });
+        return false;
+    }
+
+    if(apellidos == '' ) {
+        
+  
+        Swal.fire({
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            title: "Atención",
+            text: "Campo apellidos vacío, por favor asegurese de que este lleno!",
+        });
+        return false;
+    }
+  
+
+    if(sexo == '' ) {
+        
+        Swal.fire({
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            title: "Atención",
+            text: "Campo sexo vacío, por favor asegurese de que este lleno!",
+        });
+        return false;
+
+  }
+
     /*Datos del representante */
     let nombres_r        = document.getElementById("nombres_r").value;
     let apellidos_r      = document.getElementById("apellidos_r").value;
@@ -1949,6 +1996,23 @@ if (document.getElementById("agregar_persona")) {
     let id_persona_r     = document.getElementById("id_persona_r").value;
 
 
+if (nombres_r != '') {
+
+  if(tipo_documento_r == '' || n_documento_r == '' || nombres_r == '' || apellidos_r == '' || direccion_r == ''  || parentesco == '' ) {
+        
+    Swal.fire({
+        icon: "warning",
+        confirmButtonColor: "#3085d6",
+        title: "Atención",
+        text: "Campos del representante vacíos, todos los campos son obligatorios!",
+    });
+    return false;
+}
+
+
+}
+
+
     /*-- Contenedores --*/
 
     let contenedor_datos_representante = document.getElementById('contenedor_datos_representante');
@@ -1959,11 +2023,12 @@ if (document.getElementById("agregar_persona")) {
     let grupo_correo                   = document.getElementById('grupo_correo');
     let grupo_tlf                      = document.getElementById('grupo_telefono');
     let grupo_direccion                = document.getElementById('grupo_direccion');
-    let grupo_nombres                   = document.getElementById('grupo_nombres')
+    let grupo_nombres                  = document.getElementById('grupo_nombres')
     let grupo_apellidos                = document.getElementById('grupo_apellidos')
     let grupo_cedula                   = document.getElementById('grupo_n_documento')
 
 
+ 
 
     
 
@@ -1981,7 +2046,12 @@ if (document.getElementById("agregar_persona")) {
         sexo: sexo,
         correo: correo,
         direccion: direccion,
-        
+
+         /* ---- validaciones ----*/
+
+       
+          
+
         // Datos del representante
         nombres_r: nombres_r,
         apellidos_r: apellidos_r,
@@ -1994,6 +2064,13 @@ if (document.getElementById("agregar_persona")) {
         id_representante: id_representante,
         id_persona_r: id_persona_r
 
+      
+      
+
+       
+
+
+
       },
     })
       .done(function (response) {
@@ -2001,7 +2078,7 @@ if (document.getElementById("agregar_persona")) {
           /*Ocultar contenedores dinámicos */
           contenedor_datos_representante.setAttribute('style', 'display: none;');
           consultar_representante.setAttribute('style', 'display: none;');
-          datos_representante.setAttribute('style', 'display: none;');
+          datos_representante.setAttribute('style', 'display: none;');  
           /*hacer visibles campos de correo, tlf y direccion */
           grupo_correo.removeAttribute('style');
           grupo_tlf.removeAttribute('style');
@@ -2009,7 +2086,7 @@ if (document.getElementById("agregar_persona")) {
 
           const limpiarEstilosValidacion = () => {
             // Listado de los campos a los que se les quiere quitar los estilos de validación
-            const campos = ['nombres', 'apellidos', 'n_documento', 'correo', 'direccion', 'telefono'];
+            const campos = ['nombres', 'apellidos', 'n_documento', 'correo', 'direccion', 'telefono', 'tipo_documento','fecha_nac','sexo', 'nombres_r', 'apellidos_r', 'n_documento_r', 'correo_r', 'direccion_r', 'telefono_r', 'tipo_documento_r', 'parentesco'];
         
             campos.forEach(campo => {
                 const grupo = document.getElementById(`grupo_${campo}`);
@@ -2139,7 +2216,8 @@ if (fechaNacInput) {
                 if (response.data.success === true) {
                     if (response.data.edad >= 18) {
                         // Si la persona es mayor de edad
-                        document.getElementById("consultar_representante").setAttribute("style","display: none;");
+                        document.getElementById("contenedor_datos_representante").setAttribute("style","display: none;");
+                        document.getElementById("datos_representante").setAttribute("style","display: none;");
                         document.getElementById("grupo_correo").removeAttribute("style");
                         document.getElementById("grupo_telefono").removeAttribute("style");
                         document.getElementById("grupo_direccion").removeAttribute("style");
@@ -4021,17 +4099,18 @@ $(document).ready(function () {
     columnDefs: [
       {
         orderable: false,
-        targets: 4,
+        targets: 2,
         render: function (data, type, row, meta) {
           let botones =
             `
                     <button type="button" class="btn btn-primary btn-sm" onclick="VerDatosPersona(` +
-            row[4] +
+            row[2] +
             `)"><i class="fas fa-eye"></i></button>&nbsp;
     
                    <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosPersona(` +
-            row[4] +
+            row[2] +
             `)"><i class="fas fa-edit"></i></button>&nbsp;
+
      `;
           return botones;
         },
