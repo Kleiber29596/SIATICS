@@ -80,6 +80,9 @@ let contador = 0;
 function mayus(e) {
   e.value = e.value.toUpperCase();
 }
+function pmayus(e) {
+  e.value = e.value.charAt(0).toUpperCase();
+}
 
 // Función para obtener los datos de todas las filas
 
@@ -106,6 +109,7 @@ function obtenerDatosTabla(tabla) {
     // Agregar el array de datos de la fila al array principal
     datos.push(filaDatos);
   }
+
 
   return datos; // Retornamos el array con todos los datos
 }
@@ -288,6 +292,43 @@ $("#formRegistrarUsuario")
       },
     });
   });
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+  const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+  
+  // Establecer la fecha máxima como hoy
+  const today = new Date();
+  const maxDate = today.toISOString().split('T')[0];
+  fechaNacimientoInput.setAttribute('max', maxDate);
+
+  // Evento para validar la fecha en tiempo real
+  fechaNacimientoInput.addEventListener('input', function() {
+    const selectedDate = new Date(fechaNacimientoInput.value);
+    const age = today.getFullYear() - selectedDate.getFullYear();
+    const monthDiff = today.getMonth() - selectedDate.getMonth();
+
+    // Verificar si la persona es menor de edad
+    if (age < 18 || (age === 18 && monthDiff < 0)) {
+      alert('Debes ser mayor de edad para registrarte.');
+      fechaNacimientoInput.value = ''; // Limpiar el campo si no es válido
+    }
+  });
+});
+
+document.getElementById('confirmar_contrasena').addEventListener('input', function () {
+    const contrasena = document.getElementById('contrasena').value;
+    const confirmarContrasena = this.value;
+    const messageElement = document.getElementById('check_password_match');
+
+    if (contrasena != confirmarContrasena) {
+        messageElement.textContent = "No coinciden las constraseñas";
+        messageElement.style.color = "red";
+    } else {
+        messageElement.textContent = "Las claves coinciden";
+        messageElement.style.color = "green";
+    }
+});
 
   $(document).ready(function () {
     $("#tbl_consultas").DataTable({
@@ -1916,6 +1957,17 @@ if ((agregar_especialidad = document.getElementById("agregar_especialidad"))) {
       });
   }
 }
+
+const modalidad = document.getElementById('modalidad');
+const campoTM = document.getElementById('divTM');
+
+modalidad.addEventListener('change', function() {
+    if (this.value == 'Por cita') {
+        campoTM.style.display = 'inline-block'; // Mostrar campo de texto
+    } else {
+        campoTM.style.display = 'none'; // Ocultar campo de texto
+    }
+});
 
 
 /*-------------- Agregar Persona ------------------ */

@@ -4,6 +4,7 @@
 
 
 require_once 'controllers/RolesController.php';
+require_once 'controllers/EspecialidadController.php';
 $objeto                 = new RolesController();
 
 $roles                  = $objeto->listaRoles();
@@ -22,6 +23,9 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     $id_usuario         = $_SESSION['user_id'];
     $rol           = $_SESSION['rol_usuario'];
 }
+
+$objeto  = new EspecialidadController();
+$especialidades = $objeto->selectEspecialidad();
 
 
 ?>
@@ -131,38 +135,208 @@ if ($rol == 3) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                
+
+
+
                 <form id="formRegistrarUsuario">
                     <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="cedula">Cédula</label>
-                                    <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10" placeholder="Ingresa el número de cédula">
+                                    <label for="p_nombre">Primer nombre</label>
+                                    <input class="form-control" type="text" name="p_nombre" id="p_nombre" placeholder="Primer nombre">
                                 </div>
                             </div>
                             <br>
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="nombre">Nombre</label>
-                                    <input class="form-control" type="text" name="nombre" id="nombre" onkeyup="mayus(this);" maxlength="40" placeholder="Ingresa el nombre">
+                                    <label for="s_nombre">Segundo nombre</label>
+                                    <input class="form-control" type="text" name="s_nombre" id="s_nombre" placeholder="Segundo nombre">
                                 </div>
                             </div>
-
+                            <br>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="p_apellido">Primer apellido</label>
+                                    <input class="form-control" type="text" name="p_apellido" id="p_apellido" placeholder="Primer apellido">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="s_apellido">Segundo apellido</label>
+                                    <input class="form-control" type="text" name="s_apellido" id="s_apellido" placeholder="Segundo apellido" onkeyup="pmayus(this);">
+                                </div>
+                            </div>
                         </div>
-                        <br>
-                        <div class="row">
-
-                            <div class="col-sm-6">
+                        <div class="row mt-2">
+                            <div class="col-sm-2">
                                 <div class="form-group">
-                                    <label for="apellido">Apellido</label>
-                                    <input class="form-control" type="apellido" name="apellido" id="apellido" onkeyup="mayus(this);" maxlength="40" placeholder="Ingresa el apellido">
+                                    <label for="sexo">Sexo</label>
+                                    <br>
+                                    Masculino <input class="" type="radio" name="sexo" id="sexo" value="M">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label for="sexo"></label>
+                                    <br>
+                                    Femenino <input class="" type="radio" name="sexo" id="sexo" value="F">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="fechaNacimiento">Fecha de nacimiento</label>
+                                    <input class="form-control" type="date" name="fechaNacimiento" id="fechaNacimiento" maxlength="10">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="numTelf">Numero de contacto</label>
+                                    <input class="form-control" type="text" name="numTelf" id="numTelf" placeholder="Numero de contacto">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label for="T_doc">Tipo</label>
+                                    <select class="form-control" id="T_doc">
+                                        <option>V</option>
+                                        <option>E</option>
+                                        <option>P</option>
+                                    </select>
                                 </div>
                             </div>
                             <br>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="cedula">Numero de cedula</label>
+                                    <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10" placeholder="Ingresa el número de cédula" onkeyup="mayus(this);">
+                                </div>
+                            </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="correos">Correo</label>
-                                    <input class="form-control" type="email" name="correo" id="correo" onkeyup="mayus(this);" maxlength="60" placeholder="Ingresa la dirección">
+                                    <input class="form-control" type="email" name="correo" id="correo" maxlength="60" placeholder="Ingresa la dirección">
+                                </div>
+                            </div>                            
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="direccion_c">Dirección corta</label>
+                                    <textarea class="form-control" name="direccion_c" id="direccion_c" cols="4" rows="2" placeholder="Ingresa una dirección corta"></textarea>
+                                </div>
+                            </div>
+                            <div>
+                                <input type="hidden" name="tipo_persona" id="tipo_persona" value="Doctor/a">
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <!--Inicio de horario-->
+                        <h5>Días de Trabajo</h5>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="form-check col-sm-2">
+                                    <label class="form-check-label"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-check-label">Entrada</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-check-label">Salida</label>
+                                </div>
+                            </div>
+                           <div class="row">
+                                <div class="form-check col-sm-2">
+                                    <input class="form-check-input" type="checkbox" id="lunes">
+                                    <label class="form-check-label" for="lunes">Lunes</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                            <div class="form-check col-sm-2">
+                                <input class="form-check-input" type="checkbox" id="martes">
+                                <label class="form-check-label" for="martes">Martes</label>
+                            </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                            <div class="form-check col-sm-2">
+                                <input class="form-check-input" type="checkbox" id="miercoles">
+                                <label class="form-check-label" for="miercoles">Miercoles</label>
+                            </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                            <div class="form-check col-sm-2">
+                                <input class="form-check-input" type="checkbox" id="jueves">
+                                <label class="form-check-label" for="jueves">Jueves</label>
+                            </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="form-check col-sm-2">
+                                    <input class="form-check-input" type="checkbox" id="viernes">
+                                    <label class="form-check-label" for="viernes">Viernes</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                </div>
+                            </div>
+                        </div>
+                        <!--Fin horario-->
+                        <br>
+                        <hr>
+                        <br>
+                        <h5>Creación de usuario</h5>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="usuario">Usuario</label>
+                                    <input class="form-control" type="text" name="usuario" id="usuario" maxlength="40" placeholder="Ingresa el nombre de usuario">
+                                </div>
+                            </div>
+                            <div class="col-sm-6" id="cont_input_file2">
+                                <div class="form-group">
+                                    <label for="Foto">Foto</label>
+                                    <input type="file" class=" form-control" name="archivo" id="subirfoto2" accept="image/*">
                                 </div>
                             </div>
                         </div>
@@ -181,63 +355,48 @@ if ($rol == 3) {
                                     <input class="form-control" type="password" name="confirmar_contrasena" id="confirmar_contrasena" maxlength="60" placeholder="Ingresa la contraseña">
                                 </div>
                             </div>
+                            <span id="check_password_match"></span>
                         </div>
                         <br>
                         
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="usuario">Usuario</label>
-                                    <input class="form-control" type="text" name="usuario" id="usuario" maxlength="40" placeholder="Ingresa el nombre de usuario">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="estatus">Estatus</label>
-                                    <select class="form-control" name="estatus" id="estatus">
-                                        <option value="">Seleccione</option>
-                                        <option value="1">Activo</option>
-                                        <option value="2">Inactivo</option>
+                                    <label for="rol">Roll</label>
+                                    <select class="form-control" name="rol" id="rol">
+                                        <option value="3" selected disabled>Doctor/a</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <br>
-
-
-                        <div class="row">
-                            <div class="col-sm-6" id="rol">
+                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="rol">Rol</label>
-                                    <select class="form-control" name="rol" id="rol">
-                                        <option value="">Seleccione</option>
+                                    <label class="formulario__label" for="especialidad">Especialidad</label>
+                                    <select class="form-control" name="especialidad" id="especialidad" required>
+                                        <option value="" disabled selected>Seleccione</option>
                                         <?php
-                                        foreach ($roles as $roles) {
+                                        foreach ($especialidades  as  $especialidad) {
                                         ?>
-                                            <option value="<?= $roles['id'] ?>"><?= $roles['rol'] ?></option>
+                                            <option value="<?= $especialidad['id_especialidad'] ?>"><?= $especialidad['nombre_especialidad'] ?></option>
                                         <?php
                                         }
                                         ?>
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="col-sm-6" id="cont_input_file2">
-                                <div class="form-group">
-                                    <label for="Foto">Foto</label>
-                                    <input type="file" class=" form-control" name="archivo" id="subirfoto2" accept="image/*">
-                                </div>
-                            </div>
                         </div>
                         <br>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="agregar_usuario" title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
                     </div>
                 </form>
+
+
+
+
+
+
             </div>
         </div>
     </div>

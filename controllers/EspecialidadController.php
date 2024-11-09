@@ -40,15 +40,8 @@ class EspecialidadController {
 			
 			array('db' => 'nombre_especialidad',  'dt' => 0),
 			array('db' => 'modalidad', 			  'dt' => 1),
-			array('db' => 'estatus',              'dt' => 2,
-				'formatter' => function ($d, $row) {
-					return ($d == 1) ? '<button class="btn btn-success btn-sm">Activo</button>' : '<button class="btn btn-danger btn-sm">Inactivo</button>';
-				}
-			),
-		
-			array('db' => 'estatus', 'dt' => 3),
-			array('db' => 'id_especialidad', 	  'dt' => 4)
-			//array( 'db' => 'fecha_registro','dt' => 9 ),
+			array('db' => 'tm_porcita',           'dt' => 2),
+			array('db' => 'id_especialidad', 	  'dt' => 3)
 
 		);
 
