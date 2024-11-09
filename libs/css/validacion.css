@@ -48,4 +48,47 @@
   
 }
 
+#grupo_fecha_nac .formulario__validacion-estado {
+ 
+    /* ... otros estilos */
+    top: 50%;
+    transform: translateY(-50%) translateY(-5px); /* Ajusta el valor -5px según el tamaño de tu icono */
+    margin-top:19px;
+}
+
+#grupo_sexo .formulario__validacion-estado {
+ 
+  /* ... otros estilos */
+  top: 50%;
+  transform: translateY(-50%) translateY(-5px); /* Ajusta el valor -5px según el tamaño de tu icono */
+  margin-top:19px;
+}
+
+
+#grupo_tipo_documento .formulario__validacion-estado {
+ 
+  /* ... otros estilos */
+  top: 50%;
+  transform: translateY(-50%) translateY(-5px); /* Ajusta el valor -5px según el tamaño de tu icono */
+  margin-top:19px;
+}
+
+#grupo_tipo_documento_r .formulario__validacion-estado {
+ 
+  /* ... otros estilos */
+  top: 50%;
+  transform: translateY(-50%) translateY(-5px); /* Ajusta el valor -5px según el tamaño de tu icono */
+  margin-top:19px;
+}
+
+
+#grupo_parentesco .formulario__validacion-estado {
+ 
+  /* ... otros estilos */
+  top: 50%;
+  transform: translateY(-50%) translateY(-5px); /* Ajusta el valor -5px según el tamaño de tu icono */
+  margin-top:19px;
+}
+
+
 
