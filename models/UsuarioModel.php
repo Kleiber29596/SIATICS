@@ -49,7 +49,7 @@ class UsuarioModel extends ModeloBase {
 	public function modificarUsuario($id, $datos) {
 		$db = new ModeloBase();
 		try {
-			$editar = $db->editar('usuario', $id, $datos);
+			$editar = $db->editar('usuario',' ', $id, $datos);
 			return $editar;
 		} catch (PDOException $e) {
 			echo $e->getMessage();

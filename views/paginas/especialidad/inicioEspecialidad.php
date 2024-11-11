@@ -99,6 +99,7 @@ if ($rol == 3) {
                             <div class="form-group" id="divTM" style="display: none;">
                                 <label for="TM_cita">Tiempo maximo por cita</label>
                                 <select class="form-control" name="TM_cita" id="TM_cita" style="width:100%">
+                                    <option value="N/A" selected disabled>N/A</option>
                                     <option value="10 Min">10 Min</option>
                                     <option value="20 Min">20 Min</option>
                                     <option value="30 Min">30 Min</option>

@@ -136,10 +136,9 @@ EOT;
 			array('db' => 'usuario',      	    'dt' => 1),
 			array('db' => 'rol',      	        'dt' => 2),
 			array('db' => 'nombres_apellidos',  'dt' => 3),
-			array('db' => 'correo',    		    'dt' => 4),
 			array(
 				'db'        => 'foto',
-				'dt'        => 5,
+				'dt'        => 4,
 				'formatter' => function ($d, $row) {
 					return '<img width="50" src="./foto_usuario/' . $d . '">';
 				}
@@ -148,13 +147,13 @@ EOT;
 
 			array(
 				'db'        => 'estatus',
-				'dt'        => 6,
+				'dt'        => 5,
 				'formatter' => function ($d, $row) {
 					return ($d == 1) ? '<button class="btn btn-success btn-sm">Activo</button>' : '<button class="btn btn-danger btn-sm">Inactivo</button>';
 				}
 			),
-			array('db' => 'id', 'dt' => 7),
-			array('db' => 'estatus', 'dt' => 8)
+			array('db' => 'id', 'dt' => 6),
+			array('db' => 'estatus', 'dt' => 7)
 
 			//array( 'db' => 'fecha_registro','dt' => 9 ),
 

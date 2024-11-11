@@ -98,7 +98,6 @@ if ($rol == 3) {
                                         <th>Usuario</th>
                                         <th>Rol</th>
                                         <th>Nombres/Apellidos</th>
-                                        <th>Correo</th>
                                         <th>Foto</th>
                                         <th>Estatus</th>
                                         <th>Acciones</th>
@@ -188,13 +187,13 @@ if ($rol == 3) {
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                    <input class="form-control" type="date" name="fechaNacimiento" id="fechaNacimiento" maxlength="10">
+                                    <input class="form-control" type="date" name="fechaNacimiento" id="fechaNacimiento" maxlength="10" oninput="validarFechaNacimiento()">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="numTelf">Numero de contacto</label>
-                                    <input class="form-control" type="text" name="numTelf" id="numTelf" placeholder="Numero de contacto">
+                                    <input class="form-control" type="text" name="numTelf" id="numTelf" placeholder="Numero de contacto" oninput="validarTelefono(input)" maxlength="8" >
                                 </div>
                             </div>
                         </div>
@@ -258,10 +257,10 @@ if ($rol == 3) {
                                     <label class="form-check-label" for="lunes">Lunes</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaLunes">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaLunes">
                                 </div>
                             </div>
                         </div>
@@ -272,10 +271,10 @@ if ($rol == 3) {
                                 <label class="form-check-label" for="martes">Martes</label>
                             </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaMartes">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaMartes">
                                 </div>
                             </div>
                         </div>
@@ -286,10 +285,10 @@ if ($rol == 3) {
                                 <label class="form-check-label" for="miercoles">Miercoles</label>
                             </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaMiercoles">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaMiercoles">
                                 </div>
                             </div>
                         </div>
@@ -300,10 +299,10 @@ if ($rol == 3) {
                                 <label class="form-check-label" for="jueves">Jueves</label>
                             </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaJueves">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaJueves">
                                 </div>
                             </div>
                         </div>
@@ -314,10 +313,10 @@ if ($rol == 3) {
                                     <label class="form-check-label" for="viernes">Viernes</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada">
+                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaViernes">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida">
+                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaViernes">
                                 </div>
                             </div>
                         </div>

@@ -80,8 +80,7 @@ class EspecialidadController {
 		$datos = array(
 			'nombre_especialidad'   => $_POST['especialidad'],
 			'modalidad'  		    => $_POST['modalidad'],
-			'estatus'  				=> $_POST['estatus_especialidad'],
-            'fecha_registro'        => $fecha_registro
+			'tm_porcita'  			=> $_POST['tm_cita']
 		);
 
 

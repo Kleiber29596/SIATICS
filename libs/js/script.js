@@ -144,36 +144,36 @@ $(document).ready(function () {
     columnDefs: [
       {
         orderable: false,
-        targets: 7,
+        targets: 6,
         render: function (data, type, row, meta) {
-          if (row[8] == 1) {
+          if (row[7] == 1) {
             let botones =
               `
                     <button type="button" class="btn btn-primary btn-sm" onclick="verUsuario(` +
-              row[7] +
+              row[6] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
     
                    <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionUsuario(` +
-              row[7] +
+              row[6] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
     
                    <button type="button" class="btn btn-danger btn-sm" onclick="inactivarUsuario(` +
-              row[7] +
+              row[6] +
               `)"><i class="fas fa-trash"></i></button>  `;
             return botones;
           } else {
             let botones =
               `
                 <button type="button" class="btn btn-primary btn-sm" onclick="verUsuario(` +
-              row[7] +
+              row[6] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
 
                <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionUsuario(` +
-              row[7] +
+              row[6] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
 
                <button type="button" class="btn btn-success btn-sm" onclick="inactivarUsuario(` +
-              row[7] +
+              row[6] +
               `)"><i class="fas fa-fas fa-retweet"></i></button>  `;
             return botones;
           }
@@ -211,15 +211,34 @@ $("#formRegistrarUsuario")
   .unbind("submit")
   .bind("submit", function (e) {
     e.preventDefault();
-
+//----------------------------datos personales-----------------//
     let cedula = document.getElementById("cedula").value;
-    let nombre = document.getElementById("nombre").value;
-    let apellido = document.getElementById("apellido").value;
+    let p_nombre = document.getElementById("p_nombre").value;
+    let s_nombre = document.getElementById("s_nombre").value;
+    let p_apellido = document.getElementById("p_apellido").value;
+    let s_apellido = document.getElementById("s_apellido").value;
+    let sexo = document.getElementById("sexo");
+    let fechaNacimiento = document.getElementById("fechaNacimiento");
+    let numTelf = document.getElementById("numTelf");
+    let tipoDoc = document.getElementById("T_doc");
+    let numeroDoc = document.getElementById("cedula");
     let correo = document.getElementById("correo").value;
+    let direccion_c = document.getElementById("direccion_c").value;
+//----------------------------horario laboral-----------------//
+    /*let lunes = document.getElementById("lunes").value;
+    let martes = document.getElementById("martes").value;
+    let miercoles = document.getElementById("miercoles").value;
+    let jueves = document.getElementById("jueves").value;
+    let viernes = document.getElementById("viernes").value;
+    let EntradaLunes = document.getElementById("EntradaLunes").value;
+    let EntradaMartes = document.getElementById("EntradaMartes").value;
+    let SalidaMartes = document.getElementById("SalidaMartes").value;
+    let EntradaMartes = document.getElementById("EntradaMartes").value;
+    let EntradaMartes = document.getElementById("EntradaMartes").value;*/
+
+//----------------------------Datos de usuario-----------------//
     let contrasena = document.getElementById("contrasena").value;
-    let confirmar_contrasena = document.getElementById(
-      "confirmar_contrasena"
-    ).value;
+    let confirmar_contrasena = document.getElementById("confirmar_contrasena").value;
     let usuario = document.getElementById("usuario").value;
     let rol = document.getElementById("rol").value;
     let estatus = document.getElementById("estatus").value;
@@ -254,7 +273,7 @@ $("#formRegistrarUsuario")
       return;
     }
 
-    $.ajax({
+    /*$.ajax({
       url: "index.php?page=registrarUsuario",
       type: "POST",
       data: new FormData(this),
@@ -290,37 +309,63 @@ $("#formRegistrarUsuario")
           });
         }
       },
-    });
+    });*/
   });
 
-/*
-  document.addEventListener('DOMContentLoaded', function() {
-    const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+document.addEventListener('DOMContentLoaded', function() {
+    const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+    const selectDia = document.getElementById("dia1");
 
-    if (fechaNacimientoInput) {
-        
-        const today = new Date();
-        const maxDate = today.toISOString().split('T')[0];
-        fechaNacimientoInput.setAttribute('max', maxDate);
-
-
-    } else {
-        console.error('Elemento con ID "fechaNacimiento" no encontrado.');
-    }
+    diasSemana.forEach(dia => {
+        const option = document.createElement('option');
+        option.value = dia;
+        option.text = dia;
+        selectDia.appendChild(option);
+    });
 });
 
-*/
+function validarFechaNacimiento() {
+  const fechaNacimiento = document.getElementById('fechaNacimiento').value; // Suponiendo que el input tiene el id "fechaNacimiento"
+  const hoy = new Date();
+  const fechaNacimientoDate = new Date(fechaNacimiento);
 
-let fechaNacimientoInput;
-if((fechaNacimientoInput = document.getElementById('fechaNacimiento')))
-{
-	// Establecer la fecha máxima como hoy
-  const today = new Date();
-  const maxDate = today.toISOString().split('T')[0];
-  fechaNacimientoInput.setAttribute('max', maxDate);
+  // Validar si la fecha es una fecha válida
+  if (isNaN(fechaNacimientoDate)) {
+    alert('Por favor, ingresa una fecha válida.');
+    document.getElementById('fechaNacimiento').value = '';
+    return;
+  }
 
-  // ... Resto de tu código (eventos, validaciones, etc.)
+  // Validar si la fecha es en el futuro
+  if (fechaNacimientoDate > hoy) {
+    alert('La fecha de nacimiento no puede ser en el futuro.');
+    document.getElementById('fechaNacimiento').value = '';
+  }
+
+  // Calcular la edad
+  const edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
+  const mes = hoy.getMonth() - fechaNacimientoDate.getMonth();
+  if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimientoDate.getDate()))   
+ {
+    edad--;
+  }
+
+  // Validar si la edad es mayor o igual a 18
+  if (edad < 18) {
+    alert('Debes ser mayor de edad.');
+    document.getElementById('fechaNacimiento').value = '';
+  }
 }
+
+/*$("#numTelf").blur(function() {
+  var regex = /^\(\d{3}\)\s\d{3}-\d{4}$/; // Ajusta la expresión regular según tus necesidades
+  var telefono = $(this).val();
+
+  if (! regex.test(telefono)) {
+    alert("Por favor, ingresa un número de teléfono válido.");
+    document.getElementById('numTelf').value = '';
+  }
+});*/
 
 
 confirmar_contrasena = document.getElementById('confirmar_contrasena')
@@ -1929,8 +1974,11 @@ if ((agregar_especialidad = document.getElementById("agregar_especialidad"))) {
   function agregarEspecialidad() {
     let especialidad         = document.getElementById("especialidad").value;
     let modalidad            = document.getElementById("modalidad").value;
-    let estatus_especialidad = document.getElementById("estatus_especialidad").value;
-
+    let tm_cita              = document.getElementById("TM_cita").value;
+    if (tm_cita == '') {
+      tm_cita.value = 'N/A';
+    }
+    
     $.ajax({
       url: "index.php?page=registrarEspecialidad",
       type: "post",
@@ -1938,7 +1986,7 @@ if ((agregar_especialidad = document.getElementById("agregar_especialidad"))) {
       data: {
         especialidad: especialidad,
         modalidad: modalidad,
-        estatus_especialidad: estatus_especialidad,
+        tm_cita: tm_cita,
       },
     })
       .done(function (response) {
@@ -1970,6 +2018,7 @@ if ((agregar_especialidad = document.getElementById("agregar_especialidad"))) {
   }
 }
 const modalidad = document.getElementById('modalidad');
+const tm_cita = document.getElementById('TM_cita');
 if(modalidad){
   const campoTM = document.getElementById('divTM');
 
@@ -1978,6 +2027,7 @@ if(modalidad){
       campoTM.style.display = 'inline-block'; // Mostrar campo de texto
     } else {
       campoTM.style.display = 'none'; // Ocultar campo de texto
+      tm_cita.value = 'N/A';
     }
   });
 
