@@ -204,7 +204,70 @@ $(document).ready(function () {
   });
 });
 
-/* -------------- Agregar Usuarios ------------------ */
+/* -------------- Agregar horario ------------------ */
+
+const agregarHorarioButton = document.getElementById("agregar_horario");
+const diasAgregados = [];
+const camposContainer = document.getElementById("camposContainer");
+if (agregarHorarioButton) {
+  agregarHorarioButton.addEventListener("click", consultarHorario, false);
+  function consultarHorario(){
+    let dia                  = document.getElementById("dia").value;
+    let H_entrada            = document.getElementById("H_entrada").value;
+    let H_salida             = document.getElementById("H_salida").value;
+
+    if(dia == "" || H_entrada == "" || H_salida == ""){
+        Swal.fire({
+            icon: 'error',
+            title: 'Atención',
+            confirmButtonColor: '#0d6efd',
+            text: 'Debe llenar todos los campos'
+        });
+        return;
+    }else{
+      /*Swal.fire({
+          icon: 'success',
+          title: 'Perfecto',
+          confirmButtonColor: '#0d6efd',
+          text: 'Todos los campos estan llenos'
+      });
+      return;*/
+      if (diasAgregados.includes(dia)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Atención',
+          confirmButtonColor: '#0d6efd',
+          text: 'El día ya ha sido agregado'
+        });
+        return;
+      }
+
+      diasAgregados.push(dia);
+
+      const nuevoHorario = document.createElement("div");
+      nuevoHorario.classList.add("horario");
+      nuevoHorario.innerHTML = `<p>Día: ${dia},  Hora de entrada: ${H_entrada},  Hora de salida: ${H_salida}</p>`;
+      
+      // Agregar el nuevo horario al contenedor
+      camposContainer.appendChild(nuevoHorario);
+
+      console.log("Día agregado:", dia);
+      console.log("Horarios actuales:", diasAgregados);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Perfecto',
+        confirmButtonColor: '#0d6efd',
+        text: 'Día agregado correctamente'
+      });
+
+      document.getElementById("dia").value = "";
+      document.getElementById("H_entrada").value = "";
+      document.getElementById("H_salida").value = "";
+
+    }    
+  }
+}
 
 /* -------------- Agregar Usuario ------------------ */
 $("#formRegistrarUsuario")
@@ -225,10 +288,11 @@ $("#formRegistrarUsuario")
     let correo = document.getElementById("correo").value;
     let direccion_c = document.getElementById("direccion_c").value;
 //----------------------------horario laboral-----------------//
-    /*let lunes = document.getElementById("lunes").value;
-    let martes = document.getElementById("martes").value;
-    let miercoles = document.getElementById("miercoles").value;
-    let jueves = document.getElementById("jueves").value;
+    let dia = document.getElementById("dia").value;
+    let H_entrada = document.getElementById("H_entrada").value;
+    let H_salida = document.getElementById("H_salida").value;
+    let camposContainer = document.getElementById("camposContainer").value;
+    /*let jueves = document.getElementById("jueves").value;
     let viernes = document.getElementById("viernes").value;
     let EntradaLunes = document.getElementById("EntradaLunes").value;
     let EntradaMartes = document.getElementById("EntradaMartes").value;
@@ -241,10 +305,10 @@ $("#formRegistrarUsuario")
     let confirmar_contrasena = document.getElementById("confirmar_contrasena").value;
     let usuario = document.getElementById("usuario").value;
     let rol = document.getElementById("rol").value;
-    let estatus = document.getElementById("estatus").value;
+    //let estatus = document.getElementById("estatus").value;
 
     /* comprobar campos vacios */
-    if (
+    /*if (
       cedula == "" ||
       nombre == "" ||
       apellido == "" ||
@@ -261,7 +325,7 @@ $("#formRegistrarUsuario")
         confirmButtonColor: "#3085d6",
       });
       return;
-    }
+    }*/
 
     if (contrasena != confirmar_contrasena) {
       Swal.fire({
@@ -310,6 +374,10 @@ $("#formRegistrarUsuario")
         }
       },
     });*/
+
+    console.log(camposContainer);
+    /*console.log(H_entrada);
+    console.log(H_salida);*/
   });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -4828,10 +4896,6 @@ if (agregarMedicamentoButton) {
                     confirmButtonColor: '#0d6efd',
                     text: response.data.info
                 });
-
-
-              
-                
 
                 contador = contador + 1;
 
