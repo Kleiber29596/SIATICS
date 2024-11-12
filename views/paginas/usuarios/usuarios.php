@@ -141,6 +141,7 @@ if ($rol == 3) {
                 <form id="formRegistrarUsuario">
                     <div class="col-sm-12">
                         <div class="row">
+                            <h5>Datos personales</h5>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="p_nombre">Primer nombre</label>
@@ -237,90 +238,38 @@ if ($rol == 3) {
                         <br>
                         <hr>
                         <br>
-                        <!--Inicio de horario-->
-                        <h5>Días de Trabajo</h5>
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="form-check col-sm-2">
-                                    <label class="form-check-label"></label>
+                        <div id="camposContainer">
+                            <h5>Horario laboral</h5>
+                            <div class="row campo">
+                                <div class="col-md-4">
+                                    <label class="form-group" for="dia">Día de la semana</label>
+                                    <select class="form-control" name="campo1[]" id="dia" required>
+                                        <option value="" disabled selected>Seleccione un día</option>
+                                        <option value="0">Lunes</option>
+                                        <option value="1">Martes</option>
+                                        <option value="2">Miercoles</option>
+                                        <option value="3">Jueves</option>
+                                        <option value="4">Viernes</option>
+                                    </select>
                                 </div>
-                                <div class="col-sm-4">
-                                    <label class="form-check-label">Entrada</label>
+                                <div class="col-md-4">
+                                    <label class="form-group" for="H_entrada">Hora de entrada</label>
+                                    <input type="time" class="form-control" name="campo2[]" id="H_entrada" placeholder="Hora de entrada" required>
                                 </div>
-                                <div class="col-sm-4">
-                                    <label class="form-check-label">Salida</label>
-                                </div>
-                            </div>
-                           <div class="row">
-                                <div class="form-check col-sm-2">
-                                    <input class="form-check-input" type="checkbox" id="lunes">
-                                    <label class="form-check-label" for="lunes">Lunes</label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaLunes">
-                                </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaLunes">
+                                <div class="col-md-4">
+                                    <label class="form-group" for="H_salida">Hora de entrada</label>
+                                    <input type="time" class="form-control" name="campo3[]" id="H_salida" placeholder="Hora de salida" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="row">
-                            <div class="form-check col-sm-2">
-                                <input class="form-check-input" type="checkbox" id="martes">
-                                <label class="form-check-label" for="martes">Martes</label>
-                            </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaMartes">
-                                </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaMartes">
+                            <div class="col-md-12 mt-2"
+                                style="display: flex; justify-content: flex-end; align-items: flex-end;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary btn-circle"
+                                        id="agregar_horario" title="Agregar otro día"><i
+                                            class="fas fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <div class="row">
-                            <div class="form-check col-sm-2">
-                                <input class="form-check-input" type="checkbox" id="miercoles">
-                                <label class="form-check-label" for="miercoles">Miercoles</label>
-                            </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaMiercoles">
-                                </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaMiercoles">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="row">
-                            <div class="form-check col-sm-2">
-                                <input class="form-check-input" type="checkbox" id="jueves">
-                                <label class="form-check-label" for="jueves">Jueves</label>
-                            </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaJueves">
-                                </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaJueves">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="form-check col-sm-2">
-                                    <input class="form-check-input" type="checkbox" id="viernes">
-                                    <label class="form-check-label" for="viernes">Viernes</label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Entrada" aria-label="Entrada" id="EntradaViernes">
-                                </div>
-                                <div class="col-sm-4">
-                                    <input type="time" class="form-control" placeholder="Salida" aria-label="Salida" id="SalidaViernes">
-                                </div>
-                            </div>
-                        </div>
-                        <!--Fin horario-->
                         <br>
                         <hr>
                         <br>
