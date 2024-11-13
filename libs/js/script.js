@@ -206,7 +206,7 @@ $(document).ready(function () {
 
 /* -------------- Agregar horario ------------------ */
 
-const diasSeleccionados = [];
+/*const diasSeleccionados = [];
 
 // Evento para agregar un nuevo horario
 document.getElementById('agregar_horario').addEventListener('click', function() {
@@ -284,16 +284,22 @@ document.querySelector('select[name="campo1[]"]').addEventListener('change', fun
         alert("El día seleccionado ya existe. Por favor, elige otro día.");
         this.value = ""; // Limpiar el campo
     }
-});
+});*/
 
-
-
-
-/*
 
 const agregarHorarioButton = document.getElementById("agregar_horario");
+const eliminar_horario = document.getElementById("eliminar_horario");
 const diasAgregados = [];
 const camposContainer = document.getElementById("camposContainer");
+
+if (eliminar_horario) {
+  eliminar_horario.addEventListener("click", eliminarHorario, false);
+
+  function eliminarHorario(){
+    alert('hola mundo');
+  }
+}
+
 if (agregarHorarioButton) {
   agregarHorarioButton.addEventListener("click", consultarHorario, false);
   function consultarHorario(){
@@ -325,13 +331,30 @@ if (agregarHorarioButton) {
           text: 'El día ya ha sido agregado'
         });
         return;
-      }
+      }*/
 
       diasAgregados.push(dia);
 
       const nuevoHorario = document.createElement("div");
       nuevoHorario.classList.add("horario");
-      nuevoHorario.innerHTML = `<p>Día: ${dia},  Hora de entrada: ${H_entrada},  Hora de salida: ${H_salida}</p>`;
+      nuevoHorario.innerHTML = `<div class="row campo mt-2">
+  <div class="col-md-4">
+      <input type="text" class="form-control" name="campo1[]" id="dia" value="${dia}" disabled>
+  </div>
+  <div class="col-md-3">
+      <input type="text" class="form-control" name="campo2[]" id="H_entrada" value="${H_entrada}" disabled>
+  </div>
+  <div class="col-md-3">
+      <input type="text" class="form-control" name="campo3[]" id="H_salida" value="${H_salida}" disabled>
+  </div>
+  <div class="col-md-1" style="display: flex; justify-content: flex-end; align-items: flex-end;">
+      <div class="form-group">
+          <button type="button" class="btn btn-danger btn-circle" id="eliminar_horario" title="Eliminar este horario">
+              <i class="fas fa-minus"></i>
+          </button>
+      </div>
+  </div>
+</div>`;
       
       // Agregar el nuevo horario al contenedor
       camposContainer.appendChild(nuevoHorario);
@@ -339,12 +362,12 @@ if (agregarHorarioButton) {
       console.log("Día agregado:", dia);
       console.log("Horarios actuales:", diasAgregados);
 
-      Swal.fire({
+      /*Swal.fire({
         icon: 'success',
         title: 'Perfecto',
         confirmButtonColor: '#0d6efd',
         text: 'Día agregado correctamente'
-      });
+      });*/
 
       document.getElementById("dia").value = "";
       document.getElementById("H_entrada").value = "";
@@ -352,7 +375,7 @@ if (agregarHorarioButton) {
 
     }    
   }
-}*/
+}
 
 
 
