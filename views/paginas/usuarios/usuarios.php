@@ -253,22 +253,22 @@ if ($rol == 3) {
                                             <option value="4">Viernes</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-group" for="H_entrada">Hora de entrada</label>
                                         <input type="time" class="form-control" name="campo2[]" id="H_entrada" placeholder="Hora de entrada" required>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-group" for="H_salida">Hora de salida</label>
                                         <input type="time" class="form-control" name="campo3[]" id="H_salida" placeholder="Hora de salida" required>
                                     </div>
-                                </div>
-                                <div class="col-md-12 mt-2"
+                                </div>                                
+                            </div>
+                            <div class="col-md-12 mt-2"
                                     style="display: flex; justify-content: flex-end; align-items: flex-end;">
-                                    <div class="form-group">
-                                        <button type="button" class="btn btn-primary btn-circle"
-                                            id="agregar_horario" title="Agregar otro día"><i
-                                                class="fas fa-plus"></i></button>
-                                    </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary btn-circle"
+                                        id="agregar_horario" title="Agregar otro día"><i
+                                            class="fas fa-plus"></i></button>
                                 </div>
                             </div>
                             <br>

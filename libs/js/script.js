@@ -206,6 +206,91 @@ $(document).ready(function () {
 
 /* -------------- Agregar horario ------------------ */
 
+const diasSeleccionados = [];
+
+// Evento para agregar un nuevo horario
+document.getElementById('agregar_horario').addEventListener('click', function() {
+    const selectDia = document.querySelector('select[name="campo1[]"]');
+    const diaSeleccionado = selectDia.value;
+
+    // Validar si se ha seleccionado un día
+    if (!diaSeleccionado) {
+        alert("Por favor, seleccione un día.");
+        return;
+    }
+
+    // Validar si el día ya ha sido seleccionado
+    if (diasSeleccionados.includes(diaSeleccionado)) {
+        alert("El día seleccionado ya existe. Por favor, elige otro día.");
+        selectDia.value = ""; // Limpiar el campo
+        return;
+    }
+
+    // Agregar el día seleccionado a la lista
+    diasSeleccionados.push(diaSeleccionado);
+
+    const container = document.getElementById('camposContainer');
+    const newFieldset = document.createElement('div');
+    newFieldset.classList.add('row', 'campo', 'mt-3');
+
+    newFieldset.innerHTML = `
+        <div class="col-md-4">
+            <label class="form-group" for="dia">Día de la semana</label>
+            <select class="form-control" name="campo1[]" required>
+                <option value="" disabled selected>Seleccione un día</option>
+                <option value="0">Lunes</option>
+                <option value="1">Martes</option>
+                <option value="2">Miercoles</option>
+                <option value="3">Jueves</option>
+                <option value="4">Viernes</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-group" for="H_entrada">Hora de entrada</label>
+            <input type="time" class="form-control" name="campo2[]" required min="07:00" max="12:30">
+        </div>
+        <div class="col-md-3">
+            <label class="form-group" for="H_salida">Hora de salida</label>
+            <input type="time" class="form-control" name="campo3[]" required min="07:00" max="12:30">
+        </div>
+        <div class="col-md-1" style="display: flex; justify-content: flex-end; align-items: flex-end;">
+            <div class="form-group">
+                <button type="button" class="btn btn-danger btn-circle eliminar_horario" title="Eliminar este horario">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+    `;
+
+    container.appendChild(newFieldset);
+
+    // Agregar evento para eliminar el horario
+    newFieldset.querySelector('.eliminar_horario').addEventListener('click', function() {
+        container.removeChild(newFieldset);
+        // Eliminar el día de la lista de días seleccionados
+        const index = diasSeleccionados.indexOf(diaSeleccionado);
+        if (index > -1) {
+            diasSeleccionados.splice(index, 1);
+        }
+    });
+});
+
+// Validación en tiempo real al seleccionar un día
+document.querySelector('select[name="campo1[]"]').addEventListener('change', function() {
+    const diaSeleccionado = this.value;
+
+    // Validar si el día ya ha sido seleccionado
+    if (diasSeleccionados.includes(diaSeleccionado)) {
+        alert("El día seleccionado ya existe. Por favor, elige otro día.");
+        this.value = ""; // Limpiar el campo
+    }
+});
+
+
+
+
+/*
+
 const agregarHorarioButton = document.getElementById("agregar_horario");
 const diasAgregados = [];
 const camposContainer = document.getElementById("camposContainer");
@@ -231,7 +316,7 @@ if (agregarHorarioButton) {
           confirmButtonColor: '#0d6efd',
           text: 'Todos los campos estan llenos'
       });
-      return;*/
+      return;
       if (diasAgregados.includes(dia)) {
         Swal.fire({
           icon: 'error',
@@ -267,7 +352,11 @@ if (agregarHorarioButton) {
 
     }    
   }
-}
+}*/
+
+
+
+
 /* -------------- Segmento de bloques - Usuario ------------------ */
 let currentStep = 0;
 
