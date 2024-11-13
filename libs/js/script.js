@@ -268,6 +268,84 @@ if (agregarHorarioButton) {
     }    
   }
 }
+/* -------------- Segmento de bloques - Usuario ------------------ */
+let currentStep = 0;
+
+document.getElementById('siguienteBtn').addEventListener('click', function() {
+  console.log('Si esta entrando a la funcion');
+    const steps = document.querySelectorAll('.step-1, .step-2, .step-3');
+    const activeStep = steps[currentStep];
+
+    // Validar campos del paso actual
+    if (!validateStep(activeStep)) {
+        return; // No avanzar si hay campos vacíos
+    }
+
+    // Ocultar paso actual
+    activeStep.style.display = 'none';
+    activeStep.classList.remove('active');
+
+    // Avanzar al siguiente paso
+    currentStep++;
+    if (currentStep < steps.length) {
+        const nextStep = steps[currentStep];
+        nextStep.style.display = 'block';
+        nextStep.classList.add('active');
+    }
+
+    // Mostrar botón de guardar en el último paso
+    if (currentStep == steps.length - 1) {
+        document.getElementById('siguienteBtn').style.display = 'none';
+        document.getElementById('agregar_usuario').style.display = 'block';
+    }
+
+    // Mostrar botón "Atrás"
+    document.getElementById('atrasBtn').style.display = 'inline-block';
+});
+
+document.getElementById('atrasBtn').addEventListener('click', function() {
+    const steps = document.querySelectorAll('.step-1, .step-2, .step-3');
+
+    // Ocultar paso actual
+    steps[currentStep].style.display = 'none';
+    steps[currentStep].classList.remove('active');
+
+    // Retroceder al paso anterior
+    currentStep--;
+
+    if (currentStep >= 0) {
+        const prevStep = steps[currentStep];
+        prevStep.style.display = 'block';
+        prevStep.classList.add('active');
+    }
+
+    // Mostrar botón "Siguiente" si no estamos en el último paso
+    if (currentStep < steps.length - 1) {
+        document.getElementById('siguienteBtn').style.display = 'inline-block';
+        document.getElementById('agregar_usuario').style.display = 'none';
+    }
+
+    // Ocultar botón "Atrás" si estamos en el primer paso
+    if (currentStep === 0) {
+        document.getElementById('atrasBtn').style.display = 'none';
+    }
+});
+
+function validateStep(step) {
+    const inputs = step.querySelectorAll('input, select, textarea');
+    let valid = true;
+
+    inputs.forEach(input => {
+        if (input.hasAttribute('required') && !input.value) {
+            valid = false;
+            input.classList.add('is-invalid'); // Agregar clase de error
+        } else {
+            input.classList.remove('is-invalid'); // Remover clase de error
+        }
+    });
+
+    return valid;
+}
 
 /* -------------- Agregar Usuario ------------------ */
 $("#formRegistrarUsuario")
