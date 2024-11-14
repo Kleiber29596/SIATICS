@@ -140,7 +140,7 @@ if ($rol == 3) {
             <div class="modal-body">
                 <form id="formRegistrarUsuario">
                     <div class="col-sm-12">
-                        <div class="step-1 active">
+                        <div class="bloque-1 active">
                             <div class="row">
                                 <h5>Datos personales</h5>
                                 <div class="col-sm-3">
@@ -238,7 +238,7 @@ if ($rol == 3) {
                             </div>
                             <br>
                         </div>
-                        <div class="step-3" style="display: none;">
+                        <div class="bloque-2" style="display: none;">
                             <div id="camposContainer">
                                 <h5>Horario laboral</h5>
                                 <div class="row campo">
@@ -273,7 +273,7 @@ if ($rol == 3) {
                             </div>
                             <br>
                         </div>                        
-                        <div class="step-3" style="display: none;">
+                        <div class="bloque-3" style="display: none;">
                             <h5>Creación de usuario</h5>
                             <div class="row">
                                 <div class="col-sm-6">
@@ -337,8 +337,8 @@ if ($rol == 3) {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" id="atrasBtn" style="display: none;">Atrás</button>
-                            <button type="button" class="btn btn-primary" id="siguienteBtn">Siguiente</button>
+                            <button type="button" class="btn btn-primary" id="atrasBlock" style="display: none;">Atrás</button>
+                            <button type="button" class="btn btn-primary" id="siguienteBlock">Siguiente</button>
                             <button type="submit" class="btn btn-primary" id="agregar_usuario" title="Guardar cambios"><i class="fas fa-save" style="display:none;"></i> Guardar</button>
                         </div>
                     </div>
@@ -526,3 +526,83 @@ if ($rol == 3) {
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    /* -------------- Segmento de bloques - Usuario ------------------ */
+let currentStep = 0;
+
+document.getElementById('siguienteBlock').addEventListener('click', function() {
+  console.log('Si esta entrando a la funcion');
+    const bloques = document.querySelectorAll('.bloque-1, .bloque-2, .bloque-3');
+    const activeStep = bloques[currentStep];
+
+    // Validar campos del paso actual
+    if (!validateStep(activeStep)) {
+        return; // No avanzar si hay campos vacíos
+    }
+
+    // Ocultar paso actual
+    activeStep.style.display = 'none';
+    activeStep.classList.remove('active');
+
+    // Avanzar al siguiente paso
+    currentStep++;
+    if (currentStep < bloques.length) {
+        const nextStep = bloques[currentStep];
+        nextStep.style.display = 'block';
+        nextStep.classList.add('active');
+    }
+
+    // Mostrar botón de guardar en el último paso
+    if (currentStep == bloques.length - 1) {
+        document.getElementById('siguienteBlock').style.display = 'none';
+        document.getElementById('agregar_usuario').style.display = 'block';
+    }
+
+    // Mostrar botón "Atrás"
+    document.getElementById('atrasBlock').style.display = 'inline-block';
+});
+
+document.getElementById('atrasBlock').addEventListener('click', function() {
+    const bloques = document.querySelectorAll('.bloque-1, .bloque-2, .bloque-3');
+
+    // Ocultar paso actual
+    bloques[currentStep].style.display = 'none';
+    bloques[currentStep].classList.remove('active');
+
+    // Retroceder al paso anterior
+    currentStep--;
+
+    if (currentStep >= 0) {
+        const prevStep = bloques[currentStep];
+        prevStep.style.display = 'block';
+        prevStep.classList.add('active');
+    }
+
+    // Mostrar botón "Siguiente" si no estamos en el último paso
+    if (currentStep < bloques.length - 1) {
+        document.getElementById('siguienteBlock').style.display = 'inline-block';
+        document.getElementById('agregar_usuario').style.display = 'none';
+    }
+
+    // Ocultar botón "Atrás" si estamos en el primer paso
+    if (currentStep === 0) {
+        document.getElementById('atrasBlock').style.display = 'none';
+    }
+});
+
+function validateStep(step) {
+    const inputs = step.querySelectorAll('input, select, textarea');
+    let valid = true;
+
+    inputs.forEach(input => {
+        if (input.hasAttribute('required') && !input.value) {
+            valid = false;
+            input.classList.add('is-invalid'); // Agregar clase de error
+        } else {
+            input.classList.remove('is-invalid'); // Remover clase de error
+        }
+    });
+
+    return valid;
+}
+</script>
