@@ -146,7 +146,7 @@ if ($rol == 3) {
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="p_nombre">Primer nombre</label>
-                                        <input class="form-control" type="text" name="p_nombre" id="p_nombre" placeholder="Primer nombre">
+                                        <input class="form-control" type="text" name="p_nombre" id="p_nombre" placeholder="Primer nombre" required>
                                     </div>
                                 </div>
                                 <br>
@@ -160,7 +160,7 @@ if ($rol == 3) {
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="p_apellido">Primer apellido</label>
-                                        <input class="form-control" type="text" name="p_apellido" id="p_apellido" placeholder="Primer apellido">
+                                        <input class="form-control" type="text" name="p_apellido" id="p_apellido" placeholder="Primer apellido" required>
                                     </div>
                                 </div>
                                 <br>
@@ -176,7 +176,7 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="sexo">Sexo</label>
                                         <br>
-                                        Masculino <input class="" type="radio" name="sexo" id="sexo" value="M">
+                                        Masculino <input class="" type="radio" name="sexo" id="sexo" value="M" selected>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -189,13 +189,13 @@ if ($rol == 3) {
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                        <input class="form-control" type="date" name="fechaNacimiento" id="fechaNacimiento" maxlength="10" oninput="validarFechaNacimiento()">
+                                        <input class="form-control" type="date" name="fechaNacimiento" id="fechaNacimiento" maxlength="10" oninput="validarFechaNacimiento()" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="numTelf">Numero de contacto</label>
-                                        <input class="form-control" type="text" name="numTelf" id="numTelf" placeholder="Numero de contacto" oninput="validarTelefono(input)" maxlength="8" >
+                                        <input class="form-control" type="text" name="numTelf" id="numTelf" placeholder="Numero de contacto" oninput="validarTelefono(input)" maxlength="8" required>
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +214,7 @@ if ($rol == 3) {
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="cedula">Numero de cedula</label>
-                                        <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10" placeholder="Ingresa el número de cédula" onkeyup="mayus(this);">
+                                        <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10" placeholder="Ingresa el número de cédula" onkeyup="mayus(this);" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -229,7 +229,7 @@ if ($rol == 3) {
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="direccion_c">Dirección corta</label>
-                                        <textarea class="form-control" name="direccion_c" id="direccion_c" cols="4" rows="2" placeholder="Ingresa una dirección corta"></textarea>
+                                        <textarea class="form-control" name="direccion_c" id="direccion_c" cols="4" rows="2" placeholder="Ingresa una dirección corta" required></textarea>
                                     </div>
                                 </div>
                                 <div>
@@ -244,32 +244,32 @@ if ($rol == 3) {
                                 <div class="row campo">
                                     <div class="col-md-4">
                                         <label class="form-group" for="dia">Día de la semana</label>
-                                        <select class="form-control" name="campo1[]" id="dia" required>
+                                        <select class="form-control" name="campo1[]" id="dia">
                                             <option value="" disabled selected>Seleccione un día</option>
-                                            <option value="0">Lunes</option>
-                                            <option value="1">Martes</option>
-                                            <option value="2">Miercoles</option>
-                                            <option value="3">Jueves</option>
-                                            <option value="4">Viernes</option>
+                                            <option value="Lunes">Lunes</option>
+                                            <option value="Martes">Martes</option>
+                                            <option value="Miercoles">Miercoles</option>
+                                            <option value="Jueves">Jueves</option>
+                                            <option value="Viernes">Viernes</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-group" for="H_entrada">Hora de entrada</label>
-                                        <input type="time" class="form-control" name="campo2[]" id="H_entrada" placeholder="Hora de entrada" required>
+                                        <input type="time" class="form-control" name="campo2[]" id="H_entrada" placeholder="Hora de entrada">
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-group" for="H_salida">Hora de salida</label>
-                                        <input type="time" class="form-control" name="campo3[]" id="H_salida" placeholder="Hora de salida" required>
+                                        <input type="time" class="form-control" name="campo3[]" id="H_salida" placeholder="Hora de salida">
                                     </div>
-                                </div>                                
-                            </div>
-                            <div class="col-md-12 mt-2"
-                                    style="display: flex; justify-content: flex-end; align-items: flex-end;">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary btn-circle"
-                                        id="agregar_horario" title="Agregar otro día"><i
-                                            class="fas fa-plus"></i></button>
                                 </div>
+                                <div class="col-md-12 mt-2"
+                                    style="display: flex; justify-content: flex-end; align-items: flex-end;">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary btn-circle"
+                                            id="agregar_horario" title="Agregar otro día"><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>                               
                             </div>
                             <br>
                         </div>                        
@@ -279,7 +279,7 @@ if ($rol == 3) {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="usuario">Usuario</label>
-                                        <input class="form-control" type="text" name="usuario" id="usuario" maxlength="40" placeholder="Ingresa el nombre de usuario">
+                                        <input class="form-control" type="text" name="usuario" id="usuario" maxlength="40" placeholder="Ingresa el nombre de usuario" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6" id="cont_input_file2">
@@ -294,14 +294,14 @@ if ($rol == 3) {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="contrasena">constraseña</label>
-                                        <input class="form-control" type="password" name="contrasena" id="contrasena" maxlength="60" placeholder="Ingresa la contraseña">
+                                        <input class="form-control" type="password" name="contrasena" id="contrasena" maxlength="60" placeholder="Ingresa la contraseña" required>
                                     </div>
                                 </div>
                             
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="confirmar_contrasena">confirmar contraseña</label>
-                                        <input class="form-control" type="password" name="confirmar_contrasena" id="confirmar_contrasena" maxlength="60" placeholder="Ingresa la contraseña">
+                                        <input class="form-control" type="password" name="confirmar_contrasena" id="confirmar_contrasena" maxlength="60" placeholder="Ingresa la contraseña" required>
                                     </div>
                                 </div>
                                 <span id="check_password_match"></span>

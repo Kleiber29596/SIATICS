@@ -288,17 +288,9 @@ document.querySelector('select[name="campo1[]"]').addEventListener('change', fun
 
 
 const agregarHorarioButton = document.getElementById("agregar_horario");
-const eliminar_horario = document.getElementById("eliminar_horario");
+//const eliminar_horario = document.querySelector(`eliminar_horario`);
 const diasAgregados = [];
 const camposContainer = document.getElementById("camposContainer");
-
-if (eliminar_horario) {
-  eliminar_horario.addEventListener("click", eliminarHorario, false);
-
-  function eliminarHorario(){
-    alert('hola mundo');
-  }
-}
 
 if (agregarHorarioButton) {
   agregarHorarioButton.addEventListener("click", consultarHorario, false);
@@ -318,36 +310,30 @@ if (agregarHorarioButton) {
         return;
     } else {
       if (diasAgregados.includes(dia)) {
-        alert("El día seleccionado ya existe. Por favor, elige otro día.");
+        console.log("Horarios actuales:", diasAgregados.includes(dia));
         console.log("Horarios actuales:", diasAgregados);
+        console.log("Horarios actuales:", dia);
+        alert("El día seleccionado ya existe. Por favor, elige otro día.");
       } else {
         diasAgregados.push(dia);
-
         const nuevoHorario = document.createElement("div");
         nuevoHorario.classList.add("horario");
         nuevoHorario.innerHTML = `<div class="row mt-2">
           <div class="col-md-4">
               <label class="form-group" for="dia">Día de la semana</label>
-              <select class="form-control" name="campo1[]" required>
-                  <option value="" disabled selected>Seleccione un día</option>
-                  <option value="0">Lunes</option>
-                  <option value="1">Martes</option>
-                  <option value="2">Miercoles</option>
-                  <option value="3">Jueves</option>
-                  <option value="4">Viernes</option>
-              </select>
+              <input type="text" class="form-control" name="campo1[]" value="${dia}" disabled>
           </div>
           <div class="col-md-3">
               <label class="form-group" for="H_entrada">Hora de entrada</label>
-              <input type="time" class="form-control" name="campo2[]">
+              <input type="time" class="form-control" name="campo2[]" value="${H_entrada}" disabled>
           </div>
           <div class="col-md-3">
               <label class="form-group" for="H_salida">Hora de Salida</label>
-              <input type="time" class="form-control" name="campo3[]">
+              <input type="time" class="form-control" name="campo3[]" value="${H_salida}" disabled>
           </div>
           <div class="col-md-1" style="display: flex; justify-content: flex-end; align-items: flex-end;">
               <div class="form-group">
-                  <button type="button" class="btn btn-danger btn-circle" title="Eliminar este horario">
+                  <button type="button" class="btn btn-danger btn-circle eliminar_horario" name="eliminar_horario" id="eliminar_horario" title="Eliminar este horario">
                       <i class="fas fa-minus"></i>
                   </button>
               </div>
@@ -361,13 +347,33 @@ if (agregarHorarioButton) {
         console.log("Horarios actuales:", diasAgregados);
         
         // Limpiar campos
-        /*document.getElementById("dia").value = "";
+        document.getElementById("dia").value = "";
         document.getElementById("H_entrada").value = "";
-        document.getElementById("H_salida").value = "";*/
+        document.getElementById("H_salida").value = "";
       }
     }    
   }
 }
+
+camposContainer.addEventListener("click", function(event) {
+    // Verificar si el elemento clicado es un botón de eliminar
+    if (event.target.closest(".btn-danger")) {
+        // Eliminar el horario correspondiente
+        const horarioDiv = event.target.closest(".row"); // Encuentra el contenedor del horario
+        const selectDia = document.querySelector('input[name="campo1[]"]');
+        const valorDia = selectDia.value;
+        if (horarioDiv) {
+            horarioDiv.remove(); // Elimina el contenedor del horario
+            const index = diasAgregados.indexOf(dia);
+            if (index > -1) {
+                diasAgregados.splice(index, 1);
+            }
+            console.log(valorDia);
+            alert("Horario eliminado.");
+        }
+    }
+});
+
 
 /* -------------- Agregar Usuario ------------------ */
 $("#formRegistrarUsuario")
@@ -375,7 +381,7 @@ $("#formRegistrarUsuario")
   .bind("submit", function (e) {
     e.preventDefault();
 //----------------------------datos personales-----------------//
-    let cedula = document.getElementById("cedula").value;
+    /*let cedula = document.getElementById("cedula").value;
     let p_nombre = document.getElementById("p_nombre").value;
     let s_nombre = document.getElementById("s_nombre").value;
     let p_apellido = document.getElementById("p_apellido").value;
@@ -398,14 +404,14 @@ $("#formRegistrarUsuario")
     let EntradaMartes = document.getElementById("EntradaMartes").value;
     let SalidaMartes = document.getElementById("SalidaMartes").value;
     let EntradaMartes = document.getElementById("EntradaMartes").value;
-    let EntradaMartes = document.getElementById("EntradaMartes").value;*/
+    let EntradaMartes = document.getElementById("EntradaMartes").value;
 
 //----------------------------Datos de usuario-----------------//
     let contrasena = document.getElementById("contrasena").value;
     let confirmar_contrasena = document.getElementById("confirmar_contrasena").value;
     let usuario = document.getElementById("usuario").value;
-    let rol = document.getElementById("rol").value;
-    //let estatus = document.getElementById("estatus").value;
+    let rol = document.getElementById("rol").value;*/
+    //let estatus = document.getElementById("estatus").value;*/
 
     /* comprobar campos vacios */
     /*if (
