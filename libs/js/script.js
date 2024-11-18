@@ -204,88 +204,6 @@ $(document).ready(function () {
   });
 });
 
-/* -------------- Agregar horario ------------------ */
-
-/*const diasSeleccionados = [];
-
-// Evento para agregar un nuevo horario
-document.getElementById('agregar_horario').addEventListener('click', function() {
-    const selectDia = document.querySelector('select[name="campo1[]"]');
-    const diaSeleccionado = selectDia.value;
-
-    // Validar si se ha seleccionado un día
-    if (!diaSeleccionado) {
-        alert("Por favor, seleccione un día.");
-        return;
-    }
-
-    // Validar si el día ya ha sido seleccionado
-    if (diasSeleccionados.includes(diaSeleccionado)) {
-        alert("El día seleccionado ya existe. Por favor, elige otro día.");
-        selectDia.value = ""; // Limpiar el campo
-        return;
-    }
-
-    // Agregar el día seleccionado a la lista
-    diasSeleccionados.push(diaSeleccionado);
-
-    const container = document.getElementById('camposContainer');
-    const newFieldset = document.createElement('div');
-    newFieldset.classList.add('row', 'campo', 'mt-3');
-
-    newFieldset.innerHTML = `
-        <div class="col-md-4">
-            <label class="form-group" for="dia">Día de la semana</label>
-            <select class="form-control" name="campo1[]" required>
-                <option value="" disabled selected>Seleccione un día</option>
-                <option value="0">Lunes</option>
-                <option value="1">Martes</option>
-                <option value="2">Miercoles</option>
-                <option value="3">Jueves</option>
-                <option value="4">Viernes</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <label class="form-group" for="H_entrada">Hora de entrada</label>
-            <input type="time" class="form-control" name="campo2[]" required min="07:00" max="12:30">
-        </div>
-        <div class="col-md-3">
-            <label class="form-group" for="H_salida">Hora de salida</label>
-            <input type="time" class="form-control" name="campo3[]" required min="07:00" max="12:30">
-        </div>
-        <div class="col-md-1" style="display: flex; justify-content: flex-end; align-items: flex-end;">
-            <div class="form-group">
-                <button type="button" class="btn btn-danger btn-circle eliminar_horario" title="Eliminar este horario">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-        </div>
-    `;
-
-    container.appendChild(newFieldset);
-
-    // Agregar evento para eliminar el horario
-    newFieldset.querySelector('.eliminar_horario').addEventListener('click', function() {
-        container.removeChild(newFieldset);
-        // Eliminar el día de la lista de días seleccionados
-        const index = diasSeleccionados.indexOf(diaSeleccionado);
-        if (index > -1) {
-            diasSeleccionados.splice(index, 1);
-        }
-    });
-});
-
-// Validación en tiempo real al seleccionar un día
-document.querySelector('select[name="campo1[]"]').addEventListener('change', function() {
-    const diaSeleccionado = this.value;
-
-    // Validar si el día ya ha sido seleccionado
-    if (diasSeleccionados.includes(diaSeleccionado)) {
-        alert("El día seleccionado ya existe. Por favor, elige otro día.");
-        this.value = ""; // Limpiar el campo
-    }
-});*/
-
 
 const agregarHorarioButton = document.getElementById("agregar_horario");
 //const eliminar_horario = document.querySelector(`eliminar_horario`);
@@ -321,15 +239,15 @@ if (agregarHorarioButton) {
         nuevoHorario.innerHTML = `<div class="row mt-2">
           <div class="col-md-4">
               <label class="form-group" for="dia">Día de la semana</label>
-              <input type="text" class="form-control" name="campo1[]" value="${dia}" disabled>
+              <input type="text" class="form-control" name="campo1" value="${dia}" disabled>
           </div>
           <div class="col-md-3">
               <label class="form-group" for="H_entrada">Hora de entrada</label>
-              <input type="time" class="form-control" name="campo2[]" value="${H_entrada}" disabled>
+              <input type="time" class="form-control" name="campo2" value="${H_entrada}" disabled>
           </div>
           <div class="col-md-3">
               <label class="form-group" for="H_salida">Hora de Salida</label>
-              <input type="time" class="form-control" name="campo3[]" value="${H_salida}" disabled>
+              <input type="time" class="form-control" name="campo3" value="${H_salida}" disabled>
           </div>
           <div class="col-md-1" style="display: flex; justify-content: flex-end; align-items: flex-end;">
               <div class="form-group">
@@ -355,148 +273,140 @@ if (agregarHorarioButton) {
   }
 }
 
-camposContainer.addEventListener("click", function(event) {
-    // Verificar si el elemento clicado es un botón de eliminar
-    if (event.target.closest(".btn-danger")) {
-        // Eliminar el horario correspondiente
-        const horarioDiv = event.target.closest(".row"); // Encuentra el contenedor del horario
-        const selectDia = document.querySelector('input[name="campo1[]"]');
-        const valorDia = selectDia.value;
-        if (horarioDiv) {
-            horarioDiv.remove(); // Elimina el contenedor del horario
-            const index = diasAgregados.indexOf(dia);
-            if (index > -1) {
-                diasAgregados.splice(index, 1);
-            }
-            console.log(valorDia);
-            alert("Horario eliminado.");
-        }
-    }
-});
+if (camposContainer) {
+  camposContainer.addEventListener("click", function(event) {
+      // Verificar si el elemento clicado es un botón de eliminar
+      if (event.target.closest(".btn-danger")) {
+          // Eliminar el horario correspondiente
+          const horarioDiv = event.target.closest(".row"); // Encuentra el contenedor del horario
+          const selectDia = document.querySelector('input[name="campo1[]"]');
+          const valorDia = selectDia.value;
+          if (horarioDiv) {
+              horarioDiv.remove(); // Elimina el contenedor del horario
+              const index = diasAgregados.indexOf(dia);
+              if (index > -1) {
+                  diasAgregados.splice(index, 1);
+              }
+              console.log(valorDia);
+              alert("Horario eliminado.");
+          }
+      }
+  });
+}
 
 
 /* -------------- Agregar Usuario ------------------ */
-$("#formRegistrarUsuario")
-  .unbind("submit")
-  .bind("submit", function (e) {
-    e.preventDefault();
-//----------------------------datos personales-----------------//
-    /*let cedula = document.getElementById("cedula").value;
-    let p_nombre = document.getElementById("p_nombre").value;
-    let s_nombre = document.getElementById("s_nombre").value;
-    let p_apellido = document.getElementById("p_apellido").value;
-    let s_apellido = document.getElementById("s_apellido").value;
-    let sexo = document.getElementById("sexo");
-    let fechaNacimiento = document.getElementById("fechaNacimiento");
-    let numTelf = document.getElementById("numTelf");
-    let tipoDoc = document.getElementById("T_doc");
-    let numeroDoc = document.getElementById("cedula");
-    let correo = document.getElementById("correo").value;
-    let direccion_c = document.getElementById("direccion_c").value;
-//----------------------------horario laboral-----------------//
-    let dia = document.getElementById("dia").value;
-    let H_entrada = document.getElementById("H_entrada").value;
-    let H_salida = document.getElementById("H_salida").value;
-    let camposContainer = document.getElementById("camposContainer").value;
-    /*let jueves = document.getElementById("jueves").value;
-    let viernes = document.getElementById("viernes").value;
-    let EntradaLunes = document.getElementById("EntradaLunes").value;
-    let EntradaMartes = document.getElementById("EntradaMartes").value;
-    let SalidaMartes = document.getElementById("SalidaMartes").value;
-    let EntradaMartes = document.getElementById("EntradaMartes").value;
-    let EntradaMartes = document.getElementById("EntradaMartes").value;
 
-//----------------------------Datos de usuario-----------------//
-    let contrasena = document.getElementById("contrasena").value;
-    let confirmar_contrasena = document.getElementById("confirmar_contrasena").value;
-    let usuario = document.getElementById("usuario").value;
-    let rol = document.getElementById("rol").value;*/
-    //let estatus = document.getElementById("estatus").value;*/
+if (document.getElementById("agregar_usuario")) {
+    const agregar_usuario = document.getElementById("agregar_usuario");
+    
+    agregar_usuario.addEventListener("click", agregarusuario, false);
+    
+    function agregarusuario(e) {
+        e.preventDefault();
 
-    /* comprobar campos vacios */
-    /*if (
-      cedula == "" ||
-      nombre == "" ||
-      apellido == "" ||
-      correo == "" ||
-      contrasena == "" ||
-      confirmar_contrasena == "" ||
-      usuario == "" ||
-      estatus == ""
-    ) {
-      Swal.fire({
-        icon: "error",
-        title: "Atención",
-        text: "Todos los campos son obligatorios",
-        confirmButtonColor: "#3085d6",
-      });
-      return;
-    }*/
+        //-------------------- datos de persona--------------//
+        let p_nombre = document.getElementById("p_nombre").value;
+        let s_nombre = document.getElementById("s_nombre").value;
+        let p_apellido = document.getElementById("p_apellido").value;
+        let s_apellido = document.getElementById("s_apellido").value;
+        let sexo = document.getElementById("sexo").value; // Obtener el valor
+        let fechaNacimiento = document.getElementById("fechaNacimiento").value; // Obtener el valor
+        let numTelf = document.getElementById("numTelf").value; // Obtener el valor
+        let tipoDoc = document.getElementById("T_doc").value; // Obtener el valor
+        let numeroDoc = document.getElementById("cedula").value; // Obtener el valor
+        let correo = document.getElementById("correo").value;
+        let direccion_c = document.getElementById("direccion_c").value;
+        let tipo_persona = document.getElementById("tipo_persona").value;
 
-    if (contrasena != confirmar_contrasena) {
-      Swal.fire({
-        icon: "error",
-        title: "Atención",
-        text: "Las contraseñas no coinciden.",
-        confirmButtonColor: "#3085d6",
-      });
-      return;
-    }
+        //---------------------------- datos horario ---------------------///
+        let cap_Dia = document.querySelectorAll('input[name="campo1"]');
+        let cap_H_entrada = document.querySelectorAll('input[name="campo2"]');
+        let cap_H_salida = document.querySelectorAll('input[name="campo3"]');
 
-    /*$.ajax({
-      url: "index.php?page=registrarUsuario",
-      type: "POST",
-      data: new FormData(this),
-      cache: false,
-      contentType: false,
-      processData: false,
-      beforeSend: function () {
-        //btnSaveLoad();
-      },
-      success: function (response) {
-        var respuesta = JSON.parse(response);
+        //----------------------------Datos de usuario-----------------//
+        let contrasena = document.getElementById("contrasena").value;
+        let confirmar_contrasena = document.getElementById("confirmar_contrasena").value;
+        let usuario = document.getElementById("usuario").value;
+        let rol = document.getElementById("rol").value;
+        let especialidad = document.getElementById("especialidad").value;
+        let archivo = document.getElementById("subirfoto2").value;
+        
+      
+        let horarios = [];
 
-        if (respuesta.data.success == true) {
+        cap_Dia.forEach((input, index) => {
+            horarios.push({
+                dia: input.value,
+                hora_entrada: cap_H_entrada[index].value,
+                hora_salida: cap_H_salida[index].value
+            });
+        });
+
+        
+        var datosPersona = {
+            p_nombre: p_nombre,
+            p_apellido: p_apellido,
+            s_nombre: s_nombre,
+            s_apellido: s_apellido,
+            sexo: sexo,
+            fechaNacimiento: fechaNacimiento,
+            numTelf: numTelf,
+            tipoDoc: tipoDoc,
+            numeroDoc: numeroDoc,
+            correo: correo,
+            direccion_c: direccion_c,
+            tipo_persona: tipo_persona,
+
+            
+            horarios: horarios,
+
+            
+            contrasena: contrasena,
+            usuario: usuario,
+            rol: rol,
+            especialidad: especialidad,
+            archivo: archivo
+        };
+
+        
+        if (contrasena != confirmar_contrasena) {
           Swal.fire({
-            icon: "success",
+            icon: "error",
+            title: "Atención",
+            text: "Las contraseñas no coinciden.",
             confirmButtonColor: "#3085d6",
-            title: respuesta.data.message,
-            text: respuesta.data.info,
           });
-
-          $("#tablaUsuario").DataTable().ajax.reload();
-
-          document.getElementById("formRegistrarUsuario").reset();
-          //$("#radiosfoto").click();
-
-          $("#modalAgregarUsuario").modal("hide");
-        } else {
-          Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: respuesta.data.message,
-            text: respuesta.data.info,
+        }else{
+          $.ajax({
+            url: "index.php?page=registrarUsuario",
+            type: "post",
+            dataType: "json",
+            data: {
+                datosPersona: JSON.stringify(datosPersona),
+            },
+          })
+          .done(function (response) {
+              if (response == 'true') {
+                 Swal.fire({
+                    icon: 'success',
+                    title: 'Excelente',
+                    text: 'Los datos han sido enviado de manera exitosa.',
+                  });
+              };
+          })
+          .fail(function (error) {
+            console.log("El error es este: ", error);
+              Swal.fire({
+                icon: "error",
+                title: "Atención",
+                text: "El servidor tuvo problemas al enviar los datos.",
+                confirmButtonColor: "#3085d6",
+              });
           });
         }
-      },
-    });*/
-
-    console.log(camposContainer);
-    /*console.log(H_entrada);
-    console.log(H_salida);*/
-  });
-
-document.addEventListener('DOMContentLoaded', function() {
-    const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
-    const selectDia = document.getElementById("dia1");
-
-    diasSemana.forEach(dia => {
-        const option = document.createElement('option');
-        option.value = dia;
-        option.text = dia;
-        selectDia.appendChild(option);
-    });
-});
+    }
+}
 
 function validarFechaNacimiento() {
   const fechaNacimiento = document.getElementById('fechaNacimiento').value; // Suponiendo que el input tiene el id "fechaNacimiento"
@@ -2432,37 +2342,39 @@ if (nombres_r != '') {
 }
 
 
-document.getElementById("n_documento").addEventListener("blur", function () {
-  let n_documento = document.getElementById("n_documento").value;
+if (n_documento) {
+  document.getElementById("n_documento").addEventListener("blur", function () {
+    let n_documento = document.getElementById("n_documento").value;
 
-  if (n_documento) {
-      $.ajax({
-          url: "index.php?page=verificarDocumento",
-          type: "post",
-          dataType: "json",
-          data: { n_documento: n_documento },
-      })
-      .done(function (response) {
-          if (response.success == false) {
-            Swal.fire({
-              icon: "warning",
-              confirmButtonColor: "#3085d6",
-              title: "Número de documento ya existe",
-              text: "El número de documento ingresado ya está registrado. Por favor, verifique e intente nuevamente."
-          });
+    if (n_documento) {
+        $.ajax({
+            url: "index.php?page=verificarDocumento",
+            type: "post",
+            dataType: "json",
+            data: { n_documento: n_documento },
+        })
+        .done(function (response) {
+            if (response.success == false) {
+              Swal.fire({
+                icon: "warning",
+                confirmButtonColor: "#3085d6",
+                title: "Número de documento ya existe",
+                text: "El número de documento ingresado ya está registrado. Por favor, verifique e intente nuevamente."
+            });
 
-              // Bloquear el botón de guardar si el documento ya existe
-              document.getElementById("agregar_persona").disabled = true;
-          } else {
-              // Desbloquear el botón si el documento está disponible
-              document.getElementById("agregar_persona").disabled = false;
-          }
-      })
-      .fail(function () {
-          console.log("error en la verificación");
-      });
-  }
-});
+                // Bloquear el botón de guardar si el documento ya existe
+                document.getElementById("agregar_persona").disabled = true;
+            } else {
+                // Desbloquear el botón si el documento está disponible
+                document.getElementById("agregar_persona").disabled = false;
+            }
+        })
+        .fail(function () {
+            console.log("error en la verificación");
+        });
+    }
+  });
+}
 
 
 function validarFecha(fechaIngresada) {

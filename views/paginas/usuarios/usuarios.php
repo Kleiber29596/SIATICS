@@ -195,7 +195,7 @@ if ($rol == 3) {
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="numTelf">Numero de contacto</label>
-                                        <input class="form-control" type="text" name="numTelf" id="numTelf" placeholder="Numero de contacto" oninput="validarTelefono(input)" maxlength="8" required>
+                                        <input class="form-control" type="text" name="numTelf" id="numTelf" placeholder="Numero de contacto" maxlength="8" required>
                                     </div>
                                 </div>
                             </div>
@@ -244,7 +244,7 @@ if ($rol == 3) {
                                 <div class="row campo">
                                     <div class="col-md-4">
                                         <label class="form-group" for="dia">Día de la semana</label>
-                                        <select class="form-control" name="campo1[]" id="dia">
+                                        <select class="form-control" name="dia" id="dia">
                                             <option value="" disabled selected>Seleccione un día</option>
                                             <option value="Lunes">Lunes</option>
                                             <option value="Martes">Martes</option>
@@ -255,11 +255,11 @@ if ($rol == 3) {
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-group" for="H_entrada">Hora de entrada</label>
-                                        <input type="time" class="form-control" name="campo2[]" id="H_entrada" placeholder="Hora de entrada">
+                                        <input type="time" class="form-control" name="H_entrada" id="H_entrada" placeholder="Hora de entrada">
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-group" for="H_salida">Hora de salida</label>
-                                        <input type="time" class="form-control" name="campo3[]" id="H_salida" placeholder="Hora de salida">
+                                        <input type="time" class="form-control" name="H_salida" id="H_salida" placeholder="Hora de salida">
                                     </div>
                                 </div>
                                 <div class="col-md-12 mt-2"

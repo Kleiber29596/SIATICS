@@ -171,213 +171,28 @@ EOT;
 
 	public function registrarUsuario()
 	{
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		    
+		    $datosPersonaJson = $_POST['datosPersona'] ?? null;
 
-		/* --------- Funcion limpiar cadenas ---------*/
-		$cedula 				= Validacion::limpiar_cadena($_POST['cedula']);
-		$nombre 				= Validacion::limpiar_cadena($_POST['nombre']);
-		$apellido 				= Validacion::limpiar_cadena($_POST['apellido']);
-		$usuario 				= Validacion::limpiar_cadena($_POST['usuario']);
-		$estatus 				= Validacion::limpiar_cadena($_POST['estatus']);
-		$fecha_actual = date("Y-m-d");
+		    
+		    if (json_last_error() != JSON_ERROR_NONE) {
+		        // Maneja el error de decodificación
+		        echo json_encode([
+		            'success' => false,
+		            'message' => 'Error al decodificar los datos JSON.',
+		            'info' => json_last_error_msg()
+		        ]);
+		        exit;
+		    }
 
+		    
+		    $modelUsuario = new UsuarioModel(); 
+		    $resultado = $modelUsuario->registrarUsuario($datosPersonaJson);
 
-
-		$validator = array('success' => false, 'messages' => array());
-
-		if (!empty($_FILES["archivo"]["name"])) {
-
-			$modelUsuarios = new UsuarioModel();
-
-
-
-
-			$fileName = basename($_FILES["archivo"]["name"]);
-			$targetFilePath = './foto_usuario/' . $fileName;
-
-
-			//var_dump($targetFilePath); die();
-			$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-			$allowTypes = array('jpg', 'png', 'jpeg');
-			if (in_array($fileType, $allowTypes)) {
-				if (copy($_FILES["archivo"]["tmp_name"], $targetFilePath)) {
-
-					$uploadedFile = $fileName;
-					$fecha_actual = date("Y-m-d");
-
-
-
-
-					/* comprobar campos vacios */
-					if ($_POST['cedula'] == "" || $_POST['nombre'] == "" || $_POST['apellido'] == "" || $_POST['correo'] == "" || $_POST['contrasena'] == "" || $_POST['rol'] == "" || $_POST['usuario'] == "" || $_POST['estatus'] == "") {
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Atención',
-								'info'         => 'Verifica que todos los campos estén llenos a la hora de registrar un usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-
-
-
-
-					if (Validacion::verificar_datos("[0-9]{1,10}", $_POST['cedula'])) {
-
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Datos inválidos',
-								'info'         => 'Solo se permiten numeros en el campo cédula del usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-					if (Validacion::verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}", $_POST['nombre'])) {
-
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Datos inválidos',
-								'info'         => 'Solo se permiten caracteres alfabéticos con una longitud de 40 caracteres en el nombre del usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-					if (Validacion::verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}", $_POST['apellido'])) {
-
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Datos inválidos',
-								'info'         => 'Solo se permiten caracteres alfabéticos con una longitud de 40 caracteres en el apellido del usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-					//Validar que el visitante no ingrese dos veces al sistema el mismo día
-					$entrada_usuario_hoy = $modelUsuarios->validarEntradaDiaUsuarios($cedula, $nombre, $usuario, $fecha_actual);
-
-					foreach ($entrada_usuario_hoy as $entrada_usuario_hoy) {
-						$id_entrada_usuario = $entrada_usuario_hoy['id'];
-					}
-
-
-
-					if (!empty($id_entrada_usuario)) {
-						$data = [
-							'data' => [
-								'success'            =>  false,
-								'message'            => 'El usuario ya ha sido ingresado el día de hoy',
-								'info'               =>  'Fecha de hoy ' . $fecha_actual . ''
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-
-
-					$datos = array(
-
-						'cedula'    	=> $_POST['cedula'],
-						'usuario'		=> $_POST['usuario'],
-						'nombre'		=> $_POST['nombre'],
-						'apellido'		=> $_POST['apellido'],
-						'correo'		=> $_POST['correo'],
-						'foto'			=> $fileName,
-						'fecha'			=> $fecha_actual,
-						'contrasena'	=> $_POST['contrasena'],
-						'rol'			=> $_POST['rol'],
-						'estatus'		=> $_POST['estatus'],
-					);
-
-					$resultado = $modelUsuarios->registrarUsuario($datos);
-
-					if ($resultado) {
-						$data = [
-							'data' => [
-								'success'            =>  true,
-								'message'            => 'Guardado exitosamente',
-								'info'               =>  'El usuario se registro en la base de datos.'
-							],
-							'code' => 1,
-						];
-
-						echo json_encode($data);
-						exit();
-					} else {
-						$data = [
-							'data' => [
-								'success'            =>  false,
-								'message'            => 'Error al guardar los datos',
-								'info'               =>  ''
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-				} else {
-					$data = [
-						'data' => [
-							'success'            =>  false,
-							'message'            => 'No se copio la imagen',
-							'info'               =>  ''
-						],
-						'code' => 0,
-					];
-
-					echo json_encode($data);
-					exit();
-				}
-			} else {
-				//$validator['messages'] = 'SOLO SE PERMITE FORMATOS JPG, PNG Y JPEG.';
-
-				$data = [
-					'data' => [
-						'success'            =>  false,
-						'message'            => 'Solo se permiten formatos jpg, png y jpeg.',
-						'info'               =>  ''
-					],
-					'code' => 0,
-				];
-
-				echo json_encode($data);
-				exit();
-			}
-		} else {
-			$data = [
-				'data' => [
-					'error'        => true,
-					'message'      => 'Atención',
-					'info'         => 'Debes subir una foto.'
-				],
-				'code' => 0,
-			];
-
-			echo json_encode($data);
-			exit();
+		    
+		    echo json_encode($resultado);
+		    exit();
 		}
 	}
 
