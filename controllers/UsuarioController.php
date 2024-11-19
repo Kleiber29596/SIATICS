@@ -1,6 +1,7 @@
 <?php
 
 require_once './models/UsuarioModel.php';
+require_once './models/PersonasModel.php';
 require_once './config/validacion.php';
 
 class UsuarioController
@@ -173,7 +174,7 @@ EOT;
 	{
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		    
-		    $datosPersonaJson = $_POST['datosPersona'] ?? null;
+		    $datosFormUsuario = $_POST['datosFormUsuario'] ?? null;
 
 		    
 		    if (json_last_error() != JSON_ERROR_NONE) {
@@ -186,13 +187,96 @@ EOT;
 		        exit;
 		    }
 
-		    
-		    $modelUsuario = new UsuarioModel(); 
-		    $resultado = $modelUsuario->registrarUsuario($datosPersonaJson);
+			if ($datosFormUsuario) {
+   		   	 	$modelUsuario = new UsuarioModel();
+   		   	 	$modelPersonas = new PersonasModel();
+   		   	 	$data = json_decode($datosFormUsuario);
 
-		    
-		    echo json_encode($resultado);
-		    exit();
+   		   	 	$miObjeto = new stdClass();
+		    	//Datos de persona//
+		    	$miObjeto->p_nombre = $data->p_nombre;
+		    	$miObjeto->p_apellido = $data->p_apellido;
+		    	$miObjeto->s_nombre = $data->s_nombre;
+		    	$miObjeto->s_apellido = $data->s_apellido;
+		    	$miObjeto->sexo = $data->sexo;
+				$miObjeto->fechaNacimiento = $data->fechaNacimiento;
+				$miObjeto->numTelf = $data->numTelf;
+				$miObjeto->tipoDoc = $data->tipoDoc;
+				$miObjeto->numeroDoc = $data->numeroDoc;
+				$miObjeto->correo = $data->correo;
+				$miObjeto->direccion_c = $data->direccion_c;
+				$miObjeto->tipo_persona = $data->tipo_persona;
+
+				//Datos de horario//
+				$miObjeto->horarios = $data->horarios; //viene en arreglo
+				
+				//datos de usuario//
+				$miObjeto->contrasena = $data->contrasena;
+				$miObjeto->usuario = $data->usuario;
+				$miObjeto->rol = $data->rol;
+				$miObjeto->especialidad = $data->especialidad;
+				$miObjeto->archivo = $data->archivo;
+
+				$miArreglo = (array) $miObjeto;
+
+				$datosPersona = [];
+				$datosHorario = [];
+				$datosUsuario = [];
+
+				$datosPersona = [
+			        'p_nombre' => $miArreglo['p_nombre'],
+			        'p_apellido' => $miArreglo['p_apellido'],
+			        's_nombre' => $miArreglo['s_nombre'],
+			        's_apellido' => $miArreglo['s_apellido'],
+			        'sexo' => $miArreglo['sexo'],
+			        'fechaNacimiento' => $miArreglo['fechaNacimiento'],
+			        'numTelf' => $miArreglo['numTelf'],
+			        'tipoDoc' => $miArreglo['tipoDoc'],
+			        'numeroDoc' => $miArreglo['numeroDoc'],
+			        'correo' => $miArreglo['correo'],
+			        'direccion_c' => $miArreglo['direccion_c'],
+			        'tipo_persona' => $miArreglo['tipo_persona'],
+			    ];
+
+			    $RegistroPersona = $modelPersonas->registrarPersona($datosPersona);
+
+			    $datosHorario = [
+			    	'idPersona' => $RegistroPersona,
+			    	'horarios' => $miArreglo['horarios'], // Esto ya es un arreglo
+			    ]
+
+			    $datosUsuario = [
+			    	'idPersona' => $RegistroPersona,
+			        'contrasena' => $miArreglo['contrasena'],
+			        'usuario' => $miArreglo['usuario'],
+			        'rol' => $miArreglo['rol'],
+			        'especialidad' => $miArreglo['especialidad'],
+			        'archivo' => $miArreglo['archivo'],
+			    ];
+
+			    $RegistroUsuario = $modelUsuario->registrarUsuario($datosUsuario);
+			    $RegistroHorario = $modelUsuario->registrarHorario($datosHorario);
+			    if ($RegistroPersona) {
+			    	if ($RegistroUsuario == true) {
+			    		if ($RegistroHorario == true) {
+							echo json_encode(true);
+							exit();
+			    		}else{
+							echo 'No se pudo registrar Horario.';
+							exit();			    			
+			    		}
+			    	}else{
+						echo 'No se pudo registrar usuario.';
+						exit();
+			    	}
+			    }else{
+					echo 'No se pudo registrar persona.';
+					exit();
+			    }
+   		   }else{
+   		   		echo json_encode(false);
+			    exit();
+   		   }		   		   
 		}
 	}
 

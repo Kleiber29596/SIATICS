@@ -344,7 +344,7 @@ if (document.getElementById("agregar_usuario")) {
         });
 
         
-        var datosPersona = {
+        var datosFormUsuario = {
             p_nombre: p_nombre,
             p_apellido: p_apellido,
             s_nombre: s_nombre,
@@ -383,11 +383,12 @@ if (document.getElementById("agregar_usuario")) {
             type: "post",
             dataType: "json",
             data: {
-                datosPersona: JSON.stringify(datosPersona),
+                datosFormUsuario: JSON.stringify(datosFormUsuario),
             },
           })
           .done(function (response) {
-              if (response == 'true') {
+            console.log(response);
+              if (response) {
                  Swal.fire({
                     icon: 'success',
                     title: 'Excelente',
