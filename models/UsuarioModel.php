@@ -16,18 +16,18 @@ class UsuarioModel extends ModeloBase {
 		return $resultado;
 	}	
 /*------------ Metodo para registrar usuarios--------*/
-    public function registrarUsuario($datos, $idPersona) { 
-
+    public function registrarUsuario($datos) {
+        	
         $db = new ModeloBase();
 		try {
 			$insertar = $db->insertar('usuario', $datos);
 			return $insertar;
 		}catch	(PDOException $e) {
 			echo $e->getMessage();
-		} 
+		}
     }
 /*------------ Metodo para registrar Horario--------*/
-    public function registrarHorario($datos, $idPersona) { 
+    public function registrarHorario($datos) { 
 
         $db = new ModeloBase();
 		try {

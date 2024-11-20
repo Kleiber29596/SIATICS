@@ -224,26 +224,46 @@ EOT;
 				$datosUsuario = [];
 
 				$datosPersona = [
-			        'p_nombre' => $miArreglo['p_nombre'],
-			        'p_apellido' => $miArreglo['p_apellido'],
-			        's_nombre' => $miArreglo['s_nombre'],
-			        's_apellido' => $miArreglo['s_apellido'],
-			        'sexo' => $miArreglo['sexo'],
-			        'fechaNacimiento' => $miArreglo['fechaNacimiento'],
-			        'numTelf' => $miArreglo['numTelf'],
-			        'tipoDoc' => $miArreglo['tipoDoc'],
-			        'numeroDoc' => $miArreglo['numeroDoc'],
-			        'correo' => $miArreglo['correo'],
-			        'direccion_c' => $miArreglo['direccion_c'],
 			        'tipo_persona' => $miArreglo['tipo_persona'],
+			        'n_documento' => $miArreglo['numeroDoc'],
+			        'tipo_documento' => $miArreglo['tipoDoc'],
+			        'p_nombre' => $miArreglo['p_nombre'],
+			        's_nombre' => $miArreglo['s_nombre'],
+			        'p_apellido' => $miArreglo['p_apellido'],
+			        's_apellido' => $miArreglo['s_apellido'],
+			        'fecha_nacimiento' => $miArreglo['fechaNacimiento'],
+			        'sexo' => $miArreglo['sexo'],
+			        'telefono' => $miArreglo['numTelf'],
+			        'direccion' => $miArreglo['direccion_c'],
+			        'correo' => $miArreglo['correo'],
 			    ];
 
+			    //$data = $datos['numeroDoc']; //Este dato es para registrarPersona($datosPersona); para consultar a la persona que se esta insertando y rescatar el id.
 			    $RegistroPersona = $modelPersonas->registrarPersona($datosPersona);
 
-			    $datosHorario = [
+			   if ($RegistroPersona == true) {
+			   	
+				   	 $reslt = [
+						'reslt' => [
+							'success'            =>  true,
+							'message'            => 'Registro con exito',
+							'info'               =>  '',
+							'id'				 => $RegistroPersona,
+						],
+						'code' => 0,
+					];
+			   }else{
+			   		return false;
+					exit();
+			   }
+
+			    echo json_encode($reslt);
+				exit();
+
+			   /* $datosHorario = [
 			    	'idPersona' => $RegistroPersona,
 			    	'horarios' => $miArreglo['horarios'], // Esto ya es un arreglo
-			    ]
+			    ];
 
 			    $datosUsuario = [
 			    	'idPersona' => $RegistroPersona,
@@ -272,7 +292,7 @@ EOT;
 			    }else{
 					echo 'No se pudo registrar persona.';
 					exit();
-			    }
+			    }*/
    		   }else{
    		   		echo json_encode(false);
 			    exit();
