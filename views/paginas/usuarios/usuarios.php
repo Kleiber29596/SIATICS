@@ -34,39 +34,41 @@ $especialidades = $objeto->selectEspecialidad();
 
 
 <style>
-    .file-upload {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 150px;
-        padding: 30px;
-        border: 1px dashed silver;
-        border-radius: 8px;
-    }
+.file-upload {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    padding: 30px;
+    border: 1px dashed silver;
+    border-radius: 8px;
+}
 
-    .file-upload input {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        cursor: pointer;
-        opacity: 0;
-    }
+.file-upload input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
 
-    .preview_img {
-        height: 80px;
-        width: 80px;
-        border: 4px solid silver;
-        border-radius: 100%;
-        object-fit: cover;
-    }
+.preview_img {
+    height: 80px;
+    width: 80px;
+    border: 4px solid silver;
+    border-radius: 100%;
+    object-fit: cover;
+}
 
-    .step-2, .step-3, #agregar_usuario{
-        display: none;
-    }
+.step-2,
+.step-3,
+#agregar_usuario {
+    display: none;
+}
 </style>
 
 
@@ -78,47 +80,48 @@ if ($rol == 3) {
 } else {
 ?>
 
-    <div class="pagetitle">
-        <h1>Usuarios</h1>
-    </div><!-- End Page Title -->
+<div class="pagetitle">
+    <h1>Usuarios</h1>
+</div><!-- End Page Title -->
 
-    <section class="section">
-        <div class="row">
-            <div class="col-lg-12">
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
 
-                <div class="card">
-                    <div class="card-body">
-                        <p></p>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                        <div class="table-responsive">
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable" id="tablaUsuario">
-                                <thead>
-                                    <tr>
-                                        <th>Cédula</th>
-                                        <th>Usuario</th>
-                                        <th>Rol</th>
-                                        <th>Nombres/Apellidos</th>
-                                        <th>Foto</th>
-                                        <th>Estatus</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+            <div class="card">
+                <div class="card-body">
+                    <p></p>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#agregarUsuarioModal">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="table-responsive">
+                        <!-- Table with stripped rows -->
+                        <table class="table datatable" id="tablaUsuario">
+                            <thead>
+                                <tr>
+                                    <th>Cédula</th>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                    <th>Nombres/Apellidos</th>
+                                    <th>Foto</th>
+                                    <th>Estatus</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
-                        </div>
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
                     </div>
                 </div>
-
             </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
 <?php
 }
@@ -130,7 +133,8 @@ if ($rol == 3) {
 
 
 <!-- Modal Agregar Usuario -->
-<div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="agregarUsuarioModalLabel" aria-hidden="true">
+<div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="agregarUsuarioModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -146,28 +150,32 @@ if ($rol == 3) {
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="p_nombre">Primer nombre</label>
-                                        <input class="form-control" type="text" name="p_nombre" id="p_nombre" placeholder="Primer nombre" required>
+                                        <input class="form-control" type="text" name="p_nombre" id="p_nombre"
+                                            placeholder="Primer nombre" required>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="s_nombre">Segundo nombre</label>
-                                        <input class="form-control" type="text" name="s_nombre" id="s_nombre" placeholder="Segundo nombre">
+                                        <input class="form-control" type="text" name="s_nombre" id="s_nombre"
+                                            placeholder="Segundo nombre">
                                     </div>
                                 </div>
                                 <br>
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="p_apellido">Primer apellido</label>
-                                        <input class="form-control" type="text" name="p_apellido" id="p_apellido" placeholder="Primer apellido" required>
+                                        <input class="form-control" type="text" name="p_apellido" id="p_apellido"
+                                            placeholder="Primer apellido" required>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="s_apellido">Segundo apellido</label>
-                                        <input class="form-control" type="text" name="s_apellido" id="s_apellido" placeholder="Segundo apellido" onkeyup="pmayus(this);">
+                                        <input class="form-control" type="text" name="s_apellido" id="s_apellido"
+                                            placeholder="Segundo apellido">
                                     </div>
                                 </div>
                             </div>
@@ -189,13 +197,16 @@ if ($rol == 3) {
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                        <input class="form-control" type="date" name="fechaNacimiento" id="fechaNacimiento" maxlength="10" oninput="validarFechaNacimiento()" required>
+                                        <input class="form-control" type="date" name="fechaNacimiento"
+                                            id="fechaNacimiento" maxlength="10" oninput="validarFechaNacimiento()"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="numTelf">Numero de contacto</label>
-                                        <input class="form-control" type="text" name="numTelf" id="numTelf" placeholder="Numero de contacto" maxlength="8" required>
+                                        <input class="form-control" type="text" name="numTelf" id="numTelf"
+                                            placeholder="Numero de contacto" maxlength="8" required>
                                     </div>
                                 </div>
                             </div>
@@ -214,22 +225,25 @@ if ($rol == 3) {
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="cedula">Numero de cedula</label>
-                                        <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10" placeholder="Ingresa el número de cédula" onkeyup="mayus(this);" required>
+                                        <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10"
+                                            placeholder="Ingresa el número de cédula" onkeyup="mayus(this);" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="correos">Correo</label>
-                                        <input class="form-control" type="email" name="correo" id="correo" maxlength="60" placeholder="Ingresa la dirección">
+                                        <input class="form-control" type="email" name="correo" id="correo"
+                                            maxlength="60" placeholder="Ingresa la dirección">
                                     </div>
-                                </div>                            
+                                </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="direccion_c">Dirección corta</label>
-                                        <textarea class="form-control" name="direccion_c" id="direccion_c" cols="4" rows="2" placeholder="Ingresa una dirección corta" required></textarea>
+                                        <textarea class="form-control" name="direccion_c" id="direccion_c" cols="4"
+                                            rows="2" placeholder="Ingresa una dirección corta" required></textarea>
                                     </div>
                                 </div>
                                 <div>
@@ -255,37 +269,40 @@ if ($rol == 3) {
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-group" for="H_entrada">Hora de entrada</label>
-                                        <input type="time" class="form-control" name="H_entrada" id="H_entrada" placeholder="Hora de entrada">
+                                        <input type="time" class="form-control" name="H_entrada" id="H_entrada"
+                                            placeholder="Hora de entrada">
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-group" for="H_salida">Hora de salida</label>
-                                        <input type="time" class="form-control" name="H_salida" id="H_salida" placeholder="Hora de salida">
+                                        <input type="time" class="form-control" name="H_salida" id="H_salida"
+                                            placeholder="Hora de salida">
                                     </div>
                                 </div>
                                 <div class="col-md-12 mt-2"
                                     style="display: flex; justify-content: flex-end; align-items: flex-end;">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary btn-circle"
-                                            id="agregar_horario" title="Agregar otro día"><i
-                                                class="fas fa-plus"></i></button>
+                                        <button type="button" class="btn btn-primary btn-circle" id="agregar_horario"
+                                            title="Agregar otro día"><i class="fas fa-plus"></i></button>
                                     </div>
-                                </div>                               
+                                </div>
                             </div>
                             <br>
-                        </div>                        
+                        </div>
                         <div class="bloque-3" style="display: none;">
                             <h5>Creación de usuario</h5>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="usuario">Usuario</label>
-                                        <input class="form-control" type="text" name="usuario" id="usuario" maxlength="40" placeholder="Ingresa el nombre de usuario" required>
+                                        <input class="form-control" type="text" name="usuario" id="usuario"
+                                            maxlength="40" placeholder="Ingresa el nombre de usuario" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6" id="cont_input_file2">
                                     <div class="form-group">
                                         <label for="Foto">Foto</label>
-                                        <input type="file" class=" form-control" name="archivo" id="subirfoto2" accept="image/*">
+                                        <input type="file" class=" form-control" name="archivo" id="subirfoto2"
+                                            accept="image/*">
                                     </div>
                                 </div>
                             </div>
@@ -294,20 +311,23 @@ if ($rol == 3) {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="contrasena">constraseña</label>
-                                        <input class="form-control" type="password" name="contrasena" id="contrasena" maxlength="60" placeholder="Ingresa la contraseña" required>
+                                        <input class="form-control" type="password" name="contrasena" id="contrasena"
+                                            maxlength="60" placeholder="Ingresa la contraseña" required>
                                     </div>
                                 </div>
-                            
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="confirmar_contrasena">confirmar contraseña</label>
-                                        <input class="form-control" type="password" name="confirmar_contrasena" id="confirmar_contrasena" maxlength="60" placeholder="Ingresa la contraseña" required>
+                                        <input class="form-control" type="password" name="confirmar_contrasena"
+                                            id="confirmar_contrasena" maxlength="60" placeholder="Ingresa la contraseña"
+                                            required>
                                     </div>
                                 </div>
                                 <span id="check_password_match"></span>
                             </div>
                             <br>
-                            
+
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -325,7 +345,8 @@ if ($rol == 3) {
                                             <?php
                                             foreach ($especialidades  as  $especialidad) {
                                             ?>
-                                                <option value="<?= $especialidad['id_especialidad'] ?>"><?= $especialidad['nombre_especialidad'] ?></option>
+                                            <option value="<?= $especialidad['id_especialidad'] ?>">
+                                                <?= $especialidad['nombre_especialidad'] ?></option>
                                             <?php
                                             }
                                             ?>
@@ -336,10 +357,14 @@ if ($rol == 3) {
                             <br>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" id="atrasBlock" style="display: none;">Atrás</button>
+                            <button type="button" class="btn btn-secondary" title="Cerrar el modal"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="atrasBlock"
+                                style="display: none;">Atrás</button>
                             <button type="button" class="btn btn-primary" id="siguienteBlock">Siguiente</button>
-                            <button type="submit" class="btn btn-primary" id="agregar_usuario" title="Guardar cambios"><i class="fas fa-save" style="display:none;"></i> Guardar</button>
+                            <button type="submit" class="btn btn-primary" id="agregar_usuario"
+                                title="Guardar cambios"><i class="fas fa-save" style="display:none;"></i>
+                                Guardar</button>
                         </div>
                     </div>
                 </form>
@@ -352,7 +377,8 @@ if ($rol == 3) {
 <!-- Modal Actualizar Usuario-->
 
 <!-- Modal -->
-<div class="modal fade" id="modalActualizarUsuarios" tabindex="-1" aria-labelledby="modalActualizarUsuariosLabel" aria-hidden="true">
+<div class="modal fade" id="modalActualizarUsuarios" tabindex="-1" aria-labelledby="modalActualizarUsuariosLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -375,47 +401,55 @@ if ($rol == 3) {
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="cedula_update">Cedula</label>
-                                <input class="form-control" type="text" id="cedula_update" name="cedula_update" placeholder="V/E">
+                                <input class="form-control" type="text" id="cedula_update" name="cedula_update"
+                                    placeholder="V/E">
                             </div>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="nombre_update">Nombre</label>
-                                <input class="form-control" type="text" id="nombre_update" name="nombre_update" onkeyup="mayus(this);" maxlength="40" placeholder="Ingresa el nombre">
+                                <input class="form-control" type="text" id="nombre_update" name="nombre_update"
+                                    onkeyup="mayus(this);" maxlength="40" placeholder="Ingresa el nombre">
                             </div>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="apellido_update">Apellido</label>
-                                <input class="form-control" type="apellido" id="apellido_update" name="apellido_update" onkeyup="mayus(this);" maxlength="40" placeholder="Ingresa la Apellido">
+                                <input class="form-control" type="apellido" id="apellido_update" name="apellido_update"
+                                    onkeyup="mayus(this);" maxlength="40" placeholder="Ingresa la Apellido">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="correo_update">Correo</label>
-                                <input class="form-control" type="email" id="correo_update" name="correo_update" onkeyup="mayus(this);" maxlength="60" placeholder="Ingresa la dirección">
+                                <input class="form-control" type="email" id="correo_update" name="correo_update"
+                                    onkeyup="mayus(this);" maxlength="60" placeholder="Ingresa la dirección">
                             </div>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="contrasena_update">Contraseña</label>
-                                <input class="form-control" type="password" id="contrasena_update" name="contrasena_update" maxlength="60" placeholder="Ingresa la contraseña">
+                                <input class="form-control" type="password" id="contrasena_update"
+                                    name="contrasena_update" maxlength="60" placeholder="Ingresa la contraseña">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="telefono_update">Confirmar contraseña</label>
-                                <input class="form-control" type="password" id="confirmar_contrasena_update" name="confirmar_contrasena_update" maxlength="60" placeholder="Ingresa la contraseña">
+                                <input class="form-control" type="password" id="confirmar_contrasena_update"
+                                    name="confirmar_contrasena_update" maxlength="60"
+                                    placeholder="Ingresa la contraseña">
                             </div>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="usuario_update">Usuario</label>
-                                <input class="form-control" type="text" id="usuario_update" name="usuario_update" maxlength="40" placeholder="Ingresa el nombre de usuario">
+                                <input class="form-control" type="text" id="usuario_update" name="usuario_update"
+                                    maxlength="40" placeholder="Ingresa el nombre de usuario">
                             </div>
                         </div>
 
@@ -429,7 +463,7 @@ if ($rol == 3) {
                                     <?php
                                     foreach ($roles_update as $roles_update) {
                                     ?>
-                                        <option value="<?= $roles_update['id'] ?>"><?= $roles_update['rol'] ?></option>
+                                    <option value="<?= $roles_update['id'] ?>"><?= $roles_update['rol'] ?></option>
                                     <?php
                                     }
                                     ?>
@@ -452,7 +486,8 @@ if ($rol == 3) {
                         <div class="col-sm-4" id="cont_input_file" style="display: none;">
                             <div class="form-group">
                                 <label for="Foto">Foto</label>
-                                <input type="file" class=" form-control" name="archivo" id="subirfotoUpdate" accept="image/*">
+                                <input type="file" class=" form-control" name="archivo" id="subirfotoUpdate"
+                                    accept="image/*">
                             </div>
                         </div>
 
@@ -469,8 +504,10 @@ if ($rol == 3) {
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" id="modificar_usuario" title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
+                <button type="button" class="btn btn-secondary" title="Cerrar el modal"
+                    data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary" id="modificar_usuario" title="Guardar cambios"><i
+                        class="fas fa-save"></i> Guardar</button>
             </div>
             </form>
         </div>
@@ -488,7 +525,8 @@ if ($rol == 3) {
 
 <!-- Modal Visualizar Usuario-->
 
-<div class="modal fade" id="modalVisualizarUsuario" tabindex="-1" aria-labelledby="modalVisualizarUsuarioLabel" aria-hidden="true">
+<div class="modal fade" id="modalVisualizarUsuario" tabindex="-1" aria-labelledby="modalVisualizarUsuarioLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -499,7 +537,8 @@ if ($rol == 3) {
                 <div class="list-group">
                     <div class="row">
                         <div class="col-sm-6">
-                            <a title="Datos del visitante" href="#" class="list-group-item  list-group-item-action active">
+                            <a title="Datos del visitante" href="#"
+                                class="list-group-item  list-group-item-action active">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 id="nombre_apellido" class="mb-1">Informacion del Usuario</h5>
                                     <small id="fecha_usuario"></small>
@@ -515,7 +554,8 @@ if ($rol == 3) {
                             </a>
                         </div>
                         <div class="col-sm-6">
-                            <img title="Foto del usuario" style="width: 100%; height: 100%;" id="foto_usuario" src="" alt="">
+                            <img title="Foto del usuario" style="width: 100%; height: 100%;" id="foto_usuario" src=""
+                                alt="">
                         </div>
                     </div>
                 </div>
@@ -527,11 +567,11 @@ if ($rol == 3) {
     </div>
 </div>
 <script type="text/javascript">
-    /* -------------- Segmento de bloques - Usuario ------------------ */
+/* -------------- Segmento de bloques - Usuario ------------------ */
 let currentStep = 0;
 
 document.getElementById('siguienteBlock').addEventListener('click', function() {
-  console.log('Si esta entrando a la funcion');
+    console.log('Si esta entrando a la funcion');
     const bloques = document.querySelectorAll('.bloque-1, .bloque-2, .bloque-3');
     const activeStep = bloques[currentStep];
 
