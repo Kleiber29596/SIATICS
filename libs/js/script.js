@@ -273,7 +273,6 @@ if (agregarHorarioButton) {
   }
 }
 
-<<<<<<< HEAD
 if (camposContainer) {
   camposContainer.addEventListener("click", function(event) {
       // Verificar si el elemento clicado es un botón de eliminar
@@ -294,29 +293,8 @@ if (camposContainer) {
       }
   });
 }
-=======
-if(camposContainer) {
-  camposContainer.addEventListener("click", function(event) {
-    // Verificar si el elemento clicado es un botón de eliminar
-    if (event.target.closest(".btn-danger")) {
-        // Eliminar el horario correspondiente
-        const horarioDiv = event.target.closest(".row"); // Encuentra el contenedor del horario
-        const selectDia = document.querySelector('input[name="campo1[]"]');
-        const valorDia = selectDia.value;
-        if (horarioDiv) {
-            horarioDiv.remove(); // Elimina el contenedor del horario
-            const index = diasAgregados.indexOf(dia);
-            if (index > -1) {
-                diasAgregados.splice(index, 1);
-            }
-            console.log(valorDia);
-            alert("Horario eliminado.");
-        }
-    }
-});
->>>>>>> b9e53ec (vista  y registro de historial medico)
 
-}
+
 
 
 /* -------------- Agregar Usuario ------------------ */
