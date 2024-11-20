@@ -294,7 +294,38 @@ if (camposContainer) {
   });
 }
 
+function validarFechaNacimiento() {//Codigo de jesus NO TOCAR POR FAVOR
+  const fechaNacimiento = document.getElementById('fechaNacimiento').value; // Suponiendo que el input tiene el id "fechaNacimiento"
+  const hoy = new Date();
+  const fechaNacimientoDate = new Date(fechaNacimiento);
 
+  // Validar si la fecha es una fecha válida
+  if (isNaN(fechaNacimientoDate)) {
+    alert('Por favor, ingresa una fecha válida.');
+    document.getElementById('fechaNacimiento').value = '';
+    return;
+  }
+
+  // Validar si la fecha es en el futuro
+  if (fechaNacimientoDate > hoy) {
+    alert('La fecha de nacimiento no puede ser en el futuro.');
+    document.getElementById('fechaNacimiento').value = '';
+  }
+
+  // Calcular la edad
+  const edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
+  const mes = hoy.getMonth() - fechaNacimientoDate.getMonth();
+  if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimientoDate.getDate()))   
+ {
+    edad--;
+  }
+
+  // Validar si la edad es mayor o igual a 18
+  if (edad < 18) {
+    alert('Debes ser mayor de edad.');
+    document.getElementById('fechaNacimiento').value = '';
+  }
+}
 
 
 /* -------------- Agregar Usuario ------------------ */
