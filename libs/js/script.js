@@ -427,6 +427,9 @@ if (document.getElementById("agregar_usuario")) {
                     title: 'Excelente',
                     text: 'Los datos han sido enviado de manera exitosa.',
                   });
+                document.getElementById("formRegistrarUsuario").reset();
+                $("#agregarUsuarioModal").modal("hide");
+                $("#tablaUsuario").DataTable().ajax.reload();
               };
           })
           .fail(function (error) {

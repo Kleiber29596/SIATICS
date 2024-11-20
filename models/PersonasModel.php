@@ -14,7 +14,6 @@ class PersonasModel extends ModeloBase
 		$db = new ModeloBase();
 		try {
 			$insertar = $db->insertar('personas', $datos);
-
 			return $insertar;
 		} catch (PDOException $e) {
 			echo $e->getMessage();
@@ -36,7 +35,7 @@ class PersonasModel extends ModeloBase
 
 
 	
-	/* Registrar representante */
+	/* Registrar Historia Medica */
 	public function registrarHistoriaMedica($datos)
 	{
 		$db = new ModeloBase();
