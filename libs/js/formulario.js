@@ -18,11 +18,17 @@ const expresiones = {
 
 const validarFormulario = (e) => {
 	switch(e.target.name) {
-		case "nombres":
-			validarCampo(expresiones.nombre, e.target, 'nombres');
+		case "primer_nombre":
+			validarCampo(expresiones.nombre, e.target, 'primer_nombre');
 			break;
-		case "apellidos":
-			validarCampo(expresiones.nombre, e.target, 'apellidos');
+		case "segundo_nombre":
+			validarCampo(expresiones.nombre, e.target, 'segundo_nombre');
+			break;
+		case "primer_apellido":
+			validarCampo(expresiones.nombre, e.target, 'primer_apellido');
+			break;
+		case "segundo_apellido":
+			validarCampo(expresiones.nombre, e.target, 'segundo_apellido');
 			break;
 		case "n_documento":
 			validarCampo(expresiones.n_documento, e.target, 'n_documento');

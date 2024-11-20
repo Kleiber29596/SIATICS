@@ -273,6 +273,7 @@ if (agregarHorarioButton) {
   }
 }
 
+<<<<<<< HEAD
 if (camposContainer) {
   camposContainer.addEventListener("click", function(event) {
       // Verificar si el elemento clicado es un botón de eliminar
@@ -292,6 +293,29 @@ if (camposContainer) {
           }
       }
   });
+}
+=======
+if(camposContainer) {
+  camposContainer.addEventListener("click", function(event) {
+    // Verificar si el elemento clicado es un botón de eliminar
+    if (event.target.closest(".btn-danger")) {
+        // Eliminar el horario correspondiente
+        const horarioDiv = event.target.closest(".row"); // Encuentra el contenedor del horario
+        const selectDia = document.querySelector('input[name="campo1[]"]');
+        const valorDia = selectDia.value;
+        if (horarioDiv) {
+            horarioDiv.remove(); // Elimina el contenedor del horario
+            const index = diasAgregados.indexOf(dia);
+            if (index > -1) {
+                diasAgregados.splice(index, 1);
+            }
+            console.log(valorDia);
+            alert("Horario eliminado.");
+        }
+    }
+});
+>>>>>>> b9e53ec (vista  y registro de historial medico)
+
 }
 
 
@@ -409,48 +433,6 @@ if (document.getElementById("agregar_usuario")) {
     }
 }
 
-function validarFechaNacimiento() {
-  const fechaNacimiento = document.getElementById('fechaNacimiento').value; // Suponiendo que el input tiene el id "fechaNacimiento"
-  const hoy = new Date();
-  const fechaNacimientoDate = new Date(fechaNacimiento);
-
-  // Validar si la fecha es una fecha válida
-  if (isNaN(fechaNacimientoDate)) {
-    alert('Por favor, ingresa una fecha válida.');
-    document.getElementById('fechaNacimiento').value = '';
-    return;
-  }
-
-  // Validar si la fecha es en el futuro
-  if (fechaNacimientoDate > hoy) {
-    alert('La fecha de nacimiento no puede ser en el futuro.');
-    document.getElementById('fechaNacimiento').value = '';
-  }
-
-  // Calcular la edad
-  const edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
-  const mes = hoy.getMonth() - fechaNacimientoDate.getMonth();
-  if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimientoDate.getDate()))   
- {
-    edad--;
-  }
-
-  // Validar si la edad es mayor o igual a 18
-  if (edad < 18) {
-    alert('Debes ser mayor de edad.');
-    document.getElementById('fechaNacimiento').value = '';
-  }
-}
-
-/*$("#numTelf").blur(function() {
-  var regex = /^\(\d{3}\)\s\d{3}-\d{4}$/; // Ajusta la expresión regular según tus necesidades
-  var telefono = $(this).val();
-
-  if (! regex.test(telefono)) {
-    alert("Por favor, ingresa un número de teléfono válido.");
-    document.getElementById('numTelf').value = '';
-  }
-});*/
 
 
 confirmar_contrasena = document.getElementById('confirmar_contrasena')
@@ -1578,6 +1560,7 @@ $(document).ready(function () {
                    <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
             row[9] +
             `)"><i class="fas fa-edit"></i></button>&nbsp;
+            
     
                     `;
           return botones;
@@ -1760,30 +1743,30 @@ if ((modificar_paciente = document.getElementById("modificar_paciente"))) {
 
 /* -------------- Listar datos para ver ------------------ */
 
-function listarVer(id) {
-  let id_paciente = id;
+function VerPersona(id) {
+  let id_persona = id;
 
   let listar = "listar";
 
   $.ajax({
-    url: "index.php?page=listarActualizacion",
+    url: "index.php?page=listarDatosPersona",
     type: "post",
     dataType: "json",
     data: {
-      id_paciente: id_paciente,
+      id_persona: id_persona,
     },
   })
     .done(function (response) {
       if (response.data.success == true) {
-        document.getElementById("nombre_paciente").innerHTML =
+        document.getElementById("nombre_apellido").innerHTML =
           "Nombre/Apellido: " +
-          response.data.nombre +
-          "" +
-          response.data.apellido;
-        document.getElementById("codigo_paciente").innerHTML =
-          "Codigo del paciente: " + response.data.codigo;
-        document.getElementById("edad_paciente").innerHTML =
+          response.data.nombre_apellido;
+        document.getElementById("documento").innerHTML =
+          "Documento: " + response.data.documento;
+        document.getElementById("").innerHTML =
           "Edad: " + response.data.edad;
+        document.getElementById("sexo").innerHTML =
+          "Sexo: " + response.data.telefono;
         document.getElementById("telefono_paciente").innerHTML =
           "Teléfono: " + response.data.telefono;
         document.getElementById("direccion_paciente").innerHTML =
@@ -2122,21 +2105,23 @@ if(modalidad){
 
 /*-------------- Agregar Persona ------------------ */
 
-if (document.getElementById("agregar_persona")) {
+if (agregar_persona = document.getElementById("agregar_persona")) {
   agregar_persona.addEventListener("click", agregarPersona, false);
 
   function agregarPersona() {
 
     /*Datos de la persona*/
-    let nombres         = document.getElementById("nombres").value;
-    let apellidos       = document.getElementById("apellidos").value;
-    let tipo_documento  = document.getElementById("tipo_documento").value;
-    let n_documento     = document.getElementById("n_documento").value;
-    let fecha_nac       = document.getElementById("fecha_nac").value;
-    let sexo            = document.getElementById("sexo").value;
-    let telefono        = document.getElementById("telefono").value;
-    let correo          = document.getElementById("correo").value;
-    let direccion       = document.getElementById("direccion").value;
+    let primer_nombre     = document.getElementById("primer_nombre").value;
+    let segundo_nombre    = document.getElementById("segundo_nombre").value;
+    let primer_apellido  = document.getElementById("primer_apellido").value;
+    let segundo_apellido = document.getElementById("segundo_apellido").value;
+    let tipo_documento   = document.getElementById("tipo_documento").value;
+    let n_documento      = document.getElementById("n_documento").value;
+    let fecha_nac        = document.getElementById("fecha_nac").value;
+    let sexo             = document.getElementById("sexo").value;
+    let telefono         = document.getElementById("telefono").value;
+    let correo           = document.getElementById("correo").value;
+    let direccion        = document.getElementById("direccion").value;
 
     if (fecha_nac === '') {
         Swal.fire({
@@ -2149,7 +2134,7 @@ if (document.getElementById("agregar_persona")) {
 
     }
 
-    if(nombres == '' ) {
+    if(primer_nombre == '' || segundo_nombre == '' ) {
         
         Swal.fire({
             icon: "warning",
@@ -2160,7 +2145,7 @@ if (document.getElementById("agregar_persona")) {
         return false;
     }
 
-    if(apellidos == '' ) {
+    if(primer_apellido == '' || segundo_apellido == '' ) {
         
   
         Swal.fire({
@@ -2184,6 +2169,17 @@ if (document.getElementById("agregar_persona")) {
         return false;
 
   }
+
+    // Datos del historial médico
+    let tipo_sangre      = document.getElementById("tipo_sangre").value;
+    let enfermedad       = document.getElementById("enfermedad").value;
+    let fumador          = document.getElementById("fumador").checked ? "Sí" : "No";
+    let alcohol          = document.getElementById("alcohol").checked ? "Sí" : "No";
+    let ac_fisica        = document.getElementById("ac_fisica").checked ? "Sí" : "No";
+    let medicado         = document.getElementById("medicado").checked ? "Sí" : "No";
+    let ciru_hospi       = document.getElementById("ciru_hospi").value;
+    let alergia          = document.getElementById("alergia").value;
+    let enfermedad_hered = document.getElementById("enfermedad_hered").value;
 
     /*Datos del representante */
     let nombres_r        = document.getElementById("nombres_r").value;
@@ -2239,8 +2235,10 @@ if (nombres_r != '') {
       type: "post",
       dataType: "json",
       data: {
-        nombres: nombres,
-        apellidos: apellidos,
+        primer_nombre: primer_nombre,
+        segundo_nombre: segundo_nombre,
+        primer_apellido: primer_apellido,
+        segundo_apellido: segundo_apellido,
         tipo_documento: tipo_documento,
         n_documento: n_documento,
         fecha_nac: fecha_nac,
@@ -2251,9 +2249,17 @@ if (nombres_r != '') {
 
          /* ---- validaciones ----*/
 
-       
-          
-
+        /*-- Datos del historial medico ---- */
+        tipo_sangre: tipo_sangre,
+        enfermedad: enfermedad,
+        fumador: fumador,
+        alcohol: alcohol,
+        ac_fisica: ac_fisica,
+        medicado: medicado,
+        ciru_hospi: ciru_hospi,
+        alergia: alergia,
+        enfermedad_hered: enfermedad_hered,
+        
         // Datos del representante
         nombres_r: nombres_r,
         apellidos_r: apellidos_r,
@@ -2265,13 +2271,6 @@ if (nombres_r != '') {
         parentesco: parentesco,
         id_representante: id_representante,
         id_persona_r: id_persona_r
-
-      
-      
-
-       
-
-
 
       },
     })
@@ -4306,10 +4305,10 @@ $(document).ready(function () {
         targets: 2,
         render: function (data, type, row, meta) {
           let botones =
-            `
-                    <button type="button" class="btn btn-primary btn-sm" onclick="VerDatosPersona(` +
-            row[2] +
-            `)"><i class="fas fa-eye"></i></button>&nbsp;
+            `<a class="btn btn-primary btn-sm" title="Ver jornada" href="?page=verPersona&amp;id=` + 
+            row[2] + 
+            `"><i class="fas fa-eye"></i></a> 
+                  &nbsp;
     
                    <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosPersona(` +
             row[2] +
