@@ -31,6 +31,25 @@ class PersonasController
 		/* FOOTER */
 		require_once('./views/includes/pie.php');
 	}
+
+	public function verPersona()
+	{
+
+		/*HEADER */
+		require_once('./views/includes/cabecera.php');
+
+		require_once('./views/paginas/personas/verPersona.php');
+
+		/* FOOTER */
+		require_once('./views/includes/pie.php');
+	}
+
+	public function reporteHistorialMedico()
+	{
+
+		require_once('./views/paginas/reportes/reporteHistorialMedico.php');
+
+	}
 	
 
 	public function listarPersonas()
@@ -47,7 +66,7 @@ class PersonasController
 		// DB table to use 
 		$table = <<<EOT
         (
-            SELECT pe.id_persona, CONCAT(pe.tipo_documento, '-', pe.n_documento) AS documento, CONCAT(pe.nombres, ' ', pe.apellidos) AS nombre_apellido, pe.sexo, pe.telefono, pe.correo FROM personas AS pe ORDER BY pe.id_persona DESC
+            SELECT pe.id_persona, CONCAT(pe.tipo_documento, '-', pe.n_documento) AS documento, CONCAT(pe.p_nombre,' ',pe.s_nombre,' ', pe.p_apellido,' ',pe.s_apellido) AS nombres_apellidos, pe.sexo, pe.telefono, pe.correo FROM personas AS pe ORDER BY pe.id_persona DESC
         ) temp
         EOT;
 
@@ -59,9 +78,9 @@ class PersonasController
 		// The `dt` parameter represents the DataTables column identifier. 
 		$columns = array(
 
-			array('db' => 'documento',   	'dt' => 0),
-			array('db' => 'nombre_apellido','dt' => 1),
-			array('db' => 'id_persona', 	'dt' => 2)
+			array('db' => 'documento',   	   'dt' => 0),
+			array('db' => 'nombres_apellidos', 'dt' => 1),
+			array('db' => 'id_persona', 	   'dt' => 2)
 
 		);
 
@@ -110,8 +129,10 @@ class PersonasController
 		
 		// Datos de la persona
 		$datosPersona = array(
-			'nombres'            => $_POST['nombres'],
-			'apellidos'          => $_POST['apellidos'],
+			'p_nombre'           => $_POST['primer_nombre'],
+			's_nombre'           => $_POST['segundo_nombre'],
+			'p_apellido'         => $_POST['primer_apellido'],
+			's_apellido'         => $_POST['segundo_apellido'],
 			'tipo_documento'     => $_POST['tipo_documento'],
 			'n_documento'        => $n_documento,
 			'fecha_nacimiento'   => $_POST['fecha_nac'],
@@ -127,19 +148,39 @@ class PersonasController
 		$ultimo_id_persona = $resultado_p['ultimo_id'];
 
 		
-		
+		/* Historial medico */
+		$datos_h_medica =  array(
+			'tipo_sangre'                  => $_POST['tipo_sangre'],
+			'enfermedad'                   => $_POST['enfermedad'],
+			'fumador'     		           => $_POST['fumador'],
+			'alcohol'           	       => $_POST['alcohol'],
+			'actividad_fisica'  		   => $_POST['ac_fisica'],
+			'medicado'           		   => $_POST['medicado'],
+			'cirugia_hospitalaria'         => $_POST['ciru_hospi'],
+			'alergia'			 		   => $_POST['alergia'],
+			'enfermedad_hereditaria'	   => $_POST['enfermedad_hered'],
+			'id_persona'		           => $ultimo_id_persona,
+			'fecha_reg'               	   => $fecha_registro
+		);
+
+		$registrar_histo_medica = $modelPersonas->registrarHistoriaMedica($datos_h_medica);
+
+	
+
+
+
 		// Verificar si vienen los datos del representante
 		if (!empty($_POST['nombres_r']) && !empty($_POST['apellidos_r']) && !empty($_POST['tipo_documento_r']) && !empty($_POST['n_documento_r'])) {
 			// Datos personales del representante
 			$datosPersonalesRepresentante = array(
-				'nombres'            => $_POST['nombres_r'],
-				'apellidos'          => $_POST['apellidos_r'],
-				'tipo_documento'     => $_POST['tipo_documento_r'],
-				'n_documento'        => $_POST['n_documento_r'],
-				'telefono'           => $_POST['telefono_r'],
-				'correo'             => $_POST['correo_r'],
-				'direccion'          => $_POST['direccion_r'],
-				'fecha_registro'     => $fecha_registro
+				'p_nombre'            => $_POST['nombres_r'],
+				'p_apellido'          => $_POST['apellidos_r'],
+				'tipo_documento'      => $_POST['tipo_documento_r'],
+				'n_documento'         => $_POST['n_documento_r'],
+				'telefono'            => $_POST['telefono_r'],
+				'correo'              => $_POST['correo_r'],
+				'direccion'           => $_POST['direccion_r'],
+				'fecha_registro'      => $fecha_registro
 			);
 	
 			$registro_persona_r = $modelPersonas->registrarPersona($datosPersonalesRepresentante);
@@ -164,7 +205,7 @@ class PersonasController
 			$data = [
 				'data' => [
 					'success' => true,
-					'message' => 'La persona y su representante ha sido registrado con exito',
+					'message' => 'La persona y su representante han sido registrado con exito',
 					'info' => 'Guardado exitosamente'
 				],
 				'code' => 1,
@@ -176,29 +217,32 @@ class PersonasController
 			
 		}
 
-		}elseif(!empty($_POST['id_representante']) && !empty($_POST['id_persona_r']) ) {
-
+		} elseif(!empty($_POST['id_representante']) && !empty($_POST['id_persona_r']) ) {
+			var_dump(($_POST['id_representante']));
 		/*  Registro del representante y menor en la tabla intermedia (representantes_personas) */
 		
 		$datosTblIntermdia = array(
 			'id_representante'   => $_POST['id_representante'],
 			'id_persona'         => $ultimo_id_persona
 		);
-		$modelPersonas->registrarTblIntermedia($datosTblIntermdia);
+		$resultado = $modelPersonas->registrarTblIntermedia($datosTblIntermdia);
 
-		$data = [
-			'data' => [
-				'success' => true,
-				'message' => 'La persona y su representante ha sido registrado con exito',
-				'info' => ''
-			],
-			'code' => 1,
-		];
+		if($resultado['ejecutar']) {
+			$data = [
+				'data' => [
+					'success' => true,
+					'message' => 'La persona y su representante han sido registrado con exito',
+					'info' => 'Guardado exitosamente'
+				],
+				'code' => 1,
+			];
+			echo json_encode($data);
+			exit();
 
-		echo json_encode($data);
-		exit(); 
-	} elseif(!empty($_POST['id_persona_r'])) {
+		}
+	} elseif( empty($_POST['id_representante']) && !empty($_POST['id_persona_r'])) {
 		// Registrar Representante
+		var_dump($_POST['parentesco']);
 		$datosRepresentante = array(
 			'parentesco'         => $_POST['parentesco'],
 			'id_persona'         => $_POST['id_persona_r']
@@ -211,19 +255,23 @@ class PersonasController
 			'id_representante'   => $ultimo_id_r,
 			'id_persona'         => $ultimo_id_persona
 		);
-		$modelPersonas->registrarTblIntermedia($datosTblIntermdia);
+		$resultado = $modelPersonas->registrarTblIntermedia($datosTblIntermdia);
 
-		$data = [
-			'data' => [
-				'success' => true,
-				'message' => 'La persona y su representante ha sido registrada exitosamente',
-				'info' => ''
-			],
-			'code' => 1,
-		];
 		
-	echo json_encode($data);
-	exit();
+		if($resultado['ejecutar']) {
+			$data = [
+				'data' => [
+					'success' => true,
+					'message' => 'La persona y su representante han sido registrado con exito',
+					'info' => 'Guardado exitosamente'
+				],
+				'code' => 1,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+		
 	}
 
 			

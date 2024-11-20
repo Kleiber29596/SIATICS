@@ -122,4 +122,16 @@ class ModeloBase extends DB {
 		return $data;
 	}
 
+	public function FectAssoc($query)
+	{
+		$consulta = $this->db->prepare($query);
+	
+		$consulta->execute();
+	
+		$data = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+		return $data;
+	}
+
+	
 }
