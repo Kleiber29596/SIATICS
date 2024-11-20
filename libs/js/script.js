@@ -2433,6 +2433,7 @@ if (fechaNacInput) {
                         // Si la persona es mayor de edad
                         document.getElementById("contenedor_datos_representante").setAttribute("style","display: none;");
                         document.getElementById("datos_representante").setAttribute("style","display: none;");
+                        document.getElementById("consultar_representante").setAttribute("style", "display: none;");
                         document.getElementById("grupo_correo").removeAttribute("style");
                         document.getElementById("grupo_telefono").removeAttribute("style");
                         document.getElementById("grupo_direccion").removeAttribute("style");

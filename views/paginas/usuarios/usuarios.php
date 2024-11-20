@@ -204,9 +204,9 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="T_doc">Tipo</label>
                                         <select class="form-control" id="T_doc">
-                                            <option>V</option>
-                                            <option>E</option>
-                                            <option>P</option>
+                                            <option value="V">V</option>
+                                            <option value="E">E</option>
+                                            <option value="P">P</option>
                                         </select>
                                     </div>
                                 </div>

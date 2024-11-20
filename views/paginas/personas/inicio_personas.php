@@ -30,6 +30,8 @@ $update_parroquias = $objeto->selectParroquia();
                                 <tr>
                                     <th>Nº documento</th>
                                     <th>Nombres/Apellidos</th>
+                                    <th>Edad</th>
+                                    <th>Sexo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -49,7 +51,7 @@ $update_parroquias = $objeto->selectParroquia();
 <!-- Modal Agregar Persona-->
 <div class="modal fade" id="modalAgregarPersona" tabindex="-1" aria-labelledby="modalAgregarPersonaLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalAgregarPersona"> Agregar Personas <i class="fas fa-user"></i> </h5>
@@ -59,77 +61,21 @@ $update_parroquias = $objeto->selectParroquia();
             <div class="modal-body">
                 <form action="" id="formRegistrarPersona">
                     <div class="step" id="step-1">
+                         <!----------------- Grupo Nombres ----------------------->
                         <div class="row">
-                            <div class="col-sm-3" id="grupo_fecha_nac">
-                                <div class="form-group">
-                                    <label class="formulario__label" for="fecha_nac">Fecha de nacimiento</label>
-                                    <input type="date" class="form-control formulario__validacion__input" id="fecha_nac"
-                                        name="fecha_nac">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                                <p class="formulario__input-error">La fecha de nacimiento no puede ser una fecha futura.
-                                </p>
-                            </div>
-
-
-                            <div class="col-sm-3">
-                                <div class="form-group" id="grupo_tipo_documento">
-                                    <label class="formulario__label" for="tipo_documento">Tipo de documento</label>
-                                    <select class="form-control formulario__validacion__input" name="tipo_documento"
-                                        id="tipo_documento">
-                                        <option value="">Seleccione</option>
-                                        <option value="V">Venezolano</option>
-                                        <option value="E">Extranjero</option>
-                                        <option value="P">Pasaporte</option>
-                                    </select>
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-
-                            <!-------------------------- Grupo Nº documento ----------------------------------->
-
-                            <div class="col-sm-3" id="grupo_n_documento">
-                                <label class="formulario__label" for="n_documento">Numero de documento</label>
-                                <div class="form-group">
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="n_documento" name="n_documento" placeholder="numero de documento...">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                                <p class="formulario__input-error">El numero de documento debe contener solo numeros y
-                                    un
-                                    mínimo de 7
-                                    digitos y máximo 8.
-                                </p>
-                            </div>
-
-
-                            <div class="mb-3 col-sm-3">
-                                <div class="form-group" id="grupo_sexo">
-                                    <label class="formulario__label" for="sexo">Sexo</label>
-                                    <select class="form-control formulario__validacion__input" name="sexo" id="sexo">
-                                        <option value="">Seleccione</option>
-                                        <option value="Masculino">Masculino</option>
-                                        <option value="Femenino">Femenino</option>
-                                    </select>
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <!----------------- Grupo Nombres ----------------------->
-                        <div class="row">
-                            <div class="mb-3 col-sm-3" id="grupo_primer_nombre">
+                            <h5>Datos personales</h5>
+                            <div class="col-sm-3" id="grupo_primer_nombre">
                                 <label class="formulario__label" for="nombres">Primer nombre</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
-                                        type="text" id="primer_nombre" name="primer_nombre" placeholder="Primer nombre">
+                                        type="text" id="primer_nombre" name="primer_nombre" placeholder="Primer nombre" required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
                                     guion_bajo</p>
                             </div>
 
-                            <div class="mb-3 col-sm-3" id="grupo_segundo_nombre">
+                            <div class="col-sm-3" id="grupo_segundo_nombre">
                                 <label class="formulario__label" for="segundo_nombre">Segundo nombre</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
@@ -142,18 +88,18 @@ $update_parroquias = $objeto->selectParroquia();
 
 
                             <!----------------- Grupo Apellidos ----------------------->
-                            <div class="mb-3 col-sm-3" id="grupo_primer_apellido">
+                            <div class="col-sm-3" id="grupo_primer_apellido">
                                 <label class="formulario__label" for="primer_apellido">Primer apellido</label>
                                 <div class="form-group ">
                                     <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
-                                        type="text" id="primer_apellido" name="primer_apellido" placeholder="Primer apellido">
+                                        type="text" id="primer_apellido" name="primer_apellido" placeholder="Primer apellido" required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
                                     llevar acentos.</p>
                             </div>
 
-                            <div class="mb-3 col-sm-3" id="grupo_segundo_apellido">
+                            <div class="col-sm-3" id="grupo_segundo_apellido">
                                 <label class="formulario__label" for="grupo_primer_apellido">Segundo apellido</label>
                                 <div class="form-group ">
                                     <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
@@ -166,11 +112,34 @@ $update_parroquias = $objeto->selectParroquia();
                             </div>
 
                         </div>
+                        <br>
                         <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group" id="grupo_sexo">
+                                    <label class="formulario__label" for="sexo">Sexo</label>
+                                    <br>
+                                    Masculino <input class="formulario__validacion__input" type="radio" name="sexo" id="sexo" value="Masculino" selected>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group" id="grupo_sexo">
+                                    <label class="formulario__label" for="sexo"></label>
+                                    <br>
+                                    Femenino <input class="formulario__validacion__input" type="radio" name="sexo" id="sexo" value="Femenino">
+                                </div>
+                            </div>
+                            <div class="col-sm-4" id="grupo_fecha_nac">
+                                <div class="form-group">
+                                    <label class="formulario__label" for="fecha_nac">Fecha de nacimiento</label>
+                                    <input type="date" class="form-control formulario__validacion__input" id="fecha_nac"
+                                        name="fecha_nac" required>
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                                <p class="formulario__input-error">La fecha de nacimiento no puede ser una fecha futura.
+                                </p>
+                            </div>
 
-
-
-                            <div class="mb-3 col-sm-4" id="grupo_telefono">
+                            <div class="col-sm-4" id="grupo_telefono">
                                 <label class="formulario__label" for="telefono">Telefono</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" type="text" id="telefono"
@@ -181,32 +150,63 @@ $update_parroquias = $objeto->selectParroquia();
                                     digitos
                                 </p>
                             </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group" id="grupo_tipo_documento">
+                                    <label class="formulario__label" for="tipo_documento">Tipo</label>
+                                    <select class="form-control formulario__validacion__input" name="tipo_documento"
+                                        id="tipo_documento">
+                                        <option value="V">V</option>
+                                        <option value="E">E</option>
+                                        <option value="P">P</option>
+                                    </select>
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                            </div>
 
+                            <!-------------------------- Grupo Nº documento ----------------------------------->
 
-                            <div class="mb-3 col-sm-4" id="grupo_correo">
+                            <div class="col-sm-4" id="grupo_n_documento">
+                                <label class="formulario__label" for="n_documento">Numero de documento</label>
+                                <div class="form-group">
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="n_documento" name="n_documento" placeholder="numero de documento..." required>
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                                <p class="formulario__input-error">El numero de documento debe contener solo numeros y
+                                    un
+                                    mínimo de 7
+                                    digitos y máximo 8.
+                                </p>
+                            </div>
+                            <div class="col-sm-6" id="grupo_correo">
                                 <label class="formulario__label" for="correo">Correo</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" type="email" id="correo"
-                                        name="correo" placeholder="jhon@gmail.com">
+                                        name="correo" placeholder="tucorreo@ejemplo.com" required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">El correo solo puede contener letras, numeros,
                                     puntos,
                                     guiones.
                                 </p>
-                            </div>
-
-                            <div class="mb-3 col-sm-4" id="grupo_direccion">
-                                <label class="formulario__label " for="direccion">Dirección</label>
+                            </div>                            
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-12" id="grupo_direccion">
                                 <div class="form-group">
-                                    <input class="form-control formulario__validacion__input" placeholder="Dirección"
-                                        type="text" id="direccion" name="direccion">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                    <label class="formulario__label " for="direccion">Dirección corta</label>
+                                    <textarea class="form-control formulario__validacion__input" cols="4" rows="2" placeholder="Ingresa una dirección corta" id="direccion" name="direccion" required></textarea>
                                 </div>
                                 <p class="formulario__input-error">La dirección puede contener solo letras, numeros,
                                     espacios, puntos, numerales y guiones.
                                 </p>
                             </div>
+                            <div>
+                                <input type="hidden" name="tipo_persona" id="tipo_persona" value="Paciente">
+                            </div>                            
                         </div>
 
                         <div class="row mb-3" id="consultar_representante" style="display: none;">
@@ -333,7 +333,8 @@ $update_parroquias = $objeto->selectParroquia();
                                             <option value="">Seleccione</option>
                                             <option value="padre">Padre</option>
                                             <option value="madre">Madre</option>
-                                            <option value="otro">Otro</option>
+                                            <option value="otro">Abuela/o</option>
+                                            <option value="otro">Hermana/o</option>                                            
                                         </select>
                                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                     </div>
@@ -394,7 +395,7 @@ $update_parroquias = $objeto->selectParroquia();
                     <div class="step" id="step-2" style="display: none;">
 
 
-                        <p>Historial médico</p>
+                        <h5>Historial médico</h5>
                         <div class="row">
                             <div class="mb-3 col-sm-4">
                                 <div class="form-group" id="grupo_tipo_sangre">
@@ -415,7 +416,7 @@ $update_parroquias = $objeto->selectParroquia();
                                 </div>
                             </div>
 
-                            <div class="mb-3 col-sm-4">
+                            <div class="mb-3 col-sm-8">
                                 <div class="form-group" id="grupo_enfermedad">
                                     <label class="formulario__label" for="enfermedad">Enfermedad</label>
                                     <input class="form-control formulario__validacion__input" type="text"
@@ -423,7 +424,9 @@ $update_parroquias = $objeto->selectParroquia();
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="row">
                             <div class="mb-3 col-sm-4">
                                 <div class="form-group" id="grupo_fumador">
                                     <label class="formulario__label" for="fumador">Fumador</label>
@@ -431,6 +434,15 @@ $update_parroquias = $objeto->selectParroquia();
                                         <input class="form-check-input" type="checkbox" id="fumador" name="fumador">
                                         <label class="form-check-label" for="fumador">¿Es fumador?</label>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-sm-8">
+                                <div class="form-group" id="grupo_ciru_hospi">
+                                    <label class="formulario__label" for="ciru_hospi">Cirugías o
+                                        hospitalizaciones</label>
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="ciru_hospi" name="ciru_hospi" placeholder="Cirugías o hospitalizaciones...">
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                             </div>
                         </div>
@@ -445,7 +457,16 @@ $update_parroquias = $objeto->selectParroquia();
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="mb-3 col-sm-8">
+                                <div class="form-group" id="grupo_alergia">
+                                    <label class="formulario__label" for="alergia">Alergia</label>
+                                    <input class="form-control formulario__validacion__input" type="text" id="alergia"
+                                        name="alergia" placeholder="Alergias...">
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="row">
                             <div class="mb-3 col-sm-4">
                                 <div class="form-group" id="grupo_ac_fisica">
                                     <label class="formulario__label" for="ac_fisica">Actividad física</label>
@@ -456,7 +477,18 @@ $update_parroquias = $objeto->selectParroquia();
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="mb-3 col-sm-8">
+                                <div class="form-group" id="grupo_enfermedad_hered">
+                                    <label class="formulario__label" for="enfermedad_hered">Enfermedad
+                                        hereditaria</label>
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="enfermedad_hered" name="enfermedad_hered"
+                                        placeholder="Enfermedades hereditarias...">
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="row">
                             <div class="mb-3 col-sm-4">
                                 <div class="form-group" id="grupo_medicado">
                                     <label class="formulario__label" for="medicado">Medicado</label>
@@ -466,43 +498,18 @@ $update_parroquias = $objeto->selectParroquia();
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="mb-3 col-sm-4">
-                                <div class="form-group" id="grupo_ciru_hospi">
-                                    <label class="formulario__label" for="ciru_hospi">Cirugías o
-                                        hospitalizaciones</label>
+                            <div class="mb-3 col-sm-8" id="indiqueCual" style="display:none;">
+                                <div class="form-group">
+                                    <label class="formulario__label" for="indique_cual">Indique el medicamento</label>
                                     <input class="form-control formulario__validacion__input" type="text"
-                                        id="ciru_hospi" name="ciru_hospi" placeholder="Cirugías o hospitalizaciones...">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-
-                            <div class="mb-3 col-sm-4">
-                                <div class="form-group" id="grupo_alergia">
-                                    <label class="formulario__label" for="alergia">Alergia</label>
-                                    <input class="form-control formulario__validacion__input" type="text" id="alergia"
-                                        name="alergia" placeholder="Alergias...">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-
-                            <div class="mb-3 col-sm-4">
-                                <div class="form-group" id="grupo_enfermedad_hered">
-                                    <label class="formulario__label" for="enfermedad_hered">Enfermedad
-                                        hereditaria</label>
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="enfermedad_hered" name="enfermedad_hered"
-                                        placeholder="Enfermedades hereditarias...">
+                                        id="indique_cual" name="indique_cual"
+                                        placeholder="Especifique el medicamento...">
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-
-
                 </form>
             </div>
 
@@ -510,8 +517,7 @@ $update_parroquias = $objeto->selectParroquia();
                 <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;"
                     onclick="nextPrev(-1)">Anterior</button>
                 <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">Siguiente</button>
-                <button type="button" class="btn btn-secondary" title="Cerrar el modal"
-                    data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" id="agregar_persona" title="Agregar persona"
                     style="display: none;"><i class="fas fa-save"></i> Guardar</button>
             </div>
@@ -709,6 +715,17 @@ function nextPrev(n) {
 
     showStep(currentStep);
 }
+
+const checkbox = document.getElementById('medicado');
+const inputText = document.getElementById('indiqueCual');
+
+checkbox.addEventListener('change', function() {
+    if (this.checked) {
+        inputText.style.display = 'block'; // Mostrar el input de texto
+    } else {
+        inputText.style.display = 'none'; // Ocultar el input de texto
+    }
+});
 </script>
 
 
