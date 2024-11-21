@@ -17,7 +17,6 @@ class UsuarioModel extends ModeloBase {
 	}	
 /*------------ Metodo para registrar usuarios--------*/
     public function registrarUsuario($datos) {
-        	
         $db = new ModeloBase();
 		try {
 			$insertar = $db->insertar('usuario', $datos);
@@ -31,11 +30,11 @@ class UsuarioModel extends ModeloBase {
 
         $db = new ModeloBase();
 		try {
-			$insertar = $db->insertar('usuario', $datos);
+			$insertar = $db->insertar('doctor', $datos);
 			return $insertar;
 		}catch	(PDOException $e) {
 			echo $e->getMessage();
-		} 
+		}
     }
 /*------------ Metodo para verificar usuario -------*/
 	public function verificarUsuario($usuario, $contrasena)

@@ -184,14 +184,14 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="sexo">Sexo</label>
                                         <br>
-                                        Masculino <input class="" type="radio" name="sexo" id="sexo" value="M" selected>
+                                        Masculino <input class="" type="radio" name="sexo" id="sexo" value="Masculino" selected>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="sexo"></label>
                                         <br>
-                                        Femenino <input class="" type="radio" name="sexo" id="sexo" value="F">
+                                        Femenino <input class="" type="radio" name="sexo" id="sexo" value="Femenino">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -333,7 +333,7 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="rol">Roll</label>
                                         <select class="form-control" name="rol" id="rol">
-                                            <option value="3" selected disabled>Doctor/a</option>
+                                            <option value="13" selected disabled>Doctor/a</option>
                                         </select>
                                     </div>
                                 </div>

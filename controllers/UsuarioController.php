@@ -242,40 +242,59 @@ EOT;
 			    $RegistroPersona = $modelPersonas->registrarPersona($datosPersona);
 
 			   if ($RegistroPersona == true) {
+
+				   	$horario = $miArreglo['horarios'];
+
+					/*foreach ($horario as $value) {
+						$id_especialidad = $miArreglo['especialidad'];
+				    	$id_persona = $RegistroPersona;
+						$dia = $value['dia'];
+						$hora_entrada = $value['hora_entrada'];
+						$hora_salida = $value['hora_salida'];
+
+						$datosHorario[] = [
+					        'id_especialidad' => $id_especialidad,
+					        'id_persona' => $id_persona,
+					        'dia' => $dia,
+					        'hora_entrada' => $hora_entrada,
+					        'hora_salida' => $hora_salida
+					    ];
+					}*/
+
+				   /* $datosUsuario = [
+				    	'id_Persona' => $RegistroPersona['ultimo_id'],
+				        'usuario' => $miArreglo['usuario'],
+				        'foto' => $miArreglo['archivo'],
+				        'contrasena' => $miArreglo['contrasena'],
+				        'id_rol' => $miArreglo['rol'],
+				        'estatus' => 1,
+				    ];
+
+				    $RegistroUsuario = $modelUsuario->registrarUsuario($datosUsuario);
+				    $RegistroHorario = $modelUsuario->registrarHorario($datosHorario);
+
+				    if (!$RegistroUsuario) {
+				    	echo json_encode('Hubo problemas al registrar el usuario');
+				    	exit();
+				    }else{
+				    	if (!$RegistroHorario) {
+					    	echo json_encode('Hubo problemas al registrar el horario');
+					    	exit();
+					    }else{
+					    	echo json_encode(true);
+							exit();
+					    }
+				    }*/
+
+				    echo json_encode($horario);
+				    exit();
 			   	
-				   	 $reslt = [
-						'reslt' => [
-							'success'            =>  true,
-							'message'            => 'Registro con exito',
-							'info'               =>  '',
-							'id'				 => $RegistroPersona,
-						],
-						'code' => 0,
-					];
 			   }else{
-			   		return false;
+					echo json_encode(false);
 					exit();
 			   }
 
-			    echo json_encode($reslt);
-				exit();
-
-			   /* $datosHorario = [
-			    	'idPersona' => $RegistroPersona,
-			    	'horarios' => $miArreglo['horarios'], // Esto ya es un arreglo
-			    ];
-
-			    $datosUsuario = [
-			    	'idPersona' => $RegistroPersona,
-			        'contrasena' => $miArreglo['contrasena'],
-			        'usuario' => $miArreglo['usuario'],
-			        'rol' => $miArreglo['rol'],
-			        'especialidad' => $miArreglo['especialidad'],
-			        'archivo' => $miArreglo['archivo'],
-			    ];
-
-			    $RegistroUsuario = $modelUsuario->registrarUsuario($datosUsuario);
-			    $RegistroHorario = $modelUsuario->registrarHorario($datosHorario);
+			   /*
 			    if ($RegistroPersona) {
 			    	if ($RegistroUsuario == true) {
 			    		if ($RegistroHorario == true) {

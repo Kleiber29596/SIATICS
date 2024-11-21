@@ -11,13 +11,18 @@ class PersonasModel extends ModeloBase
 
 	public function registrarPersona($datos)
 	{
-		$db = new ModeloBase();
+		if ($datos) {
+			return 1;
+		}else{
+			return 2;
+		}
+		/*$db = new ModeloBase();
 		try {
 			$insertar = $db->insertar('personas', $datos);
 			return $insertar;
 		} catch (PDOException $e) {
 			echo $e->getMessage();
-		}
+		}*/
 	}
 
 	/* Registrar representante */
