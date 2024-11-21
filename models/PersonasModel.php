@@ -154,7 +154,7 @@ public function listarDatosPersona($id_persona) {
 
 	public function historiaConsultas($id_persona) {
 		$db = new ModeloBase();
-	    $query = "SELECT c.id_consulta, c.diagnostico, c.id_especialidad, c.id_tipo_consulta, c.fecha_registro, e.nombre_especialidad, t.motivo, CONCAT(u.nombre,' ',u.apellido) AS especialista FROM consultas AS c INNER JOIN especialidad AS e ON e.id_especialidad = c.id_especialidad INNER JOIN tipo_consulta AS t ON t.id_tipo_consulta = c.id_consulta INNER JOIN usuario AS u ON u.id = c.id WHERE c.id_persona = ".$id_persona."";
+	    $query = "SELECT c.id_consulta, c.diagnostico, c.id_especialidad, c.id_tipo_consulta, c.fecha_registro, e.nombre_especialidad, t.motivo, CONCAT(p.p_nombre,' ',p.p_apellido) AS especialista FROM consultas AS c INNER JOIN especialidad AS e ON e.id_especialidad = c.id_especialidad INNER JOIN tipo_consulta AS t ON t.id_tipo_consulta = c.id_consulta INNER JOIN personas AS p ON p.id_persona = c.id_persona WHERE c.id_persona = ".$id_persona."";
 	    $resultado = $db->FectAssoc($query);
 	    return $resultado;
 	}

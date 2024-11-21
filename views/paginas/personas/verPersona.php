@@ -146,13 +146,13 @@ if ($rol == 3) {
                                         </a>
                                     </p>
                                     <div class="collapse" id="collapseExample">
-                                        <div  class="table-responsive mb-3">
+                                        <div class="table-responsive mb-3">
                                             <table class="table table-bordered table-hover ">
 
                                                 <thead>
                                                     <tr class="table-primary">
                                                         <th>Tipo de sangre</th>
-                                                        <th>Enfermedad</th>
+                                                        <th>Enfermedades</th>
                                                         <th>¿Fumador?</th>
                                                         <th>¿Alcohol?</th>
                                                         <th>¿Actividad Fisica?</th>
@@ -163,14 +163,16 @@ if ($rol == 3) {
                                                 </thead>
                                                 <tbody>
                                                     <tr class="table-primary">
-                                                        <td  style="text-align: center;"><?= $tipo_sangre ?></td>
-                                                        <td  style="text-align: center;"><?= $enfermedad ?></td>
-                                                        <td  style="text-align: center;"><?= $fumador ?></td>
-                                                        <td  style="text-align: center;"><?= $alcohol ?></td>
-                                                        <td  style="text-align: center;"><?= $actividad_fisica ?></td>
-                                                        <td  style="text-align: center;"><?= $cirugia_hospitalaria ?></td>
-                                                        <td  style="text-align: center;"><?= $alergia ?></td>
-                                                        <td  style="text-align: center;"><?= $enfermedad_hereditaria ?></td>
+                                                        <td style="text-align: center;"><?= $tipo_sangre ?></td>
+                                                        <td style="text-align: center;"><?= $enfermedad ?></td>
+                                                        <td style="text-align: center;"><?= $fumador ?></td>
+                                                        <td style="text-align: center;"><?= $alcohol ?></td>
+                                                        <td style="text-align: center;"><?= $actividad_fisica ?></td>
+                                                        <td style="text-align: center;"><?= $cirugia_hospitalaria ?>
+                                                        </td>
+                                                        <td style="text-align: center;"><?= $alergia ?></td>
+                                                        <td style="text-align: center;"><?= $enfermedad_hereditaria ?>
+                                                        </td>
                                                     </tr>
 
                                                 </tbody>
@@ -201,8 +203,8 @@ if ($rol == 3) {
                                                 <tbody>
                                                     <?php if(!empty($historia_consultas)){
                                                      foreach ($historia_consultas as $h) { ?>
-                                                    
-                                                        
+
+
                                                     <tr class="table-primary">
                                                         <td>
                                                             <?php echo $h['fecha_registro'] ?>
@@ -225,10 +227,11 @@ if ($rol == 3) {
 
                                                     <?php }} else{?>
 
-                                                    <tr class="table-primary">
-                                                        <td colspan="5" style="text-align: center;">No hay registros</td>
+                                                    <tr class="table-primary" style="text-align: center;">
+                                                        <td colspan="5" style="text-align: center;">No hay registros
+                                                        </td>
                                                     </tr>
-                                                    
+
 
                                                     <?php } ?>
 
