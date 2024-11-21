@@ -124,7 +124,7 @@ class UsuarioController
 		// DB table to use 
 		$table = <<<EOT
         (
-			SELECT u.id, u.cedula, u.usuario, CONCAT(u.nombre,' ',u.apellido) AS nombres_apellidos, u.correo, u.foto, u.estatus, r.rol FROM usuario AS u INNER JOIN roles AS r ON u.rol = r.id ORDER BY u.id DESC) temp
+			SELECT u.id, p.n_documento, u.usuario, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos, p.correo, u.foto, u.estatus, r.rol FROM usuario AS u INNER JOIN roles AS r ON u.id_rol = r.id INNER JOIN personas AS p ON p.id_persona = u.id_Persona ORDER BY u.id DESC) temp
 EOT;
 
 
@@ -133,7 +133,7 @@ EOT;
 		// The `dt` parameter represents the DataTables column identifier. 
 		$columns = array(
 
-			array('db' => 'cedula',  		    'dt' => 0),
+			array('db' => 'n_documento',  		    'dt' => 0),
 			array('db' => 'usuario',      	    'dt' => 1),
 			array('db' => 'rol',      	        'dt' => 2),
 			array('db' => 'nombres_apellidos',  'dt' => 3),
@@ -220,8 +220,6 @@ EOT;
 				$miArreglo = (array) $miObjeto;
 
 				$datosPersona = [];
-				$datosHorario = [];
-				$datosUsuario = [];
 
 				$datosPersona = [
 			        'tipo_persona' => $miArreglo['tipo_persona'],
@@ -244,30 +242,35 @@ EOT;
 			   if ($RegistroPersona == true) {
 
 				   	$horario = $miArreglo['horarios'];
+				   	$id_especialidad = $miArreglo['especialidad'];
+				   	$id_persona = $RegistroPersona['ultimo_id'];			
 
-					/*foreach ($horario as $value) {
-						$id_especialidad = $miArreglo['especialidad'];
-				    	$id_persona = $RegistroPersona;
-						$dia = $value['dia'];
-						$hora_entrada = $value['hora_entrada'];
-						$hora_salida = $value['hora_salida'];
+					$datosHorario = [];
 
-						$datosHorario[] = [
-					        'id_especialidad' => $id_especialidad,
-					        'id_persona' => $id_persona,
-					        'dia' => $dia,
-					        'hora_entrada' => $hora_entrada,
-					        'hora_salida' => $hora_salida
-					    ];
-					}*/
+					foreach ($horario as $item) {
+					    // Asegúrate de que $item sea un objeto y tenga las propiedades necesarias
+					    if (is_object($item) && isset($item->dia, $item->hora_entrada, $item->hora_salida)) {
+					        $datosHorario[] = [
+					            'dia' => $item->dia,
+					            'hora_entrada' => trim($item->hora_entrada),
+					            'hora_salida' => trim($item->hora_salida),
+					            'id_persona' => $id_persona,
+					            'id_especialidad' => $id_especialidad
+					        ];
+					    } else {
+					        echo "Error: El horario no es un objeto válido.\n";
+					    }
+					}
 
-				   /* $datosUsuario = [
-				    	'id_Persona' => $RegistroPersona['ultimo_id'],
+					$datosUsuario = [];
+
+				   	$datosUsuario = [
+				    	'id_Persona' => $id_persona,
 				        'usuario' => $miArreglo['usuario'],
 				        'foto' => $miArreglo['archivo'],
 				        'contrasena' => $miArreglo['contrasena'],
 				        'id_rol' => $miArreglo['rol'],
-				        'estatus' => 1,
+				        'estatus' => 1
 				    ];
 
 				    $RegistroUsuario = $modelUsuario->registrarUsuario($datosUsuario);
@@ -284,34 +287,12 @@ EOT;
 					    	echo json_encode(true);
 							exit();
 					    }
-				    }*/
-
-				    echo json_encode($horario);
-				    exit();
+				    }
 			   	
 			   }else{
 					echo json_encode(false);
 					exit();
 			   }
-
-			   /*
-			    if ($RegistroPersona) {
-			    	if ($RegistroUsuario == true) {
-			    		if ($RegistroHorario == true) {
-							echo json_encode(true);
-							exit();
-			    		}else{
-							echo 'No se pudo registrar Horario.';
-							exit();			    			
-			    		}
-			    	}else{
-						echo 'No se pudo registrar usuario.';
-						exit();
-			    	}
-			    }else{
-					echo 'No se pudo registrar persona.';
-					exit();
-			    }*/
    		   }else{
    		   		echo json_encode(false);
 			    exit();

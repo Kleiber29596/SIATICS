@@ -236,7 +236,7 @@ if (agregarHorarioButton) {
         diasAgregados.push(dia);
         const nuevoHorario = document.createElement("div");
         nuevoHorario.classList.add("horario");
-        nuevoHorario.innerHTML = `<div class="row mt-2">
+        nuevoHorario.innerHTML = `<div class="row mt-2" id="camposNew">
           <div class="col-md-4">
               <label class="form-group" for="dia">Día de la semana</label>
               <input type="text" class="form-control" name="campo1" value="${dia}" disabled>
@@ -425,9 +425,12 @@ if (document.getElementById("agregar_usuario")) {
                  Swal.fire({
                     icon: 'success',
                     title: 'Excelente',
-                    text: 'Los datos han sido enviado de manera exitosa.',
+                    text: 'Los datos han sido registrados de manera exitosa.',
                   });
                 document.getElementById("formRegistrarUsuario").reset();
+                document.getElementById("camposNew").innerHTML = '';
+                nuevoHorario = []; // Limpiar el arreglo
+                horarios = []; // Limpiar el arreglo
                 $("#agregarUsuarioModal").modal("hide");
                 $("#tablaUsuario").DataTable().ajax.reload();
               };
@@ -437,7 +440,7 @@ if (document.getElementById("agregar_usuario")) {
               Swal.fire({
                 icon: "error",
                 title: "Atención",
-                text: "El servidor tuvo problemas al enviar los datos.",
+                text: "El servidor tuvo problemas al registrar los datos.",
                 confirmButtonColor: "#3085d6",
               });
           });

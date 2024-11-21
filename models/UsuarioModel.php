@@ -27,13 +27,23 @@ class UsuarioModel extends ModeloBase {
     }
 /*------------ Metodo para registrar Horario--------*/
     public function registrarHorario($datos) { 
+    	$db = new ModeloBase();
+    	try {
+		    foreach ($datos as $data) {
+		        // Llamar a la función insertar para cada horario
+		      $insertar = $db->insertar('doctor', $data);
+		      //echo "Horario para " . $data['dia'] . " insertado correctamente.\n";		        
+		    }
 
-        $db = new ModeloBase();
-		try {
-			$insertar = $db->insertar('doctor', $datos);
-			return $insertar;
-		}catch	(PDOException $e) {
-			echo $e->getMessage();
+		    if ($insertar) {	            
+	            return $insertar;
+	        } else {
+	            //echo "Error al insertar el horario para " . $data['dia'] . ".\n";
+	            return false;
+	        }
+
+		} catch (PDOException $e) {
+		    echo "Error: " . $e->getMessage();
 		}
     }
 /*------------ Metodo para verificar usuario -------*/
