@@ -124,7 +124,7 @@ class UsuarioController
 		// DB table to use 
 		$table = <<<EOT
         (
-			SELECT u.id, p.n_documento, u.usuario, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos, p.correo, u.foto, u.estatus, r.rol FROM usuario AS u INNER JOIN roles AS r ON u.id_rol = r.id INNER JOIN personas AS p ON p.id_persona = u.id_Persona ORDER BY u.id DESC) temp
+			SELECT u.id, CONCAT(p.tipo_documento, '-', p.n_documento) AS n_documento, u.usuario, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos, p.correo, u.foto, u.estatus, r.rol FROM usuario AS u INNER JOIN personas AS p ON p.id_persona = u.id_Persona INNER JOIN roles AS r ON r.id = u.id_rol ORDER BY u.id DESC) temp
 EOT;
 
 
@@ -133,7 +133,7 @@ EOT;
 		// The `dt` parameter represents the DataTables column identifier. 
 		$columns = array(
 
-			array('db' => 'n_documento',  		    'dt' => 0),
+			array('db' => 'n_documento',  		'dt' => 0),
 			array('db' => 'usuario',      	    'dt' => 1),
 			array('db' => 'rol',      	        'dt' => 2),
 			array('db' => 'nombres_apellidos',  'dt' => 3),

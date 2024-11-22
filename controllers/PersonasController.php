@@ -66,7 +66,7 @@ class PersonasController
 		// DB table to use 
 		$table = <<<EOT
         (
-            SELECT pe.id_persona, CONCAT(pe.tipo_documento, '-', pe.n_documento) AS documento, CONCAT(pe.p_nombre,' ',pe.s_nombre,' ', pe.p_apellido,' ',pe.s_apellido) AS nombres_apellidos, pe.sexo, pe.telefono, pe.correo FROM personas AS pe ORDER BY pe.id_persona DESC
+            SELECT pe.id_persona, CONCAT(pe.tipo_documento, '-', pe.n_documento) AS documento, CONCAT(pe.p_nombre,' ',pe.s_nombre,' ', pe.p_apellido,' ',pe.s_apellido) AS nombres_apellidos, pe.sexo, pe.telefono, pe.correo FROM personas AS pe WHERE pe.tipo_persona = 'paciente' ORDER BY pe.id_persona DESC
         ) temp
         EOT;
 
@@ -140,6 +140,7 @@ class PersonasController
 			'telefono'           => $_POST['telefono'],
 			'correo'             => $_POST['correo'],
 			'direccion'          => $_POST['direccion'],
+			'tipo_persona'       => $_POST['tipo_persona'],
 			'fecha_registro'     => $fecha_registro
 		);
 	

@@ -49,8 +49,7 @@ class RolesController
 				'dt'        => 2,
 				'formatter' => function ($d, $row) {
 					return ($d == 1) ? '<button class="btn btn-success btn-sm">Activo</button>' : '<button class="btn btn-danger btn-sm">Inactivo</button>';
-				}
-			),
+				}),
 			array('db' => 'id', 'dt' => 3),
 			array('db' => 'estatus', 'dt' => 4)
 			//array( 'db' => 'fecha_registro','dt' => 9 ),
@@ -80,7 +79,7 @@ class RolesController
 		$fecha_actual = date("Y-m-d");
 
 		//Validar que el visitante no ingrese dos veces al sistema el mismo día
-		$entrada_roles_hoy = $modelroles->validarEntradaDia($rol, $fecha_actual);
+		$entrada_roles_hoy = $modelroles->validarEntradaDia($rol);
 
 		foreach ($entrada_roles_hoy as $entrada_roles_hoy) {
 			$id_entrada_roles = $entrada_roles_hoy['id'];
@@ -92,7 +91,7 @@ class RolesController
 			$data = [
 				'data' => [
 					'success'            =>  false,
-					'message'            => 'El rol ya ha sido ingresado el día de hoy',
+					'message'            => 'El rol ya ha sido ingresado',
 					'info'               =>  'Fecha de hoy ' . $fecha_actual . ''
 				],
 				'code' => 0,
@@ -123,7 +122,7 @@ class RolesController
 			'rol'		=> $_POST['rol'],
 
 			'estatus'		=> $_POST['estatus'],
-			'fecha'			=> $fecha_actual,
+			//'fecha'			=> $fecha_actual,
 		);
 
 		/* comprobar campos vacios */

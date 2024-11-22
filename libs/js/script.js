@@ -81,7 +81,14 @@ function mayus(e) {
   e.value = e.value.toUpperCase();
 }
 function pmayus(e) {
-  e.value = e.value.charAt(0).toUpperCase();
+    // Obtener el valor actual del campo
+    let valor = e.value;
+
+    // Eliminar espacios
+    valor = valor.replace(/\s+/g, '');
+
+    // Transformar la primera letra en mayúscula y concatenar el resto de la cadena
+    e.value = valor.charAt(0).toUpperCase() + valor.slice(1);
 }
 
 // Función para obtener los datos de todas las filas
@@ -2137,6 +2144,7 @@ if (agregar_persona = document.getElementById("agregar_persona")) {
     let telefono         = document.getElementById("telefono").value;
     let correo           = document.getElementById("correo").value;
     let direccion        = document.getElementById("direccion").value;
+    let tipo_persona        = document.getElementById("tipo_persona").value;
 
     if (fecha_nac === '') {
         Swal.fire({
@@ -2149,7 +2157,7 @@ if (agregar_persona = document.getElementById("agregar_persona")) {
 
     }
 
-    if(primer_nombre == '' || segundo_nombre == '' ) {
+    if(primer_nombre == '' /*|| segundo_nombre == ''*/ ) {
         
         Swal.fire({
             icon: "warning",
@@ -2160,7 +2168,7 @@ if (agregar_persona = document.getElementById("agregar_persona")) {
         return false;
     }
 
-    if(primer_apellido == '' || segundo_apellido == '' ) {
+    if(primer_apellido == '' /*|| segundo_apellido == ''*/ ) {
         
   
         Swal.fire({
@@ -2261,6 +2269,7 @@ if (nombres_r != '') {
         sexo: sexo,
         correo: correo,
         direccion: direccion,
+        tipo_persona: tipo_persona,
 
          /* ---- validaciones ----*/
 

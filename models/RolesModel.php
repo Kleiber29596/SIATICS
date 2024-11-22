@@ -65,10 +65,10 @@ class RolesModel extends ModeloBase
 
 	/*------------ Metodo para mostrar un registro roles --------*/
 
-	public function validarEntradaDia($rol, $fecha_actual)
+	public function validarEntradaDia($rol)
 	{
 		$db = new ModeloBase();
-		$query = "SELECT * FROM roles WHERE rol = '$rol' AND fecha = '$fecha_actual'";
+		$query = "SELECT * FROM roles WHERE rol = '$rol'";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}

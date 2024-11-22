@@ -127,8 +127,7 @@ if ($rol == 3) {
                             <div class="form-group">
                                 <label for="estatus">Estatus</label>
                                 <select class="form-control" name="estatus" id="estatus">
-                                    <option value="">Seleccione</option>
-                                    <option value="1">Activo</option>
+                                    <option value="1" selected>Activo</option>
                                     <option value="2">Inactivo</option>
                                 </select>
                             </div>

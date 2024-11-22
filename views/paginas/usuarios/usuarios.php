@@ -151,7 +151,7 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="p_nombre">Primer nombre</label>
                                         <input class="form-control" type="text" name="p_nombre" id="p_nombre"
-                                            placeholder="Primer nombre" required>
+                                            placeholder="Primer nombre" onkeyup="pmayus(this)" required>
                                     </div>
                                 </div>
                                 <br>
@@ -159,7 +159,7 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="s_nombre">Segundo nombre</label>
                                         <input class="form-control" type="text" name="s_nombre" id="s_nombre"
-                                            placeholder="Segundo nombre">
+                                            placeholder="Segundo nombre" onkeyup="pmayus(this)">
                                     </div>
                                 </div>
                                 <br>
@@ -167,7 +167,7 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="p_apellido">Primer apellido</label>
                                         <input class="form-control" type="text" name="p_apellido" id="p_apellido"
-                                            placeholder="Primer apellido" required>
+                                            placeholder="Primer apellido" onkeyup="pmayus(this)" required>
                                     </div>
                                 </div>
                                 <br>
@@ -175,7 +175,7 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="s_apellido">Segundo apellido</label>
                                         <input class="form-control" type="text" name="s_apellido" id="s_apellido"
-                                            placeholder="Segundo apellido">
+                                            placeholder="Segundo apellido" onkeyup="pmayus(this)">
                                     </div>
                                 </div>
                             </div>
@@ -247,7 +247,7 @@ if ($rol == 3) {
                                     </div>
                                 </div>
                                 <div>
-                                    <input type="hidden" name="tipo_persona" id="tipo_persona" value="Doctor/a">
+                                    <input type="hidden" name="tipo_persona" id="tipo_persona" value="usuario">
                                 </div>
                             </div>
                             <br>
@@ -333,7 +333,7 @@ if ($rol == 3) {
                                     <div class="form-group">
                                         <label for="rol">Roll</label>
                                         <select class="form-control" name="rol" id="rol">
-                                            <option value="13" selected disabled>Doctor/a</option>
+                                            <option value="3" selected disabled>Doctor/a</option>
                                         </select>
                                     </div>
                                 </div>

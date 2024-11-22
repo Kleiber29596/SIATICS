@@ -7,6 +7,12 @@ $update_municipios = $objeto->selectMunicipio();
 $update_parroquias = $objeto->selectParroquia();
 ?>
 
+<style>
+.error {
+    border: 2px solid red; /* Resaltar con borde rojo */
+}
+</style>
+
 <div class="pagetitle">
     <h1>Personas <i class="fas fa-user"></i></h1>
 </div><!-- End Page Title -->
@@ -65,7 +71,7 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-3" id="grupo_primer_nombre">
                                 <label class="formulario__label" for="nombres">Primer nombre</label>
                                 <div class="form-group">
-                                    <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
+                                    <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
                                         type="text" id="primer_nombre" name="primer_nombre" placeholder="Primer nombre"
                                         required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -77,7 +83,7 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-3" id="grupo_segundo_nombre">
                                 <label class="formulario__label" for="segundo_nombre">Segundo nombre</label>
                                 <div class="form-group">
-                                    <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
+                                    <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
                                         type="text" id="segundo_nombre" name="segundo_nombre"
                                         placeholder="Segundo nombre">
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -91,7 +97,7 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-3" id="grupo_primer_apellido">
                                 <label class="formulario__label" for="primer_apellido">Primer apellido</label>
                                 <div class="form-group ">
-                                    <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
+                                    <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
                                         type="text" id="primer_apellido" name="primer_apellido"
                                         placeholder="Primer apellido" required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -103,7 +109,7 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-3" id="grupo_segundo_apellido">
                                 <label class="formulario__label" for="grupo_primer_apellido">Segundo apellido</label>
                                 <div class="form-group ">
-                                    <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
+                                    <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
                                         type="text" id="segundo_apellido" name="segundo_apellido"
                                         placeholder="Segundo apellido">
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -202,9 +208,7 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-12" id="grupo_direccion">
                                 <div class="form-group">
                                     <label class="formulario__label " for="direccion">Dirección corta</label>
-                                    <textarea class="form-control formulario__validacion__input" cols="4" rows="2"
-                                        placeholder="Ingresa una dirección corta" id="direccion" name="direccion"
-                                        required></textarea>
+                                    <textarea class="form-control formulario__validacion__input" cols="4" rows="2" placeholder="Ingresa una dirección corta" id="direccion" name="direccion" required></textarea>
                                 </div>
                                 <p class="formulario__input-error">La dirección puede contener solo letras, numeros,
                                     espacios, puntos, numerales y guiones.
@@ -310,7 +314,7 @@ $update_parroquias = $objeto->selectParroquia();
                                 <div class="mb-3 col-sm-3" id="grupo_nombres_r">
                                     <label class="formulario__label" for="nombres">Nombres</label>
                                     <div class="form-group">
-                                        <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
+                                        <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
                                             type="text" id="nombres_r" name="nombres_r" placeholder="Nombres">
                                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                     </div>
@@ -321,7 +325,7 @@ $update_parroquias = $objeto->selectParroquia();
                                 <div class="mb-3 col-sm-3" id="grupo_apellidos_r">
                                     <label class="formulario__label" for="apellidos">Apellidos</label>
                                     <div class="form-group ">
-                                        <input class="form-control formulario__validacion__input" onkeyup="mayus(this);"
+                                        <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
                                             type="text" id="apellidos_r" name="apellidos_r" placeholder="Apellidos">
                                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                     </div>
@@ -671,6 +675,9 @@ $update_parroquias = $objeto->selectParroquia();
                                 guiones.
                             </p>
                         </div>
+                        <div>
+                            <input type="hidden" name="tipo_persona" id="tipo_persona" value="paciente">
+                        </div>
                     </div>
                     <br>
                     <div class="modal-footer">
@@ -710,17 +717,42 @@ function showStep(step) {
 
 function nextPrev(n) {
     var steps = document.getElementsByClassName("step");
+    var currentStepElement = steps[currentStep - 1];
 
-    // Eliminamos la validación completamente
-    steps[currentStep - 1].style.display = "none";
+    // Validación de campos requeridos en el paso actual
+    if (n === 1 && !validateCurrentStep(currentStepElement)) {
+        return; // No avanzar si la validación falla
+    }
+
+    // Ocultar el paso actual
+    currentStepElement.style.display = "none";
     currentStep += n;
 
+    // Si estamos en el último paso, enviar el formulario
     if (currentStep > steps.length) {
         document.getElementById("formRegistrarPersonas").submit();
         return false;
     }
 
+    // Mostrar el siguiente paso
     showStep(currentStep);
+}
+
+function validateCurrentStep(stepElement) {
+    var inputs = stepElement.getElementsByTagName("input");
+    var isValid = true;
+
+    for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].hasAttribute("required") && !inputs[i].value) {
+            isValid = false;
+            inputs[i].classList.add("error"); // Agregar clase de error
+            // Puedes mostrar un mensaje de error aquí si lo deseas
+        } else {
+            inputs[i].classList.remove("error"); // Remover clase de error si está lleno
+        }
+    }
+
+    return isValid;
 }
 
 const checkbox = document.getElementById('medicado');

@@ -39,8 +39,8 @@ class EspecialidadController {
 
 			
 			array('db' => 'nombre_especialidad',  'dt' => 0),
-			array('db' => 'modalidad', 			  'dt' => 1),
-			array('db' => 'tm_porcita',           'dt' => 2),
+			array('db' => 'modalidad',            'dt' => 1),
+			array('db' => 'tm_porcita',		      'dt' => 2),			      
 			array('db' => 'id_especialidad', 	  'dt' => 3)
 
 		);
