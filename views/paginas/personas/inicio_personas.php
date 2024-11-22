@@ -9,7 +9,8 @@ $update_parroquias = $objeto->selectParroquia();
 
 <style>
 .error {
-    border: 2px solid red; /* Resaltar con borde rojo */
+    border: 2px solid red;
+    /* Resaltar con borde rojo */
 }
 </style>
 
@@ -83,9 +84,8 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-3" id="grupo_segundo_nombre">
                                 <label class="formulario__label" for="segundo_nombre">Segundo nombre</label>
                                 <div class="form-group">
-                                    <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
-                                        type="text" id="segundo_nombre" name="segundo_nombre"
-                                        placeholder="Segundo nombre">
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="segundo_nombre" name="segundo_nombre" placeholder="Segundo nombre">
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
@@ -97,9 +97,9 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-3" id="grupo_primer_apellido">
                                 <label class="formulario__label" for="primer_apellido">Primer apellido</label>
                                 <div class="form-group ">
-                                    <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
-                                        type="text" id="primer_apellido" name="primer_apellido"
-                                        placeholder="Primer apellido" required>
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="primer_apellido" name="primer_apellido" placeholder="Primer apellido"
+                                        required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
@@ -109,9 +109,8 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-3" id="grupo_segundo_apellido">
                                 <label class="formulario__label" for="grupo_primer_apellido">Segundo apellido</label>
                                 <div class="form-group ">
-                                    <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
-                                        type="text" id="segundo_apellido" name="segundo_apellido"
-                                        placeholder="Segundo apellido">
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="segundo_apellido" name="segundo_apellido" placeholder="Segundo apellido">
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
@@ -208,7 +207,9 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-12" id="grupo_direccion">
                                 <div class="form-group">
                                     <label class="formulario__label " for="direccion">Dirección corta</label>
-                                    <textarea class="form-control formulario__validacion__input" cols="4" rows="2" placeholder="Ingresa una dirección corta" id="direccion" name="direccion" required></textarea>
+                                    <textarea class="form-control formulario__validacion__input" cols="4" rows="2"
+                                        placeholder="Ingresa una dirección corta" id="direccion" name="direccion"
+                                        required></textarea>
                                 </div>
                                 <p class="formulario__input-error">La dirección puede contener solo letras, numeros,
                                     espacios, puntos, numerales y guiones.
@@ -314,8 +315,9 @@ $update_parroquias = $objeto->selectParroquia();
                                 <div class="mb-3 col-sm-3" id="grupo_nombres_r">
                                     <label class="formulario__label" for="nombres">Nombres</label>
                                     <div class="form-group">
-                                        <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
-                                            type="text" id="nombres_r" name="nombres_r" placeholder="Nombres">
+                                        <input class="form-control formulario__validacion__input"
+                                            onkeyup="pmayus(this);" type="text" id="nombres_r" name="nombres_r"
+                                            placeholder="Nombres">
                                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                     </div>
                                     <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
@@ -325,8 +327,9 @@ $update_parroquias = $objeto->selectParroquia();
                                 <div class="mb-3 col-sm-3" id="grupo_apellidos_r">
                                     <label class="formulario__label" for="apellidos">Apellidos</label>
                                     <div class="form-group ">
-                                        <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
-                                            type="text" id="apellidos_r" name="apellidos_r" placeholder="Apellidos">
+                                        <input class="form-control formulario__validacion__input"
+                                            onkeyup="pmayus(this);" type="text" id="apellidos_r" name="apellidos_r"
+                                            placeholder="Apellidos">
                                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                     </div>
                                     <p class="formulario__input-error">El apellido debe contener Letras y espacios,

@@ -126,8 +126,7 @@ selects.forEach((select) => {
 	select.addEventListener('change', validarFormulario);
 });
 
-
-const validarFechaNacimiento = (e) => {
+const validarFechaNac = (e) => {
     const input = e.target;
     const fechaSeleccionada = new Date(input.value);
     const fechaActual = new Date();
@@ -147,11 +146,14 @@ const validarFechaNacimiento = (e) => {
     }
 };
 
-let fecha_nac_nac;
-if((fecha_nac_nac = document.getElementById('fecha_nac')))
+
+
+let fecha_nac;
+if((fecha_nac = document.getElementById('fecha_nac')))
 {
-	fecha_nac_nac.addEventListener('change', validarFechaNacimiento);
+	fecha_nac.addEventListener('change', validarFechaNac);
 }
+
 
 
 
