@@ -1,6 +1,337 @@
 /* -------------- Citas / Caledario ------------------ */
 
-document.addEventListener('DOMContentLoaded', function() {
+
+$(document).ready(function() {  
+   $('#DIVcalendar').fullCalendar({
+    initialView: 'dayGridMonth',
+    selectable: true,
+    selectHelper: true,
+    select: function(info) {
+      let id_especialidad_cita = document.getElementById("especialidad").value;
+      let id_doctor_cita = document.getElementById("doctor").value;     
+      if (id_especialidad_cita && id_doctor_cita) {
+        //alert(id_especialidad_cita + ' ' + id_doctor_cita);
+        var nuevaFecha = moment(info).format('YYYY-MM-DD');
+        var hoy = moment(info.start).format('YYYY-MM-DD');
+        if (nuevaFecha < hoy) {
+          Swal.fire({
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            title: 'Error',
+            text: 'No es posible asignar una cita para esta fecha.',
+          });
+        }else if(nuevaFecha == hoy){
+          Swal.fire({
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            title: 'Error',
+            text: 'Para el dia de hoy no es posible asignar una cita.',
+          });
+        }else{
+          $.ajax({
+            url: "index.php?page=consultarEspeDoct",
+            type: "post",
+            dataType: "json",
+            data: {
+              especialidad: id_especialidad_cita,
+              doctor: id_doctor_cita,
+            },
+          })
+          .done(function (response) {
+             console.log(response);
+               if (response.data.success == true) {
+                $('#fecha_cita').val(nuevaFecha);
+                $("#txt-especialidad").val(response.data.nombre_especialidad);
+                $("#txt-doctor").val(response.data.nombre_doctor);
+                $("#modalAgregarCitas").modal('show');
+               }
+            })
+          .fail(function (e) {
+            console.log(e);
+          });
+        }        
+      }else{
+        Swal.fire({
+          icon: "warning",
+          confirmButtonColor: "#3085d6",
+          title: 'Oops',
+          text: 'Debe seleccionar una especialidad y un doctor.',
+        });
+      }
+    },
+    //cabecera
+    header:{
+      left: 'month',
+      center: '',
+      rigth:'prev, today, next'
+    },
+    //propiedades de botones
+    buttonText:{
+      today: 'hoy',
+      month: 'mes',
+      week: 'semana',
+      day: 'dia'
+
+    },
+    //pie de calendario
+    footer:{
+      center: 'title'
+    },
+    events: [{ 
+      title: 'No hay cita',
+      start: '2024-11-01',
+      end: '2024-11-01',
+      color: '#f1231a',
+      textColor: 'with'
+    },
+    { 
+      title: 'No hay cita',
+      start: '2024-11-25',
+      end: '2024-11-25',
+      color: '#f1231a',
+      textColor: 'with'
+    }],
+    //color de fondo celda
+    dayRender: function(date, cell){
+      var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
+      
+      if (nuevaFecha == '24-11-2024') {
+        cell.css('background', 'yellow');
+      }else if(nuevaFecha == '19-11-2024'){
+        cell.css('background', 'red');
+      }
+    }
+   });
+});
+
+function loadEvents(events) {
+  console.log(events);
+  if (events) {
+    $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
+    $('#DIVcalendar').fullCalendar('addEventSource', events); // Agregar nuevos eventos
+    $('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
+  }
+}
+
+/* -------------- mostrar asignacion Cita -------------------------- */
+
+$(document).ready(function(){
+  $("#formCalendarCita").submit(function(event){   
+
+    event.preventDefault();
+    var especialidad = $("#especialidad").val();
+    var doctor = $("#doctor").val();
+     /*console.log(especialidad);
+     console.log(doctor);*/
+    $.ajax({
+      url: "index.php?page=consultarEspeDoct",
+      type: "post",
+      dataType: "json",
+      data: {
+        especialidad: especialidad,
+        doctor: doctor,
+      },
+    })
+    .done(function (response) {
+       console.log(response);
+         if (response.data.success == true) {
+            $("#txt-especialidad").val(response.data.nombre_especialidad);
+            $("#txt-doctor").val(response.data.nombre_doctor);
+            $("#modalAgregarCitas").modal('show');
+         }
+      })
+    .fail(function (e) {
+      console.log(e);
+    });
+
+  });
+});
+
+/* -------------- Citas / Registrar Cita ------------------ */
+
+var agregar_cita;
+if ((agregar_cita = document.getElementById("agregar_cita"))) {
+  agregar_cita.addEventListener("click", agregarCita, false);
+
+  function agregarCita() {
+    var ID = $("#ID").val();
+    let fecha_cita = document.getElementById("fecha_cita").value;
+    let observacion_cita = document.getElementById("observacion_cita").value;
+    let id_especialidad_cita = document.getElementById("especialidad").value;
+    let estatus_cita = 1;
+    let id_doctor_cita = document.getElementById("doctor").value;
+
+    /*console.log(ID);
+    console.log(fecha_cita);
+    console.log(observacion_cita);
+    console.log(id_especialidad_cita);
+    console.log(estatus_cita);
+    console.log(id_doctor_cita);*/
+
+   if (ID) {
+      $.ajax({
+          url: "index.php?page=registrarCita",
+          type: "post",
+          dataType: "json",
+          data: {
+            ID: ID,
+            id_doctor_cita: id_doctor_cita,
+            fecha_cita: fecha_cita,
+            observacion_cita: observacion_cita,
+            estatus_cita: estatus_cita,
+            id_especialidad_cita: id_especialidad_cita,
+          },
+        })
+          .done(function (response) {
+            if (response.data.success == true) {
+              document.getElementById("formRegistrarCita").reset();
+
+              $("#modalAgregarCitas").val("");
+              $("#n_documento_persona").val("");
+              $("#modalAgregarCitas").modal("hide");
+
+              Swal.fire({
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                title: response.data.message,
+                text: response.data.info,
+              });
+
+              $("#tabla_citas").DataTable().ajax.reload();
+              document.getElementById("formCalendarCita").reset();
+            } else {
+              Swal.fire({
+                icon: "danger",
+                confirmButtonColor: "#3085d6",
+                title: response.data.message,
+                text: response.data.info,
+              });
+            }
+          })
+          .fail(function (e) {
+            console.log(e);
+            Swal.fire({
+                icon: "error",
+                confirmButtonColor: "#3085d6",
+                title: 'Error',
+                text: e.data.message,
+              });
+          });
+        }else{
+          Swal.fire({
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+            title: 'Error',
+            text: 'Debe ingresar un numero de cedula.',
+          });
+        }
+  }
+}
+
+//---------------------seleccion de doctor segun la especialidad-----------------//
+$(document).ready(function () {
+  $("#especialidad").on("change", function () {
+    $("#especialidad option:selected").each(function () {
+      elegido = $(this).val();
+      $.ajax({
+        url: "index.php?page=llenarSelectDoctor",
+        type: "post",
+        dataType: "json",
+        data: {
+          elegido: elegido,
+        },
+      })
+      .done(function (response) {
+        console.log(response);
+        if (response.data.success == true) {
+          //Limpiar select de municipios
+          var estado_municipio = (document.getElementById(
+            "doctor"
+          ).innerHTML = '<option value="">Seleccione</option>');
+
+          for (es = 0; es < response.data.data.length; es++) {
+            //Crea el elemento <option> dentro del select municipio
+            var itemOption = document.createElement("option");
+
+            //Contenido de los <option> del select municipios
+            var doctor = document.createTextNode(
+              response.data.data[es].nombres +
+                " " + " C.I -" +
+                response.data.data[es].n_documento
+            );
+            var id_doctor = document.createTextNode(
+              response.data.data[es].id_doctor
+            );
+
+            //Crear atributo value para los elemento option
+            var attValue = document.createAttribute("value");
+            attValue.value = response.data.data[es].id_doctor;
+            itemOption.setAttributeNode(attValue);
+
+            //Añadir contenido a los <option> creados
+            itemOption.appendChild(doctor);
+
+            document.getElementById("doctor").appendChild(itemOption);
+          }           
+        }
+        if (Array.isArray(response.data.events)) {
+            loadEvents(response.data.events);
+        } else {
+            console.error("response.data.events no es un array:", response.data.events);
+        }
+
+      })
+      .fail(function () {
+        console.log("error");
+      });
+    });
+  });
+});
+
+
+
+/*
+
+function loadEvents(events) {
+  console.log(events);
+  if (events) {
+    $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
+    $('#DIVcalendar').fullCalendar('addEventSource', events; // Agregar nuevos eventos
+    $('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
+  }
+}
+
+$(document).ready(function () {
+  $("#doctorCita").on("change", function () {
+    $("#doctorCita option:selected").each(function () {
+      elegido = $(this).val();
+      $.ajax({
+        url: "index.php?page=llenarSelectHorarioDoctor",
+        type: "post",
+        dataType: "json",
+        data: {
+          elegido: elegido,
+        },
+      })
+      .done(function (response) {
+        if (response.data.success == true) {
+          if (Array.isArray(response.data.events)) {
+              loadEvents(response.data.events);
+          } else {
+              console.error("response.data.events no es un array:", response.data.events);
+          }            
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+    });
+  });
+});
+
+*/
+
+/*document.addEventListener('DOMContentLoaded', function() {
 
   var calendarEl = document.getElementById('DIVcalendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -72,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
       },
     });
       calendar.render();
-  });
+  });*/
 
 
 let contador = 0;
@@ -548,21 +879,21 @@ $(document).ready(function () {
     columnDefs: [
       {
         orderable: false,
-        targets: 5,
+        targets: 4,
         render: function (data, type, row, meta) {
-          if (row[5] == 1) {
+          if (row[4] == 1) {
             let botones =
               `
                     <button type="button" title="Actualizar" class="btn btn-primary btn-sm" onclick="listarVer(` +
-              row[6] +
+              row[5] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
     
                    <button type="button" title="Ver" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
-              row[6] +
+              row[5] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
 
               <button type="button" title="Finalizar" class="btn btn-danger btn-sm"  onclick="finalizarCita(` +
-              row[6] +
+              row[5] +
               `)"><i class="fas fa-power-off"></i></button>&nbsp;
 
                
@@ -3358,10 +3689,8 @@ $(document).ready(function () {
               //Contenido de los <option> del select municipios
               var txt_doctor = document.createTextNode(
                 response.data.data[es].nombres +
-                  " " +
-                  response.data.data[es].apellidos +
-                  " C.I -" +
-                  response.data.data[es].n_documento
+                  " " + " C.I -" +
+                response.data.data[es].n_documento
               );
               var id_doctor = document.createTextNode(
                 response.data.data[es].id_doctor
@@ -3492,44 +3821,6 @@ $(document).ready(function () {
           console.log("error");
         });
     });
-  });
-});
-
-
-
-
-
-
-
-/* -------------- Agregar Cita -------------------------- */
-
-$(document).ready(function(){
-  $("#formCalendarCita").submit(function(event){   
-
-    event.preventDefault();
-    var especialidad = $("#especialidad").val();
-    var doctor = $("#doctor").val();
-    
-    $.ajax({
-      url: "index.php?page=consultarEspeDoct",
-      type: "post",
-      dataType: "json",
-      data: {
-        especialidad: especialidad,
-        doctor: doctor,
-      },
-    })
-    .done(function (response) {
-         if (response.data.success == true) {
-            $("#txt-especialidad").val(response.data.nombre_especialidad);
-            $("#txt-doctor").val(response.data.nombre_doctor);
-            $("#modalAgregarCitas").modal('show');
-         }
-      })
-    .fail(function () {
-      console.log("error");
-    });
-
   });
 });
 
@@ -5173,84 +5464,7 @@ $(document).ready(function () {
   });
 });
 
-/* -------------- Citas / Registrar Cita ------------------ */
 
-var agregar_cita;
-if ((agregar_cita = document.getElementById("agregar_cita"))) {
-  agregar_cita.addEventListener("click", agregarCita, false);
-
-  function agregarCita() {
-    var ID = $("#ID").val();
-    let fecha_cita = document.getElementById("fecha_cita").value;
-    let observacion_cita = document.getElementById("observacion_cita").value;
-    let id_especialidad_cita = document.getElementById("especialidad").value;
-    let estatus_cita = 1;
-    let id_doctor_cita = document.getElementById("doctor").value;
-
-    /*console.log(ID);
-    console.log(fecha_cita);
-    console.log(observacion_cita);
-    console.log(id_especialidad_cita);
-    console.log(estatus_cita);
-    console.log(id_doctor_cita);*/
-
-   if (ID) {
-      $.ajax({
-          url: "index.php?page=registrarCita",
-          type: "post",
-          dataType: "json",
-          data: {
-            ID: ID,
-            id_doctor_cita: id_doctor_cita,
-            fecha_cita: fecha_cita,
-            observacion_cita: observacion_cita,
-            estatus_cita: estatus_cita,
-            id_especialidad_cita: id_especialidad_cita,
-          },
-        })
-          .done(function (response) {
-            if (response.data.success == true) {
-              document.getElementById("formRegistrarCita").reset();
-
-              $("#modalAgregarCitas").modal("hide");
-
-              Swal.fire({
-                icon: "success",
-                confirmButtonColor: "#3085d6",
-                title: response.data.message,
-                text: response.data.info,
-              });
-
-              $("#tabla_citas").DataTable().ajax.reload();
-              document.getElementById("formCalendarCita").reset();
-            } else {
-              Swal.fire({
-                icon: "danger",
-                confirmButtonColor: "#3085d6",
-                title: response.data.message,
-                text: response.data.info,
-              });
-            }
-          })
-          .fail(function (e) {
-            console.log(e);
-            Swal.fire({
-                icon: "error",
-                confirmButtonColor: "#3085d6",
-                title: 'Error',
-                text: e.data.message,
-              });
-          });
-        }else{
-          Swal.fire({
-            icon: "error",
-            confirmButtonColor: "#3085d6",
-            title: 'Error',
-            text: 'Debe ingresar un numero de cedula.',
-          });
-        }
-  }
-}
 
 /* -------------- Listar datos para actualización ------------------ */
 
@@ -5446,61 +5660,6 @@ if ((modificar_cita = document.getElementById("modificar_cita"))) {
       });
   }
 }
-
-
-$(document).ready(function () {
-  $("#especialidad").on("change", function () {
-    $("#especialidad option:selected").each(function () {
-      elegido = $(this).val();
-      $.ajax({
-        url: "index.php?page=llenarSelectDoctor",
-        type: "post",
-        dataType: "json",
-        data: {
-          elegido: elegido,
-        },
-      })
-        .done(function (response) {
-          if (response.data.success == true) {
-            //Limpiar select de municipios
-            var estado_municipio = (document.getElementById(
-              "doctor"
-            ).innerHTML = '<option value="">Seleccione</option>');
-
-            for (es = 0; es < response.data.data.length; es++) {
-              //Crea el elemento <option> dentro del select municipio
-              var itemOption = document.createElement("option");
-
-              //Contenido de los <option> del select municipios
-              var doctor = document.createTextNode(
-                response.data.data[es].nombres +
-                  " " +
-                  response.data.data[es].apellidos +
-                  " C.I -" +
-                  response.data.data[es].n_documento
-              );
-              var id_doctor = document.createTextNode(
-                response.data.data[es].id_doctor
-              );
-
-              //Crear atributo value para los elemento option
-              var attValue = document.createAttribute("value");
-              attValue.value = response.data.data[es].id_doctor;
-              itemOption.setAttributeNode(attValue);
-
-              //Añadir contenido a los <option> creados
-              itemOption.appendChild(doctor);
-
-              document.getElementById("doctor").appendChild(itemOption);
-            }
-          }
-        })
-        .fail(function () {
-          console.log("error");
-        });
-    });
-  });
-});
 
 
 /* -------------- Obtener datos para actualizar la consultas ------------------ */

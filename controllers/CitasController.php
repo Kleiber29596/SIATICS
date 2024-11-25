@@ -54,13 +54,12 @@ EOT;
 		// The `dt` parameter represents the DataTables column identifier. 
 		$columns = array(
 
-			array('db' => 'n_documento_paciente',   'dt' => 0),
+			array('db' => 'fecha_cita',   'dt' => 0),
 			array('db' => 'nombre', 'dt' => 1),
-			array('db' => 'fecha_cita', 'dt' => 2),
-			array('db' => 'nombre_especialidad', 'dt' => 3),
+			array('db' => 'n_documento_paciente', 'dt' => 2),
 			array(
 				'db'        => 'estatus',
-				'dt'        => 4,
+				'dt'        => 3,
 				'formatter' => function ($d, $row) {
 					switch ($d) {
 						case 0:
@@ -70,8 +69,8 @@ EOT;
 					}
 				}
 			),
-			array('db' => 'estatus', 'dt' => 5),
-			array('db' => 'id_cita', 'dt' => 6)
+			array('db' => 'estatus', 'dt' => 4),
+			array('db' => 'id_cita', 'dt' => 5)
 
 		);
 
@@ -286,14 +285,45 @@ EOT;
 
 
 	public function consultarEspeDoct(){
-		$modelCitas = new CitasModel();
+		$eventos = [];
 
+		$modelCitas = new CitasModel();
+		$datos = [];
 		$id_especialidad = $_POST['especialidad'];
 		$id_doctor = $_POST['doctor'];
 
 		$resultado = $modelCitas->consultarEspe_Doct($id_especialidad, $id_doctor);
 
 		foreach ($resultado as $resultados) {
+			$nombre_especialidad	= $resultados->nombre_especialidad;
+			$nombre_doctor	        = $resultados->nombreDoctor;
+		}				
+
+		$data = [
+			'data' => [
+				'success'            =>  true,
+				'message'            => 'Registro encontrado',
+				'info'               =>  '',
+				'nombre_especialidad'=> $nombre_especialidad,
+				'nombre_doctor'		 => $nombre_doctor
+			],
+			'code' => 0,
+		];
+		
+		echo json_encode($data);
+		exit();
+	}
+
+
+	public function consultarEspeHrsDoct(){
+		$modelCitas = new CitasModel();
+		$datos = [];
+		$id_especialidad = $_POST['especialidad'];
+		$id_doctor = $_POST['doctor'];
+
+		//$resultado = $modelCitas->consultarEspe_Doct($id_especialidad, $id_doctor);
+
+		/*foreach ($resultado as $resultados) {
 			$nombre_especialidad	= $resultados->nombre_especialidad;
 			$nombre_doctor	        = $resultados->nombreDoctor;
 		}
@@ -307,9 +337,14 @@ EOT;
 				'nombre_doctor'		 => $nombre_doctor,
 			],
 			'code' => 0,
-		];
+		];*/
 
-		echo json_encode($data);
+		$datos = [
+			'especialidad' => $id_especialidad,
+			'doctor' => $id_doctor
+		];
+		
+		echo json_encode($datos);
 		exit();
 	}
 

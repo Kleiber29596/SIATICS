@@ -11,6 +11,12 @@ $update_municipios = $objeto->selectMunicipio();
 $update_parroquias = $objeto->selectParroquia();*/
 ?>
 
+<style type="text/css">
+.selected-date {
+    background-color: #ffcc00; /* Cambia el color según tus preferencias */
+}
+</style>
+
 <div class="pagetitle">
     <h1>Citas</h1>
 </div><!-- End Page Title -->
@@ -32,10 +38,9 @@ $update_parroquias = $objeto->selectParroquia();*/
                         <table class="table table-bordered mt-3 " id="tabla_citas" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Cedula/P</th>
-                                    <th>Nombre y Apellido</th>
                                     <th>Fecha cita</th>
-                                    <th>Especialidad</th>
+                                    <th>Nombre y Apellido</th>
+                                    <th>Cedula/P</th>
                                     <th>Estatus</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -71,14 +76,12 @@ $update_parroquias = $objeto->selectParroquia();*/
                                     <option value="" disabled selected>Seleccione</option>
                                 </select>
                             </div>
-                            <div class="mt-3" id="DIVcalendar">
-                                
-                            </div>
-                            <!--<button class="btn btn-primary btn-circle mt-3" title="Agregar cita" data-toggle="modal" data-target="#modalAgregarCitas"><i class="fas fa-plus"> Agregar cita</i></button>-->
+                            <div class="mt-3" id="DIVcalendar"></div>
+                            <!--<button class="btn btn-primary btn-circle mt-3" title="Agregar cita" data-toggle="modal" data-target="#modalAgregarCitas"><i class="fas fa-plus"> Agregar cita</i></button>
 
                             <button type="submit" class="btn btn-primary btn-circle mt-3">
-                                <i class="fas fa-plus"> Agregar cita</i>
-                            </button>
+                                <i class="fas fa-plus">Agregar cita</i>
+                            </button>-->
                         </div>
                     </form>
                 </div>
@@ -171,44 +174,7 @@ $update_parroquias = $objeto->selectParroquia();*/
                                 <textarea id="observacion_cita" class="form-control rounded" placeholder="Escriba aquí"></textarea>
                             </div>
                         </div>
-
-                        <!--<div class="col-sm-5" id="contenedor_citas_disponibles" style="display: none;">
-                            <div class="form-group">
-                                <table class="table table-bordered table-striped table-hover">
-                                    <tr>
-                                        <th class="text-center"><button class="btn btn-primary">Citas Disponibles <i class=" fa fa-solid fa-clipboard-check"> </i></button></th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <button class='btn btn-success' id="citas_disponibles"></button>
-                                        </td>
-                                    </tr>
-
-                                </table>
-                            </div>
-                        </div>-->
                     </div>
-                    <!--<div class="row" id="contenedor_estatus_observacion" style="display: none;">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="estatus">Estatus</label>
-                                <select class="form-control" name="estatus_cita" id="estatus_cita">
-                                <option value="0">Pendiente</option>
-                                    <option value="1">Finalizado</option>
-                                    <option value="2">Inasistente</option>
-                                </select>
-                                <small id="emailHelp" class="form-text text-muted">Selecciona el estatus </small>
-                            </div>
-
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Observaciòn</label>
-                                <textarea class="form-control" id="observacion_cita" rows="3"></textarea>
-                            </div>
-                            <small>Ingresa una breve observaciòn</small>
-                        </div>
-                    </div>-->
                 
                 </form>
             </div>

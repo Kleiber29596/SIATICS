@@ -2,6 +2,7 @@
 
 require_once './models/UsuarioModel.php';
 require_once './models/PersonasModel.php';
+require_once './models/DoctorModel.php';
 require_once './config/validacion.php';
 
 class UsuarioController
@@ -190,6 +191,7 @@ EOT;
 			if ($datosFormUsuario) {
    		   	 	$modelUsuario = new UsuarioModel();
    		   	 	$modelPersonas = new PersonasModel();
+   		   	 	$modelDoctor = new DoctorModel();
    		   	 	$data = json_decode($datosFormUsuario);
 
    		   	 	$miObjeto = new stdClass();
@@ -220,6 +222,7 @@ EOT;
 				$miArreglo = (array) $miObjeto;
 
 				$datosPersona = [];
+				$datosDoctor = [];
 
 				$datosPersona = [
 			        'tipo_persona' => $miArreglo['tipo_persona'],
@@ -236,14 +239,27 @@ EOT;
 			        'correo' => $miArreglo['correo'],
 			    ];
 
+
+
 			    //$data = $datos['numeroDoc']; //Este dato es para registrarPersona($datosPersona); para consultar a la persona que se esta insertando y rescatar el id.
 			    $RegistroPersona = $modelPersonas->registrarPersona($datosPersona);
 
+
+			    $id_especialidad = $miArreglo['especialidad'];
+			   	$id_persona = $RegistroPersona['ultimo_id'];
+			    
+			    $datosDoctor = [
+			    	'id_persona' => $id_persona,
+					'id_especialidad' => $id_especialidad
+			    ];
+
+			    $RegistroDoctor = $modelDoctor->registrarDoctor($datosDoctor);
+
+			    $idDoctor = $RegistroDoctor['ultimo_id'];
+
 			   if ($RegistroPersona == true) {
 
-				   	$horario = $miArreglo['horarios'];
-				   	$id_especialidad = $miArreglo['especialidad'];
-				   	$id_persona = $RegistroPersona['ultimo_id'];			
+				   	$horario = $miArreglo['horarios'];			
 
 					$datosHorario = [];
 
@@ -253,9 +269,8 @@ EOT;
 					        $datosHorario[] = [
 					            'dia' => $item->dia,
 					            'hora_entrada' => trim($item->hora_entrada),
-					            'hora_salida' => trim($item->hora_salida),
-					            'id_persona' => $id_persona,
-					            'id_especialidad' => $id_especialidad
+					            'hora_salida' => trim($item->hora_salida),					            
+					        	'id_doctor' => $idDoctor
 					        ];
 					    } else {
 					        echo "Error: El horario no es un objeto válido.\n";

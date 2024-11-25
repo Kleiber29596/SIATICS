@@ -31,7 +31,7 @@ class UsuarioModel extends ModeloBase {
     	try {
 		    foreach ($datos as $data) {
 		        // Llamar a la función insertar para cada horario
-		      $insertar = $db->insertar('doctor', $data);
+		      $insertar = $db->insertar('horario', $data);
 		      //echo "Horario para " . $data['dia'] . " insertado correctamente.\n";		        
 		    }
 

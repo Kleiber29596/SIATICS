@@ -52,7 +52,7 @@ class CitasModel extends ModeloBase {
 	/*------------ Método para consultar nombre de especialidad y nombre del doctor -------*/
 	public function consultarEspe_Doct($id_especialidad, $id_doctor) {
 		$db = new ModeloBase();
-		$query = "SELECT e.nombre_especialidad, CONCAT(p.nombres,' ', p.apellidos) AS nombreDoctor FROM doctor D INNER JOIN personas p ON p.id_persona = D.id_persona INNER JOIN especialidad e ON e.id_especialidad = D.id_especialidad WHERE D.id_doctor =".$id_doctor." ";
+		$query = "SELECT e.nombre_especialidad, CONCAT(p.p_nombre,' ', p.p_apellido) AS nombreDoctor FROM doctor AS d INNER JOIN personas p ON p.id_persona = d.id_persona INNER JOIN especialidad e ON e.id_especialidad = d.id_especialidad WHERE d.id_doctor =".$id_doctor." ";
 		$resultado = $db->FectAll($query);
 		return $resultado;
 	}

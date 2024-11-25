@@ -331,6 +331,53 @@ class DoctorController {
 
 		exit();
 	}
+
+
+	/*-------- llenar select para ver horarios segun el doctor --------*/
+	public function llenarSelectHorarioDoctor()
+	{
+		$modelDoctor = new DoctorModel();
+		$modelCitas = new CitasModel();
+		$elegido = $_POST['elegido'];
+		$data = $modelDoctor->llenarSelectDoctor($elegido); //devuelve un arreglo de doctor (id_doc)
+		$id_doctor = $data['id_doctor'];
+		$horario = $modelDoctor->horarioDoctor($elegido, $id_doctor); //devuelve un arreglo de horarios
+		$citas = $modelCitas->
+
+		$evento = [
+		    [
+		        'title' => 'No',
+		        'start' => '2024-11-20T10:00:00',
+		        'end'   => '2024-11-20T11:00:00',
+		        'color'=> '#f1231a',
+      			'textColor'=> 'with'
+		    ],
+		    [
+		        'title' => 'Si',
+		        'start' => '2024-11-21T14:00:00',
+		        'end'   => '2024-11-21T15:00:00',
+		        'color'=> '#23FA5B',
+      			'textColor'=> 'with'
+		    ]
+		];
+		
+		$data = [
+			'data' => [
+				'success'            =>  true,
+				'message'            => 'Registro encontrado',
+				'info'               =>  '',
+				'data'				 =>  $data,
+				'events' 			 => $evento
+			],
+			'code' => 0,
+		];
+
+		echo json_encode($data);
+
+		exit();
+	}
+
+	
 	/*-------- llenar select para actualizar doctor --------*/
 	public function llenarSelectDoctorUpdate()
 	{

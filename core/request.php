@@ -62,6 +62,7 @@ if (!empty($page)) {
 		'modificarDoctor' 			=> array('model' => 'DoctorModel', 'view'   => 'modificarDoctor', 'controller' => 'DoctorController'),
 		'inactivarDoctor' 			=> array('model' => 'DoctorModel', 'view'   => 'inactivarDoctor', 'controller' => 'DoctorController'),
 		'llenarSelectDoctor' 		=> array('model' => 'DoctorModel', 'view'   => 'llenarSelectDoctor', 'controller' => 'DoctorController'),
+		'llenarSelectHorarioDoctor' 		=> array('model' => 'DoctorModel', 'view'   => 'llenarSelectHorarioDoctor', 'controller' => 'DoctorController'),
 		'llenarSelectDoctorUpdate'  => array('model' => 'DoctorModel', 'view'   => 'llenarSelectDoctorUpdate', 'controller' => 'DoctorController'),
 		/* Modulo Citas*/
 		'inicioCitas' => array('model' => 'CitasModel', 'view' => 'inicioCitas', 'controller' => 'CitasController'),
