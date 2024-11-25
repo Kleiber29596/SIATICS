@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-11-2024 a las 18:39:26
+-- Tiempo de generación: 25-11-2024 a las 20:23:36
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -81,12 +81,12 @@ INSERT INTO `citas` (`id_cita`, `id_persona`, `id_especialidad`, `id_doctor`, `o
 (1, 1, 1, 1, '', 0, '2024-10-09', '2024-10-06'),
 (2, 1, 1, 1, '...', 0, '2024-10-23', '2024-10-17'),
 (3, 1, 1, 1, 'reservar', 0, '2024-11-05', '2024-11-04'),
-(1, 1, 1, 1, '', 0, '2024-10-09', '2024-10-06'),
-(2, 1, 1, 1, '...', 0, '2024-10-23', '2024-10-17'),
-(3, 1, 1, 1, 'reservar', 0, '2024-11-05', '2024-11-04'),
-(1, 1, 1, 1, '', 0, '2024-10-09', '2024-10-06'),
-(2, 1, 1, 1, '...', 0, '2024-10-23', '2024-10-17'),
-(3, 1, 1, 1, 'reservar', 0, '2024-11-05', '2024-11-04');
+(0, 1, 8, 23, 'prueba', 0, '2024-11-25', '2024-11-23'),
+(0, 1, 1, 24, 'una prueba con nueva funcion', 0, '0000-00-00', '2024-11-24'),
+(0, 1, 8, 23, 'ejkfbsjdnfjls', 0, '2024-11-15', '2024-11-24'),
+(0, 1, 8, 23, 'euifuwfe3e', 1, '2024-11-28', '2024-11-24'),
+(0, 1, 8, 23, 'wefhliaejfwe', 1, '2024-12-03', '2024-11-24'),
+(0, 3, 8, 23, 'befuiebruf4e', 1, '2024-11-29', '2024-11-25');
 
 -- --------------------------------------------------------
 
@@ -126,20 +126,18 @@ INSERT INTO `consultas` (`id_consulta`, `id_tipo_consulta`, `id_persona`, `diagn
 CREATE TABLE `doctor` (
   `id_doctor` int(11) NOT NULL,
   `id_especialidad` int(11) NOT NULL,
-  `id_persona` int(11) NOT NULL,
-  `dia` varchar(11) NOT NULL,
-  `hora_entrada` time DEFAULT NULL,
-  `hora_salida` time DEFAULT NULL
+  `id_persona` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `doctor`
 --
 
-INSERT INTO `doctor` (`id_doctor`, `id_especialidad`, `id_persona`, `dia`, `hora_entrada`, `hora_salida`) VALUES
-(19, 1, 33, 'Lunes', '07:00:00', '12:00:00'),
-(20, 1, 33, 'Martes', '07:30:00', '10:30:00'),
-(21, 8, 2, 'Lunes', '03:22:00', '15:22:00');
+INSERT INTO `doctor` (`id_doctor`, `id_especialidad`, `id_persona`) VALUES
+(23, 8, 9),
+(24, 1, 10),
+(25, 3, 11),
+(26, 7, 12);
 
 -- --------------------------------------------------------
 
@@ -262,6 +260,33 @@ CREATE TABLE `historia_medica` (
 INSERT INTO `historia_medica` (`id`, `id_persona`, `tipo_sangre`, `enfermedad`, `fumador`, `alcohol`, `actividad_fisica`, `medicado`, `cirugia_hospitalaria`, `alergia`, `enfermedad_hereditaria`, `fecha_reg`, `fecha_modif`) VALUES
 (1, 1, 'A+', 'N/A', 'No', 'No', 'No', 'No', 'N/A', 'N/A', 'Ninguna', '2024-11-21 04:00:00', '0000-00-00 00:00:00'),
 (2, 3, 'AB+', 'no', 'Sí', 'Sí', 'Sí', 'Sí', 'sdfwefwef', 'ewfwef', 'wefwefwe', '2024-11-21 23:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `horario`
+--
+
+CREATE TABLE `horario` (
+  `id` int(11) NOT NULL,
+  `id_doctor` int(11) NOT NULL,
+  `dia` varchar(20) NOT NULL,
+  `hora_entrada` time NOT NULL,
+  `hora_salida` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `horario`
+--
+
+INSERT INTO `horario` (`id`, `id_doctor`, `dia`, `hora_entrada`, `hora_salida`) VALUES
+(1, 23, 'Martes', '00:00:00', '00:00:00'),
+(2, 23, 'Miercoles', '00:00:00', '00:00:00'),
+(3, 24, 'Martes', '00:00:00', '00:00:00'),
+(4, 25, 'Miercoles', '00:00:00', '00:00:00'),
+(5, 25, 'Viernes', '00:00:00', '00:00:00'),
+(6, 26, 'Martes', '08:30:00', '19:30:00'),
+(7, 26, 'Viernes', '08:40:00', '12:00:00');
 
 -- --------------------------------------------------------
 
@@ -3327,8 +3352,11 @@ CREATE TABLE `personas` (
 
 INSERT INTO `personas` (`id_persona`, `tipo_persona`, `n_documento`, `tipo_documento`, `p_nombre`, `s_nombre`, `p_apellido`, `s_apellido`, `fecha_nacimiento`, `sexo`, `telefono`, `direccion`, `correo`, `fecha_registro`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
 (1, 'usuario', '29596688', 'V', 'KLEIBER', 'ANTONIO', 'ARANGUREN', 'PACHECO', '2003-11-08', 'Masculino', '04161454551', 'Ruiz pineda', 'kleiber8113@gmail.com', '2024-11-21', NULL, NULL, NULL),
-(2, 'usuario', '22145365', 'V', 'jesus', '', 'zerpa', '', '1998-05-29', 'Masculino', '41254125', 'vivo en el co', 'jesus@gjhgjhgk.com', '2024-11-22', NULL, NULL, NULL),
-(3, 'paciente', '22025014', 'V', 'Alejandro', 'Absdhkbah', 'Zerpa', 'Kjbdfkjs', '1998-01-26', 'Masculino', '04121477845', 'nlsdnlknfklsdnflsd', 'jesus@gjhgjhgk.com', '2024-11-22', NULL, NULL, NULL);
+(3, 'paciente', '22025014', 'V', 'Alejandro', 'Absdhkbah', 'Zerpa', 'Kjbdfkjs', '1998-01-26', 'Masculino', '04121477845', 'nlsdnlknfklsdnflsd', 'jesus@gjhgjhgk.com', '2024-11-22', NULL, NULL, NULL),
+(9, 'usuario', '22365417', 'V', 'Jesus', '', 'Zerpa', '', '1993-12-26', 'Masculino', '5456451', 'ewjfe', 'jesus@gjhgjhgk.com', '2024-11-23', NULL, NULL, NULL),
+(10, 'usuario', '32654147', 'V', 'Jose', '', 'Castro', '', '1992-05-21', 'Masculino', '12235435', 'jweljhwedc', 'jesus@gjhgjhgk.com', '2024-11-23', NULL, NULL, NULL),
+(11, 'usuario', '5168156', 'V', 'Brayan', '', 'Altuve', '', '1996-04-21', 'Masculino', '54651316', 'efiueroife', 'brayan@gmail.com', '2024-11-25', NULL, NULL, NULL),
+(12, 'usuario', '155156156', 'V', 'Lnljvre', '', 'Jdsbcwdlnce', '', '1998-01-14', 'Masculino', '5615156', 'bkwdjhcuowecnw', 'jesus@jhnwelnlwkm', '2024-11-25', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3525,7 +3553,10 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `id_Persona`, `usuario`, `foto`, `contrasena`, `id_rol`, `estatus`, `fecha_registro`) VALUES
 (28, 1, 'kleiber2003', 'user.jpg', '123456', 2, 1, '2024-11-20'),
-(43, 2, 'jesusZ', '', '123456', 3, 1, '2024-11-22');
+(45, 9, 'jesusZ', '', '123', 3, 1, '2024-11-23'),
+(46, 10, 'joseK', 'C:\\fakepath\\favicon.ico', '123', 3, 1, '2024-11-23'),
+(47, 11, 'brayanA', '', '$2y$10$3jMTxeI6ezW/uro2DITLAeyn/UCqy6/EKIbFOcKIe6BlZmu1z4CTG', 3, 1, '2024-11-25'),
+(48, 12, 'ljndalcw', '', '$2y$10$tRJrecmjYnJ6y.S/XvWFZ.B6g7r9iUyBpddf3lfk6V.PueRV9FLum', 3, 1, '2024-11-25');
 
 --
 -- Índices para tablas volcadas
@@ -3553,6 +3584,12 @@ ALTER TABLE `especialidad`
 -- Indices de la tabla `historia_medica`
 --
 ALTER TABLE `historia_medica`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `horario`
+--
+ALTER TABLE `horario`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -3613,7 +3650,7 @@ ALTER TABLE `consultas`
 -- AUTO_INCREMENT de la tabla `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `id_doctor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_doctor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
@@ -3628,10 +3665,16 @@ ALTER TABLE `historia_medica`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `horario`
+--
+ALTER TABLE `horario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `recipes`
@@ -3667,7 +3710,7 @@ ALTER TABLE `tipo_consulta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -283,7 +283,7 @@ EOT;
 				    	'id_Persona' => $id_persona,
 				        'usuario' => $miArreglo['usuario'],
 				        'foto' => $miArreglo['archivo'],
-				        'contrasena' => $miArreglo['contrasena'],
+				        'contrasena' => password_hash($miArreglo['contrasena'], PASSWORD_DEFAULT),
 				        'id_rol' => $miArreglo['rol'],
 				        'estatus' => 1
 				    ];
