@@ -50,7 +50,7 @@ class UsuarioModel extends ModeloBase {
 	public function verificarUsuario($usuario, $contrasena)
 	{
 		$db = new ModeloBase();
-		$query ="SELECT * FROM usuario WHERE usuario = '$usuario' AND contrasena = '$contrasena'";
+		$query ="SELECT u.id, u.usuario, pe.tipo_persona, u.foto, u.contrasena, u.id_rol, d.id_especialidad, pe.p_nombre, pe.p_apellido, u.estatus FROM usuario AS u INNER JOIN personas AS pe ON pe.id_persona = u.id_Persona INNER JOIN doctor AS d ON d.id_persona = pe.id_persona WHERE u.usuario = '$usuario' AND u.contrasena = '$contrasena'";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}

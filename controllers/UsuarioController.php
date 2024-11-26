@@ -45,11 +45,14 @@ class UsuarioController
 		
 			$id_bd 				= $resultado['id'];
 			$usuario_bd 		= $resultado['usuario'];
+			$tipo_persona 		= $resultado['tipo_persona'];
 			$foto_bd 			= $resultado['foto'];
 			$contrasena_bd 		= $resultado['contrasena'];
-			$rol_bd 			= $resultado['rol'];
-			$nombre_bd 			= $resultado['nombre'];
-			$apellido_bd 	    = $resultado['apellido'];
+			$rol_bd 			= $resultado['id_rol'];
+			$id_especialidad 	= $resultado['id_especialidad'];
+			$nombre_bd 			= $resultado['p_nombre'];
+			$apellido_bd 	    = $resultado['p_apellido'];
+			$estatus 	    	= $resultado['estatus'];
 			
 		}
 		
@@ -59,12 +62,15 @@ class UsuarioController
 
 			session_start();
 
-			$_SESSION['user_id'] 		= $id_bd;
-			$_SESSION['usuario'] 		= $usuario_bd;
-			$_SESSION['foto'] 			= $foto_bd;
-			$_SESSION['rol_usuario'] 	= $rol_bd;
-			$_SESSION['nombre_user'] 	= $nombre_bd;
-			$_SESSION['apellido_user'] 	= $apellido_bd;
+			$_SESSION['user_id'] 			= $id_bd;
+			$_SESSION['usuario'] 			= $usuario_bd;
+			$_SESSION['tipo_persona'] 		= $tipo_persona;
+			$_SESSION['foto'] 				= $foto_bd;
+			$_SESSION['rol_usuario'] 		= $rol_bd;
+			$_SESSION['id_especialidad']	= $id_especialidad;
+			$_SESSION['nombre_user'] 		= $nombre_bd;
+			$_SESSION['apellido_user'] 		= $apellido_bd;
+			$_SESSION['estatus_usuario'] 	= $estatus;
 		
 
 			
