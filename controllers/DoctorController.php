@@ -317,12 +317,30 @@ class DoctorController {
 		$elegido = $_POST['elegido'];
 		$data = $modelDoctor->llenarSelectDoctor($elegido);
 
+		$evento = [
+		    [
+		        'title' => 'No',
+		        'start' => '2024-11-20T10:00:00',
+		        'end'   => '2024-11-20T11:00:00',
+		        'color'=> '#f1231a',
+      			'textColor'=> 'with'
+		    ],
+		    [
+		        'title' => 'Si',
+		        'start' => '2024-11-21T14:00:00',
+		        'end'   => '2024-11-21T15:00:00',
+		        'color'=> '#23FA5B',
+      			'textColor'=> 'with'
+		    ]
+		];
+		
 		$data = [
 			'data' => [
 				'success'            =>  true,
 				'message'            => 'Registro encontrado',
 				'info'               =>  '',
 				'data'				 =>  $data,
+				'events' 			 => $evento
 			],
 			'code' => 0,
 		];

@@ -95,7 +95,7 @@ $(document).ready(function() {
     dayRender: function(date, cell){
       var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
       
-      if (nuevaFecha == '24-11-2024') {
+      if (nuevaFecha == '26-11-2024') {
         cell.css('background', 'yellow');
       }else if(nuevaFecha == '19-11-2024'){
         cell.css('background', 'red');
@@ -104,13 +104,32 @@ $(document).ready(function() {
    });
 });
 
-function loadEvents(events) {
-  console.log(events);
+/*function loadEvents(events) {
+  //console.log(events);
   if (events) {
     $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
     $('#DIVcalendar').fullCalendar('addEventSource', events); // Agregar nuevos eventos
     $('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
   }
+}*/
+
+function loadEvents(events) {
+    if (events) {
+        // Transformar los eventos para que contengan solo el título
+        const transformedEvents = events.map(event => {
+            return {
+                title: event.title,
+                start: event.start,
+                end: event.end,
+                color: event.color,
+                textColor: event.textColor
+            };
+        });
+
+        $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
+        $('#DIVcalendar').fullCalendar('addEventSource', transformedEvents); // Agregar nuevos eventos
+        $('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
+    }
 }
 
 /* -------------- mostrar asignacion Cita -------------------------- */
@@ -274,8 +293,17 @@ $(document).ready(function () {
             document.getElementById("doctor").appendChild(itemOption);
           }           
         }
+
         if (Array.isArray(response.data.events)) {
-            loadEvents(response.data.events);
+            // Supongamos que quieres mostrar el título del primer evento
+            if (response.data.events.length > 0) { // Verifica que el arreglo no esté vacío
+                /*response.data.events.forEach(event => {
+                    console.log(event.title+ ' ' +event.start+ ' ' +event.end+ ' ' +event.color+ ' ' +event.textColor ); // Muestra el título de cada evento
+                });*/
+                loadEvents(response.data.events);
+            } else {
+                console.log("El arreglo de eventos está vacío.");
+            }
         } else {
             console.error("response.data.events no es un array:", response.data.events);
         }
