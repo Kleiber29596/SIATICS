@@ -57,7 +57,7 @@ class DoctorModel extends ModeloBase {
 		$query = "SELECT d.id_doctor, d.id_especialidad, pe.id_persona, pe.n_documento, pe.tipo_documento, CONCAT(pe.p_nombre,' ',pe.p_apellido) AS nombre, pe.sexo, pe.telefono, pe.direccion, pe.correo, pe.fecha_nacimiento, es.nombre_especialidad FROM doctor d INNER JOIN personas pe ON d.id_persona = pe.id_persona INNER JOIN especialidad es ON d.id_especialidad = es.id_especialidad WHERE es.id_especialidad = " . $elegido . "";
 		$resultado = $db->FectAll($query);
 		return $resultado;
-	}
+	}*/
 
 	public function horarioDoctor($id_doctor)
 	{
@@ -65,7 +65,7 @@ class DoctorModel extends ModeloBase {
 		$query = "SELECT h.dia, h.hora_salida, h.hora_entrada, TIMESTAMPDIFF(MINUTE, h.hora_entrada, h.hora_salida) AS diferencia_en_minutos FROM horario AS h WHERE h.id_doctor = " . $id_doctor . "";
 		$resultado = $db->FectAll($query);
 		return $resultado;
-	}*/
+	}
 
 
 }

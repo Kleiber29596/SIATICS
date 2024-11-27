@@ -77,20 +77,7 @@ $(document).ready(function() {
     footer:{
       center: 'title'
     },
-    events: [{ 
-      title: 'No hay cita',
-      start: '2024-11-01',
-      end: '2024-11-01',
-      color: '#f1231a',
-      textColor: 'with'
-    },
-    { 
-      title: 'No hay cita',
-      start: '2024-11-25',
-      end: '2024-11-25',
-      color: '#f1231a',
-      textColor: 'with'
-    }],
+    events: [],
     //color de fondo celda
     dayRender: function(date, cell){
       var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
@@ -126,9 +113,11 @@ function loadEvents(events) {
             };
         });
 
+        console.log(transformedEvents);
+
         $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
         $('#DIVcalendar').fullCalendar('addEventSource', transformedEvents); // Agregar nuevos eventos
-        $('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
+        //$('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
     }
 }
 
@@ -294,20 +283,6 @@ $(document).ready(function () {
           }           
         }
 
-        if (Array.isArray(response.data.events)) {
-            // Supongamos que quieres mostrar el título del primer evento
-            if (response.data.events.length > 0) { // Verifica que el arreglo no esté vacío
-                /*response.data.events.forEach(event => {
-                    console.log(event.title+ ' ' +event.start+ ' ' +event.end+ ' ' +event.color+ ' ' +event.textColor ); // Muestra el título de cada evento
-                });*/
-                loadEvents(response.data.events);
-            } else {
-                console.log("El arreglo de eventos está vacío.");
-            }
-        } else {
-            console.error("response.data.events no es un array:", response.data.events);
-        }
-
       })
       .fail(function () {
         console.log("error");
@@ -316,6 +291,42 @@ $(document).ready(function () {
   });
 });
 
+
+
+$(document).ready(function () {
+  $("#doctor").on("change", function () {
+    $("#doctor option:selected").each(function () {
+      elegido = $(this).val();
+      $.ajax({
+        url: "index.php?page=llenarSelectHorarioDoctor",
+        type: "post",
+        dataType: "json",
+        data: {
+          elegido: elegido,
+        },
+      })
+      .done(function (response) {
+        console.log(response);
+       if (Array.isArray(response.data.events)) {
+            // Supongamos que quieres mostrar el título del primer evento
+            if (response.data.events.length > 0) { // Verifica que el arreglo no esté vacío
+                response.data.events.forEach(event => {
+                    console.log(event.title+ ' ' +event.start+ ' ' +event.end+ ' ' +event.color+ ' ' +event.textColor ); // Muestra el título de cada evento
+                    loadEvents(response.data.events);
+                });
+            } else {
+                console.log("El arreglo de eventos está vacío.");
+            }
+        } else {
+            console.error("response.data.events no es un array:", response.data.events);
+        }
+      })
+      .fail(function (e) {
+        console.log(e);
+      });
+    });
+  });
+});
 
 
 /*

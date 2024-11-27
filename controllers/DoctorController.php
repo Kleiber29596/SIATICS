@@ -2,6 +2,7 @@
 
 require_once './models/DoctorModel.php';
 require_once './models/PersonasModel.php';
+require_once './models/CitasModel.php';
 
 class DoctorController {
 
@@ -316,31 +317,13 @@ class DoctorController {
 		$modelDoctor = new DoctorModel();
 		$elegido = $_POST['elegido'];
 		$data = $modelDoctor->llenarSelectDoctor($elegido);
-
-		$evento = [
-		    [
-		        'title' => 'No',
-		        'start' => '2024-11-20T10:00:00',
-		        'end'   => '2024-11-20T11:00:00',
-		        'color'=> '#f1231a',
-      			'textColor'=> 'with'
-		    ],
-		    [
-		        'title' => 'Si',
-		        'start' => '2024-11-21T14:00:00',
-		        'end'   => '2024-11-21T15:00:00',
-		        'color'=> '#23FA5B',
-      			'textColor'=> 'with'
-		    ]
-		];
 		
 		$data = [
 			'data' => [
 				'success'            =>  true,
 				'message'            => 'Registro encontrado',
 				'info'               =>  '',
-				'data'				 =>  $data,
-				'events' 			 => $evento
+				'data'				 =>  $data
 			],
 			'code' => 0,
 		];
@@ -357,12 +340,25 @@ class DoctorController {
 		$modelDoctor = new DoctorModel();
 		$modelCitas = new CitasModel();
 		$elegido = $_POST['elegido'];
-		$data = $modelDoctor->llenarSelectDoctor($elegido); //devuelve un arreglo de doctor (id_doc)
-		$id_doctor = $data['id_doctor'];
-		$horario = $modelDoctor->horarioDoctor($elegido, $id_doctor); //devuelve un arreglo de horarios
-		$citas = $modelCitas->
+		$horario = $modelDoctor->horarioDoctor($elegido); //devuelve un arreglo de horarios
+		//$citas = $modelCitas->
 
-		$evento = [
+		foreach ($horario as $value) 
+		{
+			if (is_object($value) && isset($value->dia, $value->hora_entrada, $value->hora_salida)) {
+		        $datosHorario[] = [
+		            'title' => 'SI',
+		            'start' => trim($value->hora_entrada),
+		            'end' => trim($value->hora_salida),					            
+		        	'color'=> '#f1231a',
+	      			'textColor'=> 'with'
+		        ];
+		    } else {
+		        echo "Error: El horario no es un objeto válido.\n";
+		    }
+		}
+
+		/*$evento = [
 		    [
 		        'title' => 'No',
 		        'start' => '2024-11-20T10:00:00',
@@ -377,15 +373,15 @@ class DoctorController {
 		        'color'=> '#23FA5B',
       			'textColor'=> 'with'
 		    ]
-		];
+		];*/
 		
 		$data = [
 			'data' => [
 				'success'            =>  true,
 				'message'            => 'Registro encontrado',
 				'info'               =>  '',
-				'data'				 =>  $data,
-				'events' 			 => $evento
+				'data'				 =>  'existe',
+				'events' 			 => $datosHorario
 			],
 			'code' => 0,
 		];
