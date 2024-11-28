@@ -75,5 +75,12 @@ class CitasModel extends ModeloBase {
 		return $resultado->fetch(PDO::FETCH_ASSOC);
 	}
 
+	public function consultarCita($id_doctor) {
+		$db = new ModeloBase();
+		$query = "SELECT * FROM citas AS c WHERE c.id_doctor =".$id_doctor." AND c.estatus = 1 ORDER BY c.fecha_cita DESC";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
 
 }

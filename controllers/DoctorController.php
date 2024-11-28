@@ -341,39 +341,27 @@ class DoctorController {
 		$modelCitas = new CitasModel();
 		$elegido = $_POST['elegido'];
 		$horario = $modelDoctor->horarioDoctor($elegido); //devuelve un arreglo de horarios
-		//$citas = $modelCitas->
+		$citas = $modelCitas->consultarCita($id_doctor);
 
 		foreach ($horario as $value) 
 		{
-			if (is_object($value) && isset($value->dia, $value->hora_entrada, $value->hora_salida)) {
-		        $datosHorario[] = [
-		            'title' => 'SI',
-		            'start' => trim($value->hora_entrada),
-		            'end' => trim($value->hora_salida),					            
-		        	'color'=> '#f1231a',
-	      			'textColor'=> 'with'
+			if (is_object($value) && isset($value->dia, $value->hora_entrada, $value->hora_salida, $value->diferencia_en_minutos, $value->tm_porcita)) {
+				$diff = trim($value->diferencia_en_minutos) / trim($value->tm_porcita);
+				$limiteCita = intval($diff);
+	        	$datosHorario[] = [
+		        	'dia' => trim($value->dia),
+		            //'title' => 'SI',
+		            //'start' => '2024-11-29T10:00:00', //trim($value->hora_entrada),
+		            //'end' => '2024-11-29T10:00:00',//trim($value->hora_salida),					  
+
+		        	//'color'=> '#f1231a',
+	      			//'textColor'=> 'with',
+	      			'diaDiff' => $limiteCita
 		        ];
 		    } else {
 		        echo "Error: El horario no es un objeto válido.\n";
 		    }
 		}
-
-		/*$evento = [
-		    [
-		        'title' => 'No',
-		        'start' => '2024-11-20T10:00:00',
-		        'end'   => '2024-11-20T11:00:00',
-		        'color'=> '#f1231a',
-      			'textColor'=> 'with'
-		    ],
-		    [
-		        'title' => 'Si',
-		        'start' => '2024-11-21T14:00:00',
-		        'end'   => '2024-11-21T15:00:00',
-		        'color'=> '#23FA5B',
-      			'textColor'=> 'with'
-		    ]
-		];*/
 		
 		$data = [
 			'data' => [
@@ -382,6 +370,7 @@ class DoctorController {
 				'info'               =>  '',
 				'data'				 =>  'existe',
 				'events' 			 => $datosHorario
+
 			],
 			'code' => 0,
 		];

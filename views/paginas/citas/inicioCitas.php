@@ -77,6 +77,7 @@ $update_parroquias = $objeto->selectParroquia();*/
                                 </select>
                             </div>
                             <div class="mt-3" id="DIVcalendar"></div>
+                            <input type="hidden" name="diaLaboral" id="diaLaboral">
                             <!--<button class="btn btn-primary btn-circle mt-3" title="Agregar cita" data-toggle="modal" data-target="#modalAgregarCitas"><i class="fas fa-plus"> Agregar cita</i></button>
 
                             <button type="submit" class="btn btn-primary btn-circle mt-3">

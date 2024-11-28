@@ -7,49 +7,101 @@ $(document).ready(function() {
     selectable: true,
     selectHelper: true,
     select: function(info) {
+      $(info.start).css('background-color', 'lightblue');
       let id_especialidad_cita = document.getElementById("especialidad").value;
-      let id_doctor_cita = document.getElementById("doctor").value;     
+      let id_doctor_cita = document.getElementById("doctor").value;
+      // Obtener el valor del input
+      const diaLaboral = document.getElementById("diaLaboral").value;
+
+      // Dividir el string en un arreglo y normalizar los elementos
+      const dataArray = diaLaboral.split(",").map(item => item.trim());
+
+      console.log(diaLaboral);
+
+      // Objeto de mapeo para los días de la semana
+      const diaMap = {
+          'lunes': 1,
+          'martes': 2,
+          'miercoles': 3,
+          'jueves': 4,
+          'viernes': 5,
+          'sabado': 6,
+          'domingo': 0
+      };
+
+      // Usar forEach para recorrer el arreglo y asignar los valores correspondientes
+      dataArray.forEach((item, index) => {
+          // Asignar el valor correspondiente usando el objeto de mapeo
+          dataArray[index] = diaMap[item.toLowerCase()] !== undefined ? diaMap[item.toLowerCase()] : 0; // Asigna 0 si no se encuentra el día
+      });
+
+      // Mostrar el resultado
+      //console.log('Días Laborales:', dataArray); // Muestra el arreglo en la consola
+      //alert("Días Laborales: " + dataArray.join(", ")); // Muestra el arreglo en un alert
+
       if (id_especialidad_cita && id_doctor_cita) {
         //alert(id_especialidad_cita + ' ' + id_doctor_cita);
         var nuevaFecha = moment(info).format('YYYY-MM-DD');
         var hoy = moment(info.start).format('YYYY-MM-DD');
-        if (nuevaFecha < hoy) {
-          Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: 'Error',
-            text: 'No es posible asignar una cita para esta fecha.',
-          });
-        }else if(nuevaFecha == hoy){
-          Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: 'Error',
-            text: 'Para el dia de hoy no es posible asignar una cita.',
-          });
-        }else{
-          $.ajax({
-            url: "index.php?page=consultarEspeDoct",
-            type: "post",
-            dataType: "json",
-            data: {
-              especialidad: id_especialidad_cita,
-              doctor: id_doctor_cita,
-            },
-          })
-          .done(function (response) {
-             console.log(response);
-               if (response.data.success == true) {
-                $('#fecha_cita').val(nuevaFecha);
-                $("#txt-especialidad").val(response.data.nombre_especialidad);
-                $("#txt-doctor").val(response.data.nombre_doctor);
-                $("#modalAgregarCitas").modal('show');
-               }
-            })
-          .fail(function (e) {
-            console.log(e);
-          });
-        }        
+        var f = moment(info).day();
+
+        dataArray.forEach((value, index) => {
+          if (value != f) {
+              console.log(`El día ${value} en la posición ${index} no labora este doctor/a.`);
+              Swal.fire({
+                  icon: "error",
+                  confirmButtonColor: "#3085d6",
+                  title: 'Error',
+                  text: 'Estos dias no labora este doctor/a.',
+                });
+          } else {
+              //console.log(`El día en la posición ${index} es válido y tiene el valor: ${value}`);
+              if (nuevaFecha < hoy) {
+                Swal.fire({
+                  icon: "warning",
+                  confirmButtonColor: "#3085d6",
+                  title: 'Cuidado',
+                  text: 'No es posible asignar una cita para esta fecha.',
+                });
+              }else if(nuevaFecha == hoy){
+                Swal.fire({
+                  icon: "warning",
+                  confirmButtonColor: "#3085d6",
+                  title: 'Cuidado',
+                  text: 'Para el dia de hoy no es posible asignar una cita.',
+                });
+              }else if(f === 0 || f === 6){
+                Swal.fire({
+                  icon: "error",
+                  confirmButtonColor: "#3085d6",
+                  title: 'Error',
+                  text: 'Estos dias no son laborables.',
+                });
+              }else{
+                $.ajax({
+                  url: "index.php?page=consultarEspeDoct",
+                  type: "post",
+                  dataType: "json",
+                  data: {
+                    especialidad: id_especialidad_cita,
+                    doctor: id_doctor_cita,
+                  },
+                })
+                .done(function (response) {
+                   console.log(response);
+                     if (response.data.success == true) {
+                      $('#fecha_cita').val(nuevaFecha);
+                      $("#txt-especialidad").val(response.data.nombre_especialidad);
+                      $("#txt-doctor").val(response.data.nombre_doctor);
+                      $("#modalAgregarCitas").modal('show');
+                     }
+                  })
+                .fail(function (e) {
+                  console.log(e);
+                });
+              } 
+          }
+        });       
       }else{
         Swal.fire({
           icon: "warning",
@@ -79,29 +131,56 @@ $(document).ready(function() {
     },
     events: [],
     //color de fondo celda
-    dayRender: function(date, cell){
+    /*dayRender: function(date, cell){
       var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
+      const diaLaboral = document.getElementById("diaLaboral").value;
       
-      if (nuevaFecha == '26-11-2024') {
-        cell.css('background', 'yellow');
-      }else if(nuevaFecha == '19-11-2024'){
+      if(nuevaFecha == '19-11-2024'){
         cell.css('background', 'red');
+      }
+    }*/
+    dayRender: function(date, cell) {
+      var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
+      var diaLaboral = document.getElementById("diaLaboral").value;
+      const dataArray = diaLaboral.split(",").map(item => item.trim());
+      const diaMap = {
+          'lunes': 1,
+          'martes': 2,
+          'miercoles': 3,
+          'jueves': 4,
+          'viernes': 5,
+          'sabado': 6,
+          'domingo': 0
+      };
+
+      // Convertir los días laborales a números
+      const diasLaboralesNumeros = dataArray.map(item => diaMap[item.toLowerCase()] !== undefined ? diaMap[item.toLowerCase()] : null).filter(item => item !== null);
+      var f = date.day(); // Obtener el día de la semana del objeto date
+
+      // Cambiar el color de fondo si el día es laboral
+      if (diasLaboralesNumeros.includes(f)) {
+        cell.css('background', 'red'); // Cambiar a un color que desees
       }
     }
    });
 });
 
-/*function loadEvents(events) {
-  //console.log(events);
-  if (events) {
+function loadEvents(events) {
+  console.log('loadEvents:', + events);
+  /*if (events) {
     $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
     $('#DIVcalendar').fullCalendar('addEventSource', events); // Agregar nuevos eventos
     $('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
   }
-}*/
+
+//para tomar el dia si es lunes, martes, miercoles, jueves o viernes
+  var f = info.dateStr;
+  const cadenaFecha = f;
+  var numeroDia = new Date(cadenaFecha).getDay();*/
+}
 
 function loadEvents(events) {
-    if (events) {
+   /* if (events) {
         // Transformar los eventos para que contengan solo el título
         const transformedEvents = events.map(event => {
             return {
@@ -113,12 +192,12 @@ function loadEvents(events) {
             };
         });
 
-        console.log(transformedEvents);
+        console.log(events);
 
         $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
         $('#DIVcalendar').fullCalendar('addEventSource', transformedEvents); // Agregar nuevos eventos
         //$('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
-    }
+    }*/
 }
 
 /* -------------- mostrar asignacion Cita -------------------------- */
@@ -306,12 +385,24 @@ $(document).ready(function () {
         },
       })
       .done(function (response) {
-        console.log(response);
+        //console.log(response);
+
        if (Array.isArray(response.data.events)) {
+            let diasLaborales = [];
+
             // Supongamos que quieres mostrar el título del primer evento
             if (response.data.events.length > 0) { // Verifica que el arreglo no esté vacío
                 response.data.events.forEach(event => {
-                    console.log(event.title+ ' ' +event.start+ ' ' +event.end+ ' ' +event.color+ ' ' +event.textColor ); // Muestra el título de cada evento
+                    //console.log(event.title+ ' ' +event.start+ ' ' +event.end+ ' ' +event.color+ ' ' +event.textColor ); // Muestra el título de cada evento
+                    if (Array.isArray(event.dia)) {
+                        // Acumula los días laborales en el arreglo
+                        diasLaborales = diasLaborales.concat(event.dia); // Usa concat para agregar elementos
+                    } else {
+                        // Si event.dia no es un arreglo, agrega el valor directamente
+                        diasLaborales.push(event.dia); // Agrega el valor al arreglo
+                    }
+                    document.getElementById("diaLaboral").value = diasLaborales.join(", ");
+                    console.log('revisando si llegan los datos: ', response.data.events); //si llegan por aca
                     loadEvents(response.data.events);
                 });
             } else {

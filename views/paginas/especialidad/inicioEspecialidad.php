@@ -100,12 +100,12 @@ if ($rol == 3) {
                                 <label for="TM_cita">Tiempo maximo por cita</label>
                                 <select class="form-control" name="TM_cita" id="TM_cita" style="width:100%">
                                     <option value="N/A" selected disabled>N/A</option>
-                                    <option value="10 Min">10 Min</option>
-                                    <option value="20 Min">20 Min</option>
-                                    <option value="30 Min">30 Min</option>
-                                    <option value="40 Min">40 Min</option>
-                                    <option value="50 Min">50 Min</option>
-                                    <option value="60 Min">60 Min</option>
+                                    <option value="10">10 Min</option>
+                                    <option value="20">20 Min</option>
+                                    <option value="30">30 Min</option>
+                                    <option value="40">40 Min</option>
+                                    <option value="50">50 Min</option>
+                                    <option value="60">60 Min</option>
                                 </select>
                             </div>
                         </div>

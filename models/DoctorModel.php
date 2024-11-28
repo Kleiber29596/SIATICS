@@ -62,10 +62,10 @@ class DoctorModel extends ModeloBase {
 	public function horarioDoctor($id_doctor)
 	{
 		$db = new ModeloBase();
-		$query = "SELECT h.dia, h.hora_salida, h.hora_entrada, TIMESTAMPDIFF(MINUTE, h.hora_entrada, h.hora_salida) AS diferencia_en_minutos FROM horario AS h WHERE h.id_doctor = " . $id_doctor . "";
+		$query = "SELECT h.dia, h.hora_salida, h.hora_entrada, TIMESTAMPDIFF(MINUTE, h.hora_entrada, h.hora_salida) AS diferencia_en_minutos, e.tm_porcita FROM horario AS h INNER JOIN doctor AS d ON d.id_doctor = h.id_doctor INNER JOIN especialidad AS e ON e.id_especialidad = d.id_especialidad WHERE h.id_doctor = " . $id_doctor . "";
 		$resultado = $db->FectAll($query);
 		return $resultado;
 	}
 
-
+    /*SELECT c.fecha_cita, COUNT(*) AS conteo FROM `citas` AS c WHERE c.id_doctor = 23 AND c.estatus = 1 GROUP BY c.fecha_cita ORDER BY c.fecha_cita DESC*/
 }
