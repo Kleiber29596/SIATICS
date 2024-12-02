@@ -2598,71 +2598,29 @@ if(modalidad){
 
 /*-------------- Agregar Persona ------------------ */
 
-if (agregar_persona = document.getElementById("agregar_persona")) {
+/* --------- REGISTRAR PERSONA ----------- */
+
+agregar_persona = document.getElementById("agregar_persona")
+if (agregar_persona) {
   agregar_persona.addEventListener("click", agregarPersona, false);
 
   function agregarPersona() {
 
-    /*Datos de la persona*/
+    /*Datos de la persona */
+
     let primer_nombre     = document.getElementById("primer_nombre").value;
     let segundo_nombre    = document.getElementById("segundo_nombre").value;
-    let primer_apellido  = document.getElementById("primer_apellido").value;
-    let segundo_apellido = document.getElementById("segundo_apellido").value;
-    let tipo_documento   = document.getElementById("tipo_documento").value;
-    let n_documento      = document.getElementById("n_documento").value;
-    let fecha_nac        = document.getElementById("fecha_nac").value;
-    let sexo             = document.getElementById("sexo").value;
-    let telefono         = document.getElementById("telefono").value;
-    let correo           = document.getElementById("correo").value;
-    let direccion        = document.getElementById("direccion").value;
-    let tipo_persona        = document.getElementById("tipo_persona").value;
+    let primer_apellido   = document.getElementById("primer_apellido").value;
+    let segundo_apellido  = document.getElementById("segundo_apellido").value;
+    let tipo_documento    = document.getElementById("tipo_documento").value;
+    let n_documento       = document.getElementById("n_documento").value;
+    let telefono          = document.getElementById("telefono").value;
+    let correo            = document.getElementById("correo").value;
+    let direccion         = document.getElementById("direccion").value;
+    let sexo              = document.getElementById("sexo").value;
+    let tipo_persona      = document.getElementById("tipo_persona").value;
+    let fecha_nac         = document.getElementById("fecha_nac").value;
 
-    if (fecha_nac === '') {
-        Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: "Atención",
-            text: "Campo fecha de nacimiento vacío, por favor asegurese de que este lleno!",
-        });
-        return false;
-
-    }
-
-    if(primer_nombre == '' /*|| segundo_nombre == ''*/ ) {
-        
-        Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: "Atención",
-            text: "Campo nombres vacío, por favor asegurese de que este lleno!",
-        });
-        return false;
-    }
-
-    if(primer_apellido == '' /*|| segundo_apellido == ''*/ ) {
-        
-  
-        Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: "Atención",
-            text: "Campo apellidos vacío, por favor asegurese de que este lleno!",
-        });
-        return false;
-    }
-  
-
-    if(sexo == '' ) {
-        
-        Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: "Atención",
-            text: "Campo sexo vacío, por favor asegurese de que este lleno!",
-        });
-        return false;
-
-  }
 
     // Datos del historial médico
     let tipo_sangre      = document.getElementById("tipo_sangre").value;
@@ -2674,75 +2632,29 @@ if (agregar_persona = document.getElementById("agregar_persona")) {
     let ciru_hospi       = document.getElementById("ciru_hospi").value;
     let alergia          = document.getElementById("alergia").value;
     let enfermedad_hered = document.getElementById("enfermedad_hered").value;
-
-    /*Datos del representante */
-    let nombres_r        = document.getElementById("nombres_r").value;
-    let apellidos_r      = document.getElementById("apellidos_r").value;
-    let tipo_documento_r = document.getElementById("tipo_documento_r").value;
-    let n_documento_r    = document.getElementById("n_documento_r").value;
-    let telefono_r       = document.getElementById("telefono_r").value;
-    let correo_r         = document.getElementById("correo_r").value;
-    let direccion_r      = document.getElementById("direccion_r").value;
-    let id_representante = document.getElementById("id_representante").value;
-    let parentesco       = document.getElementById("parentesco").value;
-    let id_persona_r     = document.getElementById("id_persona_r").value;
-
-
-if (nombres_r != '') {
-
-  if(tipo_documento_r == '' || n_documento_r == '' || nombres_r == '' || apellidos_r == '' || direccion_r == ''  || parentesco == '' ) {
-        
-    Swal.fire({
-        icon: "warning",
-        confirmButtonColor: "#3085d6",
-        title: "Atención",
-        text: "Campos del representante vacíos, todos los campos son obligatorios!",
-    });
-    return false;
-}
-
-
-}
-
-
-    /*-- Contenedores --*/
-
-    let contenedor_datos_representante = document.getElementById('contenedor_datos_representante');
-    let datos_representante            = document.getElementById('datos_representante');
-    let consultar_representante        = document.getElementById('consultar_representante');
-
-    /*-- Campos dinámicos */
-    let grupo_correo                   = document.getElementById('grupo_correo');
-    let grupo_tlf                      = document.getElementById('grupo_telefono');
-    let grupo_direccion                = document.getElementById('grupo_direccion');
-    let grupo_nombres                  = document.getElementById('grupo_nombres')
-    let grupo_apellidos                = document.getElementById('grupo_apellidos')
-    let grupo_cedula                   = document.getElementById('grupo_n_documento')
-
-
- 
-
     
+
 
     $.ajax({
       url: "index.php?page=registrarPersona",
       type: "post",
       dataType: "json",
       data: {
+        
+        // Datos de la persona
         primer_nombre: primer_nombre,
         segundo_nombre: segundo_nombre,
         primer_apellido: primer_apellido,
         segundo_apellido: segundo_apellido,
         tipo_documento: tipo_documento,
         n_documento: n_documento,
-        fecha_nac: fecha_nac,
         telefono: telefono,
+        fecha_nac: fecha_nac,
         sexo: sexo,
         correo: correo,
         direccion: direccion,
         tipo_persona: tipo_persona,
 
-         /* ---- validaciones ----*/
 
         /*-- Datos del historial medico ---- */
         tipo_sangre: tipo_sangre,
@@ -2753,36 +2665,16 @@ if (nombres_r != '') {
         medicado: medicado,
         ciru_hospi: ciru_hospi,
         alergia: alergia,
-        enfermedad_hered: enfermedad_hered,
-        
-        // Datos del representante
-        nombres_r: nombres_r,
-        apellidos_r: apellidos_r,
-        tipo_documento_r: tipo_documento_r,
-        n_documento_r: n_documento_r,
-        telefono_r: telefono_r,
-        correo_r: correo_r,
-        direccion_r: direccion_r,
-        parentesco: parentesco,
-        id_representante: id_representante,
-        id_persona_r: id_persona_r
+        enfermedad_hered: enfermedad_hered
 
       },
     })
       .done(function (response) {
         if (response.data.success == true) {
-          /*Ocultar contenedores dinámicos */
-          contenedor_datos_representante.setAttribute('style', 'display: none;');
-          consultar_representante.setAttribute('style', 'display: none;');
-          datos_representante.setAttribute('style', 'display: none;');  
-          /*hacer visibles campos de correo, tlf y direccion */
-          grupo_correo.removeAttribute('style');
-          grupo_tlf.removeAttribute('style');
-          grupo_direccion.removeAttribute('style');
-
+      
           const limpiarEstilosValidacion = () => {
             // Listado de los campos a los que se les quiere quitar los estilos de validación
-            const campos = ['nombres', 'apellidos', 'n_documento', 'correo', 'direccion', 'telefono', 'tipo_documento','fecha_nac','sexo', 'nombres_r', 'apellidos_r', 'n_documento_r', 'correo_r', 'direccion_r', 'telefono_r', 'tipo_documento_r', 'parentesco'];
+            const campos = ['primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'direccion', 'telefono', 'tipo_documento' ];
         
             campos.forEach(campo => {
                 const grupo = document.getElementById(`grupo_${campo}`);
@@ -2801,9 +2693,6 @@ if (nombres_r != '') {
         // Llamar a esta función cuando necesites limpiar los estilos de validación
         limpiarEstilosValidacion();
         
-
-
-          
           document.getElementById("formRegistrarPersona").reset();
 
           $("#modalAgregarPersona").modal("hide");
@@ -2836,6 +2725,113 @@ if (nombres_r != '') {
   }
 }
 
+
+
+
+/* --------- REGISTRAR REPRESENTANTE ----------- */
+
+agregar_reprentante = document.getElementById("agregar_representante")
+if (agregar_reprentante) {
+  agregar_representante.addEventListener("click", agregarRepresentante, false);
+
+  function agregarRepresentante() {
+
+    /*Datos del representante */
+
+    let primer_nombre_r     = document.getElementById("primer_nombre_r").value;
+    let segundo_nombre_r    = document.getElementById("segundo_nombre_r").value;
+    let primer_apellido_r   = document.getElementById("primer_apellido_r").value;
+    let segundo_apellido_r  = document.getElementById("segundo_apellido_r").value;
+    let tipo_documento_r    = document.getElementById("tipo_documento_r").value;
+    let n_documento_r       = document.getElementById("n_documento_r").value;
+    let telefono_r          = document.getElementById("telefono_r").value;
+    let correo_r            = document.getElementById("correo_r").value;
+    let direccion_r         = document.getElementById("direccion_r").value;
+    let parentesco          = document.getElementById("parentesco").value;
+    let id_representado     = document.getElementById("id_representado").value;
+    let fecha_nac_r         = document.getElementById("fecha_nac_r").value;
+     // let id_representante    = document.getElementById("id_representante").value;
+    // let id_persona_r        = document.getElementById("id_persona_r").value;
+
+    $.ajax({
+      url: "index.php?page=registrarRepresentante",
+      type: "post",
+      dataType: "json",
+      data: {
+        
+        // Datos del representante
+        primer_nombre_r: primer_nombre_r,
+        segundo_nombre_r: segundo_nombre_r,
+        primer_apellido_r: primer_apellido_r,
+        segundo_apellido_r: segundo_apellido_r,
+        tipo_documento_r: tipo_documento_r,
+        n_documento_r: n_documento_r,
+        telefono_r: telefono_r,
+        correo_r: correo_r,
+        direccion_r: direccion_r,
+        parentesco: parentesco,
+        id_representado: id_representado,
+        fecha_nac_r: fecha_nac_r
+        // id_representante: id_representante,
+        // id_persona_r: id_persona_r
+
+      },
+    })
+      .done(function (response) {
+        if (response.data.success == true) {
+      
+          const limpiarEstilosValidacionRepresentante = () => {
+            // Listado de los campos a los que se les quiere quitar los estilos de validación
+            const campos = ['primer_nombre_r', 'segundo_nombre_r', 'primer_apellido_r', 'segundo_apellido_r', 'direccion_r', 'telefono_r', 'tipo_documento_r', 'n_documento_r', 'parentesco'];
+        
+            campos.forEach(campo => {
+                const grupo = document.getElementById(`grupo_${campo}`);
+                grupo.classList.remove('formulario__grupo-incorrecto', 'formulario__grupo-correcto'); // Remueve clases de validación
+                const icono = document.querySelector(`#grupo_${campo} i`);
+                if (icono) {
+                    icono.classList.remove('fa-check-circle', 'fa-times-circle'); // Remueve iconos de validación
+                }
+                const errorTexto = document.querySelector(`#grupo_${campo} .formulario__input-error`);
+                if (errorTexto) {
+                    errorTexto.classList.remove('formulario__input-error-activo'); // Oculta mensajes de error
+                }
+            });
+        };
+        
+        // Llamar a esta función cuando necesites limpiar los estilos de validación
+        limpiarEstilosValidacionRepresentante();
+        
+          document.getElementById("registrar_representante").reset();
+
+          $("#modalAgregarRepresentante").modal("hide");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+
+          window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${response.data.id_representado}`;
+
+ 
+
+
+        } else {
+          
+          Swal.fire({
+            icon: "danger",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  }
+}
 
 if (n_documento) {
   document.getElementById("n_documento").addEventListener("blur", function () {
@@ -2889,61 +2885,61 @@ function validarFecha(fechaIngresada) {
 
 const fechaNacInput = document.getElementById("fecha_nac");
 
-if (fechaNacInput) {
-    fechaNacInput.addEventListener("blur", function () {
-        let fecha_nac = fechaNacInput.value;
+// if (fechaNacInput) {
+//     fechaNacInput.addEventListener("blur", function () {
+//         let fecha_nac = fechaNacInput.value;
         
-        if (!validarFecha(fecha_nac)) {
-            Swal.fire({
-                icon: "warning",
-                confirmButtonColor: "#3085d6",
-                title: "Atención",
-                text: "Ingrese una fecha de nacimiento válida",
-            });
-            return false;
-        }
+//         if (!validarFecha(fecha_nac)) {
+//             Swal.fire({
+//                 icon: "warning",
+//                 confirmButtonColor: "#3085d6",
+//                 title: "Atención",
+//                 text: "Ingrese una fecha de nacimiento válida",
+//             });
+//             return false;
+//         }
 
-        if (fecha_nac) {
-            $.ajax({
-                url: "index.php?page=consultarEdad",
-                type: "post",
-                dataType: "json",
-                data: { fecha_nac: fecha_nac },
-            })
-            .done(function (response) {
-                if (response.data.success === true) {
-                    if (response.data.edad >= 18) {
-                        // Si la persona es mayor de edad
-                        document.getElementById("contenedor_datos_representante").setAttribute("style","display: none;");
-                        document.getElementById("datos_representante").setAttribute("style","display: none;");
-                        document.getElementById("consultar_representante").setAttribute("style", "display: none;");
-                        document.getElementById("grupo_correo").removeAttribute("style");
-                        document.getElementById("grupo_telefono").removeAttribute("style");
-                        document.getElementById("grupo_direccion").removeAttribute("style");
-                    } else {
-                        // Si la persona es menor de edad, mostrar el div de datos del representante
-                        document.getElementById("consultar_representante").removeAttribute("style");
-                        document.getElementById("grupo_correo").setAttribute("style","display: none;");
-                        document.getElementById("grupo_telefono").setAttribute("style","display: none;");
-                        document.getElementById("grupo_direccion").setAttribute("style","display: none;");
+//         if (fecha_nac) {
+//             $.ajax({
+//                 url: "index.php?page=consultarEdad",
+//                 type: "post",
+//                 dataType: "json",
+//                 data: { fecha_nac: fecha_nac },
+//             })
+//             .done(function (response) {
+//                 if (response.data.success === true) {
+//                     if (response.data.edad >= 18) {
+//                         // Si la persona es mayor de edad
+//                         document.getElementById("contenedor_datos_representante").setAttribute("style","display: none;");
+//                         document.getElementById("datos_representante").setAttribute("style","display: none;");
+//                         document.getElementById("consultar_representante").setAttribute("style", "display: none;");
+//                         document.getElementById("grupo_correo").removeAttribute("style");
+//                         document.getElementById("grupo_telefono").removeAttribute("style");
+//                         document.getElementById("grupo_direccion").removeAttribute("style");
+//                     } else {
+//                         // Si la persona es menor de edad, mostrar el div de datos del representante
+//                         document.getElementById("consultar_representante").removeAttribute("style");
+//                         document.getElementById("grupo_correo").setAttribute("style","display: none;");
+//                         document.getElementById("grupo_telefono").setAttribute("style","display: none;");
+//                         document.getElementById("grupo_direccion").setAttribute("style","display: none;");
                         
-                        // Mostrar SweetAlert al desplegar el contenedor
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Persona menor de edad',
-                            text: 'Por favor, complete los datos del representante legal.'
-                        });
-                    }
-                } else {
-                    console.log("Error en la respuesta de la API.");
-                }
-            })
-            .fail(function () {
-                console.log("Error en la verificación de la edad.");
-            });
-        }
-    });
-}
+//                         // Mostrar SweetAlert al desplegar el contenedor
+//                         Swal.fire({
+//                             icon: 'info',
+//                             title: 'Persona menor de edad',
+//                             text: 'Por favor, complete los datos del representante legal.'
+//                         });
+//                     }
+//                 } else {
+//                     console.log("Error en la respuesta de la API.");
+//                 }
+//             })
+//             .fail(function () {
+//                 console.log("Error en la verificación de la edad.");
+//             });
+//         }
+//     });
+// }
 
 
 

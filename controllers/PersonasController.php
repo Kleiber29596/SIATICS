@@ -144,10 +144,12 @@ class PersonasController
 			'fecha_registro'     => $fecha_registro
 		);
 	
+	
 		// Registrar la persona
 		$resultado_p = $modelPersonas->registrarPersona($datosPersona);
 		$ultimo_id_persona = $resultado_p['ultimo_id'];
-
+		
+		
 		
 		/* Historial medico */
 		$datos_h_medica =  array(
@@ -164,132 +166,106 @@ class PersonasController
 			'fecha_reg'               	   => $fecha_registro
 		);
 
-		$registrar_histo_medica = $modelPersonas->registrarHistoriaMedica($datos_h_medica);
-
-	
-
-
-
-		// Verificar si vienen los datos del representante
-		if (!empty($_POST['nombres_r']) && !empty($_POST['apellidos_r']) && !empty($_POST['tipo_documento_r']) && !empty($_POST['n_documento_r'])) {
-			// Datos personales del representante
-			$datosPersonalesRepresentante = array(
-				'p_nombre'            => $_POST['nombres_r'],
-				'p_apellido'          => $_POST['apellidos_r'],
-				'tipo_documento'      => $_POST['tipo_documento_r'],
-				'n_documento'         => $_POST['n_documento_r'],
-				'telefono'            => $_POST['telefono_r'],
-				'correo'              => $_POST['correo_r'],
-				'direccion'           => $_POST['direccion_r'],
-				'fecha_registro'      => $fecha_registro
-			);
-	
-			$registro_persona_r = $modelPersonas->registrarPersona($datosPersonalesRepresentante);
-			$id_persona_r = $registro_persona_r['ultimo_id'];
-			
-			// Datos del representante
-			$datosRepresentante = array(
-				'parentesco'         => $_POST['parentesco'],
-				'id_persona'         => $id_persona_r
-			);
-	
-			$registro_r = $modelPersonas->registrarRepresentante($datosRepresentante);
-			$ultimo_id_r = $registro_r['ultimo_id'];
-
-			$datosTblIntermdia = array(
-				'id_representante'   => $ultimo_id_r,
-				'id_persona'         => $ultimo_id_persona
-			);
-			$resultado = $modelPersonas->registrarTblIntermedia($datosTblIntermdia);
-
-		if($resultado['ejecutar']) {
-			$data = [
-				'data' => [
-					'success' => true,
-					'message' => 'La persona y su representante han sido registrado con exito',
-					'info' => 'Guardado exitosamente'
-				],
-				'code' => 1,
-			];
-			echo json_encode($data);
-			exit();
-
-		}else{
-			
-		}
-
-		} elseif(!empty($_POST['id_representante']) && !empty($_POST['id_persona_r']) ) {
-			var_dump(($_POST['id_representante']));
-		/*  Registro del representante y menor en la tabla intermedia (representantes_personas) */
+		$resultado = $registrar_histo_medica = $modelPersonas->registrarHistoriaMedica($datos_h_medica);
 		
-		$datosTblIntermdia = array(
-			'id_representante'   => $_POST['id_representante'],
-			'id_persona'         => $ultimo_id_persona
-		);
-		$resultado = $modelPersonas->registrarTblIntermedia($datosTblIntermdia);
-
-		if($resultado['ejecutar']) {
+		if ($resultado) {
 			$data = [
 				'data' => [
-					'success' => true,
-					'message' => 'La persona y su representante han sido registrado con exito',
-					'info' => 'Guardado exitosamente'
+					'success'            =>  true,
+					'message'            => 'Guardado exitosamente',
+					'info'               =>  'La persona ha sido registrada con exito'
 				],
 				'code' => 1,
 			];
+
 			echo json_encode($data);
 			exit();
-
-		}
-	} elseif( empty($_POST['id_representante']) && !empty($_POST['id_persona_r'])) {
-		// Registrar Representante
-		var_dump($_POST['parentesco']);
-		$datosRepresentante = array(
-			'parentesco'         => $_POST['parentesco'],
-			'id_persona'         => $_POST['id_persona_r']
-		);
-
-		$registro_r = $modelPersonas->registrarRepresentante($datosRepresentante);
-		$ultimo_id_r = $registro_r['ultimo_id'];
-
-		$datosTblIntermdia = array(
-			'id_representante'   => $ultimo_id_r,
-			'id_persona'         => $ultimo_id_persona
-		);
-		$resultado = $modelPersonas->registrarTblIntermedia($datosTblIntermdia);
-
-		
-		if($resultado['ejecutar']) {
+		} else {
 			$data = [
 				'data' => [
-					'success' => true,
-					'message' => 'La persona y su representante han sido registrado con exito',
-					'info' => 'Guardado exitosamente'
+					'success'            =>  false,
+					'message'            => 'Ocurrió un error al registrar la persona',
+					'info'               =>  ''
 				],
-				'code' => 1,
+				'code' => 0,
 			];
+
 			echo json_encode($data);
 			exit();
-
 		}
 		
 	}
 
+
+	public function registrarRepresentante() {
+		$fecha_registro = date('Y-m-d');
+		$modelPersonas = new PersonasModel();
+		$id_representado = $_POST['id_representado'];
 			
+		// Datos personales del representante
+		$datos = array(
+			'p_nombre'            => $_POST['primer_nombre_r'],
+			's_nombre'            => $_POST['segundo_nombre_r'],
+			'p_apellido'          => $_POST['primer_apellido_r'],
+			's_apellido'          => $_POST['segundo_apellido_r'],
+			'tipo_documento'      => $_POST['tipo_documento_r'],
+			'n_documento'         => $_POST['n_documento_r'],
+			'telefono'            => $_POST['telefono_r'],
+			'correo'              => $_POST['correo_r'],
+			'direccion'           => $_POST['direccion_r'],
+			'fecha_registro'      => $fecha_registro
+		);
+
 	
-	else {
-			$data = [
-				'data' => [
-					'success' => true,
-					'message' => 'La persona ha sido registrada con exito',
-					'info' => ''
-				],
-				'code' => 1,
-			];
-		}
-	
+	$registro_p = $modelPersonas->registrarPersona($datos);
+	$ultimo_id = $registro_p['ultimo_id'];
+
+		// Datos tbl representante
+		$datosRepresentante = array(
+			'parentesco'         => $_POST['parentesco'],
+			'id_persona'         => $ultimo_id
+		);
+
+	$registro_r  = $modelPersonas->registrarRepresentante($datosRepresentante);
+	$ultimo_id_r = $registro_r['ultimo_id'];
+
+		//Registro tbl intermedia
+
+		$datosTblIntermdia = array(
+			'id_representante'   => $ultimo_id_r,
+			'id_persona'         => $id_representado
+		);
+
+	$resultado = $modelPersonas->registrarTblIntermedia($datosTblIntermdia);
+
+	if ($resultado) {
+		$data = [
+			'data' => [
+				'success'            =>  true,
+				'message'            => 'Guardado exitosamente',
+				'info'               => 'El representante ha sido registrado con exito',
+				'id_representado'		 => $id_representado
+			],
+			'code' => 1,
+		];
+
 		echo json_encode($data);
 		exit();
+	} else {
+		$data = [
+			'data' => [
+				'success'            =>  false,
+				'message'            => 'Ocurrió un error al registrar el representante',
+				'info'               =>  ''
+			],
+			'code' => 0,
+		];
+
+		echo json_encode($data);
+		exit();
+	}
+
+		
 	}
 	
 

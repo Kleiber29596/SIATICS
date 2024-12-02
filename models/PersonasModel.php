@@ -131,7 +131,7 @@ public function listarDatosPersona($id_persona) {
 
 	public function consultarPersona($n_documento) {
 	    $db = new ModeloBase();
-	    $query = "SELECT id_persona, CONCAT(personas.tipo_documento, '-', personas.n_documento) AS documento, CONCAT(personas.p_nombre, ' ', personas.s_nombre,' ',personas.p_apellido,' ',personas.s_apellido) AS nombres, fecha_nacimiento, sexo, telefono, correo, fecha_registro, personas.direccion FROM personas LEFT JOIN estados ON personas.id_estado = estados.id_estado LEFT JOIN municipios ON personas.id_municipio = municipios.id_municipio LEFT JOIN parroquias ON personas.id_parroquia = parroquias.id_parroquia WHERE personas.n_documento = ".$n_documento."";
+	    $query = "SELECT personas.id_persona, CONCAT(personas.tipo_documento, '-', personas.n_documento) AS documento, CONCAT(personas.p_nombre, ' ', personas.s_nombre,' ', personas.p_apellido,' ', personas.s_apellido) AS nombres, fecha_nacimiento, sexo, telefono, correo, fecha_registro, personas.direccion, representantes.parentesco, representantes.id_representante FROM personas LEFT JOIN representantes ON personas.id_persona = representantes.id_persona WHERE personas.n_documento =".$n_documento."";
 	    $resultado = $db->obtenerTodos($query);
 	    return $resultado;
 	}
@@ -142,6 +142,14 @@ public function listarDatosPersona($id_persona) {
 	    $resultado = $db->obtenerTodos($query);
 	    return $resultado;
 	}
+
+	public function verRepresentante($id_persona) {
+	    $db = new ModeloBase();
+	    $query = "SELECT  representantes_personas.id_representante_persona, representantes_personas.id_representante, r.id_persona, r.parentesco, CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) AS nombres_apellidos, CONCAT(p.tipo_documento,' ',p.n_documento)  AS documento,  p.telefono, p.correo, p.direccion FROM representantes_personas INNER JOIN representantes AS r ON r.id_representante = representantes_personas.id_representante INNER  JOIN personas AS p ON p.id_persona = r.id_persona WHERE representantes_personas.id_persona = ".$id_persona."";
+	    $resultado = $db->FectAssoc($query);
+	    return $resultado;
+	}
+
 
 
 	public function consultarPersonaCita($n_documento) {
