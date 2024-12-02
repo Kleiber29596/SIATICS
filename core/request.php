@@ -43,6 +43,7 @@ if (!empty($page)) {
 		'llenarSelectEstado' 		=> array('model'   => 'PersonasModel', 'view'   => 'llenarSelectEstado',    'controller'     => 'PersonasController'),
 		'llenarSelectParroquia' 	=> array('model'   => 'PersonasModel', 'view'   => 'llenarSelectParroquia', 'controller'     => 'PersonasController'),
 		'registrarPersona' 			=> array('model'   => 'PersonasModel', 'view'   => 'RegistrarPersona',      'controller'     => 'PersonasController'),
+		'registrarRepresentante'    => array('model'   => 'PersonasModel', 'view'   => 'registrarRepresentante','controller'     => 'PersonasController'),
 		'listarDatosPersona'		=> array('model'   => 'PersonasModel', 'view'   => 'listarDatosPersona',    'controller'     => 'PersonasController'),
 		'verDatosPersona'			=> array('model'   => 'PersonasModel', 'view'   => 'verDatosPersona',       'controller'     => 'PersonasController'),
 		'listarPersonas'   			=> array('model'   => 'PersonasModel', 'view'   => 'listarPersonas',        'controller'     => 'PersonasController'),

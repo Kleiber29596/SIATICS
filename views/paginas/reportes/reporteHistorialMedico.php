@@ -7,7 +7,9 @@
 
  $id_persona = $_GET['id']; 
 
- $datos_personas              = $modelPersonas->listarDatosPersona($id_persona); 
+ $datos_personas              = $modelPersonas->listarDatosPersona($id_persona);
+ $datos_representante         = $modelPersonas->verRepresentante($id_persona);
+
 
 
  foreach ($datos_personas as $datos_personas) { 
@@ -32,6 +34,17 @@
      $alergia                    = $datos_personas['alergia'];  
      $enfermedad_hereditaria     = $datos_personas['enfermedad_hereditaria'];       
  } 
+
+
+  foreach ($datos_representante as $datos) { 
+        $nombres_apellidos_r            = $datos['nombres_apellidos']; 
+        $documento_r                    = $datos['documento']; 
+        $direccion_r                    = $datos['direccion']; 
+        $telefono_r                     = $datos['telefono']; 
+        $correo_r                       = $datos['correo'];
+        $parentesco                     = $datos['parentesco']; 
+
+    } 
  
  
 ?>
@@ -156,6 +169,40 @@ ob_start();
                                             </table>
 
                                         </div>
+
+                                         <!-- Datos del representante-->
+                                         <h3>DATOS DEL REPRESENTANTE</h3>
+                                    <?php if(!empty($nombres_apellidos_r)) {?>
+                                    
+                                    <div class="table-responsive mb-3">
+                                        <table class="table table-bordered table-hover ">
+
+                                            <thead>
+                                                <tr class="table-primary">
+                                                    <th>Nº documento</th>
+                                                    <th>Nombres/apellidos</th>
+                                                    <th>Telefono</th>
+                                                    <th>Correo</th>
+                                                    <th>Direccion</th>
+                                                    <th>Parentesco</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="table-primary">
+                                                    <td style="text-align: center;"><?= $documento_r ?></td>
+                                                    <td style="text-align: center;"><?= $nombres_apellidos_r ?></td>
+                                                    <td style="text-align: center;"><?= $telefono_r ?></td>
+                                                    <td style="text-align: center;"><?= $correo_r ?></td>
+                                                    <td style="text-align: center;"><?= $direccion_r ?></td>
+                                                    <td style="text-align: center;"><?= $parentesco ?></td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <?php }else{}?>
 
                                         <h3>HISTORIA MÉDICA</h3>
 

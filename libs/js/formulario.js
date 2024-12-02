@@ -1,6 +1,9 @@
 const formulario = document.getElementById('formRegistrarPersona');
 const inputs = document.querySelectorAll('#formRegistrarPersona input');
+/* Datos del representante */
+const inputs_representante = document.querySelectorAll('#registrar_representante input');
 const selects = document.querySelectorAll('#formRegistrarPersona select');
+const selects_representante = document.querySelectorAll('#registrar_representante select');
 const inputs_consulta = document.querySelectorAll('#formRegistrarConsultas input');
 
 
@@ -50,13 +53,21 @@ const validarFormulario = (e) => {
 			break;
 
 			/* Campos del representante */
-		case "nombres_r":
-			validarCampo(expresiones.nombre, e.target, 'nombres_r');
+		case "primer_nombre_r":
+			validarCampo(expresiones.nombre, e.target, 'primer_nombre_r');
 			break;
 		
-		case "apellidos_r":
-			validarCampo(expresiones.nombre, e.target, 'apellidos_r');
-			break;	
+		case "segundo_nombre_r":
+			validarCampo(expresiones.nombre, e.target, 'segundo_nombre_r');
+			break;
+
+		case "primer_apellido_r":
+			validarCampo(expresiones.nombre, e.target, 'primer_apellido_r');
+			break;		
+		
+		case "segundo_apellido_r":
+			validarCampo(expresiones.nombre, e.target, 'segundo_apellido_r');
+			break;		
 		
 		case "tipo_documento_r":
 			validarCampoSelect(e.target, 'tipo_documento_r');
@@ -122,7 +133,18 @@ inputs.forEach((input) =>{
 
 });
 
+inputs_representante.forEach((input) =>{
+	input.addEventListener('keyup', validarFormulario);
+	input.addEventListener('blur', validarFormulario);
+
+});
+
+
 selects.forEach((select) => {
+	select.addEventListener('change', validarFormulario);
+});
+
+selects_representante.forEach((select) => {
 	select.addEventListener('change', validarFormulario);
 });
 

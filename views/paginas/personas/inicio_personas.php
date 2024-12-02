@@ -56,7 +56,7 @@ $update_parroquias = $objeto->selectParroquia();
 <!-- Modal Agregar Persona-->
 <div class="modal fade" id="modalAgregarPersona" tabindex="-1" aria-labelledby="modalAgregarPersonaLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalAgregarPersona"> Agregar Personas <i class="fas fa-user"></i> </h5>
@@ -72,7 +72,7 @@ $update_parroquias = $objeto->selectParroquia();
                             <div class="col-sm-3" id="grupo_primer_nombre">
                                 <label class="formulario__label" for="nombres">Primer nombre</label>
                                 <div class="form-group">
-                                    <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
+                                    <input class="form-control formulario__validacion__input"
                                         type="text" id="primer_nombre" name="primer_nombre" placeholder="Primer nombre"
                                         required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -176,7 +176,7 @@ $update_parroquias = $objeto->selectParroquia();
 
                             <!-------------------------- Grupo Nº documento ----------------------------------->
 
-                            <div class="col-sm-4" id="grupo_n_documento">
+                            <div class="col-sm-4 mb3" id="grupo_n_documento">
                                 <label class="formulario__label" for="n_documento">Numero de documento</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" type="text"
@@ -190,7 +190,7 @@ $update_parroquias = $objeto->selectParroquia();
                                     digitos y máximo 8.
                                 </p>
                             </div>
-                            <div class="col-sm-6" id="grupo_correo">
+                            <div class="col-sm-6 mb-3" id="grupo_correo">
                                 <label class="formulario__label" for="correo">Correo</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" type="email" id="correo"
@@ -203,13 +203,15 @@ $update_parroquias = $objeto->selectParroquia();
                                 </p>
                             </div>
                         </div>
-                        <div class="row mt-3">
+                        <div class="row mb-3">
+
                             <div class="col-sm-12" id="grupo_direccion">
+                                <label class="formulario__label" for="direccion">Dirección corta</label>
                                 <div class="form-group">
-                                    <label class="formulario__label " for="direccion">Dirección corta</label>
-                                    <textarea class="form-control formulario__validacion__input" cols="4" rows="2"
+                                    <input class="form-control formulario__validacion__input" cols="4" rows="2"
                                         placeholder="Ingresa una dirección corta" id="direccion" name="direccion"
-                                        required></textarea>
+                                        required>
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">La dirección puede contener solo letras, numeros,
                                     espacios, puntos, numerales y guiones.
@@ -220,40 +222,6 @@ $update_parroquias = $objeto->selectParroquia();
                             </div>
                         </div>
 
-                        <div class="row mb-3" id="consultar_representante" style="display: none;">
-
-                            <p>Datos del representante</p>
-
-                            <div class="col-sm-10" id="grupo_n_documento">
-                                <label class="formulario__label" for="n_documento">Número de documento</label>
-                                <div class="form-group">
-                                    <input type="hidden" name="id_representante" id="id_representante">
-                                    <input type="hidden" name="id_persona_r" id="id_persona_r">
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="documento_representante" name="documento_representante"
-                                        placeholder="número de documento...">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                                <p class="formulario__input-error">El número de documento debe contener solo números y
-                                    un
-                                    mínimo de 7 dígitos y máximo 8.</p>
-                            </div>
-
-                            <div class="col-sm-2" style="display: flex; align-items: flex-end; gap: 5px;">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary" id="buscar_representante"
-                                        title="Buscar representante">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-success" id="crear_representante"
-                                        title="Crear nuevo representante">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
 
                             <div class="col-sm-12" id="contenedor_datos_representante" style="display: none;">
@@ -277,134 +245,9 @@ $update_parroquias = $objeto->selectParroquia();
                             </div>
                         </div>
 
-                        <div id="datos_representante" style="display: none;">
-                            <div class="row">
-
-                                <div class="col-sm-3">
-                                    <div class="form-group" id="grupo_tipo_documento_r">
-                                        <label class="formulario__label" for="tipo_documento_r">Tipo de
-                                            documento</label>
-                                        <select class="form-control formulario__validacion__input"
-                                            name="tipo_documento_r" id="tipo_documento_r">
-                                            <option value="">Seleccione</option>
-                                            <option value="V">Venezolano</option>
-                                            <option value="E">Extranjero</option>
-                                            <option value="P">Pasaporte</option>
-                                        </select>
-                                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 col-sm-3" id="grupo_n_documento_r">
-                                    <label class="formulario__label" for="n_documento_representante">Número de
-                                        documento</label>
-                                    <div class="form-group">
-                                        <input class="form-control formulario__validacion__input" type="text"
-                                            id="n_documento_r" name="n_documento_r" placeholder="Nº de documento">
-                                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                    </div>
-                                    <p class="formulario__input-error">El número de documento debe contener solo numeros
-                                        y
-                                        un
-                                        mínimo de 7
-                                        digitos y máximo 8.
-                                    </p>
-                                </div>
-
-
-                                <div class="mb-3 col-sm-3" id="grupo_nombres_r">
-                                    <label class="formulario__label" for="nombres">Nombres</label>
-                                    <div class="form-group">
-                                        <input class="form-control formulario__validacion__input"
-                                            onkeyup="pmayus(this);" type="text" id="nombres_r" name="nombres_r"
-                                            placeholder="Nombres">
-                                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                    </div>
-                                    <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
-                                        guion_bajo</p>
-                                </div>
-
-                                <div class="mb-3 col-sm-3" id="grupo_apellidos_r">
-                                    <label class="formulario__label" for="apellidos">Apellidos</label>
-                                    <div class="form-group ">
-                                        <input class="form-control formulario__validacion__input"
-                                            onkeyup="pmayus(this);" type="text" id="apellidos_r" name="apellidos_r"
-                                            placeholder="Apellidos">
-                                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                    </div>
-                                    <p class="formulario__input-error">El apellido debe contener Letras y espacios,
-                                        pueden
-                                        llevar acentos.</p>
-                                </div>
-                            </div>
-
-                            <div class="mb-3 row">
-                                <div class="col-sm-3">
-                                    <div class="form-group" id="grupo_parentesco">
-                                        <label class="formulario__label" for="parentesco">Parentesco</label>
-                                        <select class="form-control" id="parentesco" name="parentesco">
-                                            <option value="">Seleccione</option>
-                                            <option value="padre">Padre</option>
-                                            <option value="madre">Madre</option>
-                                            <option value="otro">Abuela/o</option>
-                                            <option value="otro">Hermana/o</option>
-                                        </select>
-                                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                    </div>
-                                    <p class="formulario__input-error">El número de documento debe contener solo
-                                        numeros
-                                        y
-                                        un
-                                        mínimo de 7
-                                        digitos y máximo 8.
-                                    </p>
-                                </div>
-
-                                <div class="col-sm-3" id="grupo_telefono_r">
-                                    <label class="formulario__label" for="telefono_r">Telefono</label>
-                                    <div class="form-group">
-                                        <input class="form-control formulario__validacion__input" type="text"
-                                            id="telefono_r" name="telefono_r" placeholder="telefono...">
-                                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                    </div>
-                                    <p class="formulario__input-error">El numero de telefono debe contener solo
-                                        numeros
-                                        y 11
-                                        digitos
-                                    </p>
-                                </div>
-
-                                <div class="col-sm-3" id="grupo_correo_r">
-                                    <label class="formulario__label" for="correo">Correo</label>
-                                    <div class="form-group">
-                                        <input class="form-control formulario__validacion__input" type="email"
-                                            id="correo_r" name="correo_r" placeholder="jhon@gmail.com">
-                                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                    </div>
-                                    <p class="formulario__input-error">El correo solo puede contener letras,
-                                        numeros,
-                                        puntos,
-                                        guiones.
-                                    </p>
-                                </div>
-
-                                <div class="col-sm-3" id="grupo_direccion_r">
-                                    <label class="formulario__label " for="direccion">Dirección</label>
-                                    <div class="form-group">
-                                        <input class="form-control formulario__validacion__input" type="text"
-                                            id="direccion_r" name="direccion_r" placeholder="Dirección">
-                                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                    </div>
-                                    <p class="formulario__input-error">La dirección puede contener solo letras,
-                                        numeros,
-                                        espacios, puntos, numerales y guiones.
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
-
+                       
                     </div>
+                
                     <div class="step" id="step-2" style="display: none;">
 
 
@@ -720,42 +563,17 @@ function showStep(step) {
 
 function nextPrev(n) {
     var steps = document.getElementsByClassName("step");
-    var currentStepElement = steps[currentStep - 1];
 
-    // Validación de campos requeridos en el paso actual
-    if (n === 1 && !validateCurrentStep(currentStepElement)) {
-        return; // No avanzar si la validación falla
-    }
-
-    // Ocultar el paso actual
-    currentStepElement.style.display = "none";
+    // Eliminamos la validación completamente
+    steps[currentStep - 1].style.display = "none";
     currentStep += n;
 
-    // Si estamos en el último paso, enviar el formulario
     if (currentStep > steps.length) {
         document.getElementById("formRegistrarPersonas").submit();
         return false;
     }
 
-    // Mostrar el siguiente paso
     showStep(currentStep);
-}
-
-function validateCurrentStep(stepElement) {
-    var inputs = stepElement.getElementsByTagName("input");
-    var isValid = true;
-
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].hasAttribute("required") && !inputs[i].value) {
-            isValid = false;
-            inputs[i].classList.add("error"); // Agregar clase de error
-            // Puedes mostrar un mensaje de error aquí si lo deseas
-        } else {
-            inputs[i].classList.remove("error"); // Remover clase de error si está lleno
-        }
-    }
-
-    return isValid;
 }
 
 const checkbox = document.getElementById('medicado');
