@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 02-12-2024 a las 13:25:05
+-- Servidor: localhost
+-- Tiempo de generación: 02-12-2024 a las 18:04:29
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -235,6 +235,35 @@ INSERT INTO `estados` (`id_estado`, `estado`, `iso_3166-2`) VALUES
 (23, 'Zulia', 'VE-V'),
 (24, 'Distrito Capital', 'VE-A'),
 (25, 'Dependencias Federales', 'VE-Z');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historia_medica`
+--
+
+CREATE TABLE `historia_medica` (
+  `id` int(11) NOT NULL,
+  `id_persona` int(11) NOT NULL,
+  `tipo_sangre` varchar(20) NOT NULL,
+  `enfermedad` varchar(100) NOT NULL,
+  `fumador` varchar(10) NOT NULL,
+  `alcohol` varchar(10) NOT NULL,
+  `actividad_fisica` varchar(10) NOT NULL,
+  `medicado` varchar(10) NOT NULL,
+  `cirugia_hospitalaria` varchar(100) NOT NULL,
+  `alergia` varchar(100) NOT NULL,
+  `enfermedad_hereditaria` varchar(100) NOT NULL,
+  `fecha_reg` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_modif` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `historia_medica`
+--
+
+INSERT INTO `historia_medica` (`id`, `id_persona`, `tipo_sangre`, `enfermedad`, `fumador`, `alcohol`, `actividad_fisica`, `medicado`, `cirugia_hospitalaria`, `alergia`, `enfermedad_hereditaria`, `fecha_reg`, `fecha_modif`) VALUES
+(1, 17, 'A+', 'N/A', 'No', 'No', 'Sí', 'No', 'N/A', 'N/A', 'N/A', '2024-12-02 04:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -3305,7 +3334,9 @@ INSERT INTO `personas` (`id_persona`, `tipo_persona`, `n_documento`, `tipo_docum
 (10, 'usuario', '32654147', 'V', 'Jose', '', 'Castro', '', '1992-05-21', 'Masculino', '12235435', 'jweljhwedc', 'jesus@gjhgjhgk.com', '2024-11-23', NULL, NULL, NULL),
 (11, 'usuario', '5168156', 'V', 'Brayan', '', 'Altuve', '', '1996-04-21', 'Masculino', '54651316', 'efiueroife', 'brayan@gmail.com', '2024-11-25', NULL, NULL, NULL),
 (12, 'usuario', '155156156', 'V', 'Lnljvre', '', 'Jdsbcwdlnce', '', '1998-01-14', 'Masculino', '5615156', 'bkwdjhcuowecnw', 'jesus@jhnwelnlwkm', '2024-11-25', NULL, NULL, NULL),
-(13, 'Paciente', '45646321354', 'V', 'Jose', 'rjvoer', 'beltran', 'jbckje', '1995-02-25', 'Masculino', '4551315465', 'jsbcldmsifjwkjtherio6', 'jose@gmail.com', '2024-12-01', NULL, NULL, NULL);
+(13, 'Paciente', '45646321354', 'V', 'Jose', 'rjvoer', 'beltran', 'jbckje', '1995-02-25', 'Masculino', '4551315465', 'jsbcldmsifjwkjtherio6', 'jose@gmail.com', '2024-12-01', NULL, NULL, NULL),
+(17, 'Paciente', '27333664', 'V', 'Jesus', 'Antonio', 'Aranguren', 'Pacheco', '2010-11-08', 'Masculino', '04161454552', 'Ruiz pineda', 'kleiber8113@gmail.com', '2024-12-02', NULL, NULL, NULL),
+(18, NULL, '6214066', 'V', 'Federico', 'Antonio', 'Aranguren', 'Fernandez', NULL, NULL, '04149177038', 'Ruiz pineda', 'federico21364@gmail.com', '2024-12-02', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3409,6 +3440,44 @@ INSERT INTO `recipes_medicamentos` (`id_recipe_medicamento`, `id_presentacion_me
 (8, 2, 4, 1, 'pastilla', 8, 8, 'días', '2024-11-13', NULL),
 (9, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2024-11-19', NULL),
 (10, NULL, 6, NULL, NULL, NULL, NULL, NULL, '2024-11-21', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `representantes`
+--
+
+CREATE TABLE `representantes` (
+  `id_representante` int(11) NOT NULL,
+  `id_persona` int(11) NOT NULL,
+  `parentesco` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `representantes`
+--
+
+INSERT INTO `representantes` (`id_representante`, `id_persona`, `parentesco`) VALUES
+(1, 18, 'padre');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `representantes_personas`
+--
+
+CREATE TABLE `representantes_personas` (
+  `id_representante_persona` int(11) NOT NULL,
+  `id_representante` int(11) NOT NULL,
+  `id_persona` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `representantes_personas`
+--
+
+INSERT INTO `representantes_personas` (`id_representante_persona`, `id_representante`, `id_persona`) VALUES
+(1, 1, 17);
 
 -- --------------------------------------------------------
 
@@ -3536,6 +3605,12 @@ ALTER TABLE `especialidad`
   ADD PRIMARY KEY (`id_especialidad`);
 
 --
+-- Indices de la tabla `historia_medica`
+--
+ALTER TABLE `historia_medica`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `personas`
 --
 ALTER TABLE `personas`
@@ -3553,6 +3628,18 @@ ALTER TABLE `recipes`
 --
 ALTER TABLE `recipes_medicamentos`
   ADD PRIMARY KEY (`id_recipe_medicamento`);
+
+--
+-- Indices de la tabla `representantes`
+--
+ALTER TABLE `representantes`
+  ADD PRIMARY KEY (`id_representante`);
+
+--
+-- Indices de la tabla `representantes_personas`
+--
+ALTER TABLE `representantes_personas`
+  ADD PRIMARY KEY (`id_representante_persona`);
 
 --
 -- Indices de la tabla `roles`
@@ -3608,10 +3695,16 @@ ALTER TABLE `especialidad`
   MODIFY `id_especialidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `historia_medica`
+--
+ALTER TABLE `historia_medica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `recipes`
@@ -3624,6 +3717,18 @@ ALTER TABLE `recipes`
 --
 ALTER TABLE `recipes_medicamentos`
   MODIFY `id_recipe_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `representantes`
+--
+ALTER TABLE `representantes`
+  MODIFY `id_representante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `representantes_personas`
+--
+ALTER TABLE `representantes_personas`
+  MODIFY `id_representante_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
