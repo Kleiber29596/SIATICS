@@ -77,8 +77,9 @@ class CitasModel extends ModeloBase {
 
 	public function consultarCita($id_doctor) {
 		$db = new ModeloBase();
-		$query = "SELECT * FROM citas AS c WHERE c.id_doctor =".$id_doctor." AND c.estatus = 1 ORDER BY c.fecha_cita DESC";
-		$resultado = $db->obtenerTodos($query);
+		$query = "SELECT c.fecha_cita, COUNT(*) AS total_citas FROM citas AS c WHERE c.id_doctor = ".$id_doctor." GROUP BY c.fecha_cita ORDER BY c.fecha_cita;";
+		$resultado = $db->FectAll($query);
+		//$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
 

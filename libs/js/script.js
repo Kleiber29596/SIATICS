@@ -140,32 +140,39 @@ $(document).ready(function() {
       }
     }*/
     dayRender: function(date, cell) {
-      var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
-      var diaLaboral = document.getElementById("diaLaboral").value;
-      const dataArray = diaLaboral.split(",").map(item => item.trim());
-      const diaMap = {
-          'lunes': 1,
-          'martes': 2,
-          'miercoles': 3,
-          'jueves': 4,
-          'viernes': 5,
-          'sabado': 6,
-          'domingo': 0
-      };
+        var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
+        var diaLaboral = document.getElementById("diaLaboral").value;
+        const dataArray = diaLaboral.split(",").map(item => item.trim());
+        const diaMap = {
+            'lunes': 1,
+            'martes': 2,
+            'miercoles': 3,
+            'jueves': 4,
+            'viernes': 5,
+            'sabado': 6,
+            'domingo': 0
+        };
 
-      // Convertir los días laborales a números
-      const diasLaboralesNumeros = dataArray.map(item => diaMap[item.toLowerCase()] !== undefined ? diaMap[item.toLowerCase()] : null).filter(item => item !== null);
-      var f = date.day(); // Obtener el día de la semana del objeto date
+        // Convertir los días laborales a números
+        const diasLaboralesNumeros = dataArray.map(item => diaMap[item.toLowerCase()] !== undefined ? diaMap[item.toLowerCase()] : null).filter(item => item !== null);
+        var f = date.day(); // Obtener el día de la semana del objeto date
 
-      // Cambiar el color de fondo si el día es laboral
-      if (diasLaboralesNumeros.includes(f)) {
-        cell.css('background', 'red'); // Cambiar a un color que desees
-      }
+        // Cambiar el color de fondo si el día es laboral
+        if (diasLaboralesNumeros.includes(f)) {
+            cell.css('background', 'yellow'); // Cambiar a un color que desees
+        }
+
+        // Llamar a la función para recargar los eventos en otro lugar, por ejemplo, al cambiar el mes
+        $('#DIVcalendar').fullCalendar('refetchEvents');
     }
    });
 });
 
-function loadEvents(events) {
+setInterval(function() {
+    $('#DIVcalendar').fullCalendar('render'); // Forzar el renderizado del calendario
+}, 1000);
+
+/*function loadEvents(events) {
   console.log('loadEvents:', + events);
   /*if (events) {
     $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
@@ -176,28 +183,32 @@ function loadEvents(events) {
 //para tomar el dia si es lunes, martes, miercoles, jueves o viernes
   var f = info.dateStr;
   const cadenaFecha = f;
-  var numeroDia = new Date(cadenaFecha).getDay();*/
-}
+  var numeroDia = new Date(cadenaFecha).getDay();
+}*/
+
 
 function loadEvents(events) {
-   /* if (events) {
+    if (events) {
         // Transformar los eventos para que contengan solo el título
         const transformedEvents = events.map(event => {
             return {
-                title: event.title,
-                start: event.start,
-                end: event.end,
-                color: event.color,
-                textColor: event.textColor
+                title: event.conteo, // Asegúrate de que 'conteo' sea la propiedad correcta
+                start: event.start,   // Asegúrate de que 'start' sea una fecha válida
+                end: event.end,       // Asegúrate de que 'end' sea una fecha válida
+                color: '#f1231a',     // Color del evento
+                textColor: '#ffffff'  // Cambia 'with' a un color válido
             };
         });
 
-        console.log(events);
+        console.log('Veamos si llega: ', transformedEvents);
+        console.log('Ya pasamos al if', events);
 
         $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
         $('#DIVcalendar').fullCalendar('addEventSource', transformedEvents); // Agregar nuevos eventos
-        //$('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
-    }*/
+        $('#DIVcalendar').fullCalendar('renderEvents'); // No es necesario en la mayoría de las versiones
+    } else {
+        console.warn('No se proporcionaron eventos.');
+    }
 }
 
 /* -------------- mostrar asignacion Cita -------------------------- */
@@ -381,11 +392,11 @@ $(document).ready(function () {
         type: "post",
         dataType: "json",
         data: {
-          elegido: elegido,
+          id_doctor: elegido,
         },
       })
       .done(function (response) {
-        //console.log(response);
+        //console.log('id doctor: ', response);
 
        if (Array.isArray(response.data.events)) {
             let diasLaborales = [];
@@ -402,9 +413,8 @@ $(document).ready(function () {
                         diasLaborales.push(event.dia); // Agrega el valor al arreglo
                     }
                     document.getElementById("diaLaboral").value = diasLaborales.join(", ");
-                    console.log('revisando si llegan los datos: ', response.data.events); //si llegan por aca
-                    loadEvents(response.data.events);
                 });
+                loadEvents(response.data.citas);
             } else {
                 console.log("El arreglo de eventos está vacío.");
             }

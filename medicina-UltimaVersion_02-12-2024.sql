@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-11-2024 a las 20:23:36
+-- Tiempo de generación: 02-12-2024 a las 13:25:05
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -78,15 +78,19 @@ CREATE TABLE `citas` (
 --
 
 INSERT INTO `citas` (`id_cita`, `id_persona`, `id_especialidad`, `id_doctor`, `observacion`, `estatus`, `fecha_cita`, `fecha_registro`) VALUES
-(1, 1, 1, 1, '', 0, '2024-10-09', '2024-10-06'),
-(2, 1, 1, 1, '...', 0, '2024-10-23', '2024-10-17'),
-(3, 1, 1, 1, 'reservar', 0, '2024-11-05', '2024-11-04'),
-(0, 1, 8, 23, 'prueba', 0, '2024-11-25', '2024-11-23'),
-(0, 1, 1, 24, 'una prueba con nueva funcion', 0, '0000-00-00', '2024-11-24'),
-(0, 1, 8, 23, 'ejkfbsjdnfjls', 0, '2024-11-15', '2024-11-24'),
-(0, 1, 8, 23, 'euifuwfe3e', 1, '2024-11-28', '2024-11-24'),
-(0, 1, 8, 23, 'wefhliaejfwe', 1, '2024-12-03', '2024-11-24'),
-(0, 3, 8, 23, 'befuiebruf4e', 1, '2024-11-29', '2024-11-25');
+(1, 1, 1, 1, '', 1, '2024-10-09', '2024-10-06'),
+(2, 1, 1, 1, '...', 1, '2024-10-23', '2024-10-17'),
+(3, 1, 1, 1, 'reservar', 1, '2024-11-05', '2024-11-04'),
+(4, 1, 8, 23, 'prueba', 1, '2024-11-25', '2024-11-23'),
+(5, 1, 1, 24, 'una prueba con nueva funcion', 1, '0000-00-00', '2024-11-24'),
+(6, 1, 8, 23, 'ejkfbsjdnfjls', 1, '2024-11-25', '2024-11-24'),
+(7, 1, 8, 23, 'euifuwfe3e', 1, '2024-11-28', '2024-11-24'),
+(8, 1, 8, 23, 'wefhliaejfwe', 1, '2024-11-29', '2024-11-24'),
+(9, 3, 8, 23, 'befuiebruf4e', 1, '2024-11-29', '2024-11-25'),
+(10, 3, 7, 26, 'iwjgime;rogo[we', 1, '2024-12-06', '2024-11-27'),
+(14, 3, 7, 26, 'jsbfllakwdqw', 1, '2024-12-20', '2024-12-01'),
+(15, 13, 8, 23, 'jabnjfnaklas', 1, '2024-12-24', '2024-12-01'),
+(16, 13, 8, 23, 'ajfjlwljflq', 1, '2024-12-24', '2024-12-01');
 
 -- --------------------------------------------------------
 
@@ -149,7 +153,7 @@ CREATE TABLE `especialidad` (
   `id_especialidad` int(11) NOT NULL,
   `nombre_especialidad` varchar(255) NOT NULL,
   `modalidad` varchar(50) NOT NULL,
-  `tm_porcita` varchar(10) NOT NULL DEFAULT 'N/A'
+  `tm_porcita` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -157,11 +161,12 @@ CREATE TABLE `especialidad` (
 --
 
 INSERT INTO `especialidad` (`id_especialidad`, `nombre_especialidad`, `modalidad`, `tm_porcita`) VALUES
-(1, 'PSICOLOGÍA', 'Por cita', '30 min'),
-(3, 'PEDIATRIA', 'Sin cita', 'N/A'),
-(4, 'MEDICINA GENERAL', 'Sin cita', 'N/A'),
-(7, 'CARDIOLOGÍA', 'Sin cita', 'N/A'),
-(8, 'ODONTOLOGIA', 'Por cita', '20 Min');
+(1, 'PSICOLOGÍA', 'Por cita', 30),
+(3, 'PEDIATRIA', 'Sin cita', 0),
+(4, 'MEDICINA GENERAL', 'Sin cita', 0),
+(7, 'CARDIOLOGÍA', 'Por cita', 20),
+(8, 'ODONTOLOGIA', 'Por cita', 20),
+(9, 'NUTRICION', 'Por cita', 40);
 
 -- --------------------------------------------------------
 
@@ -230,63 +235,6 @@ INSERT INTO `estados` (`id_estado`, `estado`, `iso_3166-2`) VALUES
 (23, 'Zulia', 'VE-V'),
 (24, 'Distrito Capital', 'VE-A'),
 (25, 'Dependencias Federales', 'VE-Z');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `historia_medica`
---
-
-CREATE TABLE `historia_medica` (
-  `id` int(11) NOT NULL,
-  `id_persona` int(11) NOT NULL,
-  `tipo_sangre` varchar(20) NOT NULL,
-  `enfermedad` varchar(100) NOT NULL,
-  `fumador` varchar(10) NOT NULL,
-  `alcohol` varchar(10) NOT NULL,
-  `actividad_fisica` varchar(10) NOT NULL,
-  `medicado` varchar(10) NOT NULL,
-  `cirugia_hospitalaria` varchar(100) NOT NULL,
-  `alergia` varchar(100) NOT NULL,
-  `enfermedad_hereditaria` varchar(100) NOT NULL,
-  `fecha_reg` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fecha_modif` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `historia_medica`
---
-
-INSERT INTO `historia_medica` (`id`, `id_persona`, `tipo_sangre`, `enfermedad`, `fumador`, `alcohol`, `actividad_fisica`, `medicado`, `cirugia_hospitalaria`, `alergia`, `enfermedad_hereditaria`, `fecha_reg`, `fecha_modif`) VALUES
-(1, 1, 'A+', 'N/A', 'No', 'No', 'No', 'No', 'N/A', 'N/A', 'Ninguna', '2024-11-21 04:00:00', '0000-00-00 00:00:00'),
-(2, 3, 'AB+', 'no', 'Sí', 'Sí', 'Sí', 'Sí', 'sdfwefwef', 'ewfwef', 'wefwefwe', '2024-11-21 23:00:00', '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `horario`
---
-
-CREATE TABLE `horario` (
-  `id` int(11) NOT NULL,
-  `id_doctor` int(11) NOT NULL,
-  `dia` varchar(20) NOT NULL,
-  `hora_entrada` time NOT NULL,
-  `hora_salida` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `horario`
---
-
-INSERT INTO `horario` (`id`, `id_doctor`, `dia`, `hora_entrada`, `hora_salida`) VALUES
-(1, 23, 'Martes', '00:00:00', '00:00:00'),
-(2, 23, 'Miercoles', '00:00:00', '00:00:00'),
-(3, 24, 'Martes', '00:00:00', '00:00:00'),
-(4, 25, 'Miercoles', '00:00:00', '00:00:00'),
-(5, 25, 'Viernes', '00:00:00', '00:00:00'),
-(6, 26, 'Martes', '08:30:00', '19:30:00'),
-(7, 26, 'Viernes', '08:40:00', '12:00:00');
 
 -- --------------------------------------------------------
 
@@ -3356,7 +3304,8 @@ INSERT INTO `personas` (`id_persona`, `tipo_persona`, `n_documento`, `tipo_docum
 (9, 'usuario', '22365417', 'V', 'Jesus', '', 'Zerpa', '', '1993-12-26', 'Masculino', '5456451', 'ewjfe', 'jesus@gjhgjhgk.com', '2024-11-23', NULL, NULL, NULL),
 (10, 'usuario', '32654147', 'V', 'Jose', '', 'Castro', '', '1992-05-21', 'Masculino', '12235435', 'jweljhwedc', 'jesus@gjhgjhgk.com', '2024-11-23', NULL, NULL, NULL),
 (11, 'usuario', '5168156', 'V', 'Brayan', '', 'Altuve', '', '1996-04-21', 'Masculino', '54651316', 'efiueroife', 'brayan@gmail.com', '2024-11-25', NULL, NULL, NULL),
-(12, 'usuario', '155156156', 'V', 'Lnljvre', '', 'Jdsbcwdlnce', '', '1998-01-14', 'Masculino', '5615156', 'bkwdjhcuowecnw', 'jesus@jhnwelnlwkm', '2024-11-25', NULL, NULL, NULL);
+(12, 'usuario', '155156156', 'V', 'Lnljvre', '', 'Jdsbcwdlnce', '', '1998-01-14', 'Masculino', '5615156', 'bkwdjhcuowecnw', 'jesus@jhnwelnlwkm', '2024-11-25', NULL, NULL, NULL),
+(13, 'Paciente', '45646321354', 'V', 'Jose', 'rjvoer', 'beltran', 'jbckje', '1995-02-25', 'Masculino', '4551315465', 'jsbcldmsifjwkjtherio6', 'jose@gmail.com', '2024-12-01', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3553,7 +3502,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `id_Persona`, `usuario`, `foto`, `contrasena`, `id_rol`, `estatus`, `fecha_registro`) VALUES
 (28, 1, 'kleiber2003', 'user.jpg', '123456', 2, 1, '2024-11-20'),
-(45, 9, 'jesusZ', '', '123', 3, 1, '2024-11-23'),
+(45, 9, 'jesusZ', '', '123', 2, 1, '2024-11-23'),
 (46, 10, 'joseK', 'C:\\fakepath\\favicon.ico', '123', 3, 1, '2024-11-23'),
 (47, 11, 'brayanA', '', '$2y$10$3jMTxeI6ezW/uro2DITLAeyn/UCqy6/EKIbFOcKIe6BlZmu1z4CTG', 3, 1, '2024-11-25'),
 (48, 12, 'ljndalcw', '', '$2y$10$tRJrecmjYnJ6y.S/XvWFZ.B6g7r9iUyBpddf3lfk6V.PueRV9FLum', 3, 1, '2024-11-25');
@@ -3561,6 +3510,12 @@ INSERT INTO `usuario` (`id`, `id_Persona`, `usuario`, `foto`, `contrasena`, `id_
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `citas`
+--
+ALTER TABLE `citas`
+  ADD PRIMARY KEY (`id_cita`);
 
 --
 -- Indices de la tabla `consultas`
@@ -3579,18 +3534,6 @@ ALTER TABLE `doctor`
 --
 ALTER TABLE `especialidad`
   ADD PRIMARY KEY (`id_especialidad`);
-
---
--- Indices de la tabla `historia_medica`
---
-ALTER TABLE `historia_medica`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `horario`
---
-ALTER TABLE `horario`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `personas`
@@ -3641,6 +3584,12 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `citas`
+--
+ALTER TABLE `citas`
+  MODIFY `id_cita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- AUTO_INCREMENT de la tabla `consultas`
 --
 ALTER TABLE `consultas`
@@ -3656,25 +3605,13 @@ ALTER TABLE `doctor`
 -- AUTO_INCREMENT de la tabla `especialidad`
 --
 ALTER TABLE `especialidad`
-  MODIFY `id_especialidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT de la tabla `historia_medica`
---
-ALTER TABLE `historia_medica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `horario`
---
-ALTER TABLE `horario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_especialidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `recipes`

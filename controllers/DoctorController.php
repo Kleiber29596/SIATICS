@@ -339,24 +339,35 @@ class DoctorController {
 	{
 		$modelDoctor = new DoctorModel();
 		$modelCitas = new CitasModel();
-		$elegido = $_POST['elegido'];
-		$horario = $modelDoctor->horarioDoctor($elegido); //devuelve un arreglo de horarios
+		$id_doctor = $_POST['id_doctor'];
+		$horario = $modelDoctor->horarioDoctor($id_doctor); //devuelve un arreglo de horarios
 		$citas = $modelCitas->consultarCita($id_doctor);
 
 		foreach ($horario as $value) 
 		{
-			if (is_object($value) && isset($value->dia, $value->hora_entrada, $value->hora_salida, $value->diferencia_en_minutos, $value->tm_porcita)) {
+			if (is_object($value) && isset($value->dia, $value->diferencia_en_minutos, $value->tm_porcita)) {
 				$diff = trim($value->diferencia_en_minutos) / trim($value->tm_porcita);
 				$limiteCita = intval($diff);
 	        	$datosHorario[] = [
 		        	'dia' => trim($value->dia),
-		            //'title' => 'SI',
-		            //'start' => '2024-11-29T10:00:00', //trim($value->hora_entrada),
-		            //'end' => '2024-11-29T10:00:00',//trim($value->hora_salida),					  
-
-		        	//'color'=> '#f1231a',
-	      			//'textColor'=> 'with',
 	      			'diaDiff' => $limiteCita
+		        ];
+		    } else {
+		        echo "Error: El horario no es un objeto válido.\n";
+		    }
+		}
+
+		foreach ($citas as $value) 
+		{
+			if (is_object($value) && isset($value->fecha_cita, $value->total_citas)) {
+				
+	        	$datosCita[] = [
+		            //'title' => 'SI',
+		            'start' => trim($value->fecha_cita),
+		            'end' => trim($value->fecha_cita),					  
+		            'conteo' => trim($value->total_citas)
+		        	//'color'=> '#f1231a',
+	      			//'textColor'=> 'with'
 		        ];
 		    } else {
 		        echo "Error: El horario no es un objeto válido.\n";
@@ -369,7 +380,8 @@ class DoctorController {
 				'message'            => 'Registro encontrado',
 				'info'               =>  '',
 				'data'				 =>  'existe',
-				'events' 			 => $datosHorario
+				'events' 			 => $datosHorario,
+				'citas'				 => $datosCita
 
 			],
 			'code' => 0,
