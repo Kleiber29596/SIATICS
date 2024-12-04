@@ -47,13 +47,16 @@ class UsuarioModel extends ModeloBase {
 		}
     }
 /*------------ Metodo para verificar usuario -------*/
-	public function verificarUsuario($usuario, $contrasena)
+	public function verificarUsuario($usuario)
 	{
 		$db = new ModeloBase();
-		$query ="SELECT u.id, u.usuario, pe.tipo_persona, u.foto, u.contrasena, u.id_rol, d.id_especialidad, pe.p_nombre, pe.p_apellido, u.estatus FROM usuario AS u INNER JOIN personas AS pe ON pe.id_persona = u.id_Persona INNER JOIN doctor AS d ON d.id_persona = pe.id_persona WHERE u.usuario = '$usuario' AND u.contrasena = '$contrasena'";
+		$query ="SELECT u.id, u.usuario, pe.tipo_persona, u.foto, u.contrasena, u.id_rol, d.id_especialidad, pe.p_nombre, pe.p_apellido, u.estatus FROM usuario AS u INNER JOIN personas AS pe ON pe.id_persona = u.id_Persona INNER JOIN doctor AS d ON d.id_persona = pe.id_persona WHERE u.usuario = '$usuario'";
 		$resultado = $db->obtenerTodos($query);
-		return $resultado;
+		return $resultado;	
 	}
+
+
+	
 /*------------ Metodo para mostrar un registro --------*/
 	public function obtenerUsuario($id) {
 		$db = new ModeloBase();

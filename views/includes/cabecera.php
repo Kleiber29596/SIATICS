@@ -200,36 +200,6 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 </ul>
             </li><!-- End Ferias Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-inventario" data-bs-toggle="collapse"
-                    href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Inventario</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="components-inventario" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioIngreso">
-                            <i class="bi bi-circle"></i><span>Ingreso</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioEspecie">
-                            <i class="bi bi-circle"></i><span>Almacen</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioJornadas">
-                            <i class="bi bi-circle"></i><span>Entregas</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
-                            <i class="bi bi-circle"></i><span>Medicamentos</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </li><!-- End Ferias Nav -->
 
 
             <li class="nav-heading">Configuracion</li>

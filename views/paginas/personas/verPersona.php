@@ -79,7 +79,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 <?php 
  
  
-if ($rol == 3) { 
+if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) { 
     echo "<h1>No tienes los permisos suficientes para ingresar en este modulo</h1>"; 
 } else { 
 ?>
