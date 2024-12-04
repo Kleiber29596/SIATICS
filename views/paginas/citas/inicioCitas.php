@@ -2,19 +2,19 @@
 require_once 'controllers/EspecialidadController.php';
 $objeto  = new EspecialidadController();
 $especialidades = $objeto->selectEspecialidadCitas();
-// $update_especialidad = $objeto->selectEspecialidadCitas();
-/*require_once 'controllers/CitasController.php';
-$objeto  = new CitasController();
-$estados = $objeto->selectEstado();
-$update_estados = $objeto->selectEstado();
-$update_municipios = $objeto->selectMunicipio();
-$update_parroquias = $objeto->selectParroquia();*/
-?>
+
+
+if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) { 
+        echo "<h1>No tienes los permisos suficientes para ingresar en este modulo</h1>"; 
+    } else { 
+    ?>
 
 <style type="text/css">
 .selected-date {
     background-color: #ffcc00; /* Cambia el color según tus preferencias */
 }
+
+
 </style>
 
 <div class="pagetitle">
@@ -187,3 +187,8 @@ $update_parroquias = $objeto->selectParroquia();*/
 
     </div>
 </div>
+
+<?php 
+} 
+ 
+    ?>

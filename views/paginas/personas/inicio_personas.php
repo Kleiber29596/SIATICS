@@ -5,6 +5,11 @@ $estados = $objeto->selectEstado();
 $update_estados = $objeto->selectEstado();
 $update_municipios = $objeto->selectMunicipio();
 $update_parroquias = $objeto->selectParroquia();
+
+
+if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
+    echo "<h1>No tienes los permisos suficientes para ingresar en este modulo</h1>";
+} else {
 ?>
 
 <style>
@@ -629,3 +634,8 @@ checkbox.addEventListener('change', function() {
         </div>
     </div>
 </div>
+
+<?php 
+} 
+ 
+    ?>

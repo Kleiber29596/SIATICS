@@ -37,9 +37,9 @@ class UsuarioController
 
 
 		$modelUsuario = new UsuarioModel();
-		$resultados = $modelUsuario->verificarUsuario($usuario, $contrasena);
-		
-
+		$resultados = $modelUsuario->verificarUsuario($usuario);
+		// $verificacion = password_verify($contrasena, $hash);
+		// var_dump($verificacion); die();
 
 		foreach ($resultados as $resultado) {
 		
@@ -47,7 +47,7 @@ class UsuarioController
 			$usuario_bd 		= $resultado['usuario'];
 			$tipo_persona 		= $resultado['tipo_persona'];
 			$foto_bd 			= $resultado['foto'];
-			$contrasena_bd 		= $resultado['contrasena'];
+			$hash 				= $resultado['contrasena'];
 			$rol_bd 			= $resultado['id_rol'];
 			$id_especialidad 	= $resultado['id_especialidad'];
 			$nombre_bd 			= $resultado['p_nombre'];
@@ -55,10 +55,12 @@ class UsuarioController
 			$estatus 	    	= $resultado['estatus'];
 			
 		}
+
+		$verificacion = password_verify($contrasena, $hash);
 		
 		
 
-		if (!empty($id_bd)) {
+		if ($verificacion) {
 
 			session_start();
 
@@ -285,14 +287,20 @@ EOT;
 
 					$datosUsuario = [];
 
+				$contrasena = $miArreglo['contrasena'];
+				$hash = password_hash($contrasena, PASSWORD_DEFAULT);
+
 				   	$datosUsuario = [
 				    	'id_Persona' => $id_persona,
 				        'usuario' => $miArreglo['usuario'],
 				        'foto' => $miArreglo['archivo'],
-				        'contrasena' => password_hash($miArreglo['contrasena'], PASSWORD_DEFAULT),
+				        'contrasena' => $hash,
 				        'id_rol' => $miArreglo['rol'],
 				        'estatus' => 1
 				    ];
+					
+
+					
 
 				    $RegistroUsuario = $modelUsuario->registrarUsuario($datosUsuario);
 				    $RegistroHorario = $modelUsuario->registrarHorario($datosHorario);

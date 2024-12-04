@@ -5,16 +5,12 @@ require_once 'models/dashboardModel.php';
 
 $dashboardModel = new dashboardModel();
 
-
-
-
-
-
 if (session_status() === PHP_SESSION_ACTIVE) {
   //echo "La sesión está activa.";
   $usuario            = $_SESSION['usuario'];
   $id_usuario         = $_SESSION['user_id'];
   $rol                = $_SESSION['rol_usuario'];
+  
 } else {
   //echo "La sesión no está activa.";
   session_start();
