@@ -53,4 +53,43 @@ class dashboardController
 
                 echo json_encode($data);
         }
+        public function sexo()
+        {
+                $modelDashboard = new dashboardModel();
+
+                $data = $modelDashboard->sexo();
+
+                echo json_encode($data);
+        }
+        public function edad()
+        {
+                $modelDashboard = new dashboardModel();
+
+                $data = $modelDashboard->edad();
+
+                echo json_encode($data);
+        }
+
+        public function filtro()
+        {
+
+                $modelDashboard = new dashboardModel();
+
+                // Asegúrate de recibir el contenido JSON del cuerpo de la solicitud
+                $data = json_decode(file_get_contents('php://input'), true);
+
+                if ($data) {
+
+                        $fechaDesde = $data[0];
+                        $fechaHasta = $data[1];
+                        $id_tipo_consulta = intval($data[2]);
+
+                        $data = $modelDashboard->fechaDesdeHastaTipoConsulta($fechaDesde, $fechaHasta, $id_tipo_consulta);
+
+                        echo json_encode($data);
+
+                } else {
+                        echo json_encode(['error' => 'No se recibieron datos']);
+                }
+        }
 }

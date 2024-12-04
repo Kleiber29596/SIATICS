@@ -10,6 +10,9 @@ if (!empty($page)) {
 		'inicio' => array('model' => 'dashboardModel', 'view' => 'inicio', 'controller' => 'dashboardController'),
 		'inicioProfile' => array('model' => 'dashboardModel', 'view' => 'inicioProfile', 'controller' => 'dashboardController'),
 		'grafica' => array('model' => 'dashboardModel', 'view' => 'grafica', 'controller' => 'dashboardController'),
+		'sexo' => array('model' => 'dashboardModel', 'view' => 'sexo', 'controller' => 'dashboardController'),
+		'edad' => array('model' => 'dashboardModel', 'view' => 'edad', 'controller' => 'dashboardController'),
+		'filtro' => array('model' => 'dashboardModel', 'view' => 'filtro', 'controller' => 'dashboardController'),
 
 		'inicioUsuario' => array('model' => 'UsuarioModel', 'view' => 'inicioUsuario', 'controller' => 'UsuarioController'),
 		'loginUsuario' => array('model' => 'UsuarioModel', 'view' => 'loginUsuario', 'controller' => 'UsuarioController'),
