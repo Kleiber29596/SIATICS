@@ -2,10 +2,10 @@
 
 if (session_status() === PHP_SESSION_ACTIVE) {
     //echo "La sesión está activa.";
-    $usuario            = $_SESSION['usuario'];
-    $id_usuario         = $_SESSION['user_id'];
-    $foto               = $_SESSION['foto'];
-    $rol                = $_SESSION['rol_usuario'];
+    $usuario = $_SESSION['usuario'];
+    $id_usuario = $_SESSION['user_id'];
+    $foto = $_SESSION['foto'];
+    $rol = $_SESSION['rol_usuario'];
 
     if (empty($usuario) && empty($id_usuario)) {
         // Redireccionar a la página "nueva_pagina.php"
@@ -15,10 +15,10 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 } else {
     //echo "La sesión no está activa.";
     session_start();
-    $usuario            = $_SESSION['usuario'];
-    $id_usuario         = $_SESSION['user_id'];
-    $foto               = $_SESSION['foto'];
-    $rol           = $_SESSION['rol_usuario'];
+    $usuario = $_SESSION['usuario'];
+    $id_usuario = $_SESSION['user_id'];
+    $foto = $_SESSION['foto'];
+    $rol = $_SESSION['rol_usuario'];
 
     if (empty($usuario) && empty($id_usuario)) {
         // Redireccionar a la página "nueva_pagina.php"
@@ -30,7 +30,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -66,13 +66,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <link href="libs/css/style.css" rel="stylesheet">
     <!-- Estilos de la validacion de formulario -->
     <link href="libs/css/validacion.css" rel="stylesheet">
-    <!-- librerias del calendario -->
-    <!--<link href="libs/vendor/calendar/bootstrap.min.css" rel="stylesheet">-->
-    <link href="libs/vendor/calendar/fullcalendar.css" rel="stylesheet">
-    <script src="libs/vendor/calendar/jquery.min.js"></script>
-    <script src="libs/vendor/calendar/moment.min.js"></script>
-    <script src="libs/vendor/calendar/fullcalendar.min.js"></script>
-    <script src="libs/vendor/calendar/bootstrap.min.js"></script>
+    <script src="libs/vendor/calendar/index.global.min.js"></script>
+    <script src="libs/vendor/calendar/es.js"></script>
     <!-- AmChart Js -->
     <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
@@ -83,10 +78,23 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 <body>
 
     <style>
-        #grafica {
+        #grafica,
+        #sexo_chart,
+        #edad_chart,
+        #grafica_desde_hasta_tipo_consulta {
             width: 100%;
             height: 500px;
         }
+
+        /* .amcharts-amexport-item {
+            border: 2px solid #777;
+        }
+
+        .amcharts-amexport-top .amcharts-amexport-item>.amcharts-amexport-menu {
+            top: -3px !important;
+            left: 2px
+        } */
+
     </style>
 
     <!-- Loader -->
@@ -200,6 +208,36 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 </ul>
             </li><!-- End Ferias Nav -->
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-inventario" data-bs-toggle="collapse"
+                    href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Inventario</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-inventario" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioIngreso">
+                            <i class="bi bi-circle"></i><span>Ingreso</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioEspecie">
+                            <i class="bi bi-circle"></i><span>Almacen</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioJornadas">
+                            <i class="bi bi-circle"></i><span>Entregas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
+                            <i class="bi bi-circle"></i><span>Medicamentos</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Ferias Nav -->
 
 
             <li class="nav-heading">Configuracion</li>
