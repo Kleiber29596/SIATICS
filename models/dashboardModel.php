@@ -107,6 +107,6 @@ class dashboardModel extends ModeloBase
 
         $resultado = $db->FectAll($query);
         
-        return $resultado;
+        return json_encode($resultado);
     }
 }
