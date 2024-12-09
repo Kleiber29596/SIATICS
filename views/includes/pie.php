@@ -24,6 +24,8 @@
 <script src="libs/js/formulario.js"></script>
 <script src="libs/vendor/calendar/index.global.min.js"></script>
 <script src="libs/js/graficas.js"></script>
+<script src="libs/js/multi_step.js"></script>
+
 <script src="libs/js/reportes.js"></script>
 <!-- Template Main JS File 
 <script src="libs/js/amchart.js"></script>-->

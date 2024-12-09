@@ -455,6 +455,92 @@ class PersonasController
 		
 	}
 
+
+	/* Metodo para consultar persona / Modulo consulta */
+
+	public function consultarPersonaC()
+	{	
+		
+		$n_documento_persona = $_POST['n_documento_persona'];
+		$modelPersonas = new PersonasModel();
+		$listar = $modelPersonas->consultarPersonaC($n_documento_persona);
+
+
+		foreach ($listar as $lista) {
+
+			//Datos del paciente
+
+			$id_persona				= $lista['id_paciente'];
+			$n_documento_persona 	= $lista['documento_paciente'];
+			$nombres_persona 		= $lista['nombres_paciente'];
+			$sexo_persona 		    = $lista['sexo'];
+			$fecha_nac  			= $lista['fecha_nacimiento'];
+			$tlf_persona 		    = $lista['telefono'];
+			$direccion 				= $lista['direccion'];
+
+			//Datos de la cita agendada
+
+			$especialidad				= $lista['nombre_especialidad'];
+			$especialista				= $lista['nombres_especialista'];
+			$observacion				= $lista['observacion'];
+			$estatus					= $lista['estatus'];
+			$fecha						= $lista['fecha_cita'];
+			$id_cita					= $lista['id_cita'];
+			$id_especialidad			= $lista['id_especialidad'];
+			$id_especialista			= $lista['id_especialista'];
+
+		}
+
+		$edad_persona = obtener_edad($fecha_nac);
+			
+		if ($nombres_persona != "") {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'id_persona'		   			=> $id_persona,
+					'n_documento_persona' 			=> $n_documento_persona,
+					'nombres' 		    			=> $fecha_nac,
+					'nombres_persona'				=> $nombres_persona,
+					'sexo_persona'			    	=> $sexo_persona,
+					'tlf_persona'			    	=> $tlf_persona,
+					'direccion'						=> $direccion,
+					'edad'							=> $edad_persona,
+					// Datos de la cita agendada
+					'especialidad'				    => $especialidad,
+					'especialista'					=> $especialista,
+					'observacion'					=> $observacion,
+					'estatus'						=> $estatus,
+					'fecha'							=> $fecha,
+					'id_cita'						=> $id_cita,
+					'id_especialidad' 				=> $id_especialidad,
+					'id_especialista'				=> $id_especialista
+				],
+				'code' => 0,
+			];
+
+			
+			echo json_encode($data);
+			exit();
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            =>  'Atención!',
+					'info'               =>  'Este numero de documento no esta registrado '
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+		
+	}
+
 	/*Consultar Representante*/ 
 	
 	public function consultarRepresentante()
