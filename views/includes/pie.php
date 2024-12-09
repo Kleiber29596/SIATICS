@@ -4,7 +4,7 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<!--<script src="libs/vendor/jquery/jquery.min.js"></script>-->
+<script src="libs/vendor/jquery/jquery.min.js"></script>
 <script src="libs/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="libs/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="libs/vendor/chart.js/chart.umd.js"></script>
@@ -26,6 +26,9 @@
 <script src="libs/js/graficas.js"></script>
 <script src="libs/js/multi_step.js"></script>
 
+<script src="libs/js/reportes.js"></script>
+<!-- Template Main JS File 
+<script src="libs/js/amchart.js"></script>-->
 
 
 </body>

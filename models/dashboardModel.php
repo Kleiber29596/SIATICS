@@ -19,62 +19,39 @@ class dashboardModel extends ModeloBase
         return $resultado;
     }
 
-/*------------Metodo para contar consultas-------*/
-public function numeroConsultas()
-{
-    $db = new ModeloBase();
-    $query = "SELECT count(*) as numeroConsultas from consultas;";
-    $resultado = $db->obtenerTodos($query);
-    return $resultado;
-}
- 
-/*------------Metodo para contar pacientes atendidos-------*/
-public function pacientesAtendidos()
-{
-    $db = new ModeloBase();
-    $query = "SELECT count(*) as numeroPacientesAt from citas where estatus=0;";
-    $resultado = $db->obtenerTodos($query);
-    return $resultado;
-}
+    /*------------Metodo para contar consultas-------*/
+    public function numeroConsultas()
+    {
+        $db = new ModeloBase();
+        $query = "SELECT count(*) as numeroConsultas from consultas;";
+        $resultado = $db->obtenerTodos($query);
+        return $resultado;
+    }
 
-/*------------Metodo pacientes atendidos hoy-------*/
-public function pacientesAtendidosGeneral()
-{
-    $db = new ModeloBase();
-    $query = "SELECT 
+    /*------------Metodo para contar pacientes atendidos-------*/
+    public function pacientesAtendidos()
+    {
+        $db = new ModeloBase();
+        $query = "SELECT count(*) as numeroPacientesAt from citas where estatus=0;";
+        $resultado = $db->obtenerTodos($query);
+        return $resultado;
+    }
+
+    /*------------Metodo pacientes atendidos hoy-------*/
+    public function pacientesAtendidosGeneral()
+    {
+        $db = new ModeloBase();
+        $query = "SELECT 
     (SELECT COUNT(*) FROM citas WHERE estatus = 0) AS total_citas_estatus_0,
     (SELECT COUNT(*) FROM consultas) AS total_consultas,
     (SELECT COUNT(*) FROM citas WHERE estatus = 0) + (SELECT COUNT(*) FROM consultas) AS total_general
-FROM dual;";
-    $resultado = $db->obtenerTodos($query);
-    return $resultado;
-}
-/*------------Metodo para listar Especies--------*/
-    public function totalEquivUSD()
-    {
-        $db = new ModeloBase();
-        $query = "SELECT FORMAT(SUM(equiv_usd), 2) AS totalEquivUSD FROM cierre_jornada;";
+    FROM dual;";
         $resultado = $db->obtenerTodos($query);
         return $resultado;
     }
 
-    /*------------Metodo para listar Especies--------*/
-    public function totalKlVendidos()
-    {
-        $db = new ModeloBase();
-        $query = "SELECT SUM(kl_vendidos) AS kl_vendidos FROM cierre_jornada;";
-        $resultado = $db->obtenerTodos($query);
-        return $resultado;
-    }
+    /*------------Metodo para graficas--------*/
 
-    /*------------Metodo para listar Especies--------*/
-    public function totalBs()
-    {
-        $db = new ModeloBase();
-        $query = "SELECT SUM(total_bs) AS total_bs FROM cierre_jornada;";
-        $resultado = $db->obtenerTodos($query);
-        return $resultado;
-    }
     public function grafica()
     {
         $db = new ModeloBase();
@@ -83,6 +60,53 @@ FROM dual;";
                     JOIN especialidad ON consultas.id_especialidad = especialidad.id_especialidad
                     GROUP BY especialidad.nombre_especialidad";
         $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+    public function sexo()
+    {
+        $db = new ModeloBase();
+        $query = "SELECT sexo, COUNT(*) AS total_sexo
+                    FROM personas
+                    GROUP BY sexo";
+        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+    public function edad()
+    {
+        $db = new ModeloBase();
+        $query = "SELECT 
+                    CASE 
+                        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) <= 12 THEN 'Niño'
+                        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 13 AND 17 THEN 'Adolescente'
+                        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 18 AND 54 THEN 'Adulto'
+                        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) >= 55 THEN 'Adulto Mayor'
+                    END AS categoria,
+                    COUNT(*) AS cantidad
+                    FROM 
+                        personas
+                    GROUP BY 
+                        categoria
+                    ORDER BY 
+                        categoria ASC;
+                            ";
+        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+
+    public function fechaDesdeHastaTipoConsulta($fechaDesde, $fechaHasta, $id_tipo_consulta)
+    {
+
+        $db = new ModeloBase();
+        $query = " SELECT tipo_consulta.motivo, COUNT(consultas.id) AS numero_consultas
+                    FROM consultas AS consultas
+                    JOIN tipo_consulta AS tipo_consulta ON consultas.id_tipo_consulta = tipo_consulta.id_tipo_consulta
+                    WHERE consultas.fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta'
+                    AND consultas.id_tipo_consulta = $id_tipo_consulta  -- Ajusta este valor según sea necesario
+                    GROUP BY tipo_consulta.motivo;
+                ";
+
+        $resultado = $db->FectAll($query);
+        
         return $resultado;
     }
 }
