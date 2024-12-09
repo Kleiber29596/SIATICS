@@ -122,7 +122,7 @@ class PersonasModel extends ModeloBase
 	/*------------Método para consultar un registro de una persona mediante la cedula --------*/
 public function listarDatosPersona($id_persona) {
     $db = new ModeloBase();
-    $query = "SELECT p.id_persona, p.n_documento, p.tipo_documento,  CONCAT(p.tipo_documento,'-',p.n_documento) AS documento, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos,  p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, h.tipo_sangre, h.enfermedad, h.fumador, h.alcohol, h.actividad_fisica, h.medicado, h.cirugia_hospitalaria, h.alergia, h.enfermedad_hereditaria FROM  personas AS p  INNER JOIN historia_medica AS h ON h.id_persona = p.id_persona WHERE p.id_persona = $id_persona";
+    $query = "SELECT p.id_persona, p.n_documento, p.tipo_documento,  CONCAT(p.tipo_documento,'-',p.n_documento) AS documento, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos,  p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, h.tipo_sangre, h.enfermedad, h.fumador, h.alcohol, h.actividad_fisica, h.medicado, h.cirugia_hospitalaria, h.alergia, h.enfermedad_hereditaria FROM  personas AS p  LEFT JOIN historia_medica AS h ON h.id_persona = p.id_persona WHERE p.id_persona = $id_persona";
     $resultado = $db->obtenerTodos($query);
     return $resultado;
 }
@@ -132,6 +132,50 @@ public function listarDatosPersona($id_persona) {
 	public function consultarPersona($n_documento) {
 	    $db = new ModeloBase();
 	    $query = "SELECT personas.id_persona, CONCAT(personas.tipo_documento, '-', personas.n_documento) AS documento, CONCAT(personas.p_nombre, ' ', personas.s_nombre,' ', personas.p_apellido,' ', personas.s_apellido) AS nombres, fecha_nacimiento, sexo, telefono, correo, fecha_registro, personas.direccion, representantes.parentesco, representantes.id_representante FROM personas LEFT JOIN representantes ON personas.id_persona = representantes.id_persona WHERE personas.n_documento =".$n_documento."";
+	    $resultado = $db->obtenerTodos($query);
+	    return $resultado;
+	}
+
+	/*------ Metodo para consultar persona / Modulo consulta -------*/
+	
+	public function consultarPersonaC($n_documento) {
+	    $db = new ModeloBase();
+	    $query = "SELECT 
+		p.id_persona AS id_paciente, 
+		CONCAT(p.tipo_documento, '-', p.n_documento) AS documento_paciente, 
+		CONCAT(p.p_nombre, ' ', p.s_nombre, ' ', p.p_apellido, ' ', p.s_apellido) AS nombres_paciente, 
+		p.fecha_nacimiento, 
+		p.sexo, 
+		p.telefono, 
+		p.correo, 
+		p.fecha_registro AS fecha_registro_paciente, 
+		p.direccion, 
+		r.parentesco, 
+		r.id_representante,
+		c.id_cita, 
+		c.id_especialidad, 
+		c.observacion, 
+		c.estatus, 
+		c.fecha_cita, 
+		c.id_doctor,
+		e.nombre_especialidad, 
+		d.id_persona AS id_especialista, 
+		CONCAT(es.tipo_documento, '-', es.n_documento) AS documento_especialista, 
+		CONCAT(es.p_nombre, ' ', es.s_nombre, ' ', es.p_apellido, ' ', es.s_apellido) AS nombres_especialista
+	FROM 
+		personas AS p
+	LEFT JOIN 
+		representantes AS r ON p.id_persona = r.id_persona
+	LEFT JOIN 
+		citas AS c ON c.id_persona = p.id_persona AND c.estatus = 1 
+	LEFT JOIN 
+		especialidad AS e ON e.id_especialidad = c.id_especialidad
+	LEFT JOIN 
+		doctor AS d ON d.id_doctor = c.id_doctor
+	LEFT JOIN 
+		personas AS es ON d.id_persona = es.id_persona
+	WHERE 
+		p.n_documento = " . $n_documento . "";
 	    $resultado = $db->obtenerTodos($query);
 	    return $resultado;
 	}

@@ -18,9 +18,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                 data-bs-target="#especialidades" type="button" role="tab" aria-controls="especialidades"
                                 aria-selected="true">Especialidades</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="otras-tab" data-bs-toggle="tab" data-bs-target="#otras" type="button" role="tab" aria-controls="otras" aria-selected="false">Otras</button>
-                        </li>
+                      
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
@@ -49,12 +47,6 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             </div>
                         </div>
 
-                        <!-- Contenido de la pestaña "Otras" -->
-                        <div class="tab-pane fade" id="otras" role="tabpanel" aria-labelledby="otras-tab">
-                            <!-- Contenido para otras categorías -->
-                            <p>Aquí puedes añadir contenido relacionado a otras categorías.</p>
-                        </div>
-                    </div>
 
                 </div>
             </div>

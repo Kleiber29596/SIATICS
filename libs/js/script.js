@@ -4892,7 +4892,6 @@ function VerDatosPersona(id) {
     });
 }
 
-/* -------------- Consultar Persona ------------------ */
 
 /* --------------  Consultar Persona ------------------ */
 
@@ -4966,6 +4965,106 @@ function consultarPersona() {
   }
   
 }
+
+/* --------------  Consultar Persona / Modulo consultas ------------------ */
+
+let consultar_persona_c;
+
+
+if(consultar_persona_c = document.getElementById("consultar_persona_c")){
+ 
+consultar_persona_c.addEventListener("click", consultarPersonaC, false);
+
+function consultarPersonaC() {
+  let n_documento_persona = document.getElementById(
+    "n_documento_persona"
+  ).value;
+ 
+  //console.log(n_documento_persona);
+
+  let contenedor_formulario_persona = document.getElementById(
+    "Contenedor_formulario_persona"
+  );
+  let contenedor_datos_persona = document.getElementById(
+    "contenedor_datos_persona"
+  );
+  let contenedor_buscar_persona = document.getElementById(
+    "contenedor_buscar_persona"
+  );
+  let id_persona = document.getElementById("id_persona");
+
+  let contenedor_cita = document.getElementById("contenedor_cita");
+
+  $.ajax({
+    url: "index.php?page=consultarPersonaC",
+    type: "post",
+    dataType: "json",
+    data: {
+      n_documento_persona: n_documento_persona,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        //Datos del paciente
+        document.getElementById("n_documento").innerHTML =
+          response.data.n_documento_persona;
+        document.getElementById("nombres_apellidos_persona").innerHTML =
+          response.data.nombres_persona;
+        document.getElementById("sexo_persona").innerHTML =
+          response.data.sexo_persona;
+        document.getElementById("tlf_persona").innerHTML =
+          response.data.tlf_persona;
+        document.getElementById("direccion_persona").innerHTML = response.data.direccion;
+        document.getElementById("ID").setAttribute("value", response.data.id_persona);
+        document.getElementById("edad").innerHTML = response.data.edad
+        contenedor_datos_persona.removeAttribute("style");
+
+        //Datos de la cita agendada
+
+        let item_fecha = `<button class="btn btn-success">${response.data.fecha} <i
+        class="fas fa-calendar" style="font-size: 1.5em;"></i></button>`;
+
+        if(response.data.estatus  == 1) {
+
+          document.getElementById("especialidad_cita").innerHTML = response.data.especialidad;
+          document.getElementById("especialista_cita").innerHTML =  response.data.especialista;
+          document.getElementById("observacion_cita").innerHTML =  response.data.observacion;
+          document.getElementById("fecha_cita").innerHTML =  item_fecha;
+          document.getElementById("estatus_cita").innerHTML = `<button class="btn btn-danger">Pendiente</button>`;
+          document.getElementById("id_cita_agendada").setAttribute("value", response.data.id_cita);
+          document.getElementById("id_especialidad_cita").setAttribute("value", response.data.id_especialidad);
+          document.getElementById("id_especialista_cita").setAttribute("value", response.data.id_especialista);
+
+          contenedor_cita.removeAttribute("style");
+
+        }
+
+        Swal.fire({
+          icon: "success",
+          title: response.data.message,
+          confirmButtonColor: "#0d6efd",
+          text: response.data.info,
+        });
+      } else {
+        contenedor_datos_persona.setAttribute("style", "display: none;");
+          // Eliminar el valor del campo ID
+          document.getElementById("ID").setAttribute("value", "");
+
+        Swal.fire({
+          icon: "warning",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
+      }
+    })
+    .fail(function (error) {
+      console.log(error);
+    });
+  }
+  
+}
+
 
 
 /* -------------- Consultar Persona ------------------ */
@@ -5086,11 +5185,10 @@ if (document.getElementById("agregar_consulta")) {document
     let peso                 = document.getElementById("peso").value;
     let altura               = document.getElementById("altura").value;
     let presion_arterial     = document.getElementById("presion_arterial").value;
-    let especialidad         = document.getElementById("especialidad_consulta").value;
 
-    
-    
-   
+    let id_cita_agendada     = document.getElementById("id_cita_agendada").value
+    let id_especialidad      = document.getElementById("id_especialidad_cita").value;
+    let id_especialista      = document.getElementById("id_especialista_cita").value;
     
     if(id_persona == ""){
 
@@ -5158,7 +5256,7 @@ if (document.getElementById("agregar_consulta")) {document
 
 
 
-   if(id_persona == "" || especialidad == "" || tipo_consulta == "" || diagnostico == ""){
+   if(id_persona == ""  || tipo_consulta == "" || diagnostico == ""){
 
     Swal.fire({
       icon: 'error',
@@ -5232,7 +5330,9 @@ const confirmMessage = `
             altura: altura,
             presion_arterial: presion_arterial,
             instrucciones:instrucciones,
-            especialidad: especialidad
+            id_cita_agendada: id_cita_agendada,
+            id_especialidad: id_especialidad,
+            id_especialista: id_especialista
           },
         })
           .done(function (response) {
