@@ -33,7 +33,7 @@ class ConsultasModel extends ModeloBase {
 	public function listarDatosConsulta($id_consulta)
 	{
 		$db = new ModeloBase();
-		$query = "SELECT c.id_consulta, c.id_tipo_consulta, c.id_persona, c.diagnostico, tipo_c.motivo, CONCAT(p.nombres, ' ', p.apellidos) AS nombres_apellidos, peso, altura, presion_arterial from consultas AS c INNER JOIN tipo_consulta AS tipo_c ON c.id_tipo_consulta = tipo_c.id_tipo_consulta  INNER JOIN personas AS p ON c.id_persona = p.id_persona WHERE c.id_consulta = ".$id_consulta."";
+		$query = "SELECT c.id_consulta, c.id_tipo_consulta, c.id_persona, c.diagnostico, tipo_c.motivo, CONCAT(p.p_nombre,' ',p.s_nombre,' ', p.p_apellido,' ',p.s_apellido) AS nombres_apellidos,  c.peso, c.altura, c.presion_arterial, c.id_doctor, d.id_persona, CONCAT(e.p_nombre,' ',e.s_nombre,' ', e.p_apellido,' ',e.s_apellido) AS especialista from consultas AS c INNER JOIN tipo_consulta AS tipo_c ON c.id_tipo_consulta = tipo_c.id_tipo_consulta  INNER JOIN personas AS p ON c.id_persona = p.id_persona INNER JOIN doctor AS d ON c.id_doctor = d.id_doctor INNER JOIN personas AS e ON d.id_persona = e.id_persona WHERE c.id_consulta = ".$id_consulta."";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}

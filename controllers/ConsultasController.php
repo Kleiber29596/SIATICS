@@ -122,7 +122,6 @@ EOT;
 						/*datos de la consulta*/
 		$datos_consulta = array(
 			'id_persona'         	=> $_POST['id_persona'],
-			'edad'    	  			=> $_POST['edad'],
 			'id_tipo_consulta'  	=> $_POST['tipo_consulta'],
 			'diagnostico'		    => $_POST['diagnostico'],
 			'peso'		            => intval($peso),
@@ -136,39 +135,38 @@ EOT;
 		);
 
 		
-
-
-		
 		$resultado = $modelConsultas->registrarConsulta($datos_consulta);
 		$respuesta = $resultado['ejecutar'];
 
 
-
 		if ($respuesta) {
 
-		if(isset($id_cita)){
+			if(isset($id_cita) && $id_cita != ''){
 
-		$estado = $modelCitas->obtenerCita($id_cita);
+				$estado = $modelCitas->obtenerCita($id_cita);
+		
+				foreach ($estado as $e) {
+					$estado_cita = $e['estatus'];
+				}
+		
+				if ($estado_cita == 1) {
+					$datos = array(
+						'estatus'		=> 0,
+					);
+		
+					$resultado = $modelCitas->modificarCita($id_cita, $datos);
+				} else {
+					$datos = array(
+						'estatus'		=> 1,
+					);
+		
+					$resultado = $modelCitas->modificarCita($id_cita, $datos);
+				}
 
-		foreach ($estado as $e) {
-			$estado_cita = $e['estatus'];
-		}
 
-		if ($estado_cita == 1) {
-			$datos = array(
-				'estatus'		=> 0,
-			);
-
-			$resultado = $modelCitas->modificarCita($id_cita, $datos);
-		} else {
-			$datos = array(
-				'estatus'		=> 1,
-			);
-
-			$resultado = $modelCitas->modificarCita($id_cita, $datos);
-		}
 
 			}
+			
 			$modelMedicamentos->eliminarMedicamentoTemp();
 		
 			$data = [
@@ -180,6 +178,7 @@ EOT;
 				'code' => 1,
 			];
 
+			
 			echo json_encode($data);
 			exit();
 		} else {

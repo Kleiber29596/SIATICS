@@ -6,6 +6,9 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     $id_usuario         = $_SESSION['user_id'];
     $foto               = $_SESSION['foto'];
     $rol                = $_SESSION['rol_usuario'];
+    $id_especialidad    = $_SESSION['id_especialidad'];
+    $id_doctor          = $_SESSION['id_doctor'];
+
 
     if (empty($usuario) && empty($id_usuario)) {
         // Redireccionar a la página "nueva_pagina.php"
@@ -18,14 +21,19 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     $usuario            = $_SESSION['usuario'];
     $id_usuario         = $_SESSION['user_id'];
     $foto               = $_SESSION['foto'];
-    $rol           = $_SESSION['rol_usuario'];
+    $rol                = $_SESSION['rol_usuario'];
+    $id_especialidad    = $_SESSION['id_especialidad'];
+    $id_doctor          = $_SESSION['id_doctor'];
 
     if (empty($usuario) && empty($id_usuario)) {
         // Redireccionar a la página "nueva_pagina.php"
         header("Location: http://localhost/SIATICS/index.php?page=inicioUsuario");
         exit; // Asegúrate de terminar la ejecución del código después de la redirección
     }
+
 }
+
+
 
 ?>
 

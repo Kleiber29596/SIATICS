@@ -1,22 +1,22 @@
-<?php 
-    require_once 'controllers/MedicamentosController.php';
-    require_once 'controllers/ConsultasController.php';
-    require_once 'controllers/EspecialidadController.php';
-    $objeto1               = new MedicamentosController();
-    $objeto2               = new ConsultasController();
-    $objeto3               = new EspecialidadController();
-    $consultas             = $objeto2->selectTipoConsulta();
-    $consultas_update      = $objeto2->selectTipoConsulta();
-    $medicamentos          = $objeto1->selectMedicamentos();
-    $medicamentos_update   = $objeto1->selectMedicamentos();
-    $especialidades = $objeto3->selectEspecialidad(); 
-        
-    $nombre             = $_SESSION['nombre_user'];
+<?php
+require_once 'controllers/MedicamentosController.php';
+require_once 'controllers/ConsultasController.php';
+require_once 'controllers/EspecialidadController.php';
+$objeto1 = new MedicamentosController();
+$objeto2 = new ConsultasController();
+$objeto3 = new EspecialidadController();
+$consultas = $objeto2->selectTipoConsulta();
+$consultas_update = $objeto2->selectTipoConsulta();
+$medicamentos = $objeto1->selectMedicamentos();
+$medicamentos_update = $objeto1->selectMedicamentos();
+$especialidades = $objeto3->selectEspecialidad();
 
- 
-    if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) { 
-        echo "<h1>No tienes los permisos suficientes para ingresar en este modulo</h1>"; 
-    } else { 
+$nombre = $_SESSION['nombre_user'];
+
+
+if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
+    echo "<h1>No tienes los permisos suficientes para ingresar en este modulo</h1>";
+} else {
     ?>
 
 
@@ -25,13 +25,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
     position: relative;
 }
 
 .step-icon {
-    width: 40px;
-    height: 40px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background-color: #e9ecef;
     display: flex;
@@ -115,7 +114,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalAgregarConsultasLabel">Agregar Consulta <i
-                        class="fas fa-clipboard-check"></i></h5>
+                        class="bi bi-clipboard-check"></i></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -126,10 +125,24 @@
                     <div class="step-line">
                         <div class="step-line-progress" id="step-line-progress"></div>
                     </div>
-                    <div class="step-icon active" id="step-icon-1" aria-label="Paso 1"><i class="fas fa-search"></i>
+                    <div class="step-icon active" id="step-icon-1" aria-label="Paso 1"><i style="font-size: 25px;"
+                            class="bi bi-search"></i>
                     </div>
-                    <div class="step-icon" id="step-icon-2" aria-label="Paso 2"><i class="fas fa-stethoscope"></i></div>
-                    <div class="step-icon" id="step-icon-3" aria-label="Paso 3"><i class="fas fa-capsules"></i></div>
+                    <div class="step-icon" id="step-icon-2" aria-label="Paso 2"><i style="font-size: 25px;"
+                            class="fas fa-stethoscope"></i></div>
+                    <div class="step-icon" id="step-icon-3" aria-label="Paso 3"><i style="font-size: 25px;"
+                            class="fas fa-capsules"></i></div>
+                </div>
+                <div style="
+                                width: 100%;
+                                display: flex;
+                                justify-content: space-between;
+                                font-size: 20px;
+                                font-weight: 600;
+                            ">
+                    <p>Datos del paciente</p>
+                    <p>Datos de la consulta</p>
+                    <p>Receta medica</p>
                 </div>
                 <form action="" id="formRegistrarConsultas" -->
                     <div id="registroForm">
@@ -147,8 +160,6 @@
                                     <div class="form-group">
                                         <input type="hidden" name="ID" id="ID">
                                         <input type="hidden" name="id_cita_agendada" id="id_cita_agendada">
-                                        <input type="hidden" name="id_especialidad" id="id_especialidad_cita">
-                                        <input type="hidden" name="id_especialista" id="id_especialista_cita">
                                         <input class="form-control formulario__validacion__input" type="text"
                                             id="n_documento_persona" name="n_documento_persona"
                                             placeholder="número de documento...">
@@ -169,55 +180,65 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="contenedor_datos_persona" style="display: none;">
-                                <div class="col-sm-12 mb-3">
-                                    <br>
-                                    <h5>Datos del paciente</h5>
-                                    <div class="table-responsive tbl_personas mb-3">
-                                        <table class="table table-bordered table-secondary table-striped table-hover">
-                                            <tr>
-                                                <th>Nº documento</th>
-                                                <th>Nombres</th>
-                                                <th>Edad</th>
-                                                <th>Sexo</th>
-                                                <th>Teléfono</th>
-                                                <th>Dirección</th>
-                                            </tr>
-                                            <tr>
-                                                <td id="n_documento"></td>
-                                                <td id="nombres_apellidos_persona"></td>
-                                                <td id="edad"></td>
-                                                <td id="sexo_persona"></td>
-                                                <td id="tlf_persona"></td>
-                                                <td id="direccion_persona"></td>
-                                            </tr>
+                            <div class="row mt-4" id="contenedor_datos_persona" style="display: none;">
+                                <div class="col-md-12">
+                                    <strong>Datos del paciente</strong>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-secondary">
+                                            <thead>
+                                                <tr>
+                                                    <th>N° documento</th>
+                                                    <th>Nombres</th>
+                                                    <th>Edad</th>
+                                                    <th>Sexo</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Dirección</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td id="n_documento"></td>
+                                                    <td id="nombres_apellidos_persona"></td>
+                                                    <td id="edad"></td>
+                                                    <td id="sexo_persona"></td>
+                                                    <td id="tlf_persona"></td>
+                                                    <td id="direccion_persona"></td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
-
-                                
-                                <div class="table-responsive mt-3" style="display:none;" id="contenedor_cita">
-                                <h5>Agendado <i class="fa fa-calendar-check"></i></h5>
-                                    <table class="table table-bordered table-secondary table-striped table-hover">
-                                        <tr>
-                                            <th>Especialidad</th>
-                                            <th>Especialista</th>
-                                            <th>Observación</th>
-                                            <th>Fecha</th>
-                                            <th>Estado</th>
-                                        </tr>
-                                        <tr>
-                                            <td id="especialidad_cita">Medicina general</td>
-                                            <td id="especialista_cita">Federico Aranguren</td>
-                                            <td id="observacion_cita">Cita de seguimiento</td>
-                                            <td id="fecha_cita"></td>
-                                            <td id="estatus_cita"><button class="btn btn-danger">Pendiente</button></td>
-                                        </tr>
-                                    </table>
-
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12" style="display:none;" id="contenedor_cita">
+                                    <h6>
+                                        <span class="badge bg-success"> ¡Tiene una cita programada! <i class="bi bi-calendar"></i></span>
+                                    </h6>
+                                    <br>
+                                    <strong>Datos de la cita</strong>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-secondary">
+                                            <thead>
+                                                <tr>
+                                                    <th>Especialidad</th>
+                                                    <th>Especialista</th>
+                                                    <th>Observación</th>
+                                                    <th>Fecha</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td id="especialidad_cita"></td>
+                                                    <td id="especialista_cita"></td>
+                                                    <td id="observacion_cita"></td>
+                                                    <td id="fecha_cita"></td>
+                                                    <td id="estatus_cita"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-
-
                             </div>
 
                         </div>
@@ -230,12 +251,14 @@
                             </p>
 
                             <div class="row">
-                                <!-- Campo oculto para la edad -->
-                                <div class="form-group">
-                                    <input class="form-control" type="hidden" id="edad" placeholder="Edad">
-                                </div>
-
-
+                                <?php
+                                session_start();
+                                ?>
+                                <input class="form-control" type="hidden" id="id_especialidad_consulta"
+                                    value="<?php echo $_SESSION['id_especialidad']; ?>">
+                                <input class="form-control" type="hidden" id="id_especialista_consulta"
+                                    value="<?php echo $_SESSION['id_doctor']; ?>">
+                                <?php   ?>
 
                                 <!-- Campo para el peso del paciente -->
                                 <div class="col-sm-4">
@@ -277,7 +300,8 @@
                                             <option value="">Seleccione</option>
                                             <?php foreach ($consultas as $consulta) { ?>
                                             <option value="<?= $consulta['id_tipo_consulta'] ?>">
-                                                <?= $consulta['motivo'] ?></option>
+                                                <?= $consulta['motivo'] ?>
+                                            </option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -317,7 +341,7 @@
                                                 <option value="">Seleccione</option>
                                                 <?php foreach ($medicamentos as $medicamento) { ?>
                                                 <option value="<?= $medicamento['id_presentacion_medicamento'] ?>">
-                                                    <?= $medicamento['nombre_medicamento'].'-'.$medicamento['presentacion'] ?>
+                                                    <?= $medicamento['nombre_medicamento'] . '-' . $medicamento['presentacion'] ?>
                                                 </option>
                                                 <?php } ?>
                                             </select>
@@ -456,7 +480,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalActualizarConsultasLabel">Modificar consulta <i
-                        class="fas fa-edit"></i>
+                        class="bi bi-pencil"></i>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -479,7 +503,8 @@
                                     <option value="">Seleccione</option>
                                     <?php foreach ($consultas_update as $consulta_update) { ?>
                                     <option value="<?= $consulta_update['id_tipo_consulta'] ?>">
-                                        <?= $consulta_update['motivo'] ?></option>
+                                        <?= $consulta_update['motivo'] ?>
+                                    </option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -548,7 +573,7 @@
                                         <option value="">Seleccione</option>
                                         <?php foreach ($medicamentos_update as $medicamento_update) { ?>
                                         <option value="<?= $medicamento_update['id_presentacion_medicamento'] ?>">
-                                            <?= $medicamento_update['nombre_medicamento'].'-'.$medicamento_update['presentacion'] ?>
+                                            <?= $medicamento_update['nombre_medicamento'] . '-' . $medicamento_update['presentacion'] ?>
                                         </option>
                                         <?php } ?>
                                     </select>
@@ -746,7 +771,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php 
-} 
- 
-    ?>
+<?php
+}
+
+?>
