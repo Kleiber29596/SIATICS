@@ -335,3 +335,18 @@ am4core.ready(function () {
   
   }); // end am4core.ready()
   
+  //Funcion javascript que permite crear una grafica a traves de un filtro por fecha y tipo de consulta
+  function filtrarGraficaFechaDesdeHasta() {
+    // Obtener los elementos del formulario
+    const fechaDesde      = document.getElementById("fechaDesde").value;
+    const fechaHasta      = document.getElementById("fechaHasta").value;
+    const tipoConsulta    = document.getElementById("tipoConsulta").value;
+  
+    // Crear la URL con los parámetros GET
+    const url =
+      "?page=inicio&fechaDesde=" + fechaDesde + "&fechaHasta=" + fechaHasta + "&tipoConsulta=" + tipoConsulta;
+  
+    // Redirigir a la URL
+    window.location.href = url;
+  }
+  
