@@ -388,7 +388,6 @@ class DoctorController {
 		];
 
 		echo json_encode($data);
-
 		exit();
 	}
 

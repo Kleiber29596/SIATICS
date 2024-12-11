@@ -66,8 +66,13 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <link href="libs/css/style.css" rel="stylesheet">
     <!-- Estilos de la validacion de formulario -->
     <link href="libs/css/validacion.css" rel="stylesheet">
-    <script src="libs/vendor/calendar/index.global.min.js"></script>
-    <script src="libs/vendor/calendar/es.js"></script>
+    <!-- librerias del calendario -->
+    <!--<link href="libs/vendor/calendar/bootstrap.min.css" rel="stylesheet">-->
+    <link href="libs/vendor/calendar/fullcalendar.css" rel="stylesheet">
+    <script src="libs/vendor/calendar/jquery.min.js"></script>
+    <script src="libs/vendor/calendar/moment.min.js"></script>
+    <script src="libs/vendor/calendar/fullcalendar.min.js"></script>
+    <script src="libs/vendor/calendar/bootstrap.min.js"></script>
     <!-- AmChart Js -->
     <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
@@ -208,7 +213,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 </ul>
             </li><!-- End Ferias Nav -->
 
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-inventario" data-bs-toggle="collapse"
                     href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Inventario</span><i
@@ -237,7 +242,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                     </li>
 
                 </ul>
-            </li><!-- End Ferias Nav -->
+            </li> End Ferias Nav -->
 
 
             <li class="nav-heading">Configuracion</li>
