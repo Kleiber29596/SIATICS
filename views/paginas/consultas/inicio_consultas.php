@@ -251,9 +251,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             </p>
 
                             <div class="row">
-                                <?php
-                                session_start();
-                                ?>
+                             
                                 <input class="form-control" type="hidden" id="id_especialidad_consulta"
                                     value="<?php echo $_SESSION['id_especialidad']; ?>">
                                 <input class="form-control" type="hidden" id="id_especialista_consulta"
