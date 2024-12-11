@@ -86,6 +86,12 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             height: 500px;
         }
 
+        #grafica_tipos_consultas {
+            width: 100%;
+            height: 500px;
+            font-size: 15px;
+        }
+
         /* .amcharts-amexport-item {
             border: 2px solid #777;
         }

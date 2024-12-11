@@ -109,4 +109,19 @@ class dashboardModel extends ModeloBase
         
         return json_encode($resultado);
     }
+
+    public function todosTiposconsulta()
+    {
+
+        $db = new ModeloBase();
+        $query = " SELECT tipo_consulta.motivo, COUNT(consultas.id) AS numero_consultas
+                    FROM consultas AS consultas
+                    JOIN tipo_consulta AS tipo_consulta ON consultas.id_tipo_consulta = tipo_consulta.id_tipo_consulta
+                    GROUP BY tipo_consulta.motivo;
+                ";
+
+        $resultado = $db->FectAll($query);
+        
+        return $resultado;
+    }
 }

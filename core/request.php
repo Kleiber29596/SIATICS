@@ -13,6 +13,7 @@ if (!empty($page)) {
 		'sexo' => array('model' => 'dashboardModel', 'view' => 'sexo', 'controller' => 'dashboardController'),
 		'edad' => array('model' => 'dashboardModel', 'view' => 'edad', 'controller' => 'dashboardController'),
 		'filtro' => array('model' => 'dashboardModel', 'view' => 'filtro', 'controller' => 'dashboardController'),
+		'todosTiposConsulta' => array('model' => 'dashboardModel', 'view' => 'todosTiposConsulta', 'controller' => 'dashboardController'),
 
 		'inicioUsuario' => array('model' => 'UsuarioModel', 'view' => 'inicioUsuario', 'controller' => 'UsuarioController'),
 		'loginUsuario' => array('model' => 'UsuarioModel', 'view' => 'loginUsuario', 'controller' => 'UsuarioController'),
