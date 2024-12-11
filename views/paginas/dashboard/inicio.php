@@ -10,10 +10,10 @@ $modelConsultas = new ConsultasModel();
 
 $tipos_consultas = $modelConsultas->SelectTipos();
 
-if (isset($_GET['fechaDesde']) && isset($_GET['fechaHasta']) && isset($_GET['tipoConsulta'])) {
-    $datos_filtro_grafica = $dashboardModel->fechaDesdeHastaTipoConsulta($_GET['fechaDesde'], $_GET['fechaHasta'], $_GET['tipoConsulta']);
-  }
-  
+if (isset($_GET['fechaDesde']) && isset($_GET['fechaHasta'])) {
+    $datos_filtro_grafica = $dashboardModel->fechaDesdeHastaTipoConsulta($_GET['fechaDesde'], $_GET['fechaHasta']);
+}
+
 
 if (session_status() === PHP_SESSION_ACTIVE) {
     //echo "La sesión está activa.";
@@ -168,11 +168,11 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card info-card revenue-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Filtrar grafica por fecha y tipo de consulta<span></span></h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="card">
+                            <div class="col-sm-12">
+                                <h3 style="margin-top: 20px;">Tipos de Consultas</h3>
                                 <!-- Filtrar grafica por fecha -->
 
                                 <div class="row">
@@ -190,7 +190,7 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-4">
+                                    <!-- <div class="col-sm-4">
                                         <label for="tipoConsulta">Tipo de consulta:</label>
                                         <select class="form-control" id="tipoConsulta">
                                             <option value="">Seleccione...</option>
@@ -202,7 +202,7 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                                             }
                                             ?>
                                         </select>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-sm-2" style="display: flex; justify-content: center; align-items: end;">
                                         <button id="btnFiltroFechaDesdeHasta"
@@ -222,142 +222,90 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
 
 
                                     <script>
-                                        am4core.ready(function() {
+                                        //TODOS LOS TIPOS DE CONSULTAS Y EL NÚMERO DE CONSULTAS FILTRADO POR FECHA
 
-                                            // Themes begin
-                                            am4core.useTheme(am4themes_animated);
-                                            // Themes end
+                                        // Themes begin
+                                        am4core.useTheme(am4themes_animated);
+                                        // Themes end
 
-                                            // Create chart instance
-                                            var chart = am4core.create("graficaFiltroFechaDesdeHasta", am4charts.XYChart);
-                                            chart.scrollbarX = new am4core.Scrollbar();
-
-                                            // Add data
-                                            chart.data = <?= $datos_filtro_grafica ?>;
-
-
-                                            prepareParetoData();
-
-                                            function prepareParetoData() {
-                                                var total = 0;
-
-                                                for (var i = 0; i < chart.data.length; i++) {
-                                                    var value = chart.data[i].total_entradas;
-                                                    total += value;
-                                                }
-
-                                                var sum = 0;
-                                                for (var i = 0; i < chart.data.length; i++) {
-                                                    var value = chart.data[i].total_entradas;
-                                                    sum += value;
-                                                    chart.data[i].pareto = sum / total * 100;
-                                                }
-                                            }
-
-                                            // Create axes
-                                            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-                                            categoryAxis.dataFields.category = "motivo";
-                                            categoryAxis.renderer.grid.template.location = 0;
-                                            categoryAxis.renderer.minGridDistance = 60;
-                                            categoryAxis.tooltip.disabled = true;
-
-                                            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-                                            valueAxis.renderer.minWidth = 50;
-                                            valueAxis.min = 0;
-                                            valueAxis.cursorTooltipEnabled = false;
-
-                                            // Create series
-                                            var series = chart.series.push(new am4charts.ColumnSeries());
-                                            series.sequencedInterpolation = true;
-                                            series.dataFields.valueY = "numero_consultas";
-                                            series.dataFields.categoryX = "motivo";
-                                            series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
-                                            series.columns.template.strokeWidth = 0;
-
-                                            series.tooltip.pointerOrientation = "vertical";
-
-                                            series.columns.template.column.cornerRadiusTopLeft = 10;
-                                            series.columns.template.column.cornerRadiusTopRight = 10;
-                                            series.columns.template.column.fillOpacity = 0.8;
-
-                                            // on hover, make corner radiuses bigger
-                                            var hoverState = series.columns.template.column.states.create("hover");
-                                            hoverState.properties.cornerRadiusTopLeft = 0;
-                                            hoverState.properties.cornerRadiusTopRight = 0;
-                                            hoverState.properties.fillOpacity = 1;
-
-                                            series.columns.template.adapter.add("fill", function(fill, target) {
-                                                return chart.colors.getIndex(target.dataItem.index);
-                                            })
-
-
-                                            var paretoValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-                                            paretoValueAxis.renderer.opposite = true;
-                                            paretoValueAxis.min = 0;
-                                            paretoValueAxis.max = 100;
-                                            paretoValueAxis.strictMinMax = true;
-                                            paretoValueAxis.renderer.grid.template.disabled = true;
-                                            paretoValueAxis.numberFormatter = new am4core.NumberFormatter();
-                                            paretoValueAxis.numberFormatter.numberFormat = "#'%'"
-                                            paretoValueAxis.cursorTooltipEnabled = false;
-
-                                            var paretoSeries = chart.series.push(new am4charts.LineSeries())
-                                            paretoSeries.dataFields.valueY = "pareto";
-                                            paretoSeries.dataFields.categoryX = "motivo";
-                                            paretoSeries.yAxis = paretoValueAxis;
-                                            paretoSeries.tooltipText = "pareto: {valueY.formatNumber('#.0')}%[/]";
-                                            paretoSeries.bullets.push(new am4charts.CircleBullet());
-                                            paretoSeries.strokeWidth = 2;
-                                            paretoSeries.stroke = new am4core.InterfaceColorSet().getFor("alternativeBackground");
-                                            paretoSeries.strokeOpacity = 0.5;
-
-                                            // Cursor
-                                            chart.cursor = new am4charts.XYCursor();
-                                            chart.cursor.behavior = "panX";
-
-                                            // Enable export
-                                            chart.exporting.menu = new am4core.ExportMenu();
-                                            chart.exporting.menu.align = "left";
-                                            chart.exporting.menu.verticalAlign = "top";
+                                        let iconPath = "M53.5,476c0,14,6.833,21,20.5,21s20.5-7,20.5-21V287h21v189c0,14,6.834,21,20.5,21 c13.667,0,20.5-7,20.5-21V154h10v116c0,7.334,2.5,12.667,7.5,16s10.167,3.333,15.5,0s8-8.667,8-16V145c0-13.334-4.5-23.667-13.5-31 s-21.5-11-37.5-11h-82c-15.333,0-27.833,3.333-37.5,10s-14.5,17-14.5,31v133c0,6,2.667,10.333,8,13s10.5,2.667,15.5,0s7.5-7,7.5-13 V154h10V476 M61.5,42.5c0,11.667,4.167,21.667,12.5,30S92.333,85,104,85s21.667-4.167,30-12.5S146.5,54,146.5,42 c0-11.335-4.167-21.168-12.5-29.5C125.667,4.167,115.667,0,104,0S82.333,4.167,74,12.5S61.5,30.833,61.5,42.5z"
 
 
 
-                                        }); // end am4core.ready()
+                                        let chart = am4core.create("graficaFiltroFechaDesdeHasta", am4charts.SlicedChart);
+                                        chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
+                                        chart.data = <?= $datos_filtro_grafica ?>
+
+                                        let series = chart.series.push(new am4charts.PictorialStackedSeries());
+                                        series.dataFields.value = "numero_consultas";
+                                        series.dataFields.category = "motivo";
+                                        series.alignLabels = true;
+
+                                        series.maskSprite.path = iconPath;
+                                        series.ticks.template.locationX = 1;
+                                        series.ticks.template.locationY = 0.5;
+
+                                        series.labelsContainer.width = 200;
+
+                                        chart.legend = new am4charts.Legend();
+                                        chart.legend.position = "left";
+                                        chart.legend.valign = "bottom";
                                     </script>
-
+                                    <!-- TODOS LOS TIPOS DE CONSULTAS Y EL NÚMERO DE CONSULTAS FILTRADO POR FECHA -->
                                 <?php
                                 } else {
                                 ?>
-                                    <div style="margin-top: 20px;" id="grafica"></div>
+                                    <div id="grafica_tipos_consultas"></div>
 
+                                    <script>
+                                        //TODOS LOS TIPOS DE CONSULTAS Y EL NÚMERO DE CONSULTAS
+
+                                        /* Chart code */
+                                        // Themes begin
+                                        am4core.useTheme(am4themes_animated);
+                                        // Themes end
+
+                                        let iconPathh = "M53.5,476c0,14,6.833,21,20.5,21s20.5-7,20.5-21V287h21v189c0,14,6.834,21,20.5,21 c13.667,0,20.5-7,20.5-21V154h10v116c0,7.334,2.5,12.667,7.5,16s10.167,3.333,15.5,0s8-8.667,8-16V145c0-13.334-4.5-23.667-13.5-31 s-21.5-11-37.5-11h-82c-15.333,0-27.833,3.333-37.5,10s-14.5,17-14.5,31v133c0,6,2.667,10.333,8,13s10.5,2.667,15.5,0s7.5-7,7.5-13 V154h10V476 M61.5,42.5c0,11.667,4.167,21.667,12.5,30S92.333,85,104,85s21.667-4.167,30-12.5S146.5,54,146.5,42 c0-11.335-4.167-21.168-12.5-29.5C125.667,4.167,115.667,0,104,0S82.333,4.167,74,12.5S61.5,30.833,61.5,42.5z"
+
+
+
+                                        let chart = am4core.create("grafica_tipos_consultas", am4charts.SlicedChart);
+                                        chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
+                                        let url = 'http://localhost/SIATICS/index.php?page=todosTiposConsulta';
+                                        fetch(url)
+                                            .then(response => response.json())
+                                            .then(datos => mostrar(datos))
+                                            .catch(e => console.log(e))
+
+                                        const mostrar = (articulos) => {
+                                            articulos.forEach(element => {
+                                                chart.data.push(element.numero_consultas)
+                                            });
+                                            chart.data = articulos
+                                            console.log(chart.data)
+
+                                        }
+
+                                        let series = chart.series.push(new am4charts.PictorialStackedSeries());
+                                        series.dataFields.value = "numero_consultas";
+                                        series.dataFields.category = "motivo";
+                                        series.alignLabels = true;
+
+                                        series.maskSprite.path = iconPathh;
+                                        series.ticks.template.locationX = 1;
+                                        series.ticks.template.locationY = 0.5;
+
+                                        series.labelsContainer.width = 200;
+
+                                        chart.legend = new am4charts.Legend();
+                                        chart.legend.position = "left";
+                                        chart.legend.valign = "bottom";
+                                    </script>
                                 <?php
                                 }
                                 ?>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="container">
-                    <div class="row">
-                        <div class="card">
-                            <div class="col-sm-12">
-                                <h3 style="margin-top: 20px;">Tipos de Consultas</h3>
-                                <!--<button id="boton1" type="button" class="btn btn-success">Reporte</button> --->
-                                <div id="grafica_tipos_consultas"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="card">
-                            <div class="col-sm-12">
-                                <h3 style="margin-top: 20px;">Total consultas por doctores</h3>
-                                <!--<button id="boton1" type="button" class="btn btn-success">Reporte</button> --->
-                                <div id="grafica_consultas_doctores"></div>
                             </div>
                         </div>
                     </div>
