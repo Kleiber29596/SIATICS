@@ -2791,6 +2791,8 @@ if (agregar_reprentante) {
   }
 }
 
+let n_documento;
+
 if (n_documento) {
   document.getElementById("n_documento").addEventListener("blur", function () {
     let n_documento = document.getElementById("n_documento").value;
