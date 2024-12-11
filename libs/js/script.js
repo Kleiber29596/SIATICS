@@ -1,9 +1,10 @@
 /* -------------- Citas / Caledario ------------------ */
 
+let calendar;
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('DIVcalendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         selectable: true,
         headerToolbar: {
@@ -140,29 +141,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function loadEvents(events) {
-  
-    if (events) {
-        // Transformar los eventos para que contengan solo el título
-        const transformedEvents = events.map(event => {
-            return {
-                title: event.conteo, // Asegúrate de que 'conteo' sea la propiedad correcta
-                start: event.start,   // Asegúrate de que 'start' sea una fecha válida
-                end: event.end,       // Asegúrate de que 'end' sea una fecha válida
-                color: '#f1231a',     // Color del evento
-                textColor: '#ffffff'  // Cambia 'with' a un color válido
-            };
-        });
+      if (events) {
+          // Transformar los eventos para que contengan solo el título
+          const transformedEvents = events.map(event => {
+              return {
+                  title: event.conteo, // Asegúrate de que 'conteo' sea la propiedad correcta
+                  start: event.start,   // Asegúrate de que 'start' sea una fecha válida
+                  end: event.end,       // Asegúrate de que 'end' sea una fecha válida
+                  color: '#f1231a',     // Color del evento
+                  textColor: '#ffffff'  // Cambia 'with' a un color válido
+              };
+          });
 
-        console.log('Veamos si llega: ', transformedEvents);
-        console.log('Ya pasamos al if', events);
+          console.log('Veamos si llega: ', transformedEvents);
 
-        $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
-        $('#DIVcalendar').fullCalendar('addEventSource', transformedEvents); // Agregar nuevos eventos
-        $('#DIVcalendar').fullCalendar('renderEvents'); // No es necesario en la mayoría de las versiones
-    } else {
-        console.warn('No se proporcionaron eventos.');
-    }
-}
+          // Primero, eliminamos todos los eventos existentes
+          calendar.removeAllEvents(); // Eliminar eventos existentes
+
+          // Luego, agregamos los nuevos eventos
+          calendar.addEventSource(transformedEvents); // Agregar nuevos eventos
+          calendar.render();
+      } else {
+          console.warn('No se proporcionaron eventos.');
+      }
+  }
 
 /* -------------- mostrar asignacion Cita -------------------------- */
 
@@ -236,6 +238,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
           .done(function (response) {
             if (response.data.success == true) {
               document.getElementById("formRegistrarCita").reset();
+              document.getElementById("formCalendarCita").reset();
 
               $("#modalAgregarCitas").val("");
               $("#n_documento_persona").val("");
@@ -249,7 +252,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
               });
 
               $("#tabla_citas").DataTable().ajax.reload();
-              document.getElementById("formCalendarCita").reset();
+              //document.getElementById("formCalendarCita").reset();
             } else {
               Swal.fire({
                 icon: "danger",
