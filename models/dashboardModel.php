@@ -93,7 +93,7 @@ class dashboardModel extends ModeloBase
         return $resultado;
     }
 
-    public function fechaDesdeHastaTipoConsulta($fechaDesde, $fechaHasta, $id_tipo_consulta)
+    public function fechaDesdeHastaTipoConsulta($fechaDesde, $fechaHasta)
     {
 
         $db = new ModeloBase();
@@ -101,7 +101,6 @@ class dashboardModel extends ModeloBase
                     FROM consultas AS consultas
                     JOIN tipo_consulta AS tipo_consulta ON consultas.id_tipo_consulta = tipo_consulta.id_tipo_consulta
                     WHERE consultas.fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta'
-                    AND consultas.id_tipo_consulta = $id_tipo_consulta  -- Ajusta este valor según sea necesario
                     GROUP BY tipo_consulta.motivo;
                 ";
 
