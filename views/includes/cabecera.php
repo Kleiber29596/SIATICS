@@ -97,6 +97,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             width: 100%;
             height: 500px;
         }
+
     </style>
 
     <!-- Loader -->

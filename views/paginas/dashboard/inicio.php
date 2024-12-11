@@ -220,47 +220,7 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                                 ?>
                                     <div style="margin-top: 20px;" id="graficaFiltroFechaDesdeHasta"></div>
 
-                                    <!-- <script>
-                  am4core.ready(function() {
-                    // Create chart instance
-                    var chart = am4core.create("graficaFiltroFechaDesdeHasta", am4charts.PieChart);
 
-                    // Add data
-
-                    const mostrar = (articulos) => {
-                      articulos.forEach((element) => {
-                        chart.data.push(element.especie_presentacion);
-                      });
-                      chart.data = articulos;
-                      console.log(chart.data);
-                    };
-
-                    mostrar(<?= $datos_filtro_grafica ?>)
-
-                    
-
-                    // Add and configure Series
-                    var pieSeries = chart.series.push(new am4charts.PieSeries());
-                    pieSeries.dataFields.value = "total_entradas";
-                    pieSeries.dataFields.category = "especie_presentacion";
-
-                    // This creates initial animation
-                    pieSeries.hiddenState.properties.opacity = 1;
-                    pieSeries.hiddenState.properties.endAngle = -90;
-                    pieSeries.hiddenState.properties.startAngle = -90;
-
-                    // Let's cut a hole in our Pie chart the size of 40% the radius
-                    chart.innerRadius = am4core.percent(40);
-
-                    // Put a thick white border around each Slice
-                    pieSeries.slices.template.stroke = am4core.color("#4a2abb");
-                    pieSeries.slices.template.strokeWidth = 2;
-                    pieSeries.slices.template.strokeOpacity = 1;
-
-                    // Add a legend
-                    chart.legend = new am4charts.Legend();
-                  });
-                </script> -->
                                     <script>
                                         am4core.ready(function() {
 
@@ -387,10 +347,21 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                             <div class="col-sm-12">
                                 <h3 style="margin-top: 20px;">Tipos de Consultas</h3>
                                 <!--<button id="boton1" type="button" class="btn btn-success">Reporte</button> --->
-                                <div id="grafica_desde_hasta_tipo_consulta"></div>
+                                <div id="grafica_tipos_consultas"></div>
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="row">
+                        <div class="card">
+                            <div class="col-sm-12">
+                                <h3 style="margin-top: 20px;">Total consultas por doctores</h3>
+                                <!--<button id="boton1" type="button" class="btn btn-success">Reporte</button> --->
+                                <div id="grafica_consultas_doctores"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <p>
                         <a class="btn btn-primary" data-bs-toggle="collapse" href="#pacientes_por_sexo" role="button" aria-expanded="false" aria-controls="pacientes_por_sexo">
                             Pacientes por Sexo

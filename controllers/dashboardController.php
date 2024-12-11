@@ -92,4 +92,13 @@ class dashboardController
                         echo json_encode(['error' => 'No se recibieron datos']);
                 }
         }
+
+        public function todosTiposConsulta()
+        {
+                $modelDashboard = new dashboardModel();
+
+                $data = $modelDashboard->todosTiposconsulta();
+
+                echo json_encode($data);
+        }
 }
