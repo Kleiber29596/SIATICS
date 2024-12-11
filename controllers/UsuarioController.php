@@ -50,6 +50,7 @@ class UsuarioController
 			$hash 				= $resultado['contrasena'];
 			$rol_bd 			= $resultado['id_rol'];
 			$id_especialidad 	= $resultado['id_especialidad'];
+			$id_doctor 			= $resultado['id_doctor'];
 			$nombre_bd 			= $resultado['p_nombre'];
 			$apellido_bd 	    = $resultado['p_apellido'];
 			$estatus 	    	= $resultado['estatus'];
@@ -70,9 +71,11 @@ class UsuarioController
 			$_SESSION['foto'] 				= $foto_bd;
 			$_SESSION['rol_usuario'] 		= $rol_bd;
 			$_SESSION['id_especialidad']	= $id_especialidad;
+			$_SESSION['id_doctor']			= $id_doctor;
 			$_SESSION['nombre_user'] 		= $nombre_bd;
 			$_SESSION['apellido_user'] 		= $apellido_bd;
 			$_SESSION['estatus_usuario'] 	= $estatus;
+
 		
 
 			

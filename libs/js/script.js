@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var f = info.date.getDay(); // Obtener el día de la semana
 
             if (id_especialidad_cita && id_doctor_cita) {
-                if (!diasLaboralesNumeros.includes(f)) {
+                if (!diasLaboralesNumeros.includes(f)) {zz
                     Swal.fire({
                         icon: "error",
                         confirmButtonColor: "#3085d6",
@@ -4931,97 +4931,94 @@ let consultar_persona_c;
 
 
 if(consultar_persona_c = document.getElementById("consultar_persona_c")){
- 
+
 consultar_persona_c.addEventListener("click", consultarPersonaC, false);
 
 function consultarPersonaC() {
-  let n_documento_persona = document.getElementById(
-    "n_documento_persona"
-  ).value;
+ let n_documento_persona = document.getElementById(
+   "n_documento_persona"
+ ).value;
+
+ //console.log(n_documento_persona);
+
+ let contenedor_formulario_persona = document.getElementById(
+   "Contenedor_formulario_persona"
+ );
+ let contenedor_datos_persona = document.getElementById(
+   "contenedor_datos_persona"
+ );
+ let contenedor_buscar_persona = document.getElementById(
+   "contenedor_buscar_persona"
+ );
+ let id_persona = document.getElementById("id_persona");
+
+ let contenedor_cita = document.getElementById("contenedor_cita");
+
+ $.ajax({
+   url: "index.php?page=consultarPersonaC",
+   type: "post",
+   dataType: "json",
+   data: {
+     n_documento_persona: n_documento_persona,
+   },
+ })
+   .done(function (response) {
+     if (response.data.success == true) {
+       //Datos del paciente
+       document.getElementById("n_documento").innerHTML =
+         response.data.n_documento_persona;
+       document.getElementById("nombres_apellidos_persona").innerHTML =
+         response.data.nombres_persona;
+       document.getElementById("sexo_persona").innerHTML =
+         response.data.sexo_persona;
+       document.getElementById("tlf_persona").innerHTML =
+         response.data.tlf_persona;
+       document.getElementById("direccion_persona").innerHTML = response.data.direccion;
+       document.getElementById("ID").setAttribute("value", response.data.id_persona);
+       document.getElementById("edad").innerHTML = response.data.edad
+       contenedor_datos_persona.removeAttribute("style");
+
+       //Datos de la cita agendada
+
+
+
+       if(response.data.estatus  == 1) {
+
+         document.getElementById("especialidad_cita").innerHTML = response.data.especialidad;
+         document.getElementById("especialista_cita").innerHTML =  response.data.especialista;
+         document.getElementById("observacion_cita").innerHTML =  response.data.observacion;
+         document.getElementById("fecha_cita").innerHTML =  `<span class="badge bg-success"> <i class="bi bi-calendar"></i> ${response.data.fecha} </span>`;
+         document.getElementById("estatus_cita").innerHTML = `<span class="badge bg-danger">Pendiente</span>`;
+         document.getElementById("id_cita_agendada").setAttribute("value", response.data.id_cita);
+        
+         contenedor_cita.removeAttribute("style");
+
+       }
+
+       Swal.fire({
+         icon: "success",
+         title: response.data.message,
+         confirmButtonColor: "#0d6efd",
+         text: response.data.info,
+       });
+     } else {
+       contenedor_datos_persona.setAttribute("style", "display: none;");
+         // Eliminar el valor del campo ID
+         document.getElementById("ID").setAttribute("value", "");
+
+       Swal.fire({
+         icon: "warning",
+         confirmButtonColor: "#3085d6",
+         title: response.data.message,
+         text: response.data.info,
+       });
+     }
+   })
+   .fail(function (error) {
+     console.log(error);
+   });
+ }
  
-  //console.log(n_documento_persona);
-
-  let contenedor_formulario_persona = document.getElementById(
-    "Contenedor_formulario_persona"
-  );
-  let contenedor_datos_persona = document.getElementById(
-    "contenedor_datos_persona"
-  );
-  let contenedor_buscar_persona = document.getElementById(
-    "contenedor_buscar_persona"
-  );
-  let id_persona = document.getElementById("id_persona");
-
-  let contenedor_cita = document.getElementById("contenedor_cita");
-
-  $.ajax({
-    url: "index.php?page=consultarPersonaC",
-    type: "post",
-    dataType: "json",
-    data: {
-      n_documento_persona: n_documento_persona,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success == true) {
-        //Datos del paciente
-        document.getElementById("n_documento").innerHTML =
-          response.data.n_documento_persona;
-        document.getElementById("nombres_apellidos_persona").innerHTML =
-          response.data.nombres_persona;
-        document.getElementById("sexo_persona").innerHTML =
-          response.data.sexo_persona;
-        document.getElementById("tlf_persona").innerHTML =
-          response.data.tlf_persona;
-        document.getElementById("direccion_persona").innerHTML = response.data.direccion;
-        document.getElementById("ID").setAttribute("value", response.data.id_persona);
-        document.getElementById("edad").innerHTML = response.data.edad
-        contenedor_datos_persona.removeAttribute("style");
-
-        //Datos de la cita agendada
-
-        let item_fecha = `<button class="btn btn-success">${response.data.fecha} <i
-        class="fas fa-calendar" style="font-size: 1.5em;"></i></button>`;
-
-        if(response.data.estatus  == 1) {
-
-          document.getElementById("especialidad_cita").innerHTML = response.data.especialidad;
-          document.getElementById("especialista_cita").innerHTML =  response.data.especialista;
-          document.getElementById("observacion_cita").innerHTML =  response.data.observacion;
-          document.getElementById("fecha_cita").innerHTML =  item_fecha;
-          document.getElementById("estatus_cita").innerHTML = `<button class="btn btn-danger">Pendiente</button>`;
-          document.getElementById("id_cita_agendada").setAttribute("value", response.data.id_cita);
-          document.getElementById("id_especialidad_cita").setAttribute("value", response.data.id_especialidad);
-          document.getElementById("id_especialista_cita").setAttribute("value", response.data.id_especialista);
-
-          contenedor_cita.removeAttribute("style");
-
-        }
-
-        Swal.fire({
-          icon: "success",
-          title: response.data.message,
-          confirmButtonColor: "#0d6efd",
-          text: response.data.info,
-        });
-      } else {
-        contenedor_datos_persona.setAttribute("style", "display: none;");
-          // Eliminar el valor del campo ID
-          document.getElementById("ID").setAttribute("value", "");
-
-        Swal.fire({
-          icon: "warning",
-          confirmButtonColor: "#3085d6",
-          title: response.data.message,
-          text: response.data.info,
-        });
-      }
-    })
-    .fail(function (error) {
-      console.log(error);
-    });
-  }
-  
 }
 
 
@@ -5128,207 +5125,208 @@ if (presionArterialInput) {
 
 
 if (document.getElementById("agregar_consulta")) {document
-    .getElementById("agregar_consulta")
-    .addEventListener("click", agregarConsulta, false);
+  .getElementById("agregar_consulta")
+  .addEventListener("click", agregarConsulta, false);
 
-  function agregarConsulta() {
-    // Datos de la consulta
-    let id_persona           = document.getElementById("ID").value;
-    let persona              = document.getElementById("nombres_apellidos_persona");
-    let nombre_persona       = persona.textContent;
-    let edad                 = document.getElementById("edad").value;
-    let tipo_consulta        = document.getElementById("tipo_consulta").value;
-    let opcion_consulta      = document.getElementById("tipo_consulta");
-    let consulta             = opcion_consulta.options[opcion_consulta.selectedIndex].text;
-    let diagnostico          = document.getElementById("diagnostico").value;
-    let peso                 = document.getElementById("peso").value;
-    let altura               = document.getElementById("altura").value;
-    let presion_arterial     = document.getElementById("presion_arterial").value;
+function agregarConsulta() {
+  // Datos de la consulta
+  let id_persona           = document.getElementById("ID").value;
+  let persona              = document.getElementById("nombres_apellidos_persona");
+  let nombre_persona       = persona.textContent;
+  let edad                 = document.getElementById("edad").value;
+  let tipo_consulta        = document.getElementById("tipo_consulta").value;
+  let opcion_consulta      = document.getElementById("tipo_consulta");
+  let consulta             = opcion_consulta.options[opcion_consulta.selectedIndex].text;
+  let diagnostico          = document.getElementById("diagnostico").value;
+  let peso                 = document.getElementById("peso").value;
+  let altura               = document.getElementById("altura").value;
+  let presion_arterial     = document.getElementById("presion_arterial").value;
 
-    let id_cita_agendada     = document.getElementById("id_cita_agendada").value
-    let id_especialidad      = document.getElementById("id_especialidad_cita").value;
-    let id_especialista      = document.getElementById("id_especialista_cita").value;
-    
-    if(id_persona == ""){
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Atención',
-        confirmButtonColor: '#0d6efd',
-        text: 'Debe seleccionar un paciente'
-    });
-
-    return false;
-    }
-    
-    
-    
-    const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
-    if(peso == ""){
-      
-
+  let id_cita_agendada     = document.getElementById("id_cita_agendada").value
+  let id_especialidad      = document.getElementById("id_especialidad_consulta").value;
+  let id_especialista      = document.getElementById("id_especialista_consulta").value;
   
-     } else if(!pesoRegex.test(peso)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Peso inválido',
-        text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
-      });
-      return false;
-
-     }
-    
-    
-    const presionRegex = /^\d{2,3}\/\d{2,3}$/;
-    if(presion_arterial == ""){
-      
-
-  
-     } else if(!presionRegex.test(presion_arterial)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Presión Arterial inválida',
-        text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
-      });
-      return false;
-
-     }
-
-
-     const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;
-    if(altura == ""){
-      
-
-  
-     } else if(!alturaRegex.test(altura)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Altura inválida',
-        text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
-      });
-      return false;
-
-     }
-
-
-  
-
-
-
-   if(id_persona == ""  || tipo_consulta == "" || diagnostico == ""){
+  if(id_persona == ""){
 
     Swal.fire({
       icon: 'error',
-      title: 'Todos los campos son obligatorios',
-      text: 'Por favor, llene todos los campos.'
-    });
+      title: 'Atención',
+      confirmButtonColor: '#0d6efd',
+      text: 'Debe seleccionar un paciente'
+  });
 
+  return false;
+  }
+  
+  
+  
+  const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
+  if(peso == ""){
+    
+
+
+   } else if(!pesoRegex.test(peso)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Peso inválido',
+      text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
+    });
+    return false;
+
+   }
+  
+  
+  const presionRegex = /^\d{2,3}\/\d{2,3}$/;
+  if(presion_arterial == ""){
+    
+
+
+   } else if(!presionRegex.test(presion_arterial)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Presión Arterial inválida',
+      text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
+    });
     return false;
 
    }
 
-   
 
-
+   const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;
+  if(altura == ""){
     
 
-    // Datos del recipe
-    let instrucciones = document.getElementById("instrucciones").value;
 
-    const tablaMedicamentos = document.getElementById('multiples_medicamentos');
-    var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
+   } else if(!alturaRegex.test(altura)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Altura inválida',
+      text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
+    });
+    return false;
 
-    const listaMedicamentos = datosMedicamentos.map(medicamento => {
-      // Asegúrate de que `medicamento` sea un array
-      return `<li>${medicamento.join(' ')}</li>`;
-    }).join('');
+   }
+
+
+
+
+
+
+ if(id_persona == ""  || tipo_consulta == "" || diagnostico == ""){
+
+  Swal.fire({
+    icon: 'error',
+    title: 'Todos los campos son obligatorios',
+    text: 'Por favor, llene todos los campos.'
+  });
+
+  return false;
+
+ }
+
+ 
+
+
+  
+
+  // Datos del recipe
+  let instrucciones = document.getElementById("instrucciones").value;
+
+  const tablaMedicamentos = document.getElementById('multiples_medicamentos');
+  var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
+
+  const listaMedicamentos = datosMedicamentos.map(medicamento => {
+    // Asegúrate de que `medicamento` sea un array
+    return `<li>${medicamento.join(' ')}</li>`;
+  }).join('');
 const confirmMessage = `
 <ul style="text-align: left;">
-  <li><strong>Persona:</strong> ${nombre_persona}</li>
-  <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
-  <li><strong>Peso:</strong> ${peso}</li>
-  <li><strong>Altura:</strong> ${altura}</li>
-  <li><strong>Presión arterial:</strong> ${presion_arterial}</li>
-  <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
+<li><strong>Persona:</strong> ${nombre_persona}</li>
+<li><strong>Tipo de Consulta:</strong> ${consulta}</li>
+<li><strong>Peso:</strong> ${peso}</li>
+<li><strong>Altura:</strong> ${altura}</li>
+<li><strong>Presión arterial:</strong> ${presion_arterial}</li>
+<li><strong>Diagnóstico:</strong> ${diagnostico}</li>
 </ul>
 
 <p><strong>Medicamentos recetados:</strong></p>
-  <ul style="text-align: left;">
-    ${listaMedicamentos}
-  </ul>
+<ul style="text-align: left;">
+  ${listaMedicamentos}
+</ul>
 
 <p><strong>Instrucciones adicionales:</strong></p>
 <ul>
-  <li>${instrucciones}</li>
+<li>${instrucciones}</li>
 </ul>
 `;
 
-  
 
+
+
+  Swal.fire({
+    title: "Estas seguro de guardar los datos?",
+    html: confirmMessage, // Use HTML for better formatting
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, confirmar!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "index.php?page=registrarConsulta",
+        type: "post",
+        dataType: "json",
+        data: {
+          id_persona: id_persona,
+          edad: edad,
+          tipo_consulta: tipo_consulta,
+          diagnostico: diagnostico,
+          peso: peso,
+          altura: altura,
+          presion_arterial: presion_arterial,
+          instrucciones:instrucciones,
+          id_cita_agendada: id_cita_agendada,
+          id_especialidad: id_especialidad,
+          id_especialista: id_especialista
+        },
+      })
+        .done(function (response) {
+          if (response.data.success == true) {
+            document.getElementById("formRegistrarConsultas").reset();
+            let contenedor = document.getElementById("contenedor_datos_medicamentos");
+            contenedor.setAttribute("style", "display: none;");
   
-    Swal.fire({
-      title: "Estas seguro de guardar los datos?",
-      html: confirmMessage, // Use HTML for better formatting
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, confirmar!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: "index.php?page=registrarConsulta",
-          type: "post",
-          dataType: "json",
-          data: {
-            id_persona: id_persona,
-            edad: edad,
-            tipo_consulta: tipo_consulta,
-            diagnostico: diagnostico,
-            peso: peso,
-            altura: altura,
-            presion_arterial: presion_arterial,
-            instrucciones:instrucciones,
-            id_cita_agendada: id_cita_agendada,
-            id_especialidad: id_especialidad,
-            id_especialista: id_especialista
-          },
+            $("#modalAgregarConsulta").modal("hide");
+  
+            Swal.fire({
+              icon: "success",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+            
+  
+            $("#tbl_consultas").DataTable().ajax.reload();
+          } else {
+            Swal.fire({
+              icon: "error",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+          }
         })
-          .done(function (response) {
-            if (response.data.success == true) {
-              document.getElementById("formRegistrarConsultas").reset();
-              let contenedor = document.getElementById("contenedor_datos_medicamentos");
-              contenedor.setAttribute("style", "display: none;");
-    
-              $("#modalAgregarConsulta").modal("hide");
-    
-              Swal.fire({
-                icon: "success",
-                confirmButtonColor: "#3085d6",
-                title: response.data.message,
-                text: response.data.info,
-              });
-              
-    
-              $("#tbl_consultas").DataTable().ajax.reload();
-            } else {
-              Swal.fire({
-                icon: "error",
-                confirmButtonColor: "#3085d6",
-                title: response.data.message,
-                text: response.data.info,
-              });
-            }
-          })
-          .fail(function () {
-            console.log("error");
-          });
-      }
-    });
+        .fail(function () {
+          console.log("error");
+        });
+    }
+  });
 
-    
-  }
+  
 }
+}
+
 
 const frecuenciaInput = document.getElementById('frecuencia');
 

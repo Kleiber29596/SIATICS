@@ -1292,3 +1292,61 @@ line-height: 28px !important;
   font-size: 16px;
   color: #6c757d; /* Color del texto "horas" */
 }
+
+
+
+body {
+  background-color: #f8f9fa;
+}
+
+.container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+h5 {
+  margin-bottom: 20px;
+}
+
+.table {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.table th {
+  border-color: #dee2e6;
+  font-weight: normal;
+  color: #212529;
+}
+
+.table td {
+  border-color: #dee2e6;
+}
+
+.badge {
+  font-size: 0.8rem;
+}
+
+.badge.bg-success {
+  background-color: #198754 !important;
+  padding: 6px 10px;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+  padding: 6px 10px;
+}
+
+h5.bg-light {
+  background-color: #f8f9fa !important;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+}
+
+.form-label {
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
