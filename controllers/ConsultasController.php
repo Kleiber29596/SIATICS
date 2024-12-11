@@ -3,6 +3,7 @@
 require_once './models/ConsultasModel.php';
 require_once './models/RecipeModel.php';
 require_once './models/MedicamentosModel.php';
+require_once './models/CitasModel.php';
 
 
 class ConsultasController {
@@ -75,6 +76,7 @@ EOT;
 		$modelRecipe	   = new RecipeModel();
 		$modelMedicamentos = new MedicamentosModel();
 		$modelConsultas    = new ConsultasModel();
+		$modelCitas 	   = new CitasModel();
 
 		$datos = array(
 						/*datos del recipe*/
@@ -82,6 +84,8 @@ EOT;
 			'fecha_registro'  		=> $fecha_registro,
 			'id_usuario'			=> $_SESSION['user_id'],
 		);
+
+	
 
 		$registro_recipe = $modelRecipe->registrarRecipe($datos);
 
@@ -113,29 +117,60 @@ EOT;
 		$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
 		$peso   = $_POST['peso'];
 		$altura = $_POST['altura'];
+		$id_cita = $_POST['id_cita_agendada'];
+		// var_dump($id_cita);
+		
 
 						/*datos de la consulta*/
 		$datos_consulta = array(
 			'id_persona'         	=> $_POST['id_persona'],
-			'edad'    	  			=> $_POST['edad'],
 			'id_tipo_consulta'  	=> $_POST['tipo_consulta'],
 			'diagnostico'		    => $_POST['diagnostico'],
 			'peso'		            => intval($peso),
 			'altura'		        => intval($altura),
 			'presion_arterial'		=> $_POST['presion_arterial'],
-			'id_especialidad'		=> $_POST['especialidad'],
+			'id_especialidad'		=> $_POST['id_especialidad'],
+			'id_doctor'				=> $_POST['id_especialista'],
 			'fecha_registro'  		=> $fecha_registro,
 			'id_recipe'				=> $id_recipe,
 			'id'			        => $_SESSION['user_id']
 		);
+
 		
 		$resultado = $modelConsultas->registrarConsulta($datos_consulta);
 		$respuesta = $resultado['ejecutar'];
-		
+
 
 		if ($respuesta) {
-			$modelMedicamentos->eliminarMedicamentoTemp();
+
+			if(isset($id_cita) && $id_cita != ''){
+
+				$estado = $modelCitas->obtenerCita($id_cita);
+		
+				foreach ($estado as $e) {
+					$estado_cita = $e['estatus'];
+				}
+		
+				if ($estado_cita == 1) {
+					$datos = array(
+						'estatus'		=> 0,
+					);
+		
+					$resultado = $modelCitas->modificarCita($id_cita, $datos);
+				} else {
+					$datos = array(
+						'estatus'		=> 1,
+					);
+		
+					$resultado = $modelCitas->modificarCita($id_cita, $datos);
+				}
+
+
+
+			}
 			
+			$modelMedicamentos->eliminarMedicamentoTemp();
+		
 			$data = [
 				'data' => [
 					'success'            =>  true,
@@ -145,6 +180,7 @@ EOT;
 				'code' => 1,
 			];
 
+			
 			echo json_encode($data);
 			exit();
 		} else {

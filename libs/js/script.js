@@ -1,176 +1,129 @@
 /* -------------- Citas / Caledario ------------------ */
 
+let calendar;
 
-$(document).ready(function() {  
-   $('#DIVcalendar').fullCalendar({
-    initialView: 'dayGridMonth',
-    selectable: true,
-    selectHelper: true,
-    select: function(info) {
-      $(info.start).css('background-color', 'lightblue');
-      let id_especialidad_cita = document.getElementById("especialidad").value;
-      let id_doctor_cita = document.getElementById("doctor").value;
-      // Obtener el valor del input
-      const diaLaboral = document.getElementById("diaLaboral").value;
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('DIVcalendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        headerToolbar: {
+            left: 'today',
+            //center: 'title',
+            right: 'prev,next'
+        },
+        footerToolbar: {
+            //left: 'prev,next today',
+            center: 'title',
+            //right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: [],
+        dateClick: function(info) {
+            // Cambiar el color de fondo de la celda seleccionada
+            info.dayEl.style.backgroundColor = 'lightblue';
 
-      // Dividir el string en un arreglo y normalizar los elementos
-      const dataArray = diaLaboral.split(",").map(item => item.trim());
+            let id_especialidad_cita = document.getElementById("especialidad").value;
+            let id_doctor_cita = document.getElementById("doctor").value;
+            const diaLaboral = document.getElementById("diaLaboral").value;
 
-      console.log(diaLaboral);
+            const dataArray = diaLaboral.split(",").map(item => item.trim());
+            const diaMap = {
+                'lunes': 1,
+                'martes': 2,
+                'miercoles': 3,
+                'jueves': 4,
+                'viernes': 5,
+                'sabado': 6,
+                'domingo': 0
+            };
 
-      // Objeto de mapeo para los días de la semana
-      const diaMap = {
-          'lunes': 1,
-          'martes': 2,
-          'miercoles': 3,
-          'jueves': 4,
-          'viernes': 5,
-          'sabado': 6,
-          'domingo': 0
-      };
+            const diasLaboralesNumeros = dataArray.map(item => diaMap[item.toLowerCase()] !== undefined ? diaMap[item.toLowerCase()] : null).filter(item => item !== null);
+            var nuevaFecha = info.dateStr; // Fecha seleccionada
+            var hoy = moment().format('YYYY-MM-DD');
+            var f = info.date.getDay(); // Obtener el día de la semana
 
-      // Usar forEach para recorrer el arreglo y asignar los valores correspondientes
-      dataArray.forEach((item, index) => {
-          // Asignar el valor correspondiente usando el objeto de mapeo
-          dataArray[index] = diaMap[item.toLowerCase()] !== undefined ? diaMap[item.toLowerCase()] : 0; // Asigna 0 si no se encuentra el día
-      });
-
-      // Mostrar el resultado
-      //console.log('Días Laborales:', dataArray); // Muestra el arreglo en la consola
-      //alert("Días Laborales: " + dataArray.join(", ")); // Muestra el arreglo en un alert
-
-      if (id_especialidad_cita && id_doctor_cita) {
-        //alert(id_especialidad_cita + ' ' + id_doctor_cita);
-        var nuevaFecha = moment(info).format('YYYY-MM-DD');
-        var hoy = moment(info.start).format('YYYY-MM-DD');
-        var f = moment(info).day();
-
-        dataArray.forEach((value, index) => {
-          if (value != f) {
-              console.log(`El día ${value} en la posición ${index} no labora este doctor/a.`);
-              Swal.fire({
-                  icon: "error",
-                  confirmButtonColor: "#3085d6",
-                  title: 'Error',
-                  text: 'Estos dias no labora este doctor/a.',
-                });
-          } else {
-              //console.log(`El día en la posición ${index} es válido y tiene el valor: ${value}`);
-              if (nuevaFecha < hoy) {
+            if (id_especialidad_cita && id_doctor_cita) {
+                if (!diasLaboralesNumeros.includes(f)) {zz
+                    Swal.fire({
+                        icon: "error",
+                        confirmButtonColor: "#3085d6",
+                        title: 'Error',
+                        text: 'Este doctor/a no labora en este día.',
+                    });
+                } else if (nuevaFecha < hoy) {
+                    Swal.fire({
+                        icon: "warning",
+                        confirmButtonColor: "#3085d6",
+                        title: 'Cuidado',
+                        text: 'No es posible asignar una cita para esta fecha.',
+                    });
+                } else if (f === 0 || f === 6) {
+                    Swal.fire({
+                        icon: "error",
+                        confirmButtonColor: "#3085d6",
+                        title: 'Error',
+                        text: 'Estos días no son laborables.',
+                    });
+                } else {
+                    $.ajax({
+                        url: "index.php?page=consultarEspeDoct",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            especialidad: id_especialidad_cita,
+                            doctor: id_doctor_cita,
+                        },
+                    })
+                    .done(function(response) {
+                        if (response.data.success) {
+                            $('#fecha_cita').val(nuevaFecha);
+                            $("#txt-especialidad").val(response.data.nombre_especialidad);
+                            $("#txt-doctor").val(response.data.nombre_doctor);
+                            $("#modalAgregarCitas").modal('show');
+                        }
+                    })
+                    .fail (function(e) {
+                        console.log(e);
+                    });
+                }
+            } else {
                 Swal.fire({
-                  icon: "warning",
-                  confirmButtonColor: "#3085d6",
-                  title: 'Cuidado',
-                  text: 'No es posible asignar una cita para esta fecha.',
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    title: 'Oops',
+                    text: 'Debe seleccionar una especialidad y un doctor.',
                 });
-              }else if(nuevaFecha == hoy){
-                Swal.fire({
-                  icon: "warning",
-                  confirmButtonColor: "#3085d6",
-                  title: 'Cuidado',
-                  text: 'Para el dia de hoy no es posible asignar una cita.',
-                });
-              }else if(f === 0 || f === 6){
-                Swal.fire({
-                  icon: "error",
-                  confirmButtonColor: "#3085d6",
-                  title: 'Error',
-                  text: 'Estos dias no son laborables.',
-                });
-              }else{
-                $.ajax({
-                  url: "index.php?page=consultarEspeDoct",
-                  type: "post",
-                  dataType: "json",
-                  data: {
-                    especialidad: id_especialidad_cita,
-                    doctor: id_doctor_cita,
-                  },
-                })
-                .done(function (response) {
-                   console.log(response);
-                     if (response.data.success == true) {
-                      $('#fecha_cita').val(nuevaFecha);
-                      $("#txt-especialidad").val(response.data.nombre_especialidad);
-                      $("#txt-doctor").val(response.data.nombre_doctor);
-                      $("#modalAgregarCitas").modal('show');
-                     }
-                  })
-                .fail(function (e) {
-                  console.log(e);
-                });
-              } 
-          }
-        });       
-      }else{
-        Swal.fire({
-          icon: "warning",
-          confirmButtonColor: "#3085d6",
-          title: 'Oops',
-          text: 'Debe seleccionar una especialidad y un doctor.',
-        });
-      }
-    },
-    //cabecera
-    header:{
-      left: 'month',
-      center: '',
-      rigth:'prev, today, next'
-    },
-    //propiedades de botones
-    buttonText:{
-      today: 'hoy',
-      month: 'mes',
-      week: 'semana',
-      day: 'dia'
+            }
+        },
+        dayCellDidMount: function(info) {
+            var diaLaboral = document.getElementById("diaLaboral").value;
+            const dataArray = diaLaboral.split(",").map(item => item.trim());
+            const diaMap = {
+                'lunes': 1,
+                'martes': 2,
+                'miercoles': 3,
+                'jueves': 4,
+                'viernes': 5,
+                'sabado': 6,
+                'domingo': 0
+            };
 
-    },
-    //pie de calendario
-    footer:{
-      center: 'title'
-    },
-    events: [],
-    //color de fondo celda
-    /*dayRender: function(date, cell){
-      var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
-      const diaLaboral = document.getElementById("diaLaboral").value;
-      
-      if(nuevaFecha == '19-11-2024'){
-        cell.css('background', 'red');
-      }
-    }*/
-    dayRender: function(date, cell) {
-        var nuevaFecha = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
-        var diaLaboral = document.getElementById("diaLaboral").value;
-        const dataArray = diaLaboral.split(",").map(item => item.trim());
-        const diaMap = {
-            'lunes': 1,
-            'martes': 2,
-            'miercoles': 3,
-            'jueves': 4,
-            'viernes': 5,
-            'sabado': 6,
-            'domingo': 0
-        };
+            const diasLaboralesNumeros = dataArray.map(item => diaMap[item.toLowerCase()] !== undefined ? diaMap[item.toLowerCase()] : null).filter(item => item !== null);
+            var f = info.date.getDay(); // Obtener el día de la semana del objeto date
 
-        // Convertir los días laborales a números
-        const diasLaboralesNumeros = dataArray.map(item => diaMap[item.toLowerCase()] !== undefined ? diaMap[item.toLowerCase()] : null).filter(item => item !== null);
-        var f = date.day(); // Obtener el día de la semana del objeto date
-
-        // Cambiar el color de fondo si el día es laboral
-        if (diasLaboralesNumeros.includes(f)) {
-            cell.css('background', 'yellow'); // Cambiar a un color que desees
+            // Cambiar el color de fondo si el día es laboral
+            if (diasLaboralesNumeros.includes(f)) {
+                info.el.style.backgroundColor = 'yellow'; // Cambiar a un color que desees
+            }
         }
+    });
 
-        // Llamar a la función para recargar los eventos en otro lugar, por ejemplo, al cambiar el mes
-        $('#DIVcalendar').fullCalendar('refetchEvents');
-    }
-   });
+    calendar.render();
 });
 
-setInterval(function() {
+/*setInterval(function() {
     $('#DIVcalendar').fullCalendar('render'); // Forzar el renderizado del calendario
-}, 1000);
+}, 1000);*/
 
 /*function loadEvents(events) {
   console.log('loadEvents:', + events);
@@ -188,28 +141,30 @@ setInterval(function() {
 
 
 function loadEvents(events) {
-    if (events) {
-        // Transformar los eventos para que contengan solo el título
-        const transformedEvents = events.map(event => {
-            return {
-                title: event.conteo, // Asegúrate de que 'conteo' sea la propiedad correcta
-                start: event.start,   // Asegúrate de que 'start' sea una fecha válida
-                end: event.end,       // Asegúrate de que 'end' sea una fecha válida
-                color: '#f1231a',     // Color del evento
-                textColor: '#ffffff'  // Cambia 'with' a un color válido
-            };
-        });
+      if (events) {
+          // Transformar los eventos para que contengan solo el título
+          const transformedEvents = events.map(event => {
+              return {
+                  title: event.conteo, // Asegúrate de que 'conteo' sea la propiedad correcta
+                  start: event.start,   // Asegúrate de que 'start' sea una fecha válida
+                  end: event.end,       // Asegúrate de que 'end' sea una fecha válida
+                  color: '#f1231a',     // Color del evento
+                  textColor: '#ffffff'  // Cambia 'with' a un color válido
+              };
+          });
 
-        console.log('Veamos si llega: ', transformedEvents);
-        console.log('Ya pasamos al if', events);
+          console.log('Veamos si llega: ', transformedEvents);
 
-        $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
-        $('#DIVcalendar').fullCalendar('addEventSource', transformedEvents); // Agregar nuevos eventos
-        $('#DIVcalendar').fullCalendar('renderEvents'); // No es necesario en la mayoría de las versiones
-    } else {
-        console.warn('No se proporcionaron eventos.');
-    }
-}
+          // Primero, eliminamos todos los eventos existentes
+          calendar.removeAllEvents(); // Eliminar eventos existentes
+
+          // Luego, agregamos los nuevos eventos
+          calendar.addEventSource(transformedEvents); // Agregar nuevos eventos
+          calendar.render();
+      } else {
+          console.warn('No se proporcionaron eventos.');
+      }
+  }
 
 /* -------------- mostrar asignacion Cita -------------------------- */
 
@@ -283,6 +238,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
           .done(function (response) {
             if (response.data.success == true) {
               document.getElementById("formRegistrarCita").reset();
+              document.getElementById("formCalendarCita").reset();
 
               $("#modalAgregarCitas").val("");
               $("#n_documento_persona").val("");
@@ -296,7 +252,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
               });
 
               $("#tabla_citas").DataTable().ajax.reload();
-              document.getElementById("formCalendarCita").reset();
+              //document.getElementById("formCalendarCita").reset();
             } else {
               Swal.fire({
                 icon: "danger",
@@ -396,7 +352,7 @@ $(document).ready(function () {
         },
       })
       .done(function (response) {
-        //console.log('id doctor: ', response);
+        //console.log('horario: ', response);
 
        if (Array.isArray(response.data.events)) {
             let diasLaborales = [];
@@ -413,7 +369,9 @@ $(document).ready(function () {
                         diasLaborales.push(event.dia); // Agrega el valor al arreglo
                     }
                     document.getElementById("diaLaboral").value = diasLaborales.join(", ");
+                    //console.log('dias laborales por dentro: ', diasLaborales);
                 });
+                //console.log('dias laborales por fuera: ', response.data.events);
                 loadEvents(response.data.citas);
             } else {
                 console.log("El arreglo de eventos está vacío.");
@@ -4892,7 +4850,6 @@ function VerDatosPersona(id) {
     });
 }
 
-/* -------------- Consultar Persona ------------------ */
 
 /* --------------  Consultar Persona ------------------ */
 
@@ -4928,6 +4885,7 @@ function consultarPersona() {
     },
   })
     .done(function (response) {
+      //console.log(response);
       if (response.data.success == true) {
         document.getElementById("n_documento").innerHTML =
           response.data.n_documento_persona;
@@ -4947,7 +4905,7 @@ function consultarPersona() {
           confirmButtonColor: "#0d6efd",
           text: response.data.info,
         });
-      } else {
+      } else if (response.data.success == false) {
         contenedor_datos_persona.setAttribute("style", "display: none;");
           // Eliminar el valor del campo ID
           document.getElementById("ID").setAttribute("value", "");
@@ -4966,6 +4924,103 @@ function consultarPersona() {
   }
   
 }
+
+/* --------------  Consultar Persona / Modulo consultas ------------------ */
+
+let consultar_persona_c;
+
+
+if(consultar_persona_c = document.getElementById("consultar_persona_c")){
+
+consultar_persona_c.addEventListener("click", consultarPersonaC, false);
+
+function consultarPersonaC() {
+ let n_documento_persona = document.getElementById(
+   "n_documento_persona"
+ ).value;
+
+ //console.log(n_documento_persona);
+
+ let contenedor_formulario_persona = document.getElementById(
+   "Contenedor_formulario_persona"
+ );
+ let contenedor_datos_persona = document.getElementById(
+   "contenedor_datos_persona"
+ );
+ let contenedor_buscar_persona = document.getElementById(
+   "contenedor_buscar_persona"
+ );
+ let id_persona = document.getElementById("id_persona");
+
+ let contenedor_cita = document.getElementById("contenedor_cita");
+
+ $.ajax({
+   url: "index.php?page=consultarPersonaC",
+   type: "post",
+   dataType: "json",
+   data: {
+     n_documento_persona: n_documento_persona,
+   },
+ })
+   .done(function (response) {
+     if (response.data.success == true) {
+       //Datos del paciente
+       document.getElementById("n_documento").innerHTML =
+         response.data.n_documento_persona;
+       document.getElementById("nombres_apellidos_persona").innerHTML =
+         response.data.nombres_persona;
+       document.getElementById("sexo_persona").innerHTML =
+         response.data.sexo_persona;
+       document.getElementById("tlf_persona").innerHTML =
+         response.data.tlf_persona;
+       document.getElementById("direccion_persona").innerHTML = response.data.direccion;
+       document.getElementById("ID").setAttribute("value", response.data.id_persona);
+       document.getElementById("edad").innerHTML = response.data.edad
+       contenedor_datos_persona.removeAttribute("style");
+
+       //Datos de la cita agendada
+
+
+
+       if(response.data.estatus  == 1) {
+
+         document.getElementById("especialidad_cita").innerHTML = response.data.especialidad;
+         document.getElementById("especialista_cita").innerHTML =  response.data.especialista;
+         document.getElementById("observacion_cita").innerHTML =  response.data.observacion;
+         document.getElementById("fecha_cita").innerHTML =  `<span class="badge bg-success"> <i class="bi bi-calendar"></i> ${response.data.fecha} </span>`;
+         document.getElementById("estatus_cita").innerHTML = `<span class="badge bg-danger">Pendiente</span>`;
+         document.getElementById("id_cita_agendada").setAttribute("value", response.data.id_cita);
+        
+         contenedor_cita.removeAttribute("style");
+
+       }
+
+       Swal.fire({
+         icon: "success",
+         title: response.data.message,
+         confirmButtonColor: "#0d6efd",
+         text: response.data.info,
+       });
+     } else {
+       contenedor_datos_persona.setAttribute("style", "display: none;");
+         // Eliminar el valor del campo ID
+         document.getElementById("ID").setAttribute("value", "");
+
+       Swal.fire({
+         icon: "warning",
+         confirmButtonColor: "#3085d6",
+         title: response.data.message,
+         text: response.data.info,
+       });
+     }
+   })
+   .fail(function (error) {
+     console.log(error);
+   });
+ }
+ 
+}
+
 
 
 /* -------------- Consultar Persona ------------------ */
@@ -5070,206 +5125,208 @@ if (presionArterialInput) {
 
 
 if (document.getElementById("agregar_consulta")) {document
-    .getElementById("agregar_consulta")
-    .addEventListener("click", agregarConsulta, false);
+  .getElementById("agregar_consulta")
+  .addEventListener("click", agregarConsulta, false);
 
-  function agregarConsulta() {
-    // Datos de la consulta
-    let id_persona           = document.getElementById("ID").value;
-    let persona              = document.getElementById("nombres_apellidos_persona");
-    let nombre_persona       = persona.textContent;
-    let edad                 = document.getElementById("edad").value;
-    let tipo_consulta        = document.getElementById("tipo_consulta").value;
-    let opcion_consulta      = document.getElementById("tipo_consulta");
-    let consulta             = opcion_consulta.options[opcion_consulta.selectedIndex].text;
-    let diagnostico          = document.getElementById("diagnostico").value;
-    let peso                 = document.getElementById("peso").value;
-    let altura               = document.getElementById("altura").value;
-    let presion_arterial     = document.getElementById("presion_arterial").value;
-    let especialidad         = document.getElementById("especialidad_consulta").value;
+function agregarConsulta() {
+  // Datos de la consulta
+  let id_persona           = document.getElementById("ID").value;
+  let persona              = document.getElementById("nombres_apellidos_persona");
+  let nombre_persona       = persona.textContent;
+  let edad                 = document.getElementById("edad").value;
+  let tipo_consulta        = document.getElementById("tipo_consulta").value;
+  let opcion_consulta      = document.getElementById("tipo_consulta");
+  let consulta             = opcion_consulta.options[opcion_consulta.selectedIndex].text;
+  let diagnostico          = document.getElementById("diagnostico").value;
+  let peso                 = document.getElementById("peso").value;
+  let altura               = document.getElementById("altura").value;
+  let presion_arterial     = document.getElementById("presion_arterial").value;
 
-    
-    
-   
-    
-    if(id_persona == ""){
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Atención',
-        confirmButtonColor: '#0d6efd',
-        text: 'Debe seleccionar un paciente'
-    });
-
-    return false;
-    }
-    
-    
-    
-    const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
-    if(peso == ""){
-      
-
+  let id_cita_agendada     = document.getElementById("id_cita_agendada").value
+  let id_especialidad      = document.getElementById("id_especialidad_consulta").value;
+  let id_especialista      = document.getElementById("id_especialista_consulta").value;
   
-     } else if(!pesoRegex.test(peso)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Peso inválido',
-        text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
-      });
-      return false;
-
-     }
-    
-    
-    const presionRegex = /^\d{2,3}\/\d{2,3}$/;
-    if(presion_arterial == ""){
-      
-
-  
-     } else if(!presionRegex.test(presion_arterial)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Presión Arterial inválida',
-        text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
-      });
-      return false;
-
-     }
-
-
-     const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;
-    if(altura == ""){
-      
-
-  
-     } else if(!alturaRegex.test(altura)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Altura inválida',
-        text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
-      });
-      return false;
-
-     }
-
-
-  
-
-
-
-   if(id_persona == "" || especialidad == "" || tipo_consulta == "" || diagnostico == ""){
+  if(id_persona == ""){
 
     Swal.fire({
       icon: 'error',
-      title: 'Todos los campos son obligatorios',
-      text: 'Por favor, llene todos los campos.'
-    });
+      title: 'Atención',
+      confirmButtonColor: '#0d6efd',
+      text: 'Debe seleccionar un paciente'
+  });
 
+  return false;
+  }
+  
+  
+  
+  const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
+  if(peso == ""){
+    
+
+
+   } else if(!pesoRegex.test(peso)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Peso inválido',
+      text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
+    });
+    return false;
+
+   }
+  
+  
+  const presionRegex = /^\d{2,3}\/\d{2,3}$/;
+  if(presion_arterial == ""){
+    
+
+
+   } else if(!presionRegex.test(presion_arterial)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Presión Arterial inválida',
+      text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
+    });
     return false;
 
    }
 
-   
 
-
+   const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;
+  if(altura == ""){
     
 
-    // Datos del recipe
-    let instrucciones = document.getElementById("instrucciones").value;
 
-    const tablaMedicamentos = document.getElementById('multiples_medicamentos');
-    var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
+   } else if(!alturaRegex.test(altura)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Altura inválida',
+      text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
+    });
+    return false;
 
-    const listaMedicamentos = datosMedicamentos.map(medicamento => {
-      // Asegúrate de que `medicamento` sea un array
-      return `<li>${medicamento.join(' ')}</li>`;
-    }).join('');
+   }
+
+
+
+
+
+
+ if(id_persona == ""  || tipo_consulta == "" || diagnostico == ""){
+
+  Swal.fire({
+    icon: 'error',
+    title: 'Todos los campos son obligatorios',
+    text: 'Por favor, llene todos los campos.'
+  });
+
+  return false;
+
+ }
+
+ 
+
+
+  
+
+  // Datos del recipe
+  let instrucciones = document.getElementById("instrucciones").value;
+
+  const tablaMedicamentos = document.getElementById('multiples_medicamentos');
+  var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
+
+  const listaMedicamentos = datosMedicamentos.map(medicamento => {
+    // Asegúrate de que `medicamento` sea un array
+    return `<li>${medicamento.join(' ')}</li>`;
+  }).join('');
 const confirmMessage = `
 <ul style="text-align: left;">
-  <li><strong>Persona:</strong> ${nombre_persona}</li>
-  <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
-  <li><strong>Peso:</strong> ${peso}</li>
-  <li><strong>Altura:</strong> ${altura}</li>
-  <li><strong>Presión arterial:</strong> ${presion_arterial}</li>
-  <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
+<li><strong>Persona:</strong> ${nombre_persona}</li>
+<li><strong>Tipo de Consulta:</strong> ${consulta}</li>
+<li><strong>Peso:</strong> ${peso}</li>
+<li><strong>Altura:</strong> ${altura}</li>
+<li><strong>Presión arterial:</strong> ${presion_arterial}</li>
+<li><strong>Diagnóstico:</strong> ${diagnostico}</li>
 </ul>
 
 <p><strong>Medicamentos recetados:</strong></p>
-  <ul style="text-align: left;">
-    ${listaMedicamentos}
-  </ul>
+<ul style="text-align: left;">
+  ${listaMedicamentos}
+</ul>
 
 <p><strong>Instrucciones adicionales:</strong></p>
 <ul>
-  <li>${instrucciones}</li>
+<li>${instrucciones}</li>
 </ul>
 `;
 
-  
 
+
+
+  Swal.fire({
+    title: "Estas seguro de guardar los datos?",
+    html: confirmMessage, // Use HTML for better formatting
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, confirmar!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "index.php?page=registrarConsulta",
+        type: "post",
+        dataType: "json",
+        data: {
+          id_persona: id_persona,
+          edad: edad,
+          tipo_consulta: tipo_consulta,
+          diagnostico: diagnostico,
+          peso: peso,
+          altura: altura,
+          presion_arterial: presion_arterial,
+          instrucciones:instrucciones,
+          id_cita_agendada: id_cita_agendada,
+          id_especialidad: id_especialidad,
+          id_especialista: id_especialista
+        },
+      })
+        .done(function (response) {
+          if (response.data.success == true) {
+            document.getElementById("formRegistrarConsultas").reset();
+            let contenedor = document.getElementById("contenedor_datos_medicamentos");
+            contenedor.setAttribute("style", "display: none;");
   
-    Swal.fire({
-      title: "Estas seguro de guardar los datos?",
-      html: confirmMessage, // Use HTML for better formatting
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, confirmar!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: "index.php?page=registrarConsulta",
-          type: "post",
-          dataType: "json",
-          data: {
-            id_persona: id_persona,
-            edad: edad,
-            tipo_consulta: tipo_consulta,
-            diagnostico: diagnostico,
-            peso: peso,
-            altura: altura,
-            presion_arterial: presion_arterial,
-            instrucciones:instrucciones,
-            especialidad: especialidad
-          },
+            $("#modalAgregarConsulta").modal("hide");
+  
+            Swal.fire({
+              icon: "success",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+            
+  
+            $("#tbl_consultas").DataTable().ajax.reload();
+          } else {
+            Swal.fire({
+              icon: "error",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+          }
         })
-          .done(function (response) {
-            if (response.data.success == true) {
-              document.getElementById("formRegistrarConsultas").reset();
-              let contenedor = document.getElementById("contenedor_datos_medicamentos");
-              contenedor.setAttribute("style", "display: none;");
-    
-              $("#modalAgregarConsulta").modal("hide");
-    
-              Swal.fire({
-                icon: "success",
-                confirmButtonColor: "#3085d6",
-                title: response.data.message,
-                text: response.data.info,
-              });
-              
-    
-              $("#tbl_consultas").DataTable().ajax.reload();
-            } else {
-              Swal.fire({
-                icon: "error",
-                confirmButtonColor: "#3085d6",
-                title: response.data.message,
-                text: response.data.info,
-              });
-            }
-          })
-          .fail(function () {
-            console.log("error");
-          });
-      }
-    });
+        .fail(function () {
+          console.log("error");
+        });
+    }
+  });
 
-    
-  }
+  
 }
+}
+
 
 const frecuenciaInput = document.getElementById('frecuencia');
 
