@@ -70,29 +70,6 @@ class dashboardController
                 echo json_encode($data);
         }
 
-        public function filtro()
-        {
-
-                $modelDashboard = new dashboardModel();
-
-                // Asegúrate de recibir el contenido JSON del cuerpo de la solicitud
-                $data = json_decode(file_get_contents('php://input'), true);
-
-                if ($data) {
-
-                        $fechaDesde = $data[0];
-                        $fechaHasta = $data[1];
-                        $id_tipo_consulta = intval($data[2]);
-
-                        $data = $modelDashboard->fechaDesdeHastaTipoConsulta($fechaDesde, $fechaHasta, $id_tipo_consulta);
-
-                        echo json_encode($data);
-
-                } else {
-                        echo json_encode(['error' => 'No se recibieron datos']);
-                }
-        }
-
         public function todosTiposConsulta()
         {
                 $modelDashboard = new dashboardModel();
@@ -100,5 +77,56 @@ class dashboardController
                 $data = $modelDashboard->todosTiposconsulta();
 
                 echo json_encode($data);
+        }
+
+        public function filtrarDashboard($fechaDesde, $fechaHasta)
+        {
+                $modelDashboard = new dashboardModel();
+                //Total citas (General)
+                $data_total_citas = $modelDashboard->numeroCitasFechaDesdeHasta($fechaDesde, $fechaHasta);
+                //Total número de consultas
+                $data_total_numero_consultas = $modelDashboard->numeroConsultasFechaDesdeHasta($fechaDesde, $fechaHasta);
+                //total pacientes atendidos
+                $data_total_pacientes_atendidos = $modelDashboard->pacientesAtendidosFechaDesdeHasta($fechaDesde, $fechaHasta);
+                //total atendidos
+                $data_total_atendidos = $modelDashboard->pacientesAtendidosGeneralFechaDesdeHasta($fechaDesde, $fechaHasta);
+
+                //data total consultas por especialidad
+                $total_consultas_especialidad = $modelDashboard->graficaFechaDesdeHasta($fechaDesde, $fechaHasta);
+
+                //total pacientes por genero y rango de fecha
+                $tota_pacientes_sexo = $modelDashboard->sexoFechaDesdeHasa($fechaDesde, $fechaHasta);
+
+                //total_pacientes por edad y rango de fechas
+                $total_pacientes_edad = $modelDashboard->edadFechaDesdehasta($fechaDesde, $fechaHasta);
+
+
+                foreach ($data_total_citas as $data_total_citas) {
+                        $total_citas = $data_total_citas["numeroCitas"];
+                }
+
+                foreach ($data_total_numero_consultas as $data_total_numero_consultas) {
+                        $total_numero_consultas = $data_total_numero_consultas["numeroConsultas"];
+                }
+
+                foreach ($data_total_pacientes_atendidos as $data_total_pacientes_atendidos) {
+                        $total_pacientes_atendidos = $data_total_pacientes_atendidos["numeroPacientesAt"];
+                }
+
+                foreach ($data_total_atendidos as $data_total_atendidos) {
+                        $total_atendidos = $data_total_atendidos["total_general"];
+                }
+
+                $datos = array(
+                        'total_citas'                   => $total_citas,
+                        'total_numero_consultas'        => $total_numero_consultas,
+                        'total_pacientes_atendidos'     => $total_pacientes_atendidos,
+                        'total_atendidos'               => $total_atendidos,
+                        'total_consultas_especialidad'  => json_encode($total_consultas_especialidad),
+                        'tota_pacientes_sexo'           => json_encode($tota_pacientes_sexo),
+                        'total_pacientes_edad'          => json_encode($total_pacientes_edad),
+                );
+
+                return $datos;
         }
 }

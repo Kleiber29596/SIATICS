@@ -14,16 +14,44 @@ class dashboardModel extends ModeloBase
     public function numeroCitas()
     {
         $db = new ModeloBase();
-        $query = "SELECT count(*) as numeroCitas from citas;";
+        // $query = "SELECT count(*) as numeroCitas from citas;";
+        $query = "SELECT COUNT(*) AS numeroCitas
+        FROM citas
+        WHERE fecha_cita = CURDATE();";
         $resultado = $db->obtenerTodos($query);
         return $resultado;
     }
 
-    /*------------Metodo para contar consultas-------*/
+    /*------------Metodo para contar citas a traves de un rango de fechas -------*/
+    public function numeroCitasFechaDesdeHasta($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT COUNT(*) AS numeroCitas
+                  FROM citas
+                  WHERE fecha_cita BETWEEN '$fechaDesde' AND '$fechaHasta';";
+        $resultado = $db->obtenerTodos($query);
+        return $resultado;
+    }
+
+    /*------------Metodo para contar el número de consultas-------*/
     public function numeroConsultas()
     {
         $db = new ModeloBase();
-        $query = "SELECT count(*) as numeroConsultas from consultas;";
+        // $query = "SELECT count(*) as numeroConsultas from consultas;";
+        $query = "SELECT count(*) as numeroConsultas from consultas WHERE fecha_registro = CURDATE();";
+
+        $resultado = $db->obtenerTodos($query);
+        return $resultado;
+    }
+
+    /*------------Metodo para contar el número de consultas a traves de un rango de fechas -------*/
+    public function numeroConsultasFechaDesdeHasta($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+
+        $query = "SELECT COUNT(*) AS numeroConsultas
+                  FROM consultas
+                  WHERE fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta';";
         $resultado = $db->obtenerTodos($query);
         return $resultado;
     }
@@ -32,7 +60,20 @@ class dashboardModel extends ModeloBase
     public function pacientesAtendidos()
     {
         $db = new ModeloBase();
-        $query = "SELECT count(*) as numeroPacientesAt from citas where estatus=0;";
+        // $query = "SELECT count(*) as numeroPacientesAt from citas where estatus=0;";
+        $query = "SELECT count(*) as numeroPacientesAt from citas where estatus=0 AND fecha_registro = CURDATE();";
+        $resultado = $db->obtenerTodos($query);
+        return $resultado;
+    }
+
+    /*------------Metodo para contar pacientes atendidos a traves de un rango de fechas -------*/
+    public function pacientesAtendidosFechaDesdeHasta($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT COUNT(*) AS numeroPacientesAt
+                    FROM citas
+                    WHERE estatus = 0
+                    AND fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta';";
         $resultado = $db->obtenerTodos($query);
         return $resultado;
     }
@@ -41,11 +82,30 @@ class dashboardModel extends ModeloBase
     public function pacientesAtendidosGeneral()
     {
         $db = new ModeloBase();
+        //     $query = "SELECT 
+        // (SELECT COUNT(*) FROM citas WHERE estatus = 0) AS total_citas_estatus_0,
+        // (SELECT COUNT(*) FROM consultas) AS total_consultas,
+        // (SELECT COUNT(*) FROM citas WHERE estatus = 0) + (SELECT COUNT(*) FROM consultas) AS total_general
+        // FROM dual;";
         $query = "SELECT 
-    (SELECT COUNT(*) FROM citas WHERE estatus = 0) AS total_citas_estatus_0,
-    (SELECT COUNT(*) FROM consultas) AS total_consultas,
-    (SELECT COUNT(*) FROM citas WHERE estatus = 0) + (SELECT COUNT(*) FROM consultas) AS total_general
-    FROM dual;";
+        (SELECT COUNT(*) FROM citas WHERE estatus = 0 AND fecha_registro = CURDATE()) AS total_citas_estatus_0,
+        (SELECT COUNT(*) FROM consultas WHERE fecha_registro = CURDATE()) AS total_consultas,
+        (SELECT COUNT(*) FROM citas WHERE estatus = 0 AND fecha_registro = CURDATE()) + (SELECT COUNT(*) FROM consultas WHERE fecha_registro = CURDATE()) AS total_general
+        FROM dual;";
+        $resultado = $db->obtenerTodos($query);
+        return $resultado;
+    }
+
+    /*------------Metodo pacientes atendidos a traves de un rango de fechas-------*/
+    public function pacientesAtendidosGeneralFechaDesdeHasta($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT 
+                (SELECT COUNT(*) FROM citas WHERE estatus = 0 AND fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta') AS total_citas_estatus_0,
+                (SELECT COUNT(*) FROM consultas WHERE fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta') AS total_consultas,
+                (SELECT COUNT(*) FROM citas WHERE estatus = 0 AND fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta') + 
+                (SELECT COUNT(*) FROM consultas WHERE fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta') AS total_general
+                FROM dual;";
         $resultado = $db->obtenerTodos($query);
         return $resultado;
     }
@@ -62,6 +122,26 @@ class dashboardModel extends ModeloBase
         $resultado = $db->FectAll($query);
         return $resultado;
     }
+
+    /*------------Metodo para graficas a traves de un rango de fechas--------*/
+
+    public function graficaFechaDesdeHasta($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT especialidad.nombre_especialidad, 
+                    COUNT(*) AS total_consulta_especialidad
+                    FROM 
+                        consultas
+                    JOIN 
+                        especialidad ON consultas.id_especialidad = especialidad.id_especialidad
+                    WHERE 
+                        consultas.fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta'
+                    GROUP BY 
+                        especialidad.nombre_especialidad;";
+        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+
     public function sexo()
     {
         $db = new ModeloBase();
@@ -71,6 +151,26 @@ class dashboardModel extends ModeloBase
         $resultado = $db->FectAll($query);
         return $resultado;
     }
+
+    //Metodo que permite filtrar el número de pacientes que asisten a consultas por sexo (M, F) y por rango de fecha
+    public function sexoFechaDesdeHasa($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT 
+                    p.sexo, 
+                    COUNT(*) AS total_pacientes
+                FROM 
+                    consultas c
+                JOIN 
+                    personas p ON c.id_persona = p.id_persona
+                WHERE 
+                    c.fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta'  -- Ajusta las fechas según sea necesario
+                GROUP BY 
+                    p.sexo;";
+                        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+
     public function edad()
     {
         $db = new ModeloBase();
@@ -93,6 +193,29 @@ class dashboardModel extends ModeloBase
         return $resultado;
     }
 
+    public function edadFechaDesdehasta($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT 
+                    CASE 
+                        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) <= 12 THEN 'Niño'
+                        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 13 AND 17 THEN 'Adolescente'
+                        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 18 AND 54 THEN 'Adulto'
+                        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) >= 55 THEN 'Adulto Mayor'
+                    END AS categoria,
+                    COUNT(*) AS cantidad
+                FROM 
+                    consultas c
+                JOIN 
+                    personas p ON c.id_persona = p.id_persona
+                WHERE 
+                    c.fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta'  -- Ajusta las fechas según sea necesario
+                GROUP BY 
+                    categoria";
+        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+
     public function fechaDesdeHastaTipoConsulta($fechaDesde, $fechaHasta)
     {
 
@@ -105,7 +228,7 @@ class dashboardModel extends ModeloBase
                 ";
 
         $resultado = $db->FectAll($query);
-        
+
         return json_encode($resultado);
     }
 
@@ -120,7 +243,7 @@ class dashboardModel extends ModeloBase
                 ";
 
         $resultado = $db->FectAll($query);
-        
+
         return $resultado;
     }
 }
