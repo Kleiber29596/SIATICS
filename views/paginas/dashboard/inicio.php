@@ -14,6 +14,7 @@ $tipos_consultas = $modelConsultas->SelectTipos();
 //Permite filtrar datos para un grafica a traves de fecha inicio y fecha fin
 if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
     $datos_filtro_dashboard = $controllerDashboard->filtrarDashboard($_GET['fechaDesdeDash'], $_GET['fechaHastaDash']);
+
 }
 
 //Permite filtrar datos para un grafica a traves de fecha inicio y fecha fin
@@ -565,8 +566,8 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
 
                                                     // Add and configure Series
                                                     var pieSeries = chart.series.push(new am4charts.PieSeries());
-                                                    pieSeries.dataFields.value = "total_pacientes";
-                                                    pieSeries.dataFields.category = "sexo";
+                                                    pieSeries.dataFields.value = "cantidad";
+                                                    pieSeries.dataFields.category = "categoria";
 
                                                     // This creates initial animation
                                                     pieSeries.hiddenState.properties.opacity = 1;
