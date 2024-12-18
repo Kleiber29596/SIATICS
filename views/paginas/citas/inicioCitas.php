@@ -11,14 +11,13 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
 <style type="text/css">
 .selected-date {
-    background-color: #ffcc00; /* Cambia el color según tus preferencias */
+    background-color: #ffcc00;
+    /* Cambia el color según tus preferencias */
 }
-
-
 </style>
 
 <div class="pagetitle">
-    <h1>Citas</h1>
+    <h1>Citas  <i class="bi bi-calendar"></i></h1>
 </div><!-- End Page Title -->
 
 <section class="section">
@@ -64,7 +63,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     <?php
                                     foreach ($especialidades  as  $especialidad) {
                                     ?>
-                                        <option value="<?= $especialidad['id_especialidad'] ?>"><?= $especialidad['nombre_especialidad'] ?></option>
+                                    <option value="<?= $especialidad['id_especialidad'] ?>">
+                                        <?= $especialidad['nombre_especialidad'] ?></option>
                                     <?php
                                     }
                                     ?>
@@ -94,11 +94,13 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
 
 <!-- Modal Agregar Cita-->
-<div class="modal fade" id="modalAgregarCitas" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modalAgregarCitasLabel" aria-hidden="true">
+<div class="modal fade" id="modalAgregarCitas" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="modalAgregarCitasLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalAgregarCitasLabel">Agregar Cita <i class=" fa fa-solid fa-clipboard-check"> </i></h5>
+                <h5 class="modal-title" id="modalAgregarCitasLabel">Agregar Cita <i class="bi bi-calendar"></i></span>
+                </h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -109,13 +111,15 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         <div class="col-sm-11">
                             <div class="form-group">
                                 <label for="n_documento">Número de documento</label>
-                                <input class="form-control" type="text" id="n_documento_persona" placeholder="Ingrese el número de documento del paciente" required>
+                                <input class="form-control" type="text" id="n_documento_persona"
+                                    placeholder="Ingrese el número de documento del paciente" required>
                                 <input type="hidden" id="id_persona" value="">
                             </div>
                         </div>
                         <div class="col-sm-1" style="display: flex;justify-content: flex-start; align-items: flex-end;">
                             <div class="form-group">
-                                <button type="button" class="btn btn-primary" id="consultar_persona" title="Buscar paciente"><i class="fas fa-search"></i></button>
+                                <button type="button" class="btn btn-primary" id="consultar_persona"
+                                    title="Buscar paciente"><i class="fas fa-search"></i></button>
                             </div>
                         </div>
                     </div>
@@ -126,12 +130,12 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-secondary table-hover">
                                     <tr>
-                                        <th>Nº documento</th>
-                                        <th>Nombres/Apellidos</th>
-                                        <th>Telefono</th>
-                                        <th>Sexo</th>
-                                        <th>Edad</th>
-                                        <th>Dirección</th> 
+                                        <th style="background-color:#bfc1c3;">Nº documento</th>
+                                        <th style="background-color:#bfc1c3;">Nombres/Apellidos</th>
+                                        <th style="background-color:#bfc1c3;">Telefono</th>
+                                        <th style="background-color:#bfc1c3;">Sexo</th>
+                                        <th style="background-color:#bfc1c3;">Edad</th>
+                                        <th style="background-color:#bfc1c3;">Dirección</th>
 
                                     </tr>
                                     <tr>
@@ -151,7 +155,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                     <div class="row">
                         <div class="col-sm-6">
                             <label for="txt-especialidad">Especialidad</label>
-                            <input type="label" class="form-control" name="txt-especialidad" id="txt-especialidad" disabled>
+                            <input type="label" class="form-control" name="txt-especialidad" id="txt-especialidad"
+                                disabled>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -172,18 +177,21 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         <div class="col-sm-6">
                             <div class="form-group mt-3">
                                 <label for="observacion_cita">Observación</label>
-                                <textarea id="observacion_cita" class="form-control rounded" placeholder="Escriba aquí"></textarea>
+                                <textarea id="observacion_cita" class="form-control rounded"
+                                    placeholder="Escriba aquí"></textarea>
                             </div>
                         </div>
                     </div>
-                
+
                 </form>
             </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="agregar_cita" title="Guardar cita"><i class="fas fa-save"></i> Guardar</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" title="Cerrar el modal"
+                    data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="agregar_cita" title="Guardar cita"><i
+                        class="fas fa-save"></i> Guardar</button>
             </div>
+        </div>
 
     </div>
 </div>

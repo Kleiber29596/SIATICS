@@ -96,7 +96,12 @@ if (!empty($page)) {
 		'listarDatosConsulta' => array('model' => 'ConsultaModel', 	  'view' => 'listarDatosConsulta',   'controller' 		=> 'ConsultasController'),
 		'obtenerDatosReceta'  => array('model' => 'ConsultaModel', 	  'view' => 'obtenerDatosReceta',    'controller'  		=> 'ConsultasController'),
 		'modificarReceta'  	  => array('model' => 'ConsultaModel', 	  'view' => 'modificarReceta',       'controller'  		=> 'ConsultasController'),
-
+		/* Modulo motivos */
+		'inicioMotivos'  	  			  => array('model' => 'MotivosModel', 	  'view' => 'inicio',         		       'controller'  			=> 'MotivosController'),
+		'listarMotivos'  	  			  => array('model' => 'MotivosModel', 	  'view' => 'listarMotivos',               'controller'  			=> 'MotivosController'),
+		'registrarMotivo'  	  			  => array('model' => 'MotivosModel', 	  'view' => 'registrarMotivo',       	   'controller'  			=> 'MotivosController'),
+		'listarActualizacionMotivo'  	  => array('model' => 'MotivosModel', 	  'view' => 'listarActualizacionMotivo',   'controller'  			=> 'MotivosController'),
+		'modificarMotivo'  	  		      => array('model' => 'MotivosModel', 	  'view' => 'modificarMotivo',   		   'controller'  			=> 'MotivosController'),
 	);
 
 	foreach ($data as $key => $components) {

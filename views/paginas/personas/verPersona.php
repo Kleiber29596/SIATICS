@@ -129,14 +129,14 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                                             <thead>
                                                 <tr class="table-primary">
-                                                    <th>Nª documento</th>
-                                                    <th>Nombre y Apellido</th>
-                                                    <th>Sexo</th>
-                                                    <th>Telèfono</th>
-                                                    <th>Correo</th>
-                                                    <th>Fecha de nacimiento</th>
-                                                    <th>Direcciòn</th>
-                                                    <th>Acciones</th>
+                                                    <th style="background-color:#b7d0f7;">Nª documento</th>
+                                                    <th style="background-color:#b7d0f7;">Nombre y Apellido</th>
+                                                    <th style="background-color:#b7d0f7;">Sexo</th>
+                                                    <th style="background-color:#b7d0f7;">Telèfono</th>
+                                                    <th style="background-color:#b7d0f7;">Correo</th>
+                                                    <th style="background-color:#b7d0f7;">Fecha de nacimiento</th>
+                                                    <th style="background-color:#b7d0f7;">Direcciòn</th>
+                                                    <th style="background-color:#b7d0f7;">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -205,12 +205,12 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                                             <thead>
                                                 <tr class="table-primary">
-                                                    <th>Nº documento</th>
-                                                    <th>Nombres/apellidos</th>
-                                                    <th>Telefono</th>
-                                                    <th>Correo</th>
-                                                    <th>Direccion</th>
-                                                    <th>Parentesco</th>
+                                                    <th style=" background-color:#b7d0f7;">Nº documento</th>
+                                                    <th style=" background-color:#b7d0f7;">Nombres/apellidos</th>
+                                                    <th style=" background-color:#b7d0f7;">Telefono</th>
+                                                    <th style=" background-color:#b7d0f7;">Correo</th>
+                                                    <th style=" background-color:#b7d0f7;">Direccion</th>
+                                                    <th style=" background-color:#b7d0f7;">Parentesco</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -248,14 +248,14 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                                                 <thead>
                                                     <tr class="table-primary">
-                                                        <th>Tipo de sangre</th>
-                                                        <th>Enfermedades</th>
-                                                        <th>¿Fumador?</th>
-                                                        <th>¿Alcohol?</th>
-                                                        <th>¿Actividad Fisica?</th>
-                                                        <th>¿Cirugías?</th>
-                                                        <th>¿Alergias?</th>
-                                                        <th>¿Enfermedades hereditarias?</th>
+                                                        <th style=" background-color:#b7d0f7;">Tipo de sangre</th>
+                                                        <th style=" background-color:#b7d0f7;">Enfermedades</th>
+                                                        <th style=" background-color:#b7d0f7;">¿Fumador?</th>
+                                                        <th style=" background-color:#b7d0f7;">¿Alcohol?</th>
+                                                        <th style=" background-color:#b7d0f7;">¿Actividad Fisica?</th>
+                                                        <th style=" background-color:#b7d0f7;">¿Cirugías?</th>
+                                                        <th style=" background-color:#b7d0f7;">¿Alergias?</th>
+                                                        <th style=" background-color:#b7d0f7;">¿Enfermedades hereditarias?</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -294,11 +294,11 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                                                 <thead>
                                                     <tr class="table-success">
-                                                        <th>Fecha</th>
-                                                        <th>Especialidad</th>
-                                                        <th>Especialista</th>
-                                                        <th>Motivo</th>
-                                                        <th>Diagnostico</th>
+                                                        <th style="background:#a6cdbb;">Fecha</th>
+                                                        <th style="background:#a6cdbb;" >Especialidad</th>
+                                                        <th style="background:#a6cdbb;">Especialista</th>
+                                                        <th style="background:#a6cdbb;">Motivo</th>
+                                                        <th style="background:#a6cdbb;">Diagnostico</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

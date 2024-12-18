@@ -1,11 +1,13 @@
 <?php
 require_once 'controllers/MedicamentosController.php';
 require_once 'controllers/ConsultasController.php';
+require_once 'models/MotivosModel.php';
 require_once 'controllers/EspecialidadController.php';
 $objeto1 = new MedicamentosController();
 $objeto2 = new ConsultasController();
+$motivosModel = new MotivosModel();
 $objeto3 = new EspecialidadController();
-$consultas = $objeto2->selectTipoConsulta();
+$motivos = $motivosModel->listarMotivos($id_especialidad);
 $consultas_update = $objeto2->selectTipoConsulta();
 $medicamentos = $objeto1->selectMedicamentos();
 $medicamentos_update = $objeto1->selectMedicamentos();
@@ -149,9 +151,9 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         <!-- Paso 1: Información Personal -->
                         <div class="step" id="step1">
                             <!-- Seccion datos del Paciente -->
-                            <p>
+                            <!-- <p>
                                 <strong><span class="badge bg-secondary text-white">Datos del paciente</span></strong>
-                            </p>
+                            </p> -->
 
                             <div class="row">
 
@@ -187,12 +189,12 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                         <table class="table table-bordered table-hover table-secondary">
                                             <thead>
                                                 <tr>
-                                                    <th>N° documento</th>
-                                                    <th>Nombres</th>
-                                                    <th>Edad</th>
-                                                    <th>Sexo</th>
-                                                    <th>Teléfono</th>
-                                                    <th>Dirección</th>
+                                                    <th style="background-color:#bfc1c3;">N° documento</th>
+                                                    <th style="background-color:#bfc1c3;">Nombres</th>
+                                                    <th style="background-color:#bfc1c3;">Edad</th>
+                                                    <th style="background-color:#bfc1c3;">Sexo</th>
+                                                    <th style="background-color:#bfc1c3;">Teléfono</th>
+                                                    <th style="background-color:#bfc1c3;">Dirección</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -212,7 +214,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             <div class="row mt-4">
                                 <div class="col-md-12" style="display:none;" id="contenedor_cita">
                                     <h6>
-                                        <span class="badge bg-success"> ¡Tiene una cita programada! <i class="bi bi-calendar"></i></span>
+                                        <span class="badge bg-success"> ¡Tiene una cita programada! <i
+                                                class="bi bi-calendar"></i></span>
                                     </h6>
                                     <br>
                                     <strong>Datos de la cita</strong>
@@ -245,13 +248,13 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                         <!-- Paso 2: Seccion para llenar los datos del historial médico -->
                         <div class="step" id="step2" style="display: none;">
-                            <p>
+                            <!-- <p>
                                 <strong><span class="badge bg-secondary text-white">Datos de la consulta
                                         médica</span></strong>
-                            </p>
+                            </p> -->
 
                             <div class="row">
-                             
+
                                 <input class="form-control" type="hidden" id="id_especialidad_consulta"
                                     value="<?php echo $_SESSION['id_especialidad']; ?>">
                                 <input class="form-control" type="hidden" id="id_especialista_consulta"
@@ -296,9 +299,9 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                         <select class="select2-selection--single" name="tipo_consulta"
                                             id="tipo_consulta" style="width:100%">
                                             <option value="">Seleccione</option>
-                                            <?php foreach ($consultas as $consulta) { ?>
-                                            <option value="<?= $consulta['id_tipo_consulta'] ?>">
-                                                <?= $consulta['motivo'] ?>
+                                            <?php foreach ($motivos as $motivo) { ?>
+                                            <option value="<?= $motivo['id_tipo_consulta'] ?>">
+                                                <?= $motivo['motivo'] ?>
                                             </option>
                                             <?php } ?>
                                         </select>
@@ -324,9 +327,9 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         <!-- Paso 3: Preferencias -->
                         <div class="step" id="step3" style="display: none;">
                             <!-- Seccion para seleccionar especies -->
-                            <p>
+                            <!-- <p>
                                 <strong><span class="badge bg-secondary text-white">Receta médica</span></strong>
-                            </p>
+                            </p> -->
 
                             <div class="container mt-5">
 

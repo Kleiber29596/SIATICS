@@ -1684,7 +1684,6 @@ function inactivarRoles(id) {
 
   Swal.fire({
     title: "¿Está seguro de moficar el estado del rol?",
-    //  text: "El paciente sera dado de alta y el registro quedara guardado en la traza.",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -1721,110 +1720,8 @@ function inactivarRoles(id) {
 }
 
 
-/*----------------- Listar Recepcion medicamentos -------------*/
-$(document).ready(function () {
-  $("#tabla_recepcion_medicamentos").DataTable({
-    order: [[0, "DESC"]],
-    procesing: true,
-    serverSide: true,
-    ajax: "http://127.0.0.1/sigeser/index.php?page=listarRecepcionMedicamentos",
-    pageLength: 10,
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 8,
-        render: function (data, type, row, meta) {
-          let botones =
-            `
-                    <button type="button" class="btn btn-primary btn-sm" onclick="verRecepcionMedicamento(` +
-            row[8] +
-            `)"><i class="fas fa-eye"></i></button>&nbsp;
-    
-                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionRecepcionMedicamento(` +
-            row[8] +
-            `)"><i class="fas fa-edit"></i></button>&nbsp;
-    
-                    `;
-          return botones;
-        },
-      },
-    ],
-    dom: "Bfrtip",
-    language: {
-      decimal: "",
-      emptyTable: "No hay información",
-      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
-      infoFiltered: "(Filtrado de _MAX_ total entradas)",
-      infoPostFix: "",
-      thousands: ",",
-      lengthMenu: "Mostrar _MENU_ Entradas",
-      loadingRecords: "Cargando...",
-      processing: "Procesando...",
-      search: "Buscar:",
-      zeroRecords: "Sin resultados encontrados",
-      paginate: {
-        first: "Primero",
-        last: "Ultimo",
-        next: "Siguiente",
-        previous: "Anterior",
-      },
-    },
-  });
-});
 
-/*----------------- Listar Almacen medicamentos -------------*/
-$(document).ready(function () {
-  $("#tabla_banco_medicamentos").DataTable({
-    order: [[0, "DESC"]],
-    procesing: true,
-    serverSide: true,
-    ajax: "http://127.0.0.1/sigeser/index.php?page=listarBancoMedicamentos",
-    pageLength: 10,
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 5,
-        render: function (data, type, row, meta) {
-          let botones =
-            `
-                    <button type="button" class="btn btn-primary btn-sm" onclick="verUsuario(` +
-            row[5] +
-            `)"><i class="fas fa-eye"></i></button>&nbsp;
-    
-                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionUsuario(` +
-            row[5] +
-            `)"><i class="fas fa-edit"></i></button>&nbsp;
-    
-                    `;
-          return botones;
-        },
-      },
-    ],
-    dom: "Bfrtip",
-    language: {
-      decimal: "",
-      emptyTable: "No hay información",
-      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
-      infoFiltered: "(Filtrado de _MAX_ total entradas)",
-      infoPostFix: "",
-      thousands: ",",
-      lengthMenu: "Mostrar _MENU_ Entradas",
-      loadingRecords: "Cargando...",
-      processing: "Procesando...",
-      search: "Buscar:",
-      zeroRecords: "Sin resultados encontrados",
-      paginate: {
-        first: "Primero",
-        last: "Ultimo",
-        next: "Siguiente",
-        previous: "Anterior",
-      },
-    },
-  });
-});
-
+/*listar actualizacion especialidades */
 $(document).ready(function () {
   $("#tbl_especialidad").DataTable({
     order: [[0, "DESC"]],
@@ -1876,37 +1773,32 @@ $(document).ready(function () {
   });
 });
 
-/*------ listar Doctores  ---------*/
+
+/*Listar Motivos */
+
 $(document).ready(function () {
-  $("#tabla_doctor").DataTable({
+  $("#tbl_motivos").DataTable({
     order: [[0, "DESC"]],
     procesing: true,
     serverSide: true,
-    ajax: "http://127.0.0.1/sigeser/index.php?page=listarDoctores",
+    ajax: "index.php?page=listarMotivos",
     pageLength: 10,
-    createdRow: function (row, data, dataIndex) {
-      if (data[9] == 0) {
-        $(row).addClass("table-danger");
-      } else {
-        //$(row).addClass('table-success');
-      }
-    },
     columnDefs: [
       {
         orderable: false,
-        targets: 4,
+        targets: 2,
         render: function (data, type, row, meta) {
           let botones =
             `
-                    <button type="button" class="btn btn-primary btn-sm" onclick="listarVer(` +
-            row[4] +
+                <button type="button" class="btn btn-primary btn-sm" onclick="verMotivo(` +
+            row[2] +
             `)"><i class="fas fa-eye"></i></button>&nbsp;
-    
-                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionDoctor(` +
-            row[4] +
+
+               <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionMotivo(` +
+            row[2] +
             `)"><i class="fas fa-edit"></i></button>&nbsp;
-    
-                 `;
+
+            `;
           return botones;
         },
       },
@@ -1934,7 +1826,6 @@ $(document).ready(function () {
     },
   });
 });
-
 
 
 /*------ listar Medicamentos ---------*/
@@ -1989,208 +1880,6 @@ $(document).ready(function () {
   });
 });
 
-/*------ listar Medicamentos ---------*/
-$(document).ready(function () {
-  $("#tabla_entrega_medicamentos").DataTable({
-    order: [[0, "DESC"]],
-    procesing: true,
-    serverSide: true,
-    ajax: "http://127.0.0.1/sigeser/index.php?page=listarEntregaMedicamentos",
-    pageLength: 9,
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 9,
-        render: function (data, type, row, meta) {
-          let botones =
-            `
-                    <button type="button" class="btn btn-primary btn-sm" onclick="listarVer(` +
-            row[9] +
-            `)"><i class="fas fa-eye"></i></button>&nbsp;
-    
-                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
-            row[9] +
-            `)"><i class="fas fa-edit"></i></button>&nbsp;
-            
-    
-                    `;
-          return botones;
-        },
-      },
-    ],
-    dom: "Bfrtip",
-    language: {
-      decimal: "",
-      emptyTable: "No hay información",
-      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
-      infoFiltered: "(Filtrado de _MAX_ total entradas)",
-      infoPostFix: "",
-      thousands: ",",
-      lengthMenu: "Mostrar _MENU_ Entradas",
-      loadingRecords: "Cargando...",
-      processing: "Procesando...",
-      search: "Buscar:",
-      zeroRecords: "Sin resultados encontrados",
-      paginate: {
-        first: "Primero",
-        last: "Ultimo",
-        next: "Siguiente",
-        previous: "Anterior",
-      },
-    },
-  });
-});
-
-/* -------------- Listar datos para actualización ------------------ */
-
-function listarActualizacion(id) {
-  let id_paciente = id;
-
-  let update_nombres = document.getElementById("update_nombres_paciente").value;
-  let update_apellidos = document.getElementById(
-    "update_apellidos_paciente"
-  ).value;
-  let update_tipo_documento = document.getElementById(
-    "update_tipo_documento"
-  ).value;
-
-  let update_n_documento = document.getElementById(
-    "update_n_documento_paciente"
-  ).value;
-  let update_fecha_nac = document.getElementById("update_fecha_nac").value;
-  let update_sexo = document.getElementById("update_sexo").value;
-  let update_estatus = document.getElementById("update_estatus_paciente").value;
-  let update_telefono = document.getElementById("update_telefono").value;
-  let update_estado = document.getElementById("update_estado").value;
-  let update_municipio = document.getElementById("update_municipio").value;
-  let update_parroquia = document.getElementById("update_parroquia").value;
-  let update_correo = document.getElementById("update_correo_paciente").value;
-  let id_persona = document.getElementById("id_persona").value;
-
-  let listar = "listar";
-
-  $.ajax({
-    url: "index.php?page=listarActualizacion",
-    type: "post",
-    dataType: "json",
-    data: {
-      id_paciente: id_paciente,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success == true) {
-        document.getElementById("update_nombres_paciente").value =
-          response.data.nombres;
-        document.getElementById("update_apellidos_paciente").value =
-          response.data.apellidos;
-        document.getElementById("update_tipo_documento").value =
-          response.data.tipo_documento;
-        document.getElementById("update_n_documento_paciente").value =
-          response.data.n_documento;
-        document.getElementById("update_fecha_nac").value =
-          response.data.fecha_nacimiento;
-        document.getElementById("update_sexo").value = response.data.sexo;
-        document.getElementById("update_correo_paciente").value =
-          response.data.correo;
-        document.getElementById("update_telefono").value =
-          response.data.telefono;
-        document.getElementById("update_estado").value = response.data.estado;
-        document.getElementById("update_municipio").value =
-          response.data.municipio;
-        document.getElementById("update_parroquia").value =
-          response.data.parroquia;
-        document.getElementById("update_estatus_paciente").value =
-          response.data.estatus;
-        document.getElementById("id_paciente").value =
-          response.data.id_paciente;
-        document.getElementById("id_persona").value = response.data.id_persona;
-
-        $("#modalActualizarPaciente").modal("show");
-      } else {
-      }
-    })
-    .fail(function () {
-      console.log("error");
-    });
-}
-
-/* -------------- Modificar Pacientes ------------------ */
-var modificar_paciente;
-if ((modificar_paciente = document.getElementById("modificar_paciente"))) {
-  modificar_paciente.addEventListener("click", modificarPaciente, false);
-
-  function modificarPaciente() {
-    let id_paciente = document.getElementById("id_paciente").value;
-    let id_persona = document.getElementById("id_persona").value;
-    let update_nombres = document.getElementById(
-      "update_nombres_paciente"
-    ).value;
-    let update_apellidos = document.getElementById(
-      "update_apellidos_paciente"
-    ).value;
-    let update_tipo_documento = document.getElementById(
-      "update_tipo_documento"
-    ).value;
-    let update_n_documento = document.getElementById(
-      "update_n_documento_paciente"
-    ).value;
-    let update_fecha_nac = document.getElementById("update_fecha_nac").value;
-    let update_sexo = document.getElementById("update_sexo").value;
-    let update_estatus = document.getElementById(
-      "update_estatus_paciente"
-    ).value;
-    let update_telefono = document.getElementById("update_telefono").value;
-    let update_direccion = document.getElementById("update_direccion").value;
-    let update_correo = document.getElementById("update_correo_paciente").value;
-
-    $.ajax({
-      url: "index.php?page=modificarPaciente",
-      type: "post",
-      dataType: "json",
-      data: {
-        id_paciente: id_paciente,
-        id_persona: id_persona,
-        update_nombres: update_nombres,
-        update_apellidos: update_apellidos,
-        update_tipo_documento: update_tipo_documento,
-        update_n_documento: update_n_documento,
-        update_fecha_nac: update_fecha_nac,
-        update_sexo: update_sexo,
-        update_estatus: update_estatus,
-        update_telefono: update_telefono,
-        update_direccion: update_direccion,
-        update_correo: update_correo,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formActualizarPaciente").reset();
-
-          $("#modalActualizarPaciente").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_paciente").DataTable().ajax.reload();
-        } else {
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}
 
 /* -------------- Listar datos para ver ------------------ */
 
@@ -2248,48 +1937,6 @@ function VerPersona(id) {
     .fail(function () {
       console.log("error");
     });
-}
-
-/* -------------- Activar e Inactivar Paciente ------------------ */
-function inactivarPaciente(id) {
-  var id_paciente = id;
-
-  Swal.fire({
-    title: "¿Está seguro de modificar el estado del paciente?",
-    text: "El paciente será dado de alta y el registro quedará guardado en la traza.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Si",
-    cancelButtonText: "Cancelar",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      $.ajax({
-        url: "index.php?page=inactivarPaciente",
-        type: "post",
-        dataType: "json",
-        data: {
-          id_paciente: id_paciente,
-        },
-      })
-        .done(function (response) {
-          if (response.data.success == true) {
-            $("#tabla_paciente").DataTable().ajax.reload();
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: response.data.message,
-              confirmButtonColor: "#0d6efd",
-              text: response.data.info,
-            });
-          }
-        })
-        .fail(function () {
-          console.log("error");
-        });
-    }
-  });
 }
 
 /* -------------- Ver Usuario ------------------ */
@@ -2844,62 +2491,6 @@ function validarFecha(fechaIngresada) {
 }
 
 const fechaNacInput = document.getElementById("fecha_nac");
-
-// if (fechaNacInput) {
-//     fechaNacInput.addEventListener("blur", function () {
-//         let fecha_nac = fechaNacInput.value;
-        
-//         if (!validarFecha(fecha_nac)) {
-//             Swal.fire({
-//                 icon: "warning",
-//                 confirmButtonColor: "#3085d6",
-//                 title: "Atención",
-//                 text: "Ingrese una fecha de nacimiento válida",
-//             });
-//             return false;
-//         }
-
-//         if (fecha_nac) {
-//             $.ajax({
-//                 url: "index.php?page=consultarEdad",
-//                 type: "post",
-//                 dataType: "json",
-//                 data: { fecha_nac: fecha_nac },
-//             })
-//             .done(function (response) {
-//                 if (response.data.success === true) {
-//                     if (response.data.edad >= 18) {
-//                         // Si la persona es mayor de edad
-//                         document.getElementById("contenedor_datos_representante").setAttribute("style","display: none;");
-//                         document.getElementById("datos_representante").setAttribute("style","display: none;");
-//                         document.getElementById("consultar_representante").setAttribute("style", "display: none;");
-//                         document.getElementById("grupo_correo").removeAttribute("style");
-//                         document.getElementById("grupo_telefono").removeAttribute("style");
-//                         document.getElementById("grupo_direccion").removeAttribute("style");
-//                     } else {
-//                         // Si la persona es menor de edad, mostrar el div de datos del representante
-//                         document.getElementById("consultar_representante").removeAttribute("style");
-//                         document.getElementById("grupo_correo").setAttribute("style","display: none;");
-//                         document.getElementById("grupo_telefono").setAttribute("style","display: none;");
-//                         document.getElementById("grupo_direccion").setAttribute("style","display: none;");
-                        
-//                         // Mostrar SweetAlert al desplegar el contenedor
-//                         Swal.fire({
-//                             icon: 'info',
-//                             title: 'Persona menor de edad',
-//                             text: 'Por favor, complete los datos del representante legal.'
-//                         });
-//                     }
-//                 } else {
-//                     console.log("Error en la respuesta de la API.");
-//                 }
-//             })
-//             .fail(function () {
-//                 console.log("Error en la verificación de la edad.");
-//             });
-//         }
-//     });
-// }
 
 
 
@@ -4219,6 +3810,58 @@ if ((modificar_cita = document.getElementById("modificar_cita"))) {
       });
   }
 
+
+  /* -------------- Agregar medicamentos ------------------ */
+
+  let agregar_motivo = document.getElementById('agregar_motivo');
+  if(agregar_motivo) {
+
+    agregar_motivo.addEventListener('click', agregarMotivo, false)
+
+    function agregarMotivo() {
+      let motivo = document.getElementById("motivo").value;
+      let especialidad_motivo = document.getElementById("especialidad_motivo").value;
+      $.ajax({
+        url: "index.php?page=registrarMotivo",
+        type: "post",
+        dataType: "json",
+        data: {
+          motivo: motivo,
+          especialidad_motivo: especialidad_motivo,
+        },
+        
+      })
+        .done(function (response) {
+          if (response.data.success == true) {
+            document.getElementById("formRegistrarMotivo").reset();
+  
+            $("#modalAgregarMotivo").modal("hide");
+  
+            Swal.fire({
+              icon: "success",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+  
+            $("#tbl_motivo").DataTable().ajax.reload();
+          } else {
+            Swal.fire({
+              icon: "error",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+          }
+        })
+        .fail(function () {
+          console.log("error");
+        });
+    }
+  
+
+  }
+  
 /*-------------------- Actualizar Medicamentos -------------------*/
 
 
@@ -5104,7 +4747,6 @@ let presionArterialInput = document.getElementById("presion_arterial");
 if (presionArterialInput) {
   presionArterialInput.addEventListener("blur", function () {
     let presion_arterial = presionArterialInput.value;
-    const presionRegex = /^\d{2,3}\/\d{2,3}$/;
 
     if (presion_arterial == "") {
       
@@ -5125,6 +4767,8 @@ if (presionArterialInput) {
   });
 }
 
+  
+const presionRegex = /^\d{2,3}\/\d{2,3}$|$/;
 
 if (document.getElementById("agregar_consulta")) {document
   .getElementById("agregar_consulta")
@@ -5161,29 +4805,20 @@ function agregarConsulta() {
   }
   
   
+  const pesoRegex = /^([1-9][0-9]{0,2}|100)?$/;
   
-  const pesoRegex = /^[1-9]\d*$/;  // Solo enteros mayores a 0
-  if(peso == ""){
-    
-
-
-   } else if(!pesoRegex.test(peso)) {
+  if (!pesoRegex.test(peso)) {
     Swal.fire({
       icon: 'error',
       title: 'Peso inválido',
-      text: 'Por favor, ingrese un valor entero mayor a 0 para el peso.'
+      text: 'Por favor, ingrese un valor numérico de hasta 3 dígitos (ej: 75 kg).'
     });
     return false;
-
-   }
+  }
   
   
-  const presionRegex = /^\d{2,3}\/\d{2,3}$/;
-  if(presion_arterial == ""){
-    
 
-
-   } else if(!presionRegex.test(presion_arterial)) {
+   if(!presionRegex.test(presion_arterial)) {
     Swal.fire({
       icon: 'error',
       title: 'Presión Arterial inválida',
@@ -5193,21 +4828,6 @@ function agregarConsulta() {
 
    }
 
-
-   const alturaRegex = /^(?!0)(\d+(\.\d+)?)$/;
-  if(altura == ""){
-    
-
-
-   } else if(!alturaRegex.test(altura)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Altura inválida',
-      text: 'Por favor, ingrese un valor decimal para la altura mayor a 0 (ej: 1.75).'
-    });
-    return false;
-
-   }
 
 
 
@@ -5245,20 +4865,20 @@ const confirmMessage = `
 <ul style="text-align: left;">
 <li><strong>Persona:</strong> ${nombre_persona}</li>
 <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
-<li><strong>Peso:</strong> ${peso}</li>
-<li><strong>Altura:</strong> ${altura}</li>
-<li><strong>Presión arterial:</strong> ${presion_arterial}</li>
+<li><strong>Peso:</strong> ${peso? peso:'Sin información'}</li>
+<li><strong>Altura:</strong> ${altura? altura:'Sin información'}</li>
+<li><strong>Presión arterial:</strong> ${presion_arterial? presion_arterial:'Sin información'}</li>
 <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
 </ul>
 
 <p><strong>Medicamentos recetados:</strong></p>
-<ul style="text-align: left;">
-  ${listaMedicamentos}
+<ul>
+  ${listaMedicamentos? listaMedicamentos: '<li>Sin información</li>'}
 </ul>
 
 <p><strong>Instrucciones adicionales:</strong></p>
 <ul>
-<li>${instrucciones}</li>
+<li>${instrucciones? instrucciones:'Sin información'}</li>
 </ul>
 `;
 
@@ -5587,8 +5207,8 @@ $('#tipo_consulta').select2({
   dropdownParent: $('#modalAgregarConsulta')
 });
 
-$('#especialidad_consulta').select2({
-  dropdownParent: $('#modalAgregarConsulta')
+$('#especialidad_motivo').select2({
+  dropdownParent: $('#modalAgregarMotivo')
 });
 
 
@@ -6411,4 +6031,124 @@ function finalizarCita(id) {
         });
     }
   });
+}
+
+
+
+/* -------------- Listar datos para actualizar motivo ------------------ */
+
+function listarActualizacionMotivo(id) {
+  let id_motivo = id;
+
+  $.ajax({
+    url: "index.php?page=listarActualizacionMotivo",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_motivo: id_motivo,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("id_motivo").value =
+          response.data.id_motivo;
+        document.getElementById("update_motivo").value =
+          response.data.motivo;
+        document.getElementById("update_especialidad_motivo").value =
+          response.data.id_especialidad;
+        $("#modalActualizarMotivos").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+
+/* -------------- Modificar motivo ------------------ */
+var modificar_motivo;
+if (
+  (modificar_motivo = document.getElementById("modificar_motivo"))
+) {
+  modificar_motivo.addEventListener(
+    "click",
+    modificarMotivo,
+    false
+  );
+
+  function modificarMotivo() {
+    let id_motivo = document.getElementById("id_motivo").value;
+    let update_motivo = document.getElementById(
+      "update_motivo"
+    ).value;
+    let update_id_especialidad = document.getElementById(
+      "update_especialidad_motivo"
+    ).value;
+    $.ajax({
+      url: "index.php?page=modificarMotivo",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_motivo: id_motivo,
+        update_motivo: update_motivo,
+        update_id_especialidad: update_id_especialidad
+        
+      },
+    })
+      .done(function (response) {
+        if (response.data.success == true) {
+          document.getElementById("formActualizarMotivos").reset();
+
+          $("#modalActualizarMotivos").modal("hide");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+
+          $("#tbl_motivos").DataTable().ajax.reload();
+        } else {
+          Swal.fire({
+            icon: "danger",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  }
+}
+
+
+
+/* -------------- Ver Motivo ------------------ */
+function verMotivo(id) {
+  let id_motivo = id;
+
+  $.ajax({
+    url: "index.php?page=listarActualizacionMotivo",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_motivo: id_motivo,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("nombre_motivo").innerHTML = `<strong>Nombre</strong>: `+ response.data.motivo;
+        document.getElementById("ver_especialidad_motivo").innerHTML =  `<strong>Especialidad</strong>: `+ response.data.nombre_especialidad;
+
+        $("#modalVisualizarMotivo").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
 }

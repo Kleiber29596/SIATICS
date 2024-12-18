@@ -239,9 +239,11 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 </a>
             </li><!-- End Especialidades Page Nav -->
 
-
-
-
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMotivos">
+                    <i class="bi bi-lock"></i> <span>Motivos</span>
+                </a>
+            </li><!-- End Especialidades Page Nav -->
 
         </ul>
 
