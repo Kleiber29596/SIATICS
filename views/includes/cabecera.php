@@ -98,7 +98,9 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         #grafica_consultas_doctores, 
         #sexo_chart, 
         #edad_chart,
-        #graficaFiltroFechaDesdeHasta {
+        #graficaFiltroFechaDesdeHasta,
+        #graficaFechaDesdehasta,
+        #sexo_chartFechaDesdeHasta {
             width: 100%;
             height: 500px;
         }

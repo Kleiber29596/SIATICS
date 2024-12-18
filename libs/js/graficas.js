@@ -225,5 +225,19 @@ function filtrarGraficaFechaDesdeHasta() {
   window.location.href = url;
 }
 
+//Función que permite filtrar datos en el dashboard a traves de una fecha inicio y fecha fin
+function filtrarDatosDashboard() {
+
+  const fechaDesde = document.getElementById("fechaDesdeDash").value;
+  const fechaHasta = document.getElementById("fechaHastaDash").value;
+
+  // Crear la URL con los parámetros GET
+  const url =
+    "?page=inicio&fechaDesdeDash=" + fechaDesde + "&fechaHastaDash=" + fechaHasta;
+
+  // Redirigir a la URL
+  window.location.href = url;
+}
+
 
 

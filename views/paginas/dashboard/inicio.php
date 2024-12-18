@@ -2,14 +2,21 @@
 
 require_once 'models/dashboardModel.php';
 require_once 'models/ConsultasModel.php';
+require_once 'controllers/dashboardController.php';
 
 
-$dashboardModel = new dashboardModel();
-$modelConsultas = new ConsultasModel();
-
+$dashboardModel             = new dashboardModel();
+$modelConsultas             = new ConsultasModel();
+$controllerDashboard        = new dashboardController();
 
 $tipos_consultas = $modelConsultas->SelectTipos();
 
+//Permite filtrar datos para un grafica a traves de fecha inicio y fecha fin
+if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
+    $datos_filtro_dashboard = $controllerDashboard->filtrarDashboard($_GET['fechaDesdeDash'], $_GET['fechaHastaDash']);
+}
+
+//Permite filtrar datos para un grafica a traves de fecha inicio y fecha fin
 if (isset($_GET['fechaDesde']) && isset($_GET['fechaHasta'])) {
     $datos_filtro_grafica = $dashboardModel->fechaDesdeHastaTipoConsulta($_GET['fechaDesde'], $_GET['fechaHasta']);
 }
@@ -66,6 +73,38 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
 
         <!-- Left side columns -->
         <div class="col-lg-12">
+            <div class="container mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <br>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="fechaDesdeDash">Fecha desde</label>
+                                    <input id="fechaDesdeDash" class="form-control" type="date">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="fechaHastaDash">Fecha hasta</label>
+                                    <input id="fechaHastaDash" class="form-control" type="date">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2" style="display: flex; justify-content: center; align-items: end;">
+                                <button id="btnFiltroFechaDesdeHastaDash"
+                                    type="button"
+                                    class="btn btn-primary"
+                                    onclick="filtrarDatosDashboard()"
+                                    href="">
+                                    Filtrar <i class="bi bi-filter"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
 
                 <!-- Sales Card -->
@@ -82,9 +121,15 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6> <?php echo $numeroCitas; ?></h6>
-
-
+                                    <h6>
+                                        <?php
+                                        if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
+                                            echo $datos_filtro_dashboard['total_citas'];
+                                        } else {
+                                            echo $numeroCitas;
+                                        }
+                                        ?>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
@@ -105,9 +150,15 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                                     <i class="fas fa-stethoscope"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6><?php echo $numeroConsultas; ?></h6>
-
-
+                                    <h6>
+                                        <?php
+                                        if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
+                                            echo $datos_filtro_dashboard['total_numero_consultas'];
+                                        } else {
+                                            echo $numeroConsultas;
+                                        }
+                                        ?>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +178,15 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                                     <i class="fas fa-hospital-user"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6><?php echo $numeroPacientesAt; ?></h6>
+                                    <h6>
+                                        <?php
+                                        if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
+                                            echo $datos_filtro_dashboard['total_pacientes_atendidos'];
+                                        } else {
+                                            echo $numeroPacientesAt;
+                                        }
+                                        ?>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +207,15 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
 
                                 </div>
                                 <div class="ps-3">
-                                    <h6> <?php echo $generalAtendidos; ?></h6>
+                                    <h6>
+                                        <?php
+                                        if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
+                                            echo $datos_filtro_dashboard['total_atendidos'];
+                                        } else {
+                                            echo $generalAtendidos;
+                                        }
+                                        ?>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
@@ -162,7 +229,78 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                             <div class="col-sm-12">
                                 <h3 style="margin-top: 20px;">Total Consultas por Especialidad</h3>
                                 <!--<button id="boton1" type="button" class="btn btn-success">Reporte</button> --->
-                                <div id="grafica"></div>
+                                <?php
+                                if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
+                                ?>
+                                    <div id="graficaFechaDesdehasta"></div>
+                                    <script>
+                                        am4core.ready(function() {
+
+                                            // Themes begin
+                                            am4core.useTheme(am4themes_animated);
+                                            // Create chart instance
+                                            var chart = am4core.create("graficaFechaDesdehasta", am4charts.PieChart);
+
+                                            // Add data
+
+                                            chart.data = <?= $datos_filtro_dashboard['total_consultas_especialidad'] ?>
+
+
+                                            // Add and configure Series
+                                            var pieSeries = chart.series.push(new am4charts.PieSeries());
+                                            pieSeries.dataFields.value = "total_consulta_especialidad";
+                                            pieSeries.dataFields.category = "nombre_especialidad";
+
+                                            // This creates initial animation
+                                            pieSeries.hiddenState.properties.opacity = 1;
+                                            pieSeries.hiddenState.properties.endAngle = -90;
+                                            pieSeries.hiddenState.properties.startAngle = -90;
+
+                                            // Let's cut a hole in our Pie chart the size of 40% the radius
+                                            chart.innerRadius = am4core.percent(40);
+
+                                            // Put a thick white border around each Slice
+                                            pieSeries.slices.template.stroke = am4core.color("#4a2abb");
+                                            pieSeries.slices.template.strokeWidth = 2;
+                                            pieSeries.slices.template.strokeOpacity = 1;
+
+
+                                            // Add a legend
+                                            chart.legend = new am4charts.Legend();
+                                            // Enable export
+                                            chart.exporting.menu = new am4core.ExportMenu();
+                                            chart.exporting.menu = new am4core.ExportMenu();
+                                            chart.exporting.menu.align = "left";
+                                            chart.exporting.menu.verticalAlign = "top";
+
+
+                                            chart.exporting.menu.items = [{
+                                                "label": "<i class='fas fa-print'><i>",
+                                                "menu": [{
+                                                        "type": "png",
+                                                        "label": "PNG"
+                                                    },
+                                                    {
+                                                        "label": "PRINT",
+                                                        "type": "print"
+                                                    },
+                                                    {
+                                                        "type": "pdf",
+                                                        "label": "PDF"
+                                                    }
+                                                ]
+                                            }];
+
+                                        }); // end am4core.ready()
+                                    </script>
+                                <?php
+                                } else {
+                                ?>
+                                    <div id="grafica"></div>
+                                <?php
+                                }
+                                ?>
+
                             </div>
                         </div>
                     </div>
@@ -328,7 +466,76 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                                     <div class="col-sm-12">
                                         <h3 style="margin-top: 20px;">Pacientes por Sexo</h3>
                                         <!--<button id="boton2" type="button" class="btn btn-success">Reporte</button>-->
-                                        <div id="sexo_chart"></div>
+
+                                        <?php
+                                        if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
+                                        ?>
+                                            <div id="sexo_chartFechaDesdeHasta"></div>
+                                            <script>
+                                                am4core.ready(function() {
+
+                                                    // Themes begin
+                                                    am4core.useTheme(am4themes_animated);
+                                                    // Create chart instance
+                                                    var chart = am4core.create("sexo_chartFechaDesdeHasta", am4charts.PieChart);
+
+                                                    // Add data
+
+                                                    chart.data = <?= $datos_filtro_dashboard['tota_pacientes_sexo'] ?>
+       
+
+                                                    // Add and configure Series
+                                                    var pieSeries = chart.series.push(new am4charts.PieSeries());
+                                                    pieSeries.dataFields.value = "total_pacientes";
+                                                    pieSeries.dataFields.category = "sexo";
+
+                                                    // This creates initial animation
+                                                    pieSeries.hiddenState.properties.opacity = 1;
+                                                    pieSeries.hiddenState.properties.endAngle = -90;
+                                                    pieSeries.hiddenState.properties.startAngle = -90;
+
+                                                    // Let's cut a hole in our Pie chart the size of 40% the radius
+                                                    chart.innerRadius = am4core.percent(40);
+
+                                                    // Put a thick white border around each Slice
+                                                    pieSeries.slices.template.stroke = am4core.color("#4a2abb");
+                                                    pieSeries.slices.template.strokeWidth = 2;
+                                                    pieSeries.slices.template.strokeOpacity = 1;
+
+
+                                                    // Add a legend
+                                                    chart.legend = new am4charts.Legend();
+                                                    // Enable export
+                                                    chart.exporting.menu = new am4core.ExportMenu();
+                                                    chart.exporting.menu = new am4core.ExportMenu();
+                                                    chart.exporting.menu.align = "left";
+                                                    chart.exporting.menu.verticalAlign = "top";
+                                                    chart.exporting.menu.items = [{
+                                                        "label": "<i class='fas fa-print'><i>",
+                                                        "menu": [{
+                                                                "type": "png",
+                                                                "label": "PNG"
+                                                            },
+                                                            {
+                                                                "label": "PRINT",
+                                                                "type": "print"
+                                                            },
+                                                            {
+                                                                "type": "pdf",
+                                                                "label": "PDF"
+                                                            }
+                                                        ]
+                                                    }]
+
+                                                }); // end am4core.ready()
+                                            </script>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <div id="sexo_chart"></div>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -339,8 +546,75 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                             <div class="card">
                                 <div class="col-sm-12">
                                     <h3 style="margin-top: 20px;">Pacientes por Edad</h3>
+                                    <?php
+                                        if (isset($_GET['fechaDesdeDash']) && isset($_GET['fechaHastaDash'])) {
+                                        ?>
+                                            <div id="edad_chartFechaDesdeHasta" style="width: 100%; height: 500px;"></div>
+                                            <script>
+                                                am4core.ready(function() {
 
-                                    <div id="edad_chart" style="width: 100%; height: 500px;"></div>
+                                                    // Themes begin
+                                                    am4core.useTheme(am4themes_animated);
+                                                    // Create chart instance
+                                                    var chart = am4core.create("edad_chartFechaDesdeHasta", am4charts.PieChart);
+
+                                                    // Add data
+
+                                                    chart.data = <?= $datos_filtro_dashboard['total_pacientes_edad'] ?>
+       
+
+                                                    // Add and configure Series
+                                                    var pieSeries = chart.series.push(new am4charts.PieSeries());
+                                                    pieSeries.dataFields.value = "total_pacientes";
+                                                    pieSeries.dataFields.category = "sexo";
+
+                                                    // This creates initial animation
+                                                    pieSeries.hiddenState.properties.opacity = 1;
+                                                    pieSeries.hiddenState.properties.endAngle = -90;
+                                                    pieSeries.hiddenState.properties.startAngle = -90;
+
+                                                    // Let's cut a hole in our Pie chart the size of 40% the radius
+                                                    chart.innerRadius = am4core.percent(40);
+
+                                                    // Put a thick white border around each Slice
+                                                    pieSeries.slices.template.stroke = am4core.color("#4a2abb");
+                                                    pieSeries.slices.template.strokeWidth = 2;
+                                                    pieSeries.slices.template.strokeOpacity = 1;
+
+
+                                                    // Add a legend
+                                                    chart.legend = new am4charts.Legend();
+                                                    // Enable export
+                                                    chart.exporting.menu = new am4core.ExportMenu();
+                                                    chart.exporting.menu = new am4core.ExportMenu();
+                                                    chart.exporting.menu.align = "left";
+                                                    chart.exporting.menu.verticalAlign = "top";
+                                                    chart.exporting.menu.items = [{
+                                                        "label": "<i class='fas fa-print'><i>",
+                                                        "menu": [{
+                                                                "type": "png",
+                                                                "label": "PNG"
+                                                            },
+                                                            {
+                                                                "label": "PRINT",
+                                                                "type": "print"
+                                                            },
+                                                            {
+                                                                "type": "pdf",
+                                                                "label": "PDF"
+                                                            }
+                                                        ]
+                                                    }]
+
+                                                }); // end am4core.ready()
+                                            </script>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <div id="edad_chart" style="width: 100%; height: 500px;"></div>
+                                        <?php
+                                        }
+                                        ?>
                                 </div>
                             </div>
                         </div>
