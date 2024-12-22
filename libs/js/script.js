@@ -1,3 +1,32 @@
+
+$(document).ready(function() {
+  // Esto asegura que los elementos fuera del modal también funcionen
+  $('.js-example-basic-multiple').select2();
+});
+
+// Re-inicializar Select2 cuando el modal se abre
+$('#modalAgregarHistoriaMedica').on('shown.bs.modal', function() {
+  $('.js-example-basic-multiple').select2({
+      dropdownParent: $('#modalAgregarHistoriaMedica') // Vincular el dropdown al modal
+  });
+});
+
+// Select multiple medicamentos
+
+$(document).ready(function() {
+  // Esto asegura que los elementos fuera del modal también funcionen
+  $('.select-multiple_medicamentos').select2();
+});
+
+
+// Re-inicializar Select2 cuando el modal se abre
+$('#modalAgregarHistoriaMedica').on('shown.bs.modal', function() {
+  $('.select-multiple_medicamentos').select2({
+      dropdownParent: $('#modalAgregarHistoriaMedica') // Vincular el dropdown al modal
+  });
+});
+
+
 /* -------------- Citas / Caledario ------------------ */
 
 let calendar;
@@ -2227,18 +2256,6 @@ if (agregar_persona) {
     let fecha_nac         = document.getElementById("fecha_nac").value;
 
 
-    // Datos del historial médico
-    let tipo_sangre      = document.getElementById("tipo_sangre").value;
-    let enfermedad       = document.getElementById("enfermedad").value;
-    let fumador          = document.getElementById("fumador").checked ? "Sí" : "No";
-    let alcohol          = document.getElementById("alcohol").checked ? "Sí" : "No";
-    let ac_fisica        = document.getElementById("ac_fisica").checked ? "Sí" : "No";
-    let medicado         = document.getElementById("medicado").checked ? "Sí" : "No";
-    let ciru_hospi       = document.getElementById("ciru_hospi").value;
-    let alergia          = document.getElementById("alergia").value;
-    let enfermedad_hered = document.getElementById("enfermedad_hered").value;
-    
-
 
     $.ajax({
       url: "index.php?page=registrarPersona",
@@ -2259,18 +2276,6 @@ if (agregar_persona) {
         correo: correo,
         direccion: direccion,
         tipo_persona: tipo_persona,
-
-
-        /*-- Datos del historial medico ---- */
-        tipo_sangre: tipo_sangre,
-        enfermedad: enfermedad,
-        fumador: fumador,
-        alcohol: alcohol,
-        ac_fisica: ac_fisica,
-        medicado: medicado,
-        ciru_hospi: ciru_hospi,
-        alergia: alergia,
-        enfermedad_hered: enfermedad_hered
 
       },
     })
@@ -2313,6 +2318,79 @@ if (agregar_persona) {
           
  
 
+
+        } else {
+          
+          Swal.fire({
+            icon: "danger",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  }
+}
+
+
+agregar_historia_medica = document.getElementById("agregar_historia_medica")
+if (agregar_historia_medica) {
+  agregar_historia_medica.addEventListener("click", agregarHistoriaMedica, false);
+
+  function agregarHistoriaMedica() {
+
+
+
+    // Obtener las enfermedades seleccionadas del select múltiple
+    let enfermedadesSeleccionadas = Array.from(document.querySelector('.select-multiple-enfermedades').selectedOptions).map(option => option.value);
+   //Medicamentos seleccionados del select múltiple
+    let medicamentosSeleccionados = Array.from(document.querySelector('.select-multiple-medicamentos').selectedOptions).map(option => option.value);
+    let tipo_sangre      = document.getElementById("tipo_sangre").value;
+    let fumador          = document.getElementById("fumador").checked ? "Sí" : "No";
+    let alcohol          = document.getElementById("alcohol").checked ? "Sí" : "No";
+    let ac_fisica        = document.getElementById("ac_fisica").checked ? "Sí" : "No";
+    let medicado         = document.getElementById("medicado").checked ? "Sí" : "No";
+    let ciru_hospi       = document.getElementById("ciru_hospi").value;
+    let alergia          = document.getElementById("alergia").value;
+    let antec_fami       = document.getElementById("antec_fami").value;
+    let id_persona_h     = document.getElementById("id_representado").value;
+  
+    $.ajax({
+      url: "index.php?page=registrarHistoriaMedica",
+      type: "post",
+      dataType: "json",
+      data: {
+        
+        /*-- Datos del historial medico ---- */
+        tipo_sangre: tipo_sangre,
+        enfermedades: enfermedadesSeleccionadas,
+        fumador: fumador,
+        alcohol: alcohol,
+        ac_fisica: ac_fisica,
+        medicado: medicado,
+        ciru_hospi: ciru_hospi,
+        alergia: alergia,
+        id_persona_h: id_persona_h,
+        antec_fami: antec_fami,
+        medicamentos :medicamentosSeleccionados
+      },
+    })
+      .done(function (response) {
+        if (response.data.success == true) {
+        
+          document.getElementById("formRegistrarHistoriaMedica").reset();
+
+          $("#modalAgregarHistoriaMedica").modal("hide");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
 
         } else {
           

@@ -146,27 +146,10 @@ class PersonasController
 	
 	
 		// Registrar la persona
-		$resultado_p = $modelPersonas->registrarPersona($datosPersona);
-		$ultimo_id_persona = $resultado_p['ultimo_id'];
-		
-		
-		
-		/* Historial medico */
-		$datos_h_medica =  array(
-			'tipo_sangre'                  => $_POST['tipo_sangre'],
-			'enfermedad'                   => $_POST['enfermedad'],
-			'fumador'     		           => $_POST['fumador'],
-			'alcohol'           	       => $_POST['alcohol'],
-			'actividad_fisica'  		   => $_POST['ac_fisica'],
-			'medicado'           		   => $_POST['medicado'],
-			'cirugia_hospitalaria'         => $_POST['ciru_hospi'],
-			'alergia'			 		   => $_POST['alergia'],
-			'enfermedad_hereditaria'	   => $_POST['enfermedad_hered'],
-			'id_persona'		           => $ultimo_id_persona,
-			'fecha_reg'               	   => $fecha_registro
-		);
+		$resultado = $modelPersonas->registrarPersona($datosPersona);
 
-		$resultado = $registrar_histo_medica = $modelPersonas->registrarHistoriaMedica($datos_h_medica);
+		
+		
 		
 		if ($resultado) {
 			$data = [
@@ -194,6 +177,102 @@ class PersonasController
 			exit();
 		}
 		
+	}
+
+	/* Registrar historia médica */
+
+	public function registrarHistoriaMedica(){
+
+		$modelPersonas = new PersonasModel();
+		$fecha_registro = date('Y-m-d');
+
+
+		$medicado = $_POST['medicado'];
+
+		/* Historial medico */
+		$datos_h_medica =  array(
+			'tipo_sangre'                  => $_POST['tipo_sangre'],
+			'fumador'     		           => $_POST['fumador'],
+			'alcohol'           	       => $_POST['alcohol'],
+			'actividad_fisica'  		   => $_POST['ac_fisica'],
+			'antec_fami'  		           => $_POST['antec_fami'],
+			'medicado'           		   => $medicado,
+			'cirugia_hospitalaria'         => $_POST['ciru_hospi'],
+			'alergia'			 		   => $_POST['alergia'],
+		    'id_persona'		           => $_POST['id_persona_h'],
+			'fecha_reg'                    => $fecha_registro
+		);
+
+		$resultado = $modelPersonas->registrarHistoriaMedica($datos_h_medica);
+		$id_historia_medica = $resultado['ultimo_id'];
+
+
+		//Registro de medicamentos
+
+		if($medicado === "Sí") {
+
+			$medicamentos = $_POST['medicamentos'];
+
+		foreach($medicamentos as $medicamento) {
+			$id_medicamento = $medicamento;
+
+			$datos_medicamentos =  array(
+				'id_presentacion_medicamento'  => $id_medicamento,
+				'id_historia_medica'     	   => $id_historia_medica,
+				
+			);
+			$resultado_medic = $modelPersonas->registrarMedicamentos($datos_medicamentos);
+		}
+
+		}
+
+		
+		/*Registro de enfermedades */
+
+		$enfermedades = $_POST['enfermedades'];
+
+		if(!empty($enfermedades)) {
+			foreach($enfermedades as $enfermedad) {
+				$id_enfermedad = $enfermedad;
+	
+				$datos_enfermedades =  array(
+					'id_patologia'                 => $id_enfermedad,
+					'id_historia_medica'     	   => $id_historia_medica,
+					
+				);
+				$resultado_enferm = $modelPersonas->registrarEnfermedades($datos_enfermedades);
+			}
+
+			
+
+		}
+
+		if ($resultado) {
+			$data = [
+				'data' => [
+					'success'            =>  true,
+					'message'            => 'Guardado exitosamente',
+					'info'               =>  'La historia médica se ha guardado con exito'
+				],
+				'code' => 1,
+			];
+
+			echo json_encode($data);
+			exit();
+		} else {
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Ocurrió un error al guardar la historia medica',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+
+			echo json_encode($data);
+			exit();
+		}
+
 	}
 
 

@@ -77,9 +77,8 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                             <div class="col-sm-3" id="grupo_primer_nombre">
                                 <label class="formulario__label" for="nombres">Primer nombre</label>
                                 <div class="form-group">
-                                    <input class="form-control formulario__validacion__input"
-                                        type="text" id="primer_nombre" name="primer_nombre" placeholder="Primer nombre"
-                                        required>
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="primer_nombre" name="primer_nombre" placeholder="Primer nombre" required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
@@ -227,150 +226,10 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                             </div>
                         </div>
 
-                        <div class="row">
 
-                            <div class="col-sm-12" id="contenedor_datos_representante" style="display: none;">
-                                <p>Datos del representante</p>
-                                <div class="table-responsive tbl_personas">
-                                    <table class="table table-bordered table-secondary table-striped table-hover">
-                                        <tr>
-                                            <th>Nº documento</th>
-                                            <th>Nombres</th>
-                                            <th>Apellidos</th>
-                                            <th>Parentesco</th>
-                                        </tr>
-                                        <tr>
-                                            <td id="documento_r"></td>
-                                            <td id="nombres_representante"></td>
-                                            <td id="apellidos_representante"></td>
-                                            <td id="parentesco_representante">
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                       
-                    </div>
-                
-                    <div class="step" id="step-2" style="display: none;">
-
-
-                        <h5>Historial médico</h5>
-                        <div class="row">
-                            <div class="mb-3 col-sm-4">
-                                <div class="form-group" id="grupo_tipo_sangre">
-                                    <label class="formulario__label" for="tipo_sangre">Tipo de sangre</label>
-                                    <select class="form-control formulario__validacion__input" name="tipo_sangre"
-                                        id="tipo_sangre">
-                                        <option value="">Seleccione</option>
-                                        <option value="A+">A+</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B-">B-</option>
-                                        <option value="AB+">AB+</option>
-                                        <option value="AB-">AB-</option>
-                                        <option value="O+">O+</option>
-                                        <option value="O-">O-</option>
-                                    </select>
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-
-                            <div class="mb-3 col-sm-8">
-                                <div class="form-group" id="grupo_enfermedad">
-                                    <label class="formulario__label" for="enfermedad">Enfermedad</label>
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="enfermedad" name="enfermedad" placeholder="¿Padece alguna enfermedad?">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="mb-3 col-sm-4">
-                                <div class="form-group" id="grupo_fumador">
-                                    <label class="formulario__label" for="fumador">Fumador</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="fumador" name="fumador">
-                                        <label class="form-check-label" for="fumador">¿Es fumador?</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 col-sm-8">
-                                <div class="form-group" id="grupo_ciru_hospi">
-                                    <label class="formulario__label" for="ciru_hospi">Cirugías o
-                                        hospitalizaciones</label>
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="ciru_hospi" name="ciru_hospi" placeholder="Cirugías o hospitalizaciones...">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="mb-3 col-sm-4">
-                                <div class="form-group" id="grupo_alcohol">
-                                    <label class="formulario__label" for="alcohol">Alcohol</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="alcohol" name="alcohol">
-                                        <label class="form-check-label" for="alcohol">¿Consume alcohol?</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 col-sm-8">
-                                <div class="form-group" id="grupo_alergia">
-                                    <label class="formulario__label" for="alergia">Alergia</label>
-                                    <input class="form-control formulario__validacion__input" type="text" id="alergia"
-                                        name="alergia" placeholder="Alergias...">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-sm-4">
-                                <div class="form-group" id="grupo_ac_fisica">
-                                    <label class="formulario__label" for="ac_fisica">Actividad física</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="ac_fisica" name="ac_fisica">
-                                        <label class="form-check-label" for="ac_fisica">¿Realiza actividad
-                                            física?</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 col-sm-8">
-                                <div class="form-group" id="grupo_enfermedad_hered">
-                                    <label class="formulario__label" for="enfermedad_hered">Enfermedad
-                                        hereditaria</label>
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="enfermedad_hered" name="enfermedad_hered"
-                                        placeholder="Enfermedades hereditarias...">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-sm-4">
-                                <div class="form-group" id="grupo_medicado">
-                                    <label class="formulario__label" for="medicado">Medicado</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="medicado" name="medicado">
-                                        <label class="form-check-label" for="medicado">¿Está medicado?</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 col-sm-8" id="indiqueCual" style="display:none;">
-                                <div class="form-group">
-                                    <label class="formulario__label" for="indique_cual">Indique el medicamento</label>
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="indique_cual" name="indique_cual"
-                                        placeholder="Especifique el medicamento...">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
+
                 </form>
             </div>
 
@@ -581,16 +440,7 @@ function nextPrev(n) {
     showStep(currentStep);
 }
 
-const checkbox = document.getElementById('medicado');
-const inputText = document.getElementById('indiqueCual');
 
-checkbox.addEventListener('change', function() {
-    if (this.checked) {
-        inputText.style.display = 'block'; // Mostrar el input de texto
-    } else {
-        inputText.style.display = 'none'; // Ocultar el input de texto
-    }
-});
 </script>
 
 

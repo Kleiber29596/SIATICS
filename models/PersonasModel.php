@@ -34,6 +34,35 @@ class PersonasModel extends ModeloBase
 	}
 
 
+	/* Registrar enfermedades /historia médica */
+
+	public function registrarEnfermedades($datos)
+	{
+		$db = new ModeloBase();
+		try {
+			$insertar = $db->insertar('histo_patologias', $datos);
+			return $insertar;
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
+
+	/* Registrar medicamentos /historia médica */
+
+	public function registrarMedicamentos($datos)
+	{
+		$db = new ModeloBase();
+		try {
+			$insertar = $db->insertar('histo_medic', $datos);
+			return $insertar;
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
+
+
 	
 	/* Registrar Historia Medica */
 	public function registrarHistoriaMedica($datos)
@@ -122,8 +151,22 @@ class PersonasModel extends ModeloBase
 	/*------------Método para consultar un registro de una persona mediante la cedula --------*/
 public function listarDatosPersona($id_persona) {
     $db = new ModeloBase();
-    $query = "SELECT p.id_persona, p.n_documento, p.tipo_documento,  CONCAT(p.tipo_documento,'-',p.n_documento) AS documento, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos,  p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, h.tipo_sangre, h.enfermedad, h.fumador, h.alcohol, h.actividad_fisica, h.medicado, h.cirugia_hospitalaria, h.alergia, h.enfermedad_hereditaria FROM  personas AS p  LEFT JOIN historia_medica AS h ON h.id_persona = p.id_persona WHERE p.id_persona = $id_persona";
+    $query = "SELECT p.id_persona, p.n_documento, p.tipo_documento,  CONCAT(p.tipo_documento,'-',p.n_documento) AS documento, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos,  p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, h.id, h.tipo_sangre, h.fumador, h.alcohol, h.actividad_fisica, h.medicado, h.cirugia_hospitalaria, h.alergia, h.antec_fami FROM  personas AS p  LEFT JOIN historia_medica AS h ON h.id_persona = p.id_persona WHERE p.id_persona = $id_persona";
     $resultado = $db->obtenerTodos($query);
+    return $resultado;
+}
+
+public function listarEnfermedades($id_historia_medica) {
+    $db = new ModeloBase();
+    $query = "SELECT hp.id_histo_patologia, hp.id_historia_medica, hp.id_patologia, p.nombre AS nombre_patologia from histo_patologias AS hp LEFT JOIN patologias AS p ON hp.id_patologia = p.id_patologia WHERE id_historia_medica = $id_historia_medica";
+    $resultado = $db->FectAssoc($query);
+    return $resultado;
+}
+
+public function listarMedicamentos($id_historia_medica) {
+    $db = new ModeloBase();
+    $query = "SELECT hm.id_histo_medic, hm.id_historia_medica, hm.id_presentacion_medicamento, pre_medic.id_medicamento, pre_medic.id_presentacion, CONCAT(m.nombre_medicamento,' ',p.presentacion) AS nombre_medicamento from histo_medic AS hm LEFT JOIN presentacion_medicamentos AS pre_medic ON hm.id_presentacion_medicamento = pre_medic.id_presentacion_medicamento LEFT JOIN medicamentos AS m ON pre_medic.id_medicamento = m.id_medicamento LEFT JOIN presentacion AS p ON p.id_presentacion = pre_medic.id_presentacion WHERE id_historia_medica = $id_historia_medica";
+    $resultado = $db->FectAssoc($query);
     return $resultado;
 }
 

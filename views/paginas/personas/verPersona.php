@@ -1,5 +1,6 @@
 <!-- Begin Page Content -->
 
+
 <?php
 
 
@@ -43,7 +44,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         $telefono                   = $datos_personas['telefono']; 
         $correo                     = $datos_personas['correo']; 
         $fecha_registro             = $datos_personas['fecha_registro']; 
-        $direccion                  = $datos_personas['direccion']; 
+        $direccion                  = $datos_personas['direccion'];
+        $id_historia_medica         = $datos_personas['id'];  
         $tipo_sangre                = $datos_personas['tipo_sangre']; 
         $enfermedad                 = $datos_personas['enfermedad']; 
         $fumador                    = $datos_personas['fumador']; 
@@ -52,7 +54,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         $medicado                   = $datos_personas['medicado'];
         $cirugia_hospitalaria       = $datos_personas['cirugia_hospitalaria'];
         $alergia                    = $datos_personas['alergia'];  
-        $enfermedad_hereditaria     = $datos_personas['enfermedad_hereditaria'];       
+        $antec_fami                 = $datos_personas['antec_fami'];       
     }
 
     foreach ($datos_representante as $datos) { 
@@ -65,13 +67,34 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
     } 
 
+ if(!empty($id_historia_medica)) {
 
-   
-
-
+    $datos_enfermedad = $modelPersonas->listarEnfermedades($id_historia_medica);
     
- 
+    if(!empty($datos_enfermedad)) {
+        foreach($datos_enfermedad as $enfermedad) {
+            $patologias[] = $enfermedad['nombre_patologia'];
+        }
+    
+        $enfermedades = implode(', ', $patologias);
+      
+    }
 
+    $datos_medicamentos = $modelPersonas->listarMedicamentos($id_historia_medica);
+    
+    if(!empty($datos_medicamentos)) {
+        foreach($datos_medicamentos as $medicamento) {
+            $array_medicamentos[] = $medicamento['nombre_medicamento'];
+        }
+    
+        $medicamentos = implode(', ', $array_medicamentos);
+      
+    }
+
+
+ }
+
+ 
 ?>
 
 
@@ -165,18 +188,28 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                                                         <button title="Agregrar representante" class="btn btn-danger"
                                                             data-bs-toggle="modal"
-                                                            data-bs-target="#modalAgregarRepresentante">Agregar
-                                                            Representante <i class="fas fa-plus"></i></button>
+                                                            data-bs-target="#modalAgregarRepresentante"><i
+                                                                class="fas fa-user-plus"
+                                                                title="agregar representante"></i></button>
+
+                                                        <button title="Agregrar representante" class="btn btn-danger"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#modalAgregarRepresentante"><i
+                                                                class="fas fa-clipboard-user"></i></button>
 
                                                         <?php
                                                             }else{
                                                                 ?>
 
-                                                        <button title="Agregrar representante" class="btn btn-danger"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#modalAgregarRepresentado">Agregar
-                                                            Representado <i class="fas fa-plus"></i></button>
+                                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#modalAgregarRepresentado"> <i
+                                                                class="fas fa-user-plus"
+                                                                title="Agregar representado"></i></button>
 
+                                                        <button title="Llenar historial médico"
+                                                            class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#modalAgregarHistoriaMedica"><i
+                                                                class="bi bi-clipboard-plus"></i></button>
                                                         <?php
     
                                                             }
@@ -244,24 +277,30 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     </p>
                                     <div class="collapse" id="collapseExample">
                                         <div class="table-responsive mb-3">
-                                            <table class="table table-bordered table-hover ">
+                                            <table class="table table-bordered table-primary table-hover ">
 
                                                 <thead>
-                                                    <tr class="table-primary">
+                                                    <tr>
                                                         <th style=" background-color:#b7d0f7;">Tipo de sangre</th>
                                                         <th style=" background-color:#b7d0f7;">Enfermedades</th>
-                                                        <th style=" background-color:#b7d0f7;">¿Fumador?</th>
-                                                        <th style=" background-color:#b7d0f7;">¿Alcohol?</th>
-                                                        <th style=" background-color:#b7d0f7;">¿Actividad Fisica?</th>
-                                                        <th style=" background-color:#b7d0f7;">¿Cirugías?</th>
-                                                        <th style=" background-color:#b7d0f7;">¿Alergias?</th>
-                                                        <th style=" background-color:#b7d0f7;">¿Enfermedades hereditarias?</th>
+                                                        <th style=" background-color:#b7d0f7;">Fumador</th>
+                                                        <th style=" background-color:#b7d0f7;">Alcohol</th>
+                                                        <th style=" background-color:#b7d0f7;">Actividad Fisica</th>
+                                                        <th style=" background-color:#b7d0f7;">Cirugías</th>
+                                                        <th style=" background-color:#b7d0f7;">Alergias</th>
+                                                        <th style=" background-color:#b7d0f7;">Antecedentes familiares</th>
+                                                        <th style=" background-color:#b7d0f7;">Medicamentos tomados</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr class="table-primary">
+                                                    <?php if(!empty($id_historia_medica)) { ?>
+                                                    <tr>
                                                         <td style="text-align: center;"><?= $tipo_sangre ?></td>
-                                                        <td style="text-align: center;"><?= $enfermedad ?></td>
+                                                        <?php if(!empty($enfermedades)) {?>
+                                                        <td style="text-align: center;"><?= $enfermedades ?></td>
+                                                        <?php } else{ ?>
+                                                        <td style="text-align: center;"><?= 'vacío' ?></td>
+                                                        <?php } ?>
                                                         <td style="text-align: center;"><?= $fumador ?></td>
                                                         <td style="text-align: center;"><?= $alcohol ?></td>
                                                         <td style="text-align: center;"><?= $actividad_fisica ?>
@@ -269,11 +308,19 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                                         <td style="text-align: center;"><?= $cirugia_hospitalaria ?>
                                                         </td>
                                                         <td style="text-align: center;"><?= $alergia ?></td>
-                                                        <td style="text-align: center;">
-                                                            <?= $enfermedad_hereditaria ?>
+                                                        <td style="text-align: center;"><?= $antec_fami ?></td>
+                                                        <?php if(!empty($medicamentos)) {?>
+                                                        <td style="text-align: center;"><?= $medicamentos ?></td>
+                                                        <?php } else{ ?>
+                                                        <td style="text-align: center;"><?= 'vacío' ?></td>
+                                                        <?php }?>
+                                                    </tr>
+                                                <?php }else{ ?>
+                                                    <tr  style="text-align: center;">
+                                                        <td colspan="9" style="text-align: center;">No hay datos
                                                         </td>
                                                     </tr>
-
+                                                    <?php } ?>
                                                 </tbody>
 
 
@@ -295,7 +342,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                                 <thead>
                                                     <tr class="table-success">
                                                         <th style="background:#a6cdbb;">Fecha</th>
-                                                        <th style="background:#a6cdbb;" >Especialidad</th>
+                                                        <th style="background:#a6cdbb;">Especialidad</th>
                                                         <th style="background:#a6cdbb;">Especialista</th>
                                                         <th style="background:#a6cdbb;">Motivo</th>
                                                         <th style="background:#a6cdbb;">Diagnostico</th>
@@ -443,8 +490,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             <div class="col-sm-3 mb-3" id="grupo_fecha_nac">
                                 <div class="form-group">
                                     <label class="formulario__label" for="fecha_nac_r">Fecha de nacimiento</label>
-                                    <input type="date" class="form-control formulario__validacion__input" id="fecha_nac_r"
-                                        name="fecha_nac" required>
+                                    <input type="date" class="form-control formulario__validacion__input"
+                                        id="fecha_nac_r" name="fecha_nac" required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">La fecha de nacimiento no puede ser una fecha
@@ -579,6 +626,166 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
         </div>
     </div>
 
+    <!-- Modal agregar historial medico -->
+
+
+    <div class="modal fade" id="modalAgregarHistoriaMedica" tabindex="-1"
+        aria-labelledby="modalAgregarHistoriaMedicaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarHistoriaMedicaLabel">Agregar Historia médica <i
+                            class="bi bi-clipboard-plus"></i></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formRegistrarHistoriaMedica">
+
+
+                        <div class="row">
+                            <div class="mb-3 col-sm-4">
+                                <div class="form-group" id="grupo_tipo_sangre">
+                                    <label class="formulario__label" for="tipo_sangre">Tipo de sangre</label>
+                                    <select class="form-control formulario__validacion__input" name="tipo_sangre"
+                                        id="tipo_sangre">
+                                        <option value="">Seleccione</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 col-sm-8">
+                                <div class="form-group" id="grupo_enfermedad">
+                                    <label class="formulario__label" for="enfermedad">Enfermedades</label>
+                                    <select
+                                        class="js-example-basic-multiple select2-selection--single select-multiple-enfermedades"
+                                        style="width:100%" name="states[]" multiple="multiple">
+                                        <option value="1">Hipertensión</option>
+                                        <option value="2">Asma</option>
+                                        <option value="3">Diabetes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3 col-sm-4">
+                                <div class="form-group" id="grupo_fumador">
+                                    <label class="formulario__label" for="fumador">Fumador</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="fumador" name="fumador">
+                                        <label class="form-check-label" for="fumador">¿Es fumador?</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-sm-8">
+                                <div class="form-group" id="grupo_ciru_hospi">
+                                    <label class="formulario__label" for="ciru_hospi">Cirugías o
+                                        hospitalizaciones</label>
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="ciru_hospi" name="ciru_hospi" placeholder="Cirugías o hospitalizaciones...">
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3 col-sm-4">
+                                <div class="form-group" id="grupo_alcohol">
+                                    <label class="formulario__label" for="alcohol">Alcohol</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="alcohol" name="alcohol">
+                                        <label class="form-check-label" for="alcohol">¿Consume alcohol?</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-sm-8">
+                                <div class="form-group" id="grupo_alergia">
+                                    <label class="formulario__label" for="alergia">Alergia</label>
+                                    <input class="form-control formulario__validacion__input" type="text" id="alergia"
+                                        name="alergia" placeholder="Alergias...">
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-sm-4">
+                                <div class="form-group" id="grupo_ac_fisica">
+                                    <label class="formulario__label" for="ac_fisica">Actividad física</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="ac_fisica" name="ac_fisica">
+                                        <label class="form-check-label" for="ac_fisica">¿Realiza actividad
+                                            física?</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 col-sm-8">
+                                <div class="form-group" id="grupo_ciru_hospi">
+                                    <label class="formulario__label" for="ciru_hospi">Antecedentes familiares</label>
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="antec_fami" name="ciru_hospi" placeholder="Antecedentes familiares...">
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-sm-4">
+                                <div class="form-group" id="grupo_medicado">
+                                    <label class="formulario__label" for="medicado">Medicado</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="medicado" name="medicado">
+                                        <label class="form-check-label" for="medicado">¿Está medicado?</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-sm-8" id="indiqueCual" style="display:none;">
+                                <div class="form-group">
+                                    <label class="formulario__label" for="enfermedad">Medicamentos</label>
+                                    <select
+                                        class="js-example-basic-multiple select2-selection--single select-multiple-medicamentos"
+                                        style="width:100%" name="states[]" multiple="multiple">
+                                        <option value="1">Acetaminofén</option>
+                                        <option value="2">Atamel</option>
+                                        <option value="3">Diclofenac potásico</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="agregar_historia_medica">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    const checkbox = document.getElementById('medicado');
+    const inputText = document.getElementById('indiqueCual');
+
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            inputText.style.display = 'block'; // Mostrar el input de texto
+        } else {
+            inputText.style.display = 'none'; // Ocultar el input de texto
+        }
+    });
+    </script>
 
 
 

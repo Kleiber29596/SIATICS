@@ -182,6 +182,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="row mt-4" id="contenedor_datos_persona" style="display: none;">
                                 <div class="col-md-12">
                                     <strong>Datos del paciente</strong>

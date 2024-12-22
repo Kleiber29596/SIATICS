@@ -309,7 +309,146 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                 </div>
 
                 <div class="container">
-                  
+                    <div class="row">
+                        <div class="card">
+                            <div class="col-sm-12">
+                                <h3 style="margin-top: 20px;">Tipos de Consultas</h3>
+                                <!-- Filtrar grafica por fecha -->
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="fechaDesde">Fecha desde</label>
+                                            <input id="fechaDesde" class="form-control" type="date">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="fechaHasta">Fecha hasta</label>
+                                            <input id="fechaHasta" class="form-control" type="date">
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-sm-4">
+                                        <label for="tipoConsulta">Tipo de consulta:</label>
+                                        <select class="form-control" id="tipoConsulta">
+                                            <option value="">Seleccione...</option>
+                                            <?php
+                                            foreach ($tipos_consultas as $tipos_consultas) {
+                                            ?>
+                                                <option value="<?= $tipos_consultas['id_tipo_consulta'] ?>"><?= $tipos_consultas['motivo'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div> -->
+
+                                    <div class="col-sm-2" style="display: flex; justify-content: center; align-items: end;">
+                                        <button id="btnFiltroFechaDesdeHasta"
+                                            type="button"
+                                            class="btn btn-primary"
+                                            onclick="filtrarGraficaFechaDesdeHasta()"
+                                            href="">
+                                            Filtrar <i class="bi bi-filter"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Fin Filtrar grafica por fecha -->
+                                <?php
+                                if (isset($_GET['fechaDesde']) && isset($_GET['fechaHasta'])) {
+                                ?>
+                                    <div style="margin-top: 20px;" id="graficaFiltroFechaDesdeHasta"></div>
+
+
+                                    <script>
+                                        //TODOS LOS TIPOS DE CONSULTAS Y EL NÚMERO DE CONSULTAS FILTRADO POR FECHA
+
+                                        // Themes begin
+                                        am4core.useTheme(am4themes_animated);
+                                        // Themes end
+
+                                        let iconPath = "M53.5,476c0,14,6.833,21,20.5,21s20.5-7,20.5-21V287h21v189c0,14,6.834,21,20.5,21 c13.667,0,20.5-7,20.5-21V154h10v116c0,7.334,2.5,12.667,7.5,16s10.167,3.333,15.5,0s8-8.667,8-16V145c0-13.334-4.5-23.667-13.5-31 s-21.5-11-37.5-11h-82c-15.333,0-27.833,3.333-37.5,10s-14.5,17-14.5,31v133c0,6,2.667,10.333,8,13s10.5,2.667,15.5,0s7.5-7,7.5-13 V154h10V476 M61.5,42.5c0,11.667,4.167,21.667,12.5,30S92.333,85,104,85s21.667-4.167,30-12.5S146.5,54,146.5,42 c0-11.335-4.167-21.168-12.5-29.5C125.667,4.167,115.667,0,104,0S82.333,4.167,74,12.5S61.5,30.833,61.5,42.5z"
+
+
+
+                                        let chart = am4core.create("graficaFiltroFechaDesdeHasta", am4charts.SlicedChart);
+                                        chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
+                                        chart.data = <?= $datos_filtro_grafica ?>
+
+                                        let series = chart.series.push(new am4charts.PictorialStackedSeries());
+                                        series.dataFields.value = "numero_consultas";
+                                        series.dataFields.category = "motivo";
+                                        series.alignLabels = true;
+
+                                        series.maskSprite.path = iconPath;
+                                        series.ticks.template.locationX = 1;
+                                        series.ticks.template.locationY = 0.5;
+
+                                        series.labelsContainer.width = 200;
+
+                                        chart.legend = new am4charts.Legend();
+                                        chart.legend.position = "left";
+                                        chart.legend.valign = "bottom";
+                                    </script>
+                                    <!-- TODOS LOS TIPOS DE CONSULTAS Y EL NÚMERO DE CONSULTAS FILTRADO POR FECHA -->
+                                <?php
+                                } else {
+                                ?>
+                                    <div id="grafica_tipos_consultas"></div>
+
+                                    <script>
+                                        //TODOS LOS TIPOS DE CONSULTAS Y EL NÚMERO DE CONSULTAS
+
+                                        /* Chart code */
+                                        // Themes begin
+                                        am4core.useTheme(am4themes_animated);
+                                        // Themes end
+
+                                        let iconPathh = "M53.5,476c0,14,6.833,21,20.5,21s20.5-7,20.5-21V287h21v189c0,14,6.834,21,20.5,21 c13.667,0,20.5-7,20.5-21V154h10v116c0,7.334,2.5,12.667,7.5,16s10.167,3.333,15.5,0s8-8.667,8-16V145c0-13.334-4.5-23.667-13.5-31 s-21.5-11-37.5-11h-82c-15.333,0-27.833,3.333-37.5,10s-14.5,17-14.5,31v133c0,6,2.667,10.333,8,13s10.5,2.667,15.5,0s7.5-7,7.5-13 V154h10V476 M61.5,42.5c0,11.667,4.167,21.667,12.5,30S92.333,85,104,85s21.667-4.167,30-12.5S146.5,54,146.5,42 c0-11.335-4.167-21.168-12.5-29.5C125.667,4.167,115.667,0,104,0S82.333,4.167,74,12.5S61.5,30.833,61.5,42.5z"
+
+
+
+                                        let chart = am4core.create("grafica_tipos_consultas", am4charts.SlicedChart);
+                                        chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
+                                        let url = 'http://localhost/SIATICS/index.php?page=todosTiposConsulta';
+                                        fetch(url)
+                                            .then(response => response.json())
+                                            .then(datos => mostrar(datos))
+                                            .catch(e => console.log(e))
+
+                                        const mostrar = (articulos) => {
+                                            articulos.forEach(element => {
+                                                chart.data.push(element.numero_consultas)
+                                            });
+                                            chart.data = articulos
+                                            console.log(chart.data)
+
+                                        }
+
+                                        let series = chart.series.push(new am4charts.PictorialStackedSeries());
+                                        series.dataFields.value = "numero_consultas";
+                                        series.dataFields.category = "motivo";
+                                        series.alignLabels = true;
+
+                                        series.maskSprite.path = iconPathh;
+                                        series.ticks.template.locationX = 1;
+                                        series.ticks.template.locationY = 0.5;
+
+                                        series.labelsContainer.width = 200;
+
+                                        chart.legend = new am4charts.Legend();
+                                        chart.legend.position = "left";
+                                        chart.legend.valign = "bottom";
+                                    </script>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
 
                     <p>
                         <a class="btn btn-primary" data-bs-toggle="collapse" href="#pacientes_por_sexo" role="button" aria-expanded="false" aria-controls="pacientes_por_sexo">
