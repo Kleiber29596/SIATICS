@@ -185,33 +185,37 @@ class PersonasController
 
 		$modelPersonas = new PersonasModel();
 		$fecha_registro = date('Y-m-d');
+		$jsonData = file_get_contents('php://input');
+		$data = json_decode($jsonData, true);
+		
+		$medicado = $data['medicado'];
 
-
-		$medicado = $_POST['medicado'];
-
+		
 		/* Historial medico */
 		$datos_h_medica =  array(
-			'tipo_sangre'                  => $_POST['tipo_sangre'],
-			'fumador'     		           => $_POST['fumador'],
-			'alcohol'           	       => $_POST['alcohol'],
-			'actividad_fisica'  		   => $_POST['ac_fisica'],
-			'antec_fami'  		           => $_POST['antec_fami'],
+			'tipo_sangre'                  => $data['tipo_sangre'],
+			'fumador'     		           => $data['fumador'],
+			'alcohol'           	       => $data['alcohol'],
+			'actividad_fisica'  		   => $data['ac_fisica'],
+			'antec_fami'  		           => $data['antec_fami'],
 			'medicado'           		   => $medicado,
-			'cirugia_hospitalaria'         => $_POST['ciru_hospi'],
-			'alergia'			 		   => $_POST['alergia'],
-		    'id_persona'		           => $_POST['id_persona_h'],
+			'cirugia_hospitalaria'         => $data['ciru_hospi'],
+			'alergia'			 		   => $data['alergia'],
+		    'id_persona'		           => $data['id_persona_h'],
+			'frecuencia_f'		           => $data['frecuencia_f'],
+			'frecuencia_alcohol'		   => $data['frecuencia_alcohol'],
+			'frecuencia_ac_f'		       => $data['frecuencia_ac_f'],
 			'fecha_reg'                    => $fecha_registro
 		);
 
 		$resultado = $modelPersonas->registrarHistoriaMedica($datos_h_medica);
 		$id_historia_medica = $resultado['ultimo_id'];
 
-
 		//Registro de medicamentos
 
 		if($medicado === "Sí") {
 
-			$medicamentos = $_POST['medicamentos'];
+			$medicamentos = $data['medicamentos'];
 
 		foreach($medicamentos as $medicamento) {
 			$id_medicamento = $medicamento;
@@ -229,7 +233,7 @@ class PersonasController
 		
 		/*Registro de enfermedades */
 
-		$enfermedades = $_POST['enfermedades'];
+		$enfermedades = $data['enfermedades'];
 
 		if(!empty($enfermedades)) {
 			foreach($enfermedades as $enfermedad) {

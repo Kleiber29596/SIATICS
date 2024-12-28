@@ -65,7 +65,6 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <link href="libs/vendor/datatables/bootstrap.min.css" rel="stylesheet">
     <link href="libs/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="libs/vendor/datatables/dataTables.bootstrap5.css" rel="stylesheet">
-    <link href="libs/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="libs/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="libs/vendor/quill/quill.snow.css" rel="stylesheet">
     <link href="libs/vendor/quill/quill.bubble.css" rel="stylesheet">
@@ -77,12 +76,15 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <!-- Estilos de la validacion de formulario -->
     <link href="libs/css/validacion.css" rel="stylesheet">
     <!-- librerias del calendario -->
-    <!--<link href="libs/vendor/calendar/bootstrap.min.css" rel="stylesheet">-->
+    <!-- <link href="libs/vendor/calendar/bootstrap.min.js" rel="stylesheet"> -->
     <link href="libs/vendor/calendar/fullcalendar.css" rel="stylesheet">
+
+    <!-- librerias de calendar -->
     <script src="libs/vendor/calendar/jquery.min.js"></script>
     <script src="libs/vendor/calendar/moment.min.js"></script>
     <script src="libs/vendor/calendar/fullcalendar.min.js"></script>
     <script src="libs/vendor/calendar/bootstrap.min.js"></script>
+  
     <!-- AmChart Js -->
     <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>

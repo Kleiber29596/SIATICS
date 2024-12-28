@@ -2336,76 +2336,162 @@ if (agregar_persona) {
 }
 
 
-agregar_historia_medica = document.getElementById("agregar_historia_medica")
-if (agregar_historia_medica) {
-  agregar_historia_medica.addEventListener("click", agregarHistoriaMedica, false);
+// agregar_historia_medica = document.getElementById("agregar_historia_medica")
+// if (agregar_historia_medica) {
+//   agregar_historia_medica.addEventListener("click", agregarHistoriaMedica, false);
 
-  function agregarHistoriaMedica() {
+//   function agregarHistoriaMedica() {
 
 
 
-    // Obtener las enfermedades seleccionadas del select múltiple
-    let enfermedadesSeleccionadas = Array.from(document.querySelector('.select-multiple-enfermedades').selectedOptions).map(option => option.value);
-   //Medicamentos seleccionados del select múltiple
-    let medicamentosSeleccionados = Array.from(document.querySelector('.select-multiple-medicamentos').selectedOptions).map(option => option.value);
-    let tipo_sangre      = document.getElementById("tipo_sangre").value;
-    let fumador          = document.getElementById("fumador").checked ? "Sí" : "No";
-    let alcohol          = document.getElementById("alcohol").checked ? "Sí" : "No";
-    let ac_fisica        = document.getElementById("ac_fisica").checked ? "Sí" : "No";
-    let medicado         = document.getElementById("medicado").checked ? "Sí" : "No";
-    let ciru_hospi       = document.getElementById("ciru_hospi").value;
-    let alergia          = document.getElementById("alergia").value;
-    let antec_fami       = document.getElementById("antec_fami").value;
-    let id_persona_h     = document.getElementById("id_representado").value;
+//     // Obtener las enfermedades seleccionadas del select múltiple
+//     let enfermedadesSeleccionadas = Array.from(document.querySelector('.select-multiple-enfermedades').selectedOptions).map(option => option.value);
+//    //Medicamentos seleccionados del select múltiple
+//     let medicamentosSeleccionados = Array.from(document.querySelector('.select-multiple-medicamentos').selectedOptions).map(option => option.value);
+//     let tipo_sangre           = document.getElementById("tipo_sangre").value;
+//     let fumador               = document.getElementById("fumador").checked ? "Sí" : "No";
+//     let alcohol               = document.getElementById("alcohol").checked ? "Sí" : "No";
+//     let ac_fisica             = document.getElementById("ac_fisica").checked ? "Sí" : "No";
+//     let medicado              = document.getElementById("medicado").checked ? "Sí" : "No";
+//     let ciru_hospi            = document.getElementById("ciru_hospi").value;
+//     let alergia               = document.getElementById("alergia").value;
+//     let antec_fami            = document.getElementById("antec_fami").value;
+//     let id_persona_h          = document.getElementById("id_representado").value;
+//     let frecuencia_f          = document.getElementById("frecuencia_f");
+//     let frecuencia_alcohol    = document.getElementById("frecuencia_alcohol");
+//     let frecuencia_ac_f       = document.getElementById("frecuencia_ac_f");
   
-    $.ajax({
-      url: "index.php?page=registrarHistoriaMedica",
-      type: "post",
-      dataType: "json",
-      data: {
+//     $.ajax({
+//       url: "index.php?page=registrarHistoriaMedica",
+//       type: "post",
+//       dataType: "json",
+//       data: {
         
-        /*-- Datos del historial medico ---- */
-        tipo_sangre: tipo_sangre,
-        enfermedades: enfermedadesSeleccionadas,
-        fumador: fumador,
-        alcohol: alcohol,
-        ac_fisica: ac_fisica,
-        medicado: medicado,
-        ciru_hospi: ciru_hospi,
-        alergia: alergia,
-        id_persona_h: id_persona_h,
-        antec_fami: antec_fami,
-        medicamentos :medicamentosSeleccionados
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
+//         /*-- Datos del historial medico ---- */
+
+//         tipo_sangre: tipo_sangre,
+//         enfermedades: enfermedadesSeleccionadas,
+//         fumador: fumador,
+//         alcohol: alcohol,
+//         ac_fisica: ac_fisica,
+//         medicado: medicado,
+//         ciru_hospi: ciru_hospi,
+//         alergia: alergia,
+//         id_persona_h: id_persona_h,
+//         antec_fami: antec_fami,
+//         medicamentos :medicamentosSeleccionados,
+//         frecuencia_alcohol :frecuencia_alcohol,
+//         frecuencia_f :frecuencia_f,
+//         frecuencia_ac_f: frecuencia_ac_f
+
+//       },
+//     })
+//       .done(function (response) {
+//         if (response.data.success == true) {
         
-          document.getElementById("formRegistrarHistoriaMedica").reset();
+//           document.getElementById("formRegistrarHistoriaMedica").reset();
 
-          $("#modalAgregarHistoriaMedica").modal("hide");
+//           $("#modalAgregarHistoriaMedica").modal("hide");
 
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
+//           Swal.fire({
+//             icon: "success",
+//             confirmButtonColor: "#3085d6",
+//             title: response.data.message,
+//             text: response.data.info,
+//           });
 
-        } else {
+//         } else {
           
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
+//           Swal.fire({
+//             icon: "danger",
+//             confirmButtonColor: "#3085d6",
+//             title: response.data.message,
+//             text: response.data.info,
+//           });
+//         }
+//       })
+//       .fail(function () {
+//         console.log("error");
+//       });
+//   }
+// }
+
+
+const agregarHistoriaMedicaButton = document.getElementById("agregar_historia_medica");
+
+if (agregarHistoriaMedicaButton) {
+  agregarHistoriaMedicaButton.addEventListener("click", async () => {
+    // Obtener las enfermedades seleccionadas del select múltiple
+    const enfermedadesSeleccionadas = Array.from(
+      document.querySelector('.select-multiple-enfermedades').selectedOptions
+    ).map((option) => option.value);
+
+    // Medicamentos seleccionados del select múltiple
+    const medicamentosSeleccionados = Array.from(
+      document.querySelector('.select-multiple-medicamentos').selectedOptions
+    ).map((option) => option.value);
+
+    const tipo_sangre           = document.getElementById("tipo_sangre").value;
+    const fumador               = document.getElementById("fumador").checked ? "Sí" : "No";
+    const alcohol               = document.getElementById("alcohol").checked ? "Sí" : "No";
+    const ac_fisica             = document.getElementById("ac_fisica").checked ? "Sí" : "No";
+    const medicado              = document.getElementById("medicado").checked ? "Sí" : "No";
+    const ciru_hospi            = document.getElementById("ciru_hospi").value;
+    const alergia               = document.getElementById("alergia").value;
+    const antec_fami            = document.getElementById("antec_fami").value;
+    const id_persona_h          = document.getElementById("id_representado").value;
+    const frecuencia_f          = document.getElementById("frecuencia_f").value;
+    const frecuencia_alcohol    = document.getElementById("frecuencia_alcohol").value;
+    const frecuencia_ac_f       = document.getElementById("frecuencia_ac_f").value;
+
+    const data = {
+      enfermedades: enfermedadesSeleccionadas,
+      tipo_sangre: tipo_sangre,
+      fumador: fumador,
+      alcohol: alcohol,
+      ac_fisica: ac_fisica,
+      medicado: medicado,
+      ciru_hospi: ciru_hospi,
+      alergia: alergia,
+      id_persona_h: id_persona_h,
+      antec_fami: antec_fami,
+      medicamentos :medicamentosSeleccionados,
+      frecuencia_alcohol :frecuencia_alcohol,
+      frecuencia_f :frecuencia_f,
+      frecuencia_ac_f: frecuencia_ac_f
+    };
+
+    try {
+      const response = await fetch("index.php?page=registrarHistoriaMedica", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-  }
+
+      const result = await response.json();
+
+      if (result.data.success) {
+        document.getElementById("formRegistrarHistoriaMedica").reset();
+        $("#modalAgregarHistoriaMedica").modal("hide");
+
+        Swal.fire({
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          title: result.data.message,
+          text: result.data.info,
+        });
+      } else {
+        Swal.fire({
+          icon: "danger",
+          confirmButtonColor: "#3085d6",
+          title: result.data.message,
+          text: result.data.info,
+        });
+      }
+    } catch (error) {
+      console.error("Error al enviar los datos:", error);
+    }
+  });
 }
 
 
@@ -3969,367 +4055,7 @@ function listarDatosMedicamento(id) {
     });
 }
 
-/*-------------------- Fin de actualizar Medicamentos -------------------*/
 
-
-/* -------------- Agregar recepcion medicamento ------------------ */
-var agregar_recepcion_medicamento;
-if (
-  (agregar_recepcion_medicamento = document.getElementById(
-    "agregar_recepcion_medicamento"
-  ))
-) {
-  agregar_recepcion_medicamento.addEventListener(
-    "click",
-    agregarRecepcionMedicamentos,
-    false
-  );
-
-  function agregarRecepcionMedicamentos() {
-    let medicamento = document.getElementById("medicamento").value;
-    let cantidad = document.getElementById("cantidad").value;
-    let procedencia = document.getElementById("procedencia").value;
-    let fecha_vencimiento = document.getElementById("fecha_vencimiento").value;
-    let descripcion_recepcion = document.getElementById(
-      "descripcion_recepcion"
-    ).value;
-
-    $.ajax({
-      url: "index.php?page=registrarRecepcionMedicamento",
-      type: "post",
-      dataType: "json",
-      data: {
-        medicamento: medicamento,
-        cantidad: cantidad,
-        procedencia: procedencia,
-        fecha_vencimiento: fecha_vencimiento,
-        descripcion_recepcion: descripcion_recepcion,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formRegistrarRecepcionMedicamentos").reset();
-
-          $("#modalAgregarRecepcionMedicamentos").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_recepcion_medicamentos").DataTable().ajax.reload();
-        } else {
-          Swal.fire({
-            icon: "error",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}
-
-/* -------------- Agregar entrega de medicamento ------------------ */
-var agregar_entrega_medicamento;
-if (
-  (agregar_entrega_medicamento = document.getElementById(
-    "agregar_entrega_medicamento"
-  ))
-) {
-  agregar_entrega_medicamento.addEventListener(
-    "click",
-    agregarEntregaMedicamentos,
-    false
-  );
-
-  function agregarEntregaMedicamentos() {
-    /* Datos Entrega */
-    let medicamento = document.getElementById("entrega_medicamento").value;
-    let cantidad_entrega = document.getElementById("cantidad_entrega").value;
-    let parentesco = document.getElementById("parentesco").value;
-    let rango_edad = document.getElementById("rango_edad").value;
-    let descripcion = document.getElementById("descripcion_entrega").value;
-    let id_persona = document.getElementById("id_persona").value;
-    /* Datos Persona*/
-    let n_documento = document.getElementById("n_documento_persona").value;
-    let tipo_documento = document.getElementById(
-      "tipo_documento_persona"
-    ).value;
-    let nombres = document.getElementById("nombres_persona_registro").value;
-    let apellidos_persona = document.getElementById(
-      "apellidos_persona_registro"
-    ).value;
-    let correo = document.getElementById("correo").value;
-    let telefono = document.getElementById("telefono").value;
-    let sexo = document.getElementById("sexo").value;
-    let estado = document.getElementById("estado").value;
-    let municipio = document.getElementById("municipio").value;
-    let parroquia = document.getElementById("parroquia").value;
-    let fecha_nacimiento = document.getElementById("fecha_nac").value;
-
-    $.ajax({
-      url: "index.php?page=registrarEntregaMedicamento",
-      type: "post",
-      dataType: "json",
-      data: {
-        medicamento: medicamento,
-        cantidad_entrega: cantidad_entrega,
-        parentesco: parentesco,
-        rango_edad: rango_edad,
-        descripcion: descripcion,
-        id_persona: id_persona,
-        n_documento: n_documento,
-        tipo_documento: tipo_documento,
-        nombres: nombres,
-        apellidos_persona: apellidos_persona,
-        correo: correo,
-        telefono: telefono,
-        sexo: sexo,
-        estado: estado,
-        municipio: municipio,
-        parroquia: parroquia,
-        fecha_nacimiento: fecha_nacimiento,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formRegistrarEntregaMedicamentos").reset();
-          $("#modalAgregarEntregaMedicamentos").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_entrega_medicamentos").DataTable().ajax.reload();
-          contenedor_datos_persona.setAttribute("style", "display: none;");
-          // contenedor_formulario_persona.setAttribute("style", "display: none;");
-        } else {
-          Swal.fire({
-            icon: "error",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}
-
-/* -------------- Listar datos para actualización ------------------ */
-
-function listarActualizacionRecepcionMedicamento(id) {
-  let id_recepcion_medicamento = id;
-
-  let actualizar_recepcion_medicamento = document.getElementById(
-    "actualizar_recepcion_medicamento"
-  ).value;
-  let actualizar_procedencia = document.getElementById(
-    "actualizar_procedencia"
-  ).value;
-  let actualizar_recepcion_cantidad = document.getElementById(
-    "actualizar_recepcion_cantidad"
-  ).value;
-
-  let actualizar_fecha_vencimiento = document.getElementById(
-    "actualizar_fecha_vencimiento"
-  ).value;
-
-  let actualizar_recepcion_descripcion = document.getElementById(
-    "actualizar_recepcion_descripcion"
-  ).value;
-
-  let listar = "listar";
-
-  $.ajax({
-    url: "index.php?page=listarActualizacionRecepcionMedicamento",
-    type: "post",
-    dataType: "json",
-    data: {
-      id_recepcion_medicamento: id_recepcion_medicamento,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success == true) {
-        document.getElementById("actualizar_recepcion_medicamento").value =
-          response.data.medicamento;
-        document.getElementById("actualizar_procedencia").value =
-          response.data.procedencia;
-        document.getElementById("actualizar_recepcion_cantidad").value =
-          response.data.cantidad;
-        document.getElementById("actualizar_fecha_vencimiento").value =
-          response.data.fecha_vencimiento;
-        document.getElementById("actualizar_recepcion_descripcion").value =
-          response.data.descripcion;
-        document.getElementById("id_recepcion_medicamento").value =
-          response.data.id_recepcion_medicamento;
-
-        $("#modalActualizarRecepcionMedicamentos").modal("show");
-      } else {
-      }
-    })
-    .fail(function () {
-      console.log("error");
-    });
-}
-
-/* -------------- Modificar recepcion medicamento ------------------ */
-var actualizar_recepcion_medicamentos;
-if (
-  (actualizar_recepcion_medicamentos = document.getElementById(
-    "actualizar_recepcion_medicamentos"
-  ))
-) {
-  actualizar_recepcion_medicamentos.addEventListener(
-    "click",
-    modificarRecepcionMedicamento,
-    false
-  );
-
-  function modificarRecepcionMedicamento() {
-    let id_recepcion_medicamento = document.getElementById(
-      "id_recepcion_medicamento"
-    ).value;
-    let medicamento = document.getElementById(
-      "actualizar_recepcion_medicamento"
-    ).value;
-    let procedencia = document.getElementById("actualizar_procedencia").value;
-    let fecha_vencimiento = document.getElementById(
-      "actualizar_fecha_vencimiento"
-    ).value;
-    let descripcion = document.getElementById(
-      "actualizar_recepcion_descripcion"
-    ).value;
-    $.ajax({
-      url: "index.php?page=modificarRecepcionMedicamento",
-      type: "post",
-      dataType: "json",
-      data: {
-        id_recepcion_medicamento: id_recepcion_medicamento,
-        procedencia: procedencia,
-        fecha_vencimiento: fecha_vencimiento,
-        descripcion: descripcion,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document
-            .getElementById("formActualizarRecepcionEspecialidad")
-            .reset();
-
-          $("#modalActualizarRecepcionMedicamentos").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_recepcion_medicamento").DataTable().ajax.reload();
-        } else {
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}
-
-/*----------------- Listar Pacientes -------------*/
-$(document).ready(function () {
-  $("#tabla_paciente").DataTable({
-    order: [[0, "DESC"]],
-    procesing: true,
-    serverSide: true,
-    ajax: "http://127.0.0.1/sigeser/index.php?page=listarPacientes",
-    pageLength: 10,
-    createdRow: function (row, data, dataIndex) {
-      if (data[10] == 0) {
-        $(row).addClass("table-danger");
-      } else {
-        //$(row).addClass('table-success');
-      }
-    },
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 10,
-        render: function (data, type, row, meta) {
-          if (row[10] == 1) {
-            let botones =
-              `
-                    <button type="button" class="btn btn-primary btn-sm" onclick="verUsuario(` +
-              row[11] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
-    
-                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacion(` +
-              row[11] +
-              `)"><i class="fas fa-edit"></i></button>&nbsp;
-    
-                   <button type="button" class="btn btn-danger btn-sm" onclick="inactivarPaciente(` +
-              row[11] +
-              `)"><i class="fas fa-trash"></i></button>  `;
-            return botones;
-          } else {
-            let botones =
-              `
-                <button type="button" class="btn btn-primary btn-sm" onclick="verPaciente(` +
-              row[11] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
-
-               <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacion(` +
-              row[11] +
-              `)"><i class="fas fa-edit"></i></button>&nbsp;
-
-               <button type="button" class="btn btn-success btn-sm" onclick="inactivarPaciente(` +
-              row[11] +
-              `)"><i class="fas fa-fas fa-retweet"></i></button>  `;
-            return botones;
-          }
-        },
-      },
-    ],
-    dom: "Bfrtip",
-    language: {
-      decimal: "",
-      emptyTable: "No hay información",
-      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
-      infoFiltered: "(Filtrado de _MAX_ total entradas)",
-      infoPostFix: "",
-      thousands: ",",
-      lengthMenu: "Mostrar _MENU_ Entradas",
-      loadingRecords: "Cargando...",
-      processing: "Procesando...",
-      search: "Buscar:",
-      zeroRecords: "Sin resultados encontrados",
-      paginate: {
-        first: "Primero",
-        last: "Ultimo",
-        next: "Siguiente",
-        previous: "Anterior",
-      },
-    },
-  });
-});
 
 $(document).ready(function () {
   $("#tabla_consultas").DataTable({
@@ -4821,32 +4547,27 @@ if (buscar_representante = document.getElementById("buscar_representante")) {
 
 
 let presionArterialInput = document.getElementById("presion_arterial");
-
-if (presionArterialInput) {
+ if(presionArterialInput) {
   presionArterialInput.addEventListener("blur", function () {
     let presion_arterial = presionArterialInput.value;
+    console.log(presion_arterial);
 
-    if (presion_arterial == "") {
-      
-      return;
-    }else if (!presionRegex.test(presion_arterial)) {
+    const presionRegex = /^\d{1,3}\/\d{1,3}$|^\d{1,3}$/;
+
+    if (!presionRegex.test(presion_arterial)) {
       Swal.fire({
         icon: 'error',
         title: 'Presión Arterial inválida',
-        text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
+        text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80 o 120).'
       });
-
-    }else{
-
-      
-
-
+    } else {
+      // Resto de tu código
     }
   });
 }
 
   
-const presionRegex = /^\d{2,3}\/\d{2,3}$|$/;
+
 
 if (document.getElementById("agregar_consulta")) {document
   .getElementById("agregar_consulta")
@@ -4894,22 +4615,7 @@ function agregarConsulta() {
     return false;
   }
   
-  
-
-   if(!presionRegex.test(presion_arterial)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Presión Arterial inválida',
-      text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
-    });
-    return false;
-
-   }
-
-
-
-
-
+ 
 
 
  if(id_persona == ""  || tipo_consulta == "" || diagnostico == ""){
@@ -6230,3 +5936,33 @@ function verMotivo(id) {
       console.log("error");
     });
 }
+
+// new DataTable('#example');
+
+
+$(document).ready(function () {
+  $("#example").DataTable({
+    pageLength: 3,
+    dom: "Bfrtip",
+    language: {
+      decimal: "",
+      emptyTable: "No hay información",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+      infoFiltered: "(Filtrado de _MAX_ total entradas)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ Entradas",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "Sin resultados encontrados",
+      paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior",
+      },
+    },
+  });
+});

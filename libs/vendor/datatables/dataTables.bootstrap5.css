@@ -377,6 +377,7 @@ div.dt-container div.dt-length select {
 }
 div.dt-container div.dt-search {
   text-align: right;
+  margin-bottom: 15px;
 }
 div.dt-container div.dt-search label {
   font-weight: normal;
