@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-12-2024 a las 16:42:16
+-- Tiempo de generación: 28-12-2024 a las 17:21:46
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -281,8 +281,11 @@ CREATE TABLE `historia_medica` (
   `id_persona` int(11) NOT NULL,
   `tipo_sangre` varchar(20) NOT NULL,
   `fumador` varchar(10) NOT NULL,
+  `frecuencia_f` varchar(50) DEFAULT NULL,
   `alcohol` varchar(10) NOT NULL,
+  `frecuencia_alcohol` varchar(50) DEFAULT NULL,
   `actividad_fisica` varchar(10) NOT NULL,
+  `frecuencia_ac_f` varchar(50) DEFAULT NULL,
   `antec_fami` varchar(150) NOT NULL,
   `medicado` varchar(10) NOT NULL,
   `cirugia_hospitalaria` varchar(100) NOT NULL,
@@ -295,19 +298,11 @@ CREATE TABLE `historia_medica` (
 -- Volcado de datos para la tabla `historia_medica`
 --
 
-INSERT INTO `historia_medica` (`id`, `id_persona`, `tipo_sangre`, `fumador`, `alcohol`, `actividad_fisica`, `antec_fami`, `medicado`, `cirugia_hospitalaria`, `alergia`, `fecha_reg`, `fecha_modif`) VALUES
-(1, 17, 'A+', 'No', 'No', 'Sí', '', 'No', 'N/A', 'N/A', '2024-12-02 04:00:00', '0000-00-00 00:00:00'),
-(2, 30, 'A+', 'No', 'No', 'No', '', 'No', 'N/A', 'N/A', '2024-12-03 04:00:00', '0000-00-00 00:00:00'),
-(5, 5, 'A+', 'No', 'No', 'Sí', 'Hipertención (Madre).', 'No', 'N/A', 'N/A', '2024-12-19 04:00:00', '2024-12-22 15:23:01'),
-(11, 41, 'A+', 'No', 'No', 'Sí', '', 'No', 'N/A', 'Mariscos', '2024-12-19 04:00:00', '0000-00-00 00:00:00'),
-(15, 41, 'A+', 'No', 'No', 'Sí', '', 'No', 'N/A', 'N/A', '2024-12-20 04:00:00', '0000-00-00 00:00:00'),
-(16, 8, 'A+', 'Sí', 'No', 'Sí', '', 'No', 'N/A', 'N/A', '2024-12-21 04:00:00', '0000-00-00 00:00:00'),
-(17, 4, 'A+', 'No', 'No', 'Sí', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-21 04:00:00', '0000-00-00 00:00:00'),
-(18, 42, 'O+', 'No', 'No', 'No', 'Hipertención (Madre y Padre).', 'Sí', 'N/A', 'N/A', '2024-12-21 04:00:00', '0000-00-00 00:00:00'),
-(19, 10, 'A+', 'No', 'No', 'Sí', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-21 04:00:00', '0000-00-00 00:00:00'),
-(20, 6, 'A+', 'No', 'No', 'Sí', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-21 04:00:00', '0000-00-00 00:00:00'),
-(21, 2, 'A+', 'No', 'No', 'Sí', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-21 04:00:00', '0000-00-00 00:00:00'),
-(22, 3, 'A+', 'No', 'No', 'No', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-22 04:00:00', '0000-00-00 00:00:00');
+INSERT INTO `historia_medica` (`id`, `id_persona`, `tipo_sangre`, `fumador`, `frecuencia_f`, `alcohol`, `frecuencia_alcohol`, `actividad_fisica`, `frecuencia_ac_f`, `antec_fami`, `medicado`, `cirugia_hospitalaria`, `alergia`, `fecha_reg`, `fecha_modif`) VALUES
+(1, 10, 'A+', 'Sí', 'Array', 'No', 'Array', 'Sí', 'Array', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-26 04:00:00', '0000-00-00 00:00:00'),
+(2, 5, 'A+', 'Sí', 'Array', 'No', 'Array', 'Sí', 'Array', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-26 04:00:00', '0000-00-00 00:00:00'),
+(3, 7, 'A+', 'Sí', '2 cigarros diarios.', 'No', '', 'Sí', '30 minutos al día.', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-26 04:00:00', '0000-00-00 00:00:00'),
+(4, 6, 'A+', 'Sí', '2 cigarros diarios.', 'No', '', 'Sí', 'Camina 30 minutos al día.', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-26 04:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -326,18 +321,14 @@ CREATE TABLE `histo_medic` (
 --
 
 INSERT INTO `histo_medic` (`id_histo_medic`, `id_historia_medica`, `id_presentacion_medicamento`) VALUES
-(1, 17, 2),
-(2, 17, 3),
-(3, 18, 1),
-(4, 19, 2),
-(5, 19, 3),
-(6, 20, 1),
-(7, 20, 2),
-(8, 21, 1),
-(9, 21, 2),
-(10, 21, 3),
-(11, 22, 1),
-(12, 22, 2);
+(1, 1, 1),
+(2, 1, 2),
+(3, 2, 2),
+(4, 2, 3),
+(5, 3, 2),
+(6, 3, 3),
+(7, 4, 1),
+(8, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -356,18 +347,14 @@ CREATE TABLE `histo_patologias` (
 --
 
 INSERT INTO `histo_patologias` (`id_histo_patologia`, `id_historia_medica`, `id_patologia`) VALUES
-(7, 15, 1),
-(8, 15, 2),
-(9, 15, 3),
-(10, 16, 1),
-(11, 16, 2),
-(12, 17, 1),
-(13, 17, 2),
-(14, 19, 1),
-(15, 20, 1),
-(16, 21, 1),
-(17, 21, 2),
-(18, 22, 1);
+(1, 1, 1),
+(2, 1, 2),
+(3, 2, 1),
+(4, 2, 2),
+(5, 3, 1),
+(6, 3, 2),
+(7, 3, 3),
+(8, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -6708,7 +6695,13 @@ INSERT INTO `tipo_consulta` (`id_tipo_consulta`, `codigo`, `motivo`, `id_especia
 (8, 8, 'CONSULTAS DE CONTROL DE SALUD GENERAL: NIÑOS Y ADULTOS SANOS (ZOO-Z01.-)', 4, '0000-00-00'),
 (9, 9, 'CONSULTAS PARA DESPISTAJES Y EXAMENES ESPECIALES: CA DE MAMAS, HTA, VISIÓN, DENTAL, CARDIOVASCULAR', 4, '0000-00-00'),
 (10, NULL, 'MOTIVO DE PSICOLOGÍA', 1, '2024-12-16'),
-(11, NULL, 'MOTIVO DE PEDRIATRIA', 3, '2024-12-17');
+(11, NULL, 'MOTIVO DE PEDRIATRIA', 3, '2024-12-17'),
+(12, NULL, 'MOTIVO DE PRUEBA', 3, '2024-12-26'),
+(13, NULL, 'MOTIVO 1', 1, '2024-12-26'),
+(14, NULL, 'MOTIVO 2', 1, '2024-12-26'),
+(15, NULL, 'MOTIVO 3', 4, '2024-12-26'),
+(16, NULL, 'MOTIVO 4', 4, '2024-12-26'),
+(17, NULL, 'MOTIV 5 DE PSICOLOGIA', 4, '2024-12-26');
 
 -- --------------------------------------------------------
 
@@ -6913,19 +6906,19 @@ ALTER TABLE `especialidad`
 -- AUTO_INCREMENT de la tabla `historia_medica`
 --
 ALTER TABLE `historia_medica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `histo_medic`
 --
 ALTER TABLE `histo_medic`
-  MODIFY `id_histo_medic` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_histo_medic` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `histo_patologias`
 --
 ALTER TABLE `histo_patologias`
-  MODIFY `id_histo_patologia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_histo_patologia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `horario`
@@ -6991,13 +6984,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tbl_temporal_medicamentos`
 --
 ALTER TABLE `tbl_temporal_medicamentos`
-  MODIFY `id_temporal_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_temporal_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_consulta`
 --
 ALTER TABLE `tipo_consulta`
-  MODIFY `id_tipo_consulta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_tipo_consulta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
