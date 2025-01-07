@@ -60,6 +60,7 @@ if (!empty($page)) {
 		'verPersona'    			=> array('model'   => 'PersonasModel', 'view'   => 'verPersona',			 'controller'     => 'PersonasController'),
 		'reporteHistorialMedico'  	=> array('model'   => 'PersonasModel', 'view'   => 'reporteHistorialMedico', 'controller'     => 'PersonasController'),
 		'registrarHistoriaMedica'   => array('model'   => 'PersonasModel', 'view'   => 'registrarHistoriaMedica','controller'     => 'PersonasController'),
+		'listarDatosUpdate'  	 	=> array('model'   => 'PersonasModel', 'view'   => 'listarDatosUpdate',		 'controller'     => 'PersonasController'),
 
 		/* Modulo Doctor*/
 		'inicioDoctor' 				=> array('model' => 'DoctorModel',   'view' => 'inicioDoctor', 'controller' => 'DoctorController'),

@@ -251,7 +251,7 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
 
 
 
-<!-- Modal Actualizar Especies-->
+<!-- Modal Actualizar Personas -->
 <div class="modal fade" id="modalActualizarPersonas" tabindex="-1" aria-labelledby="modalActualizarPersonasLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -272,46 +272,72 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                         </div>
                     </div>
 
-                    <!----------------- Grupo Nombres ----------------------->
                     <div class="row">
-                        <div class="col-sm-6" id="grupo_nombres">
-                            <label class="formulario__label" for="nombres">Nombres</label>
+
+                        <div class="col-sm-3" id="grupo_update_p_nombre">
+                            <label class="formulario__label" for="update_p_nombre">Primer nombre</label>
                             <div class="form-group">
                                 <input class="form-control formulario__validacion__input" type="text"
-                                    id="update_nombres" name="update_nombres" placeholder="Nombres">
+                                    id="update_p_nombre" name="update_p_nombre" placeholder="Primer nombre" required>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
                                 guion_bajo</p>
                         </div>
+
+                        <div class="col-sm-3" id="grupo_update_s_nombre">
+                            <label class="formulario__label" for="update_s_nombre">Segundo nombre</label>
+                            <div class="form-group">
+                                <input class="form-control formulario__validacion__input" type="text"
+                                    id="update_s_nombre" name="update_s_nombre" placeholder="Segundo nombre">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
+                                guion_bajo</p>
+                        </div>
+
+
                         <!----------------- Grupo Apellidos ----------------------->
-                        <div class="col-sm-6" id="grupo_apellidos">
-                            <label class="formulario__label" for="apellidos">Apellidos</label>
+                        <div class="col-sm-3" id="grupo_update_p_apellido">
+                            <label class="formulario__label" for="update_p_apellido">Primer apellido</label>
                             <div class="form-group ">
                                 <input class="form-control formulario__validacion__input" type="text"
-                                    id="update_apellidos" name="apellidos" placeholder="Apellidos">
+                                    id="update_p_apellido" name="update_p_apellido" placeholder="Primer apellido"
+                                    required>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
                                 llevar acentos.</p>
                         </div>
+
+                        <div class="col-sm-3" id="grupo_update_s_apellido">
+                            <label class="formulario__label" for="update_s_apellido">Segundo apellido</label>
+                            <div class="form-group ">
+                                <input class="form-control formulario__validacion__input" type="text"
+                                    id="update_s_apellido" name="update_s_apellido" placeholder="Segundo apellido">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
+                                llevar acentos.</p>
+                        </div>
+
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="formulario__label" for="tipo_documento">Tipo de documento</label>
                                 <select class="form-control" name="tipo_documento" id="update_tipo_documento">
                                     <option value="">Seleccione</option>
-                                    <option value="V">Venezolano</option>
-                                    <option value="E">Extranjero</option>
-                                    <option value="P">Pasaporte</option>
+                                    <option value="V">V</option>
+                                    <option value="E">E</option>
+                                    <option value="P">P</option>
                                 </select>
                             </div>
                         </div>
                         <!-------------------------- Grupo Nº documento ----------------------------------->
 
-                        <div class="col-sm-6" id="grupo_n_documento">
+                        <div class="col-sm-3" id="grupo_n_documento">
                             <label class="formulario__label" for="n_documento">Numero de documento</label>
                             <div class="form-group">
                                 <input class="form-control formulario__validacion__input" type="text"
@@ -322,32 +348,33 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                 digitos
                             </p>
                         </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-6">
+
+                        <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="formulario__label" for="fecha_nac">Fecha de nacimiento</label>
                                 <input type="date" class="form-control formulario__validacion__input"
                                     id="update_fecha_nac" name="fecha_nac">
                             </div>
                         </div>
-                        <div class="col-sm-6">
+
+                        <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="formulario__label" for="sexo">Sexo</label>
                                 <select class="form-control formulario__validacion__input" name="sexo" id="update_sexo">
                                     <option value="">Seleccione</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Femenino">Femenino</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
                                 </select>
                             </div>
                         </div>
+
+
                     </div>
                     <br>
                     <!----------------- Grupo Teléfono ----------------------->
 
                     <div class="row">
-                        <div class="col-sm-6" id="grupo_telefono">
+                        <div class="col-sm-4" id="grupo_telefono">
                             <label class="formulario__label" for="telefono">Telefono</label>
                             <div class="form-group">
                                 <input class="form-control formulario__validacion__input" type="text"
@@ -361,7 +388,7 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
 
                         <!----------------- Grupo Correo ----------------------->
 
-                        <div class="col-sm-6" id="grupo_correo">
+                        <div class="col-sm-4" id="grupo_correo">
                             <label class="formulario__label" for="correo">Correo</label>
                             <div class="form-group">
                                 <input class="form-control formulario__validacion__input" type="email"
@@ -372,9 +399,8 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                 guiones.
                             </p>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12" id="grupo_direccion">
+
+                        <div class="col-sm-4" id="grupo_direccion">
                             <label class="formulario__label " for="direccion">Dirección</label>
                             <div class="form-group">
                                 <input class="form-control formulario__validacion__input" type="text"
@@ -389,25 +415,16 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                             <input type="hidden" name="tipo_persona" id="tipo_persona" value="paciente">
                         </div>
                     </div>
+
                     <br>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;"
-                            onclick="nextPrev(-1)">Anterior</button>
-                        <button type="button" class="btn btn-primary" id="nextBtn"
-                            onclick="nextPrev(1)">Siguiente</button>
-                        <button type="button" class="btn btn-secondary" title="Cerrar el modal"
-                            data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="agregar_persona" title="Guardar persona"
-                            style="display: none;"><i class="fas fa-save"></i> Guardar</button>
+                        <button type="button" class="btn btn-primary" id="modificar_persona" title="Guardar persona"><i class="fas fa-save"></i> Guardar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 <script>
 var currentStep = 1;
@@ -439,8 +456,6 @@ function nextPrev(n) {
 
     showStep(currentStep);
 }
-
-
 </script>
 
 

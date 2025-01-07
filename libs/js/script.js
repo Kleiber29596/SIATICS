@@ -4114,7 +4114,7 @@ function listarDatosPersona(id) {
   let id_persona = id;
 
   $.ajax({
-    url: "index.php?page=listarDatosPersona",
+    url: "index.php?page=listarDatosUpdate",
     type: "post",
     dataType: "json",
     data: {
@@ -4128,9 +4128,10 @@ function listarDatosPersona(id) {
           response.data.tipo_documento;
         document.getElementById("update_n_documento").value =
           response.data.n_documento;
-        document.getElementById("update_nombres").value = response.data.nombres;
-        document.getElementById("update_apellidos").value =
-          response.data.apellidos;
+        document.getElementById("update_p_nombre").value   = response.data.p_nombre;
+        document.getElementById("update_s_nombre").value   = response.data.s_nombre;
+        document.getElementById("update_p_apellido").value = response.data.p_apellido;
+        document.getElementById("update_s_apellido").value = response.data.s_apellido;
         document.getElementById("update_sexo").value = response.data.sexo;
         document.getElementById("update_telefono").value =
           response.data.telefono;
@@ -4202,61 +4203,73 @@ $(document).ready(function () {
   });
 });
 
-function modificarPersona() {
+const modificar_persona = document.getElementById('modificar_persona')
+if( modificar_persona){
 
-  let id_persona     = document.getElementById("id_persona").value;
-  let tipo_documento = document.getElementById("update_tipo_documento").value;
-  let n_documento    = document.getElementById("update_n_documento").value;
-  let nombres        = document.getElementById("update_nombres").value;
-  let apellidos      = document.getElementById("update_apellidos").value;
-  let sexo           = document.getElementById("update_sexo").value;
-  let fecha_nac      = document.getElementById("update_fecha_nac").value;
-  let telefono       = document.getElementById("update_telefono").value;
-  let correo         = document.getElementById("update_correo").value;
-  let direccion      = document.getElementById("update_direccion").value;
-  
- 
-  $.ajax({
-    url: "index.php?page=modificarPersona",
-    type: "post",
-    dataType: "json",
-    data: {
-      id_persona: id_persona,
-      tipo_documento: tipo_documento,
-      n_documento: n_documento,
-      nombres: nombres,
-      apellidos: apellidos,
-      sexo: sexo,
-      fecha_nac: fecha_nac,
-      telefono: telefono,
-      direccion: direccion,
-      correo: correo,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success) {
-        $("#formActualizarPersonas")[0].reset();
-        $("#modalActualizarPersonas").modal("hide");
-        $("#tbl_personas").DataTable().ajax.reload();
+  modificar_persona.addEventListener('click', modificarPersona, false);
 
-        Swal.fire({
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-          title: response.data.message,
-          text: response.data.info,
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          confirmButtonColor: "#3085d6",
-          title: response.data.message,
-          text: response.data.info,
-        });
-      }
+  function modificarPersona() {
+
+    let id_persona        = document.getElementById("id_persona").value;
+    let tipo_documento    = document.getElementById("update_tipo_documento").value;
+    let n_documento       = document.getElementById("update_n_documento").value;
+    let update_p_nombre   = document.getElementById("update_p_nombre").value;
+    let update_s_nombre   = document.getElementById("update_s_nombre").value;
+    let update_p_apellido = document.getElementById("update_p_apellido").value;
+    let update_s_apellido = document.getElementById("update_s_apellido").value;
+    let sexo              = document.getElementById("update_sexo").value;
+    let fecha_nac         = document.getElementById("update_fecha_nac").value;
+    let telefono          = document.getElementById("update_telefono").value;
+    let correo            = document.getElementById("update_correo").value;
+    let direccion         = document.getElementById("update_direccion").value;
+    
+   
+    $.ajax({
+      url: "index.php?page=modificarPersona",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_persona: id_persona,
+        tipo_documento: tipo_documento,
+        n_documento: n_documento,
+        p_nombre: update_p_nombre,
+        s_nombre: update_s_nombre,
+        p_apellido: update_p_apellido,
+        s_apellido: update_s_apellido,
+        sexo: sexo,
+        fecha_nac: fecha_nac,
+        telefono: telefono,
+        direccion: direccion,
+        correo: correo,
+      },
     })
-    .fail(function () {
-      console.log("error");
-    });
+      .done(function (response) {
+        if (response.data.success) {
+          $("#formActualizarPersonas")[0].reset();
+          $("#modalActualizarPersonas").modal("hide");
+          $("#tbl_personas").DataTable().ajax.reload();
+  
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  }
+  
+
 }
 
 function VerDatosPersona(id) {
@@ -4427,9 +4440,17 @@ function consultarPersonaC() {
        document.getElementById("edad").innerHTML = response.data.edad
        contenedor_datos_persona.removeAttribute("style");
 
-       //Datos de la cita agendada
 
+       //limpiar datos de la cita agendada
 
+       document.getElementById("especialidad_cita").innerHTML ='';
+       document.getElementById("especialista_cita").innerHTML ='';
+       document.getElementById("observacion_cita").innerHTML =  
+       document.getElementById("fecha_cita").innerHTML ='';
+       document.getElementById("estatus_cita").innerHTML ='';
+       document.getElementById("id_cita_agendada").setAttribute("value", '');
+
+       contenedor_cita.setAttribute("style", 'display:none;');
 
        if(response.data.estatus  == 1) {
 
@@ -4549,16 +4570,60 @@ if (buscar_representante = document.getElementById("buscar_representante")) {
 let presionArterialInput = document.getElementById("presion_arterial");
  if(presionArterialInput) {
   presionArterialInput.addEventListener("blur", function () {
-    let presion_arterial = presionArterialInput.value;
-    console.log(presion_arterial);
+    const presion = presionArterialInput.value;
+    console.log(presion);
 
-    const presionRegex = /^\d{1,3}\/\d{1,3}$|^\d{1,3}$/;
+    const presionRegex = /^\d{1,3}\/\d{1,3}$|^$/;
 
-    if (!presionRegex.test(presion_arterial)) {
+    if (!presionRegex.test(presion)) {
       Swal.fire({
         icon: 'error',
         title: 'Presión Arterial inválida',
-        text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80 o 120).'
+        text: 'Por favor, ingrese la presión arterial en el formato correcto (ej: 120/80).'
+      });
+    } else {
+      // Resto de tu código
+    }
+  });
+}
+
+
+let alturaInput = document.getElementById("altura");
+if (alturaInput) {
+  alturaInput.addEventListener("blur", function() {
+    const altura = alturaInput.value;
+    console.log(altura);
+
+    // Expresión regular para validar alturas entre 1.00 y 2.00 metros
+    const alturaRegex = /^1\.\d{2}$|^2\.00$|^$/;
+
+    if (!alturaRegex.test(altura)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Altura inválida',
+        text: 'Por favor, ingrese la altura en metros con dos decimales (ej: 1.75).'
+      });
+    } else {
+      // Resto de tu código
+    }
+  });
+}
+
+
+
+let pesoInput = document.getElementById("peso");
+if (pesoInput) {
+  pesoInput.addEventListener("blur", function() {
+    const peso = pesoInput.value;
+    console.log(peso);
+
+    const pesoRegex =  /^[1-9][0-9]{0,2}$|^$/;
+
+    if (!pesoRegex.test(peso)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Peso inválido',
+        text: 'Por favor, ingrese un peso válido (ej: 75 kg).'
       });
     } else {
       // Resto de tu código

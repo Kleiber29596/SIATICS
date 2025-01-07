@@ -156,6 +156,14 @@ public function listarDatosPersona($id_persona) {
     return $resultado;
 }
 
+/*------------Método listar datos para actualizar persona --------*/
+public function listarDatosUpdate($id_persona) {
+    $db = new ModeloBase();
+    $query = "SELECT p.id_persona, p.n_documento, p.tipo_documento, p.n_documento, p.p_nombre, p.s_nombre, p.p_apellido, p.s_apellido, p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion FROM  personas AS p WHERE p.id_persona = $id_persona";
+    $resultado = $db->obtenerTodos($query);
+    return $resultado;
+}
+
 public function listarEnfermedades($id_historia_medica) {
     $db = new ModeloBase();
     $query = "SELECT hp.id_histo_patologia, hp.id_historia_medica, hp.id_patologia, p.nombre AS nombre_patologia from histo_patologias AS hp LEFT JOIN patologias AS p ON hp.id_patologia = p.id_patologia WHERE id_historia_medica = $id_historia_medica";
