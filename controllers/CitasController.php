@@ -8,6 +8,7 @@ function obtener_edad ($fecha_nacimiento)
 }
 
 require_once './models/CitasModel.php';
+require_once './models/EspecialidadModel.php';
 
 class CitasController
 {
@@ -497,6 +498,71 @@ EOT;
 
 			echo json_encode($data);
 			exit();
+		}
+	}
+
+	public function BuscarCitasXFechas(){
+		$doctor = $_POST['doctor'];
+		$fechaCita = $_POST['fechaCita'];
+		$especialidad = $_POST['especialidad'];
+
+		$modelCitas = new CitasModel();
+		$modelEspecialidad = new EspecialidadModel();
+
+		$buscar = $modelCitas->BuscarCitasXFechas($doctor, $fechaCita);
+		$espe_nom = $modelEspecialidad->obtenerEspecialidad($especialidad);
+
+		//$espe = [];
+		foreach ($espe_nom as $key => $value) {
+		    $espe = [
+		        'nombre_especialidad' => $value['nombre_especialidad']
+		    ];
+		}
+
+
+		if (!empty($buscar)) {
+			$resultados = [];
+			$num = 0;
+			foreach ($buscar as $key => $value) {
+			    // Supongamos que queremos almacenar solo los nombres en un nuevo array
+			    $num+=1;
+			    $resultados[] = [
+			    	'num' => $num,
+			        'id_cita' => $value['id_cita'],
+			        'nombre' => $value['nombre'],
+			        'cedula' => $value['cedula'],
+			        'fecha_cita' => $value['fecha_cita'],
+			        'observacion' => $value['observacion']
+			    ];
+			}
+
+			$data = [
+				'data' => [
+					'success'            =>  true,
+					'message'            => 'Citas encontradas',
+					'info'               =>  '',
+					'citas' 			 =>  $resultados,
+					'especialidad' 		 =>	 $espe
+				],
+				'code' => 0,
+			];
+
+		echo json_encode($data);
+		exit();
+
+		}else{
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Ocurrió un error al buscar las cita',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+
+		echo json_encode($data);
+		exit();
+
 		}
 	}
 
