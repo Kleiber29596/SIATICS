@@ -374,21 +374,36 @@ class DoctorController {
 		    }
 		}
 		
-		$data = [
-			'data' => [
-				'success'            =>  true,
-				'message'            => 'Registro encontrado',
-				'info'               =>  '',
-				'data'				 =>  'existe',
-				'events' 			 => $datosHorario,
-				'citas'				 => $datosCita
+		if (!empty($datosCita)) {
+		    $data = [
+		        'data' => [
+		            'success'            =>  true,
+		            'message'            => 'Registro encontrado',
+		            'info'               =>  '',
+		            'data'               =>  'existe',
+		            'events'             => $datosHorario,
+		            'citas'              => $datosCita
+		        ],
+		        'code' => 0,
+		    ];
 
-			],
-			'code' => 0,
-		];
+		    echo json_encode($data);
+		    exit();
+		}else{
+		    $data = [
+		        'data' => [
+		            'success'            =>  true,
+		            'message'            => 'Registro encontrado',
+		            'info'               =>  '',
+		            'data'               =>  'existe',
+		            'events'             => $datosHorario
+		        ],
+		        'code' => 0,
+		    ];
 
-		echo json_encode($data);
-		exit();
+		    echo json_encode($data);
+		    exit();
+		}
 	}
 
 	

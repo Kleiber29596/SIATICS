@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var f = info.date.getDay(); // Obtener el día de la semana
 
             if (id_especialidad_cita && id_doctor_cita) {
-                if (!diasLaboralesNumeros.includes(f)) {zz
+                if (!diasLaboralesNumeros.includes(f)) {
                     Swal.fire({
                         icon: "error",
                         confirmButtonColor: "#3085d6",
@@ -144,32 +144,112 @@ document.addEventListener('DOMContentLoaded', function() {
             if (diasLaboralesNumeros.includes(f)) {
                 info.el.style.backgroundColor = 'yellow'; // Cambiar a un color que desees
             }
+        },
+        eventClick: function(info) {
+          // Mostrar el modal y llenar los datos
+          //alert('Se muestran las citas');
+          var startDate = info.event.start;
+          var formattedDate = moment(startDate).format('YYYY-MM-DD');
+          var viewDate = moment(startDate).format('DD-MM-YYYY');
+          var doctor = $('#doctor').val();
+          var especialidad = $('#especialidad').val();
+
+          console.log(formattedDate);
+          console.log(doctor);
+          console.log(especialidad);
+
+          // Limpiar la tabla antes de agregar nuevos datos
+          $('#tablaDatos tbody').empty();
+
+          $.ajax({
+              url: "index.php?page=BuscarCitasXFechas",
+              type: "post",
+              dataType: "json",
+              data: {
+                  doctor: doctor,
+                  fechaCita: formattedDate,
+                  especialidad: especialidad,
+              },
+          })
+          .done(function (response) {
+              console.log(response.data.citas);
+              console.log(response.data.especialidad.nombre_especialidad);
+
+              if (response.data.success) {
+                  // Mostrar información en el modal
+                  $('#espe').text(response.data.especialidad.nombre_especialidad);
+                  $('#fecha').text(viewDate);
+
+                  // Agregar citas a la tabla
+                  response.data.citas.forEach(function(cita) {
+                      $('#tablaDatos tbody').append(
+                          '<tr>' +
+                              '<th scope="row">' + cita.num + '</th>' +
+                              '<td>' + cita.nombre + '</td>' +
+                              '<td>' + cita.cedula + '</td>' +
+                              '<td>' + cita.observacion + '</td>' +
+                          '</tr>'
+                      );
+                  });
+
+                  // Mostrar el modal
+                  $('#dataModal').modal('show');
+              } else {
+                  Swal.fire({
+                      icon: "error",
+                      confirmButtonColor: "#3085d6",
+                      title: response.data.message,
+                      text: response.data.info,
+                  });
+              }
+          })
+          .fail(function (e) {
+              console.error('Error en la solicitud:', e);
+              Swal.fire({
+                  icon: "error",
+                  confirmButtonColor: "#3085d6",
+                  title: 'Error',
+                  text: 'No se pudo obtener la información. Intente nuevamente.',
+              });
+          });
         }
     });
 
     calendar.render();
 });
 
-/*setInterval(function() {
-    $('#DIVcalendar').fullCalendar('render'); // Forzar el renderizado del calendario
-}, 1000);*/
+$(document).ready(function() {
+    $('#tablaDatos').DataTable({
+        lengthChange: false,
+        pageLength: 5,
+        searching: false,
+        paging: true,  
+        language: {
+            infoEmpty: "No hay entradas para mostrar",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            zeroRecords: "No se encontraron registros coincidentes",
+            infoFiltered: "(filtrado de _MAX_ entradas totales)",
+        }
+    });
+});
+
+
 
 /*function loadEvents(events) {
-  console.log('loadEvents:', + events);
-  /*if (events) {
-    $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
-    $('#DIVcalendar').fullCalendar('addEventSource', events); // Agregar nuevos eventos
-    $('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
+  var limiteCita = document.getElementById("limiteCita").value;
+  var diaLaboral = document.getElementById("diaLaboral").value;
+
+  var citasPorDia = {};
+
+  for (var i = 0; i < diaLaboral.length; i++) {
+      // Asegúrate de que no excedas el tamaño del arreglo citasLimites
+    citasPorDia[diaLaboral] = limiteCita;
   }
 
-//para tomar el dia si es lunes, martes, miercoles, jueves o viernes
-  var f = info.dateStr;
-  const cadenaFecha = f;
-  var numeroDia = new Date(cadenaFecha).getDay();
-}*/
 
 
-function loadEvents(events) {
+  /*console.log('limiteCita ' + limiteCita);
+  console.log('diaLaboral ' + diaLaboral);--
       if (events) {
           // Transformar los eventos para que contengan solo el título
           const transformedEvents = events.map(event => {
@@ -182,7 +262,7 @@ function loadEvents(events) {
               };
           });
 
-          console.log('Veamos si llega: ', transformedEvents);
+          //console.log('Veamos si llega: ', transformedEvents);
 
           // Primero, eliminamos todos los eventos existentes
           calendar.removeAllEvents(); // Eliminar eventos existentes
@@ -191,9 +271,101 @@ function loadEvents(events) {
           calendar.addEventSource(transformedEvents); // Agregar nuevos eventos
           calendar.render();
       } else {
-          console.warn('No se proporcionaron eventos.');
+        calendar.removeAllEvents(); // Eliminar eventos existentes
+        calendar.render();
+        //console.warn('No se proporcionaron eventos.');
+        Swal.fire({
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            title: 'Oops',
+            text: 'Este doctor no posee nunguna cita pautada.',
+        });
       }
-  }
+  }*/
+
+
+function loadEvents(events) {
+    // Obtener los valores de los elementos
+    var limiteCita = document.getElementById("limiteCita").value; // "15, 12"
+    //var limiteCita = '3,3';
+    var diaLaboral = document.getElementById("diaLaboral").value; // "Martes, Jueves"
+
+    // Imprimir los valores para depuración
+    console.log("limiteCita:", limiteCita);
+    console.log("diaLaboral:", diaLaboral);
+
+    // Convertir las cadenas separadas por comas en arreglos
+    limiteCita = limiteCita.split(',').map(Number); // Convertir a números
+    diaLaboral = diaLaboral.split(',').map(dia => dia.trim().toLowerCase()); // Eliminar espacios y convertir a minúsculas
+
+    var citasPorDia = {};
+
+    // Inicializar el conteo de citas por día
+    for (var i = 0; i < diaLaboral.length; i++) {
+        citasPorDia[diaLaboral[i]] = 0; // Inicializa el conteo en 0
+    }
+
+    if (events) {
+        // Transformar los eventos para que contengan solo el título
+        const transformedEvents = events.map(event => {
+            const dia = new Date(event.start).toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase(); // Obtener el día de la semana y convertir a minúsculas
+
+            // Imprimir para depuración
+            //console.log("Día extraído:", dia);
+
+            // Imprimir el arreglo de días laborales para depuración
+            //console.log("Días laborales:", diaLaboral);
+
+            const index = diaLaboral.indexOf(dia); // Verificar si el día está en el arreglo de días laborales
+
+            // Verificar si el día está en el arreglo de días laborales
+            if (index !== -1) {
+                // Verificar si el límite de citas ha sido alcanzado
+                const totalCitas = event.conteo; // Total de citas para ese día
+
+                //console.log(`Citas actuales para ${dia}:`, citasPorDia[dia]);
+                //console.log(`Total de citas con event.conteo para ${dia}:`, totalCitas);
+
+                if (totalCitas < limiteCita[index]) {
+                    citasPorDia[dia] = event.conteo; // Sumar el conteo de citas para ese día
+                    var conteo = limiteCita[index] - totalCitas;
+                    //console.log(`Citas actualizadas para ${dia}. Total de citas:`, citasPorDia[dia]);
+                    //console.log('total de citas ' + totalCitas + ' < ' + limiteCita[index]);
+                    return {
+                        title: conteo, // Asegúrate de que 'conteo' sea la propiedad correcta
+                        start: event.start,   // Asegúrate de que 'start' sea una fecha válida
+                        end: event.end,       // Asegúrate de que 'end' sea una fecha válida
+                        color: '#41a232',     // Color del evento
+                        textColor: '#ffffff'  // Cambia 'with' a un color válido
+                    };
+                } else {
+                    var conteo = limiteCita[index] - totalCitas;
+                    // Si el límite ha sido alcanzado, puedes agregar un evento indicando que está lleno
+                    //console.log(`Límite alcanzado para ${dia}. No se puede agregar más citas.`);
+                    return {
+                        title: conteo + ' - full', // Mensaje de que ya no se pueden agregar citas
+                        start: event.start,
+                        end: event.end,
+                        color: '#f1231a', // Color para indicar que está lleno
+                        textColor: '#ffffff'
+                    };
+                }
+            } else {
+                console.log("Día no encontrado en diaLaboral:", dia);
+            }
+        }).filter(event => event !== undefined); // Filtrar eventos indefinidos
+
+        // Primero, eliminamos todos los eventos existentes
+        calendar.removeAllEvents(); // Eliminar eventos existentes
+
+        // Luego, agregamos los nuevos eventos
+        calendar.addEventSource(transformedEvents); // Agregar nuevos eventos
+        calendar.render();
+    } else {
+            calendar.removeAllEvents(); // Eliminar eventos existentes
+            calendar.render();
+        }
+    }
 
 /* -------------- mostrar asignacion Cita -------------------------- */
 
@@ -385,6 +557,7 @@ $(document).ready(function () {
 
        if (Array.isArray(response.data.events)) {
             let diasLaborales = [];
+            let limiteCita = [];
 
             // Supongamos que quieres mostrar el título del primer evento
             if (response.data.events.length > 0) { // Verifica que el arreglo no esté vacío
@@ -392,12 +565,15 @@ $(document).ready(function () {
                     //console.log(event.title+ ' ' +event.start+ ' ' +event.end+ ' ' +event.color+ ' ' +event.textColor ); // Muestra el título de cada evento
                     if (Array.isArray(event.dia)) {
                         // Acumula los días laborales en el arreglo
-                        diasLaborales = diasLaborales.concat(event.dia); // Usa concat para agregar elementos
+                        diasLaborales = diasLaborales.concat(event.dia);
+                        limiteCita = limiteCita.concat(event.diaDiff);
                     } else {
                         // Si event.dia no es un arreglo, agrega el valor directamente
-                        diasLaborales.push(event.dia); // Agrega el valor al arreglo
+                        diasLaborales.push(event.dia);
+                        limiteCita.push(event.diaDiff);
                     }
                     document.getElementById("diaLaboral").value = diasLaborales.join(", ");
+                    document.getElementById("limiteCita").value = limiteCita.join(", ");
                     //console.log('dias laborales por dentro: ', diasLaborales);
                 });
                 //console.log('dias laborales por fuera: ', response.data.events);

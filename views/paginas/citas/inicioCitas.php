@@ -78,6 +78,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             </div>
                             <div class="mt-3" id="DIVcalendar"></div>
                             <input type="hidden" name="diaLaboral" id="diaLaboral">
+                            <input type="hidden" name="limiteCita" id="limiteCita">
                             <!--<button class="btn btn-primary btn-circle mt-3" title="Agregar cita" data-toggle="modal" data-target="#modalAgregarCitas"><i class="fas fa-plus"> Agregar cita</i></button>
 
                             <button type="submit" class="btn btn-primary btn-circle mt-3">
@@ -92,6 +93,42 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 </section>
 
 
+<!--Mostrar citas por fecha-->
+
+<div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataModalLabel">Citas pendientes</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Especialidad: </strong><span id="espe"></span></p>
+                <p><strong>Fecha seleccionada:</strong> <span id="fecha"></span></p>
+                <p><strong>Doctor: </strong> <span id="doctor"></span></p>
+                <table id="tablaDatos" class="table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Documento</th>
+                            <th scope="col">Observacion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" title="Cerrar el modal"
+                    data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal Agregar Cita-->
 <div class="modal fade" id="modalAgregarCitas" data-backdrop="static" data-keyboard="false" tabindex="-1"

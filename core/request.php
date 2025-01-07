@@ -77,6 +77,7 @@ if (!empty($page)) {
 		'obtenerCitasDisponibles' => array('model' => 'CitasModel', 'view' => 'obtenerCitasDisponibles', 'controller' => 'CitasController'),
 		'consultarEspeDoct' => array('model' => 'CitasModel', 'view' => 'consultarEspeDoct', 'controller' => 'CitasController'),
 		'registrarCita' => array('model' => 'CitasModel', 'view' => 'registrarCita', 'controller' => 'CitasController'),
+		'BuscarCitasXFechas' => array('model' => 'CitasModel', 'view' => 'BuscarCitasXFechas', 'controller' => 'CitasController'),
 		'listarActualizacionCita' => array('model' => 'CitasModel', 'view' => 'listarActualizacionCita', 'controller' => 'CitasController'),
 		'modificarCita' => array ('model' => 'CitasModel', 'view' => 'modificarCita', 'controller' => 'CitasController'),
 		'finalizarCita' => array ('model' => 'CitasModel', 'view' => 'finalizarCita', 'controller' => 'CitasController'),
