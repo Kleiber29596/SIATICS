@@ -182,7 +182,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row mt-4" id="contenedor_datos_persona" style="display: none;">
                                 <div class="col-md-12">
                                     <strong>Datos del paciente</strong>
@@ -190,12 +190,12 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                         <table class="table table-bordered table-hover table-secondary">
                                             <thead>
                                                 <tr>
-                                                    <th style="background-color:#bfc1c3;">N° documento</th>
-                                                    <th style="background-color:#bfc1c3;">Nombres</th>
-                                                    <th style="background-color:#bfc1c3;">Edad</th>
-                                                    <th style="background-color:#bfc1c3;">Sexo</th>
-                                                    <th style="background-color:#bfc1c3;">Teléfono</th>
-                                                    <th style="background-color:#bfc1c3;">Dirección</th>
+                                                    <th>N° documento</th>
+                                                    <th>Nombres</th>
+                                                    <th>Edad</th>
+                                                    <th>Sexo</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Dirección</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -260,7 +260,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     value="<?php echo $_SESSION['id_especialidad']; ?>">
                                 <input class="form-control" type="hidden" id="id_especialista_consulta"
                                     value="<?php echo $_SESSION['id_doctor']; ?>">
-                                <?php   ?>
+                                <?php ?>
 
                                 <!-- Campo para el peso del paciente -->
                                 <div class="col-sm-4">
@@ -745,12 +745,21 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
     }
 
+
+
     nextBtn.addEventListener('click', function() {
-        if (validateStep(currentStep)) {
-            currentStep++;
-            showStep(currentStep);
-        }
+
+        const validar = validarFechaAtencion();
+        console.log(validar);
+        if (validar) {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        } 
+
     });
+
 
     prevBtn.addEventListener('click', function() {
         currentStep--;
@@ -770,6 +779,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // });
 
     showStep(currentStep);
+
+
+    function validarFechaAtencion() {
+
+
+        const fechaCita = document.getElementById('fecha_cita').textContent.trim();
+
+        if (fechaCita != '') {
+
+            // Convertir fecha de cita y fecha actual a objetos Date
+            const fechaCitaObj = new Date(`${fechaCita}T00:00:00`);
+            console.log(fechaCitaObj);
+            const fechaHoy = new Date();
+            fechaHoy.setHours(0, 0, 0, 0);
+            console.log(fechaHoy);
+            // Comparar las fechas
+            if (fechaCitaObj.getTime() === fechaHoy.getTime()) {
+
+                // document.getElementById('nextBtn').disabled = false;
+                return true;
+
+            } else {
+                // Si no coinciden, mostrar alerta y deshabilitar "Siguiente"
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se puede atender la cita',
+                    text: 'Debe esperar a la fecha programada para atender la cita.',
+                });
+                // document.getElementById('nextBtn').disabled = true;
+                return false;
+            }
+
+        } else {
+            return true
+
+        }
+
+
+    }
+
+
 });
 </script>
 

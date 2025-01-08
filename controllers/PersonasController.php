@@ -454,6 +454,68 @@ class PersonasController
     exit();
 }
 
+public function listarDatosUpdate()
+{
+    $modelPersonas = new PersonasModel();
+
+    $id_persona = $_POST['id_persona'];
+
+    $listar = $modelPersonas->listarDatosUpdate($id_persona);
+
+    if (!empty($listar)) {
+
+		foreach ($listar as $listar) {
+            $tipo_documento     = $listar['tipo_documento'];
+            $n_documento        = $listar['n_documento'];
+            $p_nombre           = $listar['p_nombre'];
+			$s_nombre			= $listar['s_nombre'];
+			$p_apellido			= $listar['p_apellido'];
+			$s_apellido			= $listar['s_apellido'];
+            $sexo               = $listar['sexo'];
+            $telefono           = $listar['telefono'];
+			$direccion          = $listar['direccion'];
+            $correo             = $listar['correo'];
+            $fecha_nacimiento   = $listar['fecha_nacimiento'];
+            $id_persona         = $listar['id_persona'];
+        }
+
+        $data = [
+            'data' => [
+                'success'            => true,
+                'message'            => 'Registro encontrado',
+                'info'               => '',
+                'tipo_documento'     => $tipo_documento,
+                'n_documento'        => $n_documento,
+                'p_nombre'           => $p_nombre,
+                's_nombre'	         => $s_nombre,
+				'p_apellido'		 => $p_apellido,
+				's_apellido'		 => $s_apellido,
+                'sexo'               => $sexo,
+                'telefono'           => $telefono,
+                'direccion'          => $direccion,
+                'correo'             => $correo,
+                'fecha_nacimiento'   => $fecha_nacimiento,
+                'id_persona'         => $id_persona
+            ],
+            'code' => 0,
+        ];
+    } else {
+
+		$data = [
+            'data' => [
+                'success' => false,
+                'message' => 'No se encontraron registros para esta persona',
+                'info' => ''
+            ],
+            'code' => 1,
+        ];
+        
+    }
+
+    echo json_encode($data);
+    exit();
+}
+
 
 
 
@@ -695,8 +757,10 @@ class PersonasController
 
 			'tipo_documento'   	 => $_POST['tipo_documento'],
 			'n_documento'        => $_POST['n_documento'],
-			'nombres'			 => $_POST['nombres'],
-			'apellidos'			 => $_POST['apellidos'],
+			'p_nombre'			 => $_POST['p_nombre'],
+			's_nombre'			 => $_POST['s_nombre'],
+			'p_apellido'		 => $_POST['p_apellido'],
+			's_apellido'		 => $_POST['s_apellido'],
 			'sexo'			     => $_POST['sexo'],
 			'telefono'			 => $_POST['telefono'],
 			'correo'			 => $_POST['correo'],
