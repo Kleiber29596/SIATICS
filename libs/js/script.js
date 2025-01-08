@@ -101,14 +101,47 @@ document.addEventListener('DOMContentLoaded', function() {
                         data: {
                             especialidad: id_especialidad_cita,
                             doctor: id_doctor_cita,
+                            nuevaFecha: nuevaFecha,
                         },
                     })
                     .done(function(response) {
                         if (response.data.success) {
-                            $('#fecha_cita').val(nuevaFecha);
-                            $("#txt-especialidad").val(response.data.nombre_especialidad);
-                            $("#txt-doctor").val(response.data.nombre_doctor);
-                            $("#modalAgregarCitas").modal('show');
+                            // Obtener el límite de citas y los días laborales
+                            var limiteCita = document.getElementById("limiteCita").value.split(',').map(Number);
+                            var diaLaboral = document.getElementById("diaLaboral").value.split(',').map(dia => dia.trim().toLowerCase());
+
+                            // Obtener el día de la fecha seleccionada
+                            const fechaSeleccionada = new Date(nuevaFecha);
+                            const diaSeleccionado = fechaSeleccionada.toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase();
+                            
+                            // Inicializar el conteo de citas para el día seleccionado
+                            let totalCitas = 0;
+
+                            // Verificar el conteo de citas para la fecha seleccionada
+                            response.data.conteo_FechaCita.forEach(function(conteoCitas) {
+                                // Aquí asumimos que conteoCitas.total_citas es el total de citas para la fecha seleccionada
+                                totalCitas += conteoCitas.total_citas; // Sumar el total de citas
+                            });
+
+                            // Obtener el índice del día seleccionado en el arreglo de días laborales
+                            const index = diaLaboral.indexOf(diaSeleccionado);
+
+                            // Verificar si hay disponibilidad solo para el día seleccionado
+                            if (index !== -1 && totalCitas < limiteCita[index]) {
+                                console.log('Se puede realizar la cita');
+                                $('#fecha_cita').val(nuevaFecha);
+                                $("#txt-especialidad").val(response.data.nombre_especialidad);
+                                $("#txt-doctor").val(response.data.nombre_doctor);
+                                $("#modalAgregarCitas").modal('show');
+                            } else {
+                                // Solo mostrar el mensaje de error si no hay disponibilidad en la fecha seleccionada
+                                Swal.fire({
+                                    icon: "error",
+                                    confirmButtonColor: "#3085d6",
+                                    title: 'Lo sentimos',
+                                    text: 'Para esta fecha no hay cupo disponible.',
+                                });
+                            }
                         }
                     })
                     .fail (function(e) {
@@ -154,9 +187,9 @@ document.addEventListener('DOMContentLoaded', function() {
           var doctor = $('#doctor').val();
           var especialidad = $('#especialidad').val();
 
-          console.log(formattedDate);
+          /*console.log(formattedDate);
           console.log(doctor);
-          console.log(especialidad);
+          console.log(especialidad);*/
 
           // Limpiar la tabla antes de agregar nuevos datos
           $('#tablaDatos tbody').empty();
@@ -172,8 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
               },
           })
           .done(function (response) {
-              console.log(response.data.citas);
-              console.log(response.data.especialidad.nombre_especialidad);
+              //console.log(response.data.citas);
+              //console.log(response.data.especialidad.nombre_especialidad);
 
               if (response.data.success) {
                   // Mostrar información en el modal
@@ -235,64 +268,16 @@ $(document).ready(function() {
 
 
 
-/*function loadEvents(events) {
-  var limiteCita = document.getElementById("limiteCita").value;
-  var diaLaboral = document.getElementById("diaLaboral").value;
-
-  var citasPorDia = {};
-
-  for (var i = 0; i < diaLaboral.length; i++) {
-      // Asegúrate de que no excedas el tamaño del arreglo citasLimites
-    citasPorDia[diaLaboral] = limiteCita;
-  }
-
-
-
-  /*console.log('limiteCita ' + limiteCita);
-  console.log('diaLaboral ' + diaLaboral);--
-      if (events) {
-          // Transformar los eventos para que contengan solo el título
-          const transformedEvents = events.map(event => {
-              return {
-                  title: event.conteo, // Asegúrate de que 'conteo' sea la propiedad correcta
-                  start: event.start,   // Asegúrate de que 'start' sea una fecha válida
-                  end: event.end,       // Asegúrate de que 'end' sea una fecha válida
-                  color: '#f1231a',     // Color del evento
-                  textColor: '#ffffff'  // Cambia 'with' a un color válido
-              };
-          });
-
-          //console.log('Veamos si llega: ', transformedEvents);
-
-          // Primero, eliminamos todos los eventos existentes
-          calendar.removeAllEvents(); // Eliminar eventos existentes
-
-          // Luego, agregamos los nuevos eventos
-          calendar.addEventSource(transformedEvents); // Agregar nuevos eventos
-          calendar.render();
-      } else {
-        calendar.removeAllEvents(); // Eliminar eventos existentes
-        calendar.render();
-        //console.warn('No se proporcionaron eventos.');
-        Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: 'Oops',
-            text: 'Este doctor no posee nunguna cita pautada.',
-        });
-      }
-  }*/
-
-
+//---------------------------------------Cargar eventos al calendario------------------------------------//
 function loadEvents(events) {
     // Obtener los valores de los elementos
     var limiteCita = document.getElementById("limiteCita").value; // "15, 12"
-    //var limiteCita = '3,3';
+    //var limiteCita = '2,2';
     var diaLaboral = document.getElementById("diaLaboral").value; // "Martes, Jueves"
 
     // Imprimir los valores para depuración
-    console.log("limiteCita:", limiteCita);
-    console.log("diaLaboral:", diaLaboral);
+    //console.log("limiteCita:", limiteCita);
+    //console.log("diaLaboral:", diaLaboral);
 
     // Convertir las cadenas separadas por comas en arreglos
     limiteCita = limiteCita.split(',').map(Number); // Convertir a números
@@ -311,7 +296,7 @@ function loadEvents(events) {
             const dia = new Date(event.start).toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase(); // Obtener el día de la semana y convertir a minúsculas
 
             // Imprimir para depuración
-            //console.log("Día extraído:", dia);
+            //console.log("Día extraído:", diaLaboral);
 
             // Imprimir el arreglo de días laborales para depuración
             //console.log("Días laborales:", diaLaboral);
@@ -343,7 +328,7 @@ function loadEvents(events) {
                     // Si el límite ha sido alcanzado, puedes agregar un evento indicando que está lleno
                     //console.log(`Límite alcanzado para ${dia}. No se puede agregar más citas.`);
                     return {
-                        title: conteo + ' - full', // Mensaje de que ya no se pueden agregar citas
+                        title: conteo, // Mensaje de que ya no se pueden agregar citas
                         start: event.start,
                         end: event.end,
                         color: '#f1231a', // Color para indicar que está lleno
@@ -415,13 +400,6 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
     let estatus_cita = 1;
     let id_doctor_cita = document.getElementById("doctor").value;
 
-    /*console.log(ID);
-    console.log(fecha_cita);
-    console.log(observacion_cita);
-    console.log(id_especialidad_cita);
-    console.log(estatus_cita);
-    console.log(id_doctor_cita);*/
-
    if (ID) {
       $.ajax({
           url: "index.php?page=registrarCita",
@@ -454,9 +432,9 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
 
               $("#tabla_citas").DataTable().ajax.reload();
               //document.getElementById("formCalendarCita").reset();
-            } else {
+            } else if(response.data.success == false) {
               Swal.fire({
-                icon: "danger",
+                icon: "warning",
                 confirmButtonColor: "#3085d6",
                 title: response.data.message,
                 text: response.data.info,

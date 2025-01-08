@@ -292,8 +292,10 @@ EOT;
 		$datos = [];
 		$id_especialidad = $_POST['especialidad'];
 		$id_doctor = $_POST['doctor'];
+		$fecha_cita = $_POST['nuevaFecha'];
 
 		$resultado = $modelCitas->consultarEspe_Doct($id_especialidad, $id_doctor);
+		$conteo_FechaCita = $modelCitas->consultarCita_fecha($id_doctor, $fecha_cita);
 
 		foreach ($resultado as $resultados) {
 			$nombre_especialidad	= $resultados->nombre_especialidad;
@@ -306,7 +308,8 @@ EOT;
 				'message'            => 'Registro encontrado',
 				'info'               =>  '',
 				'nombre_especialidad'=> $nombre_especialidad,
-				'nombre_doctor'		 => $nombre_doctor
+				'nombre_doctor'		 => $nombre_doctor,
+				'conteo_FechaCita'	 => $conteo_FechaCita
 			],
 			'code' => 0,
 		];
@@ -470,28 +473,42 @@ EOT;
 			'fecha_registro'				=> $fecha
 		);
 
-		$resultado = $modelCitas->registrarCita($datos);
+		$verificar = $modelCitas->VerificarCita($_POST['ID'], $_POST['id_especialidad_cita'], $_POST['fecha_cita']);
 
-		//FIN REGISTRAR CITA
+		if (empty($verificar)) {
+			$resultado = $modelCitas->registrarCita($datos);
+			if ($resultado) {
+				$data = [
+					'data' => [
+						'success'            =>  true,
+						'message'            => 'Guardado exitosamente',
+						'info'               =>  'La cita ha sido registrada con exito'
+					],
+					'code' => 1,
+				];
 
-		if ($resultado) {
-			$data = [
-				'data' => [
-					'success'            =>  true,
-					'message'            => 'Guardado exitosamente',
-					'info'               =>  'La cita ha sido registrada con exito'
-				],
-				'code' => 1,
-			];
+				echo json_encode($data);
+				exit();
+				//FIN REGISTRAR CITA
+			}else{
+				$data = [
+					'data' => [
+						'success'            =>  false,
+						'message'            => '¡Uy!',
+						'info'               =>  'Ocurrio un error inesperado al intentar registrar esta cita.'
+					],
+					'code' => 0,
+				];
 
-			echo json_encode($data);
-			exit();
+				echo json_encode($data);
+				exit();
+			}
 		} else {
 			$data = [
 				'data' => [
 					'success'            =>  false,
-					'message'            => 'Ocurrió un error al guardar la cita',
-					'info'               =>  ''
+					'message'            => '¡Hey!',
+					'info'               =>  'Esta persona ya posee una cita registrada para la misma fecha y especialidad.'
 				],
 				'code' => 0,
 			];

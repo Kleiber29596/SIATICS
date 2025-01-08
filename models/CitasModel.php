@@ -22,6 +22,13 @@ class CitasModel extends ModeloBase {
 		}
 	}
 
+	public function VerificarCita($id_persona, $id_especialidad, $fecha_cita){
+		$db = new ModeloBase();
+		$query = "SELECT * FROM citas WHERE id_persona = $id_persona AND id_especialidad = $id_especialidad AND estatus = 1 AND fecha_cita = '$fecha_cita' ";
+		$resultado = $db->FectAll($query);
+		return $resultado;
+	}
+
 	public function BuscarCitasXFechas($doctor, $fechaCita){
 		$db = new ModeloBase();
 		$query = "SELECT c.id_cita, c.fecha_cita ,CONCAT(p.p_nombre,' ',p.p_apellido) as nombre, c.observacion, CONCAT(p.tipo_documento,'-',p.n_documento) as cedula FROM citas AS c INNER JOIN especialidad AS e on e.id_especialidad = c.id_especialidad INNER JOIN personas AS p ON p.id_persona = c.id_persona INNER JOIN doctor AS d ON d.id_doctor = c.id_doctor WHERE c.id_doctor = $doctor AND estatus = 1 AND fecha_cita = '$fechaCita' ";
@@ -85,6 +92,14 @@ class CitasModel extends ModeloBase {
 	public function consultarCita($id_doctor) {
 		$db = new ModeloBase();
 		$query = "SELECT c.fecha_cita, COUNT(*) AS total_citas FROM citas AS c WHERE c.id_doctor = ".$id_doctor." AND c.estatus = 1 GROUP BY c.fecha_cita ORDER BY c.fecha_cita;";
+		$resultado = $db->FectAll($query);
+		//$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
+	public function consultarCita_fecha($id_doctor, $fecha_cita) {
+		$db = new ModeloBase();
+		$query = "SELECT COUNT(*) AS total_citas FROM citas AS c WHERE c.id_doctor = ".$id_doctor." AND c.estatus = 1 AND c.fecha_cita = '$fecha_cita' GROUP BY c.fecha_cita ORDER BY c.fecha_cita";
 		$resultado = $db->FectAll($query);
 		//$resultado = $db->obtenerTodos($query);
 		return $resultado;
