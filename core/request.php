@@ -88,6 +88,8 @@ if (!empty($page)) {
 		'listarMedicamentos' 	 => array('model' => 'MedicamentosModel', 'view' => 'listarMedicamentos', 'controller' => 'MedicamentosController'),
 		'consultarMedicamento' 	 => array('model' => 'MedicamentosModel', 'view' => 'ConsultarMedicamento', 'controller' => 'MedicamentosController'),
 		'removerMedicamento'	 => array('model' => 'MedicamentosModel', 'view' => 'removerMedicamento', 'controller' => 'MedicamentosController'),
+		'listarActualizacionMedicamento' => array('model' => 'MedicamentosModel', 'view' => 'listarActualizacionMedicamento', 'controller' => 'MedicamentosController'),
+		'modificarMedicamento'   => array('model' => 'MedicamentosModel', 'view' => 'modificarMedicamento', 'controller' => 'MedicamentosController'),
 		/* Modulo Persona*/
 		'inicioPersonas' => array('model' => 'PersonasModel', 'view' => 'inicio', 'controller' => 'PersonasController'),
 		/* Modulo Consultas*/

@@ -249,6 +249,12 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 </a>
             </li><!-- End Especialidades Page Nav -->
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
+                <i class="bi bi-capsule"></i> <span>Medicamentos</span>
+                </a>
+            </li><!-- End Especialidades Page Nav -->
+
         </ul>
 
     </aside><!-- End Sidebar-->

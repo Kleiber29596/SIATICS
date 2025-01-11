@@ -54,6 +54,8 @@ public function consultarMedicamento($nombre_medicamento) {
 	return $resultado;
 }
 
+
+
 /*------------ Método para obtener una Medicamento -------*/
 public function consultarRegistroTemporal($id_medicamento) {
 	$db = new ModeloBase();
@@ -80,6 +82,24 @@ public function llenarSelectMedicamentos()
 {
 	$db = new ModeloBase();
 	$query = "SELECT presentacion_medicamentos.id_presentacion_medicamento, presentacion_medicamentos.id_medicamento, presentacion_medicamentos.id_presentacion,  medicamentos.nombre_medicamento, presentacion.presentacion  FROM presentacion_medicamentos INNER JOIN medicamentos ON presentacion_medicamentos.id_medicamento = medicamentos.id_medicamento  INNER JOIN presentacion ON presentacion_medicamentos.id_presentacion  = presentacion.id_presentacion";
+	$resultado = $db->obtenerTodos($query);
+	return $resultado;
+}
+
+
+/*------------ Método para llenar select con las presentaciones -------*/
+public function selectPresentacion()
+{
+	$db = new ModeloBase();
+	$query = "SELECT * FROM presentacion";
+	$resultado = $db->obtenerTodos($query);
+	return $resultado;
+}
+
+public function listarCategorias()
+{
+	$db = new ModeloBase();
+	$query = "SELECT * FROM categoria_medicamento";
 	$resultado = $db->obtenerTodos($query);
 	return $resultado;
 }
@@ -130,5 +150,38 @@ public function listarMedicamentosTemporales() {
 }
 
 
+/*------------Método para mostrar un motivo --------*/
+public function obtenerMedicamento($id) {
+	$db = new ModeloBase();
+	$query = "SELECT presentacion_medicamentos.id_presentacion_medicamento, presentacion_medicamentos.id_medicamento, presentacion_medicamentos.id_presentacion,  medicamentos.nombre_medicamento, medicamentos.codigo, presentacion.presentacion, c.categoria  FROM presentacion_medicamentos INNER JOIN medicamentos ON presentacion_medicamentos.id_medicamento = medicamentos.id_medicamento  INNER JOIN presentacion ON presentacion_medicamentos.id_presentacion  = presentacion.id_presentacion INNER JOIN categoria_medicamento AS c ON medicamentos.codigo = c.codigo WHERE id_presentacion_medicamento = ".$id."";
+	$resultado = $db->obtenerTodos($query);
+	
+	
+	
+	return $resultado;
+}
 
+	/*------------Método para modificar un medicamento --------*/
+	public function modificarMedicamento($id, $datos) {
+		$db = new ModeloBase();
+		try {
+			$editar = $db->editar('medicamentos', 'id_medicamento', $id, $datos);
+			return $editar;
+		} catch(PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
+	/*------------Método para modificar una presentacion-medicamento --------*/
+
+	public function modificarPresentacionMedicamento($id, $datos) {
+		$db = new ModeloBase();
+		try {
+			$editar = $db->editar('presentacion_medicamentos', 'id_presentacion_medicamento', $id, $datos);
+			return $editar;
+		} catch(PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+	
 }

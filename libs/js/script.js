@@ -1,5 +1,5 @@
-
 $(document).ready(function() {
+  // Esto asegura que los elementos fuera del modal también funcionen
   // Esto asegura que los elementos fuera del modal también funcionen
   $('.js-example-basic-multiple').select2();
 });
@@ -4106,18 +4106,23 @@ if ((modificar_cita = document.getElementById("modificar_cita"))) {
 }
 
 /* -------------- Agregar medicamentos ------------------ */
-
+let agregar_medicamento = document.getElementById("agregar_medicamento");
+if (agregar_medicamento) {
+  
+  agregar_medicamento.addEventListener("click", agregarMedicamentos, false);
 
   function agregarMedicamentos() {
-    let id_medicamento = document.getElementById("r_medicamento").value;
+    let nombre_medicamento = document.getElementById("nombre_medicamento").value;
     let id_presentacion = document.getElementById("presentacion").value;
+    let id_categoria = document.getElementById("categoria").value;
 
     $.ajax({
       url: "index.php?page=registrarMedicamento",
       type: "post",
       dataType: "json",
       data: {
-        id_medicamento: id_medicamento,
+        nombre_medicamento: nombre_medicamento,
+        id_categoria: id_categoria,
         id_presentacion: id_presentacion,
       },
       
@@ -4150,8 +4155,11 @@ if ((modificar_cita = document.getElementById("modificar_cita"))) {
       });
   }
 
+}
 
-  /* -------------- Agregar medicamentos ------------------ */
+  
+
+  /* -------------- Agregar motivo ------------------ */
 
   let agregar_motivo = document.getElementById('agregar_motivo');
   if(agregar_motivo) {
@@ -5243,6 +5251,25 @@ $('#estado').select2({
 
 
 
+$('#presentacion').select2({
+  dropdownParent: $('#modalAgregarMedicamentos')
+});
+
+
+$('#categoria').select2({
+  dropdownParent: $('#modalAgregarMedicamentos')
+});
+
+// $('#categoria_update').select2({
+//   dropdownParent: $('#modalActualizarMedicamentos')
+// });
+
+// $('#presentacion_update').select2({
+//   dropdownParent: $('#modalActualizarMedicamentos')
+// });
+
+
+
 
 
 
@@ -6091,6 +6118,7 @@ function listarActualizacionMotivo(id) {
 }
 
 
+
 /* -------------- Modificar motivo ------------------ */
 var modificar_motivo;
 if (
@@ -6152,6 +6180,7 @@ if (
 
 
 
+
 /* -------------- Ver Motivo ------------------ */
 function verMotivo(id) {
   let id_motivo = id;
@@ -6207,3 +6236,106 @@ $(document).ready(function () {
     },
   });
 });
+
+
+
+
+/* -------------- Listar datos para actualizar motivo ------------------ */
+
+function listarActualizacionMedicamentos(id) {
+  let id_medicamento = id;
+  $.ajax({
+    url: "index.php?page=listarActualizacionMedicamento",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_medicamento: id_medicamento,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("id_medicamento_update").value =
+          response.data.id_medicamento;
+        document.getElementById("id_pm_update").value =
+          response.data.id_presentacion_medicamento;
+        document.getElementById("nombre_medicamento_update").value =
+          response.data.nombre_medicamento;
+        document.getElementById("categoria_update").value =
+          response.data.categoria;
+        document.getElementById("presentacion_update").value =
+          response.data.presentacion;
+        $("#modalActualizarMedicamentos").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+
+/* -------------- Modificar motivo ------------------ */
+var modificar_medicamento;
+if (
+  (modificar_medicamento = document.getElementById("modificar_medicamento"))
+) {
+  modificar_medicamento.addEventListener(
+    "click",
+    modificarMedicamentos,
+    false
+  );
+
+  function modificarMedicamentos() {
+    let id_medicamento = document.getElementById("id_medicamento_update").value;
+    let id_pm = document.getElementById("id_pm_update").value;
+    let nombre_medicamento_update = document.getElementById(
+      "nombre_medicamento_update"
+    ).value;
+    let categoria_update = document.getElementById(
+      "categoria_update"
+    ).value;
+    let presentacion_update = document.getElementById(
+      "presentacion_update"
+    ).value;
+    $.ajax({
+      url: "index.php?page=modificarMedicamento",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_medicamento: id_medicamento,
+        id_pm: id_pm,
+        nombre_medicamento_update: nombre_medicamento_update,
+        categoria_update: categoria_update,
+        presentacion_update: presentacion_update,
+    
+        
+      },
+    })
+      .done(function (response) {
+        if (response.data.success == true) {
+          document.getElementById("formActualizarMedicamento").reset();
+
+          $("#modalActualizarMedicamentos").modal("hide");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+
+          $("#tbl_medicamentos").DataTable().ajax.reload();
+        } else {
+          Swal.fire({
+            icon: "danger",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  }
+}

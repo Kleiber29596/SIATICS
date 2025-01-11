@@ -171,6 +171,18 @@ public function listarEnfermedades($id_historia_medica) {
     return $resultado;
 }
 
+
+
+/*------------ Método para llenar select Enfermedades -------*/
+public function selectEnfermedades()
+{
+	$db = new ModeloBase();
+	$query = "SELECT * FROM patologias";
+	$resultado = $db->obtenerTodos($query);
+	return $resultado;
+}
+
+
 public function listarMedicamentos($id_historia_medica) {
     $db = new ModeloBase();
     $query = "SELECT hm.id_histo_medic, hm.id_historia_medica, hm.id_presentacion_medicamento, pre_medic.id_medicamento, pre_medic.id_presentacion, CONCAT(m.nombre_medicamento,' ',p.presentacion) AS nombre_medicamento from histo_medic AS hm LEFT JOIN presentacion_medicamentos AS pre_medic ON hm.id_presentacion_medicamento = pre_medic.id_presentacion_medicamento LEFT JOIN medicamentos AS m ON pre_medic.id_medicamento = m.id_medicamento LEFT JOIN presentacion AS p ON p.id_presentacion = pre_medic.id_presentacion WHERE id_historia_medica = $id_historia_medica";
@@ -192,41 +204,41 @@ public function listarMedicamentos($id_historia_medica) {
 	public function consultarPersonaC($n_documento) {
 	    $db = new ModeloBase();
 	    $query = "SELECT 
-		p.id_persona AS id_paciente, 
-		CONCAT(p.tipo_documento, '-', p.n_documento) AS documento_paciente, 
-		CONCAT(p.p_nombre, ' ', p.s_nombre, ' ', p.p_apellido, ' ', p.s_apellido) AS nombres_paciente, 
-		p.fecha_nacimiento, 
-		p.sexo, 
-		p.telefono, 
-		p.correo, 
-		p.fecha_registro AS fecha_registro_paciente, 
-		p.direccion, 
-		r.parentesco, 
-		r.id_representante,
-		c.id_cita, 
-		c.id_especialidad, 
-		c.observacion, 
-		c.estatus, 
-		c.fecha_cita, 
-		c.id_doctor,
-		e.nombre_especialidad, 
-		d.id_persona AS id_especialista, 
-		CONCAT(es.tipo_documento, '-', es.n_documento) AS documento_especialista, 
-		CONCAT(es.p_nombre, ' ', es.s_nombre, ' ', es.p_apellido, ' ', es.s_apellido) AS nombres_especialista
-	FROM 
-		personas AS p
-	LEFT JOIN 
-		representantes AS r ON p.id_persona = r.id_persona
-	LEFT JOIN 
-		citas AS c ON c.id_persona = p.id_persona AND c.estatus = 1 
-	LEFT JOIN 
-		especialidad AS e ON e.id_especialidad = c.id_especialidad
-	LEFT JOIN 
-		doctor AS d ON d.id_doctor = c.id_doctor
-	LEFT JOIN 
-		personas AS es ON d.id_persona = es.id_persona
-	WHERE 
-		p.n_documento = " . $n_documento . "";
+        p.id_persona AS id_paciente, 
+        CONCAT(p.tipo_documento, '-', p.n_documento) AS documento_paciente, 
+        CONCAT(p.p_nombre, ' ', p.s_nombre, ' ', p.p_apellido, ' ', p.s_apellido) AS nombres_paciente, 
+        p.fecha_nacimiento, 
+        p.sexo, 
+        p.telefono, 
+        p.correo, 
+        p.fecha_registro AS fecha_registro_paciente, 
+        p.direccion, 
+        r.parentesco, 
+        r.id_representante,
+        c.id_cita, 
+        c.id_especialidad, 
+        c.observacion, 
+        c.estatus, 
+        DATE_FORMAT(c.fecha_cita, '%d/%m/%Y') AS fecha_cita,  -- Aquí aplicamos el formato
+        c.id_doctor,
+        e.nombre_especialidad, 
+        d.id_persona AS id_especialista, 
+        CONCAT(es.tipo_documento, '-', es.n_documento) AS documento_especialista, 
+        CONCAT(es.p_nombre, ' ', es.s_nombre, ' ', es.p_apellido, ' ', es.s_apellido) AS nombres_especialista
+    FROM 
+        personas AS p
+    LEFT JOIN 
+        representantes AS r ON p.id_persona = r.id_persona
+    LEFT JOIN 
+        citas AS c ON c.id_persona = p.id_persona AND c.estatus = 1 
+    LEFT JOIN 
+        especialidad AS e ON e.id_especialidad = c.id_especialidad
+    LEFT JOIN 
+        doctor AS d ON d.id_doctor = c.id_doctor
+    LEFT JOIN 
+        personas AS es ON d.id_persona = es.id_persona
+    WHERE 
+        p.n_documento = " . $n_documento . "";
 	    $resultado = $db->obtenerTodos($query);
 	    return $resultado;
 	}
