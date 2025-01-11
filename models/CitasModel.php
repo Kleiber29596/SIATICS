@@ -44,6 +44,13 @@ class CitasModel extends ModeloBase {
 		return $resultado;
 	}
 
+	public function obtenerDatoCita($id) {
+		$db = new ModeloBase();
+		$query = "SELECT c.id_persona, e.nombre_especialidad, c.id_especialidad, concat('Dr(a). ', p.p_nombre,' ',p.p_apellido) as Nom_doctor, c.id_doctor, c.observacion, c.fecha_cita, c.estatus FROM citas c INNER JOIN especialidad AS e ON e.id_especialidad = c.id_especialidad INNER JOIN doctor AS d ON d.id_doctor = c.id_doctor INNER JOIN personas AS p ON p.id_persona = d.id_persona WHERE c.id_cita = ".$id."";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
 	/*------------ Método para obtener una cita -------*/
 	public function historicoCitas($id_paciente) {
 		$db = new ModeloBase();

@@ -119,10 +119,10 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
-                <!--<img src="libs/img/logo-caritas.jpg" alt="">
+                <!--<img src="libs/img/siatics2.png" alt="">
                     style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 60%; height:80px;">-->
-                <!--     <img src="libs/img/logo.png" alt="" style="max-height: 68px;">
-                -->
+                     <img src="libs/img/siatics2.png" alt="" style="max-height: 55px; margin: auto;">
+                <!---->
                 <!-- <span class="d-none d-lg-block">Jornadas De Ferias</span> -->
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -144,14 +144,15 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="<?= SERVERURL ?>foto_usuario/<?= $foto ?>" alt="Profile" class="rounded-circle">
+                        <img src="libs/img/user.jpg" alt="Profile" class="rounded-circle">
+                        <!--<img src="<?= SERVERURL ?>foto_usuario/<?= $foto ?>" alt="Profile" class="rounded-circle">-->
                         <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $usuario ?></span>
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
                             <h6><?php echo $usuario ?></h6>
-                            <span><?php echo $rol ?></span>
+                            <span><input type="hidden" name="rol_user" id="rol_user" value="<?php echo $rol ?>"></span>
                         </li>
                         <li>
                             <hr class="dropdown-divider">

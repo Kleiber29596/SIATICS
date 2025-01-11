@@ -247,11 +247,11 @@ public function listarMedicamentos($id_historia_medica) {
 
 
 
-	public function consultarPersonaCita($n_documento) {
-	    /*$db = new ModeloBase();
-	    $query = "SELECT id_persona, CONCAT(personas.tipo_documento, '-', personas.n_documento) AS documento, CONCAT(personas.nombres, ' ', personas.apellidos) AS nombres, fecha_nacimiento, sexo, telefono, correo, fecha_registro, CONCAT('Estado ',estado,', municipio ',municipio, ' en la parroquia ',parroquia) as direccion FROM personas INNER JOIN estados ON personas.id_estado = estados.id_estado INNER JOIN municipios ON personas.id_municipio = municipios.id_municipio INNER JOIN parroquias ON personas.id_parroquia = parroquias.id_parroquia WHERE n_documento = ".$n_documento."";
-	    $resultado = $db->FectAll($query);*/
-	    return $n_documento;
+	public function consultarPersonaCita($id_persona) {
+	    $db = new ModeloBase();
+	    $query = "SELECT p.id_persona, CONCAT(p.tipo_documento,'-',p.n_documento) AS cedula, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombre, TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) AS edad, p.sexo, p.telefono, p.direccion, p.correo FROM personas p WHERE p.id_persona = ".$id_persona."";
+	    $resultado = $db->FectAll($query);
+	    return $resultado;
 	}
 
 

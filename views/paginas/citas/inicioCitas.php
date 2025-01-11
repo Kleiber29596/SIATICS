@@ -96,30 +96,35 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 <!--Mostrar citas por fecha-->
 
 <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="dataModalLabel">Citas pendientes</h5>
+                <h5 class="modal-title" id="dataModalLabel"></h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p><strong>Especialidad: </strong><span id="espe"></span></p>
-                <p><strong>Fecha seleccionada:</strong> <span id="fecha"></span></p>
-                <p><strong>Doctor: </strong> <span id="doctor"></span></p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p><strong>Especialidad: </strong><span id="espe"></span></p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p><strong>Observacion: </strong><input type="text" name="" id="obs_cita" disabled style="width: 50%;"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p><strong>Fecha seleccionada:</strong> <span id="fecha"></span></p>
+                        <p><strong>Doctor: </strong> <span id="doct"></span></p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p style="padding:10px; background: green; color: white; width:50%; display: none;" id="espe_green"><strong>Estatus: </strong><span id="est"></span></p>
+                        <p style="padding:10px; background: red; color: white; width:50%; display: none;" id="espe_red"><strong>Estatus: </strong><span id="est"></span></p>
+                    </div>
+                </div>
                 <table id="tablaDatos" class="table" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Documento</th>
-                            <th scope="col">Observacion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
+                    
                 </table>
             </div>
             <div class="modal-footer">
@@ -235,5 +240,89 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
 <?php 
 } 
- 
-    ?>
+?>
+
+<!--------------------------------Modificar cita --------------------------------------------->
+
+<div class="modal fade" id="modalModificarCitas" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="modalModificarCitasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalModificarCitasLabel">Modificar Cita <i class="bi bi-calendar"></i></span>
+                </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="formRegistrarCita">
+                    <div class="row" id="contenedor_datos_persona">
+                        <div class="col-sm-12 mt-3">
+                            <p>Datos de la persona</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-secondary table-hover" id="tabla_datosPersona">
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color:#bfc1c3;">Nº documento</th>
+                                            <th style="background-color:#bfc1c3;">Nombres/Apellidos</th>
+                                            <th style="background-color:#bfc1c3;">Telefono</th>
+                                            <th style="background-color:#bfc1c3;">Sexo</th>
+                                            <th style="background-color:#bfc1c3;">Edad</th>
+                                            <th style="background-color:#bfc1c3;">Dirección</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="txt-esp">Especialidad</label>
+                            <input type="label" class="form-control" name="txt-esp" id="txt-esp"
+                                disabled>
+                            <input type="hidden" id="id-esp">
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txt-doctor">Doctor</label>
+                                <select class="form-control" name="txt-doc" id="txt-doc">
+                                    
+                                </select>                                
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group mt-3">
+                                <label for="fecha_cita">Fecha de la cita</label>
+                                <input type="date" id="fech_cita" class="form-control rounded">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group mt-3">
+                                <label for="observacion_cita">Observación</label>
+                                <textarea id="observacion_cita" class="form-control rounded"
+                                    placeholder="Escriba aquí"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" title="Cerrar el modal"
+                    data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="modificar_cita" title="Actualizar cita"><i
+                        class="fas fa-save"></i> Actualizar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
