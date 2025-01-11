@@ -32,7 +32,7 @@ class MotivosModel extends ModeloBase {
 	/*------------Método para listar motivos filtrados por especialidad  --------*/
 	public function listarMotivos($id) {
 		$db = new ModeloBase();
-		$query = "SELECT m.id_tipo_consulta, m.motivo, m.id_especialidad, m.fecha_registro, e.nombre_especialidad FROM tipo_consulta AS m LEFT JOIN especialidad AS e ON m.id_especialidad = e.id_especialidad  WHERE m.id_especialidad = ".$id."";
+		$query = "SELECT m.id_tipo_consulta, m.motivo, m.id_especialidad, e.nombre_especialidad FROM tipo_consulta AS m LEFT JOIN especialidad AS e ON m.id_especialidad = e.id_especialidad  WHERE m.id_especialidad = ".$id."";
 		$resultado = $db->obtenerTodos($query);
 		
 		
