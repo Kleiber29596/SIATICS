@@ -21,7 +21,7 @@ class DoctorModel extends ModeloBase {
 	/*------------ Método para mostrar un registro de un Doctor -------*/
 	public function obtenerDoctor($id) {
 		$db = new ModeloBase();
-		$query = "SELECT  d.id_doctor, d.id_especialidad,  d.dia_inicio, d.dia_fin, d.hora_inicio, d.hora_fin, pe.id_persona,  pe.n_documento, pe.tipo_documento,  pe.nombres,  pe.apellidos,  pe.sexo, pe.telefono, pe.id_estado, pe.id_municipio, pe.id_parroquia, pe.correo, pe.fecha_nacimiento, es.nombre_especialidad FROM doctor d INNER JOIN personas pe ON d.id_persona = pe.id_persona INNER JOIN especialidad es ON d.id_especialidad = es.id_especialidad WHERE d.id_doctor = ".$id."";
+		$query = "SELECT d.id_doctor, d.id_especialidad, pe.id_persona, CONCAT(pe.tipo_documento,'-',pe.n_documento) AS documeto, CONCAT(pe.p_nombre,' ',pe.p_apellido) AS nombre, pe.sexo, pe.telefono, pe.direccion, pe.correo, pe.fecha_nacimiento, es.nombre_especialidad FROM doctor d INNER JOIN personas pe ON d.id_persona = pe.id_persona INNER JOIN especialidad es ON d.id_especialidad = es.id_especialidad WHERE d.id_doctor = ".$id."";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
