@@ -118,6 +118,7 @@ class dashboardModel extends ModeloBase
         $query = "SELECT especialidad.nombre_especialidad, COUNT(*) AS total_consulta_especialidad
                     FROM consultas
                     JOIN especialidad ON consultas.id_especialidad = especialidad.id_especialidad
+                    WHERE consultas.fecha_registro=CURDATE()
                     GROUP BY especialidad.nombre_especialidad";
         $resultado = $db->FectAll($query);
         return $resultado;
@@ -145,9 +146,42 @@ class dashboardModel extends ModeloBase
     public function sexo()
     {
         $db = new ModeloBase();
-        $query = "SELECT sexo, COUNT(*) AS total_sexo
-                    FROM personas
-                    GROUP BY sexo";
+        // $query = "SELECT sexo, COUNT(*) AS total_sexo
+        //             FROM personas
+        //             GROUP BY sexo";
+        $query = "SELECT personas.sexo, COUNT(*) AS total_sexo FROM consultas AS consultas
+                    JOIN personas AS personas
+                    ON consultas.id_persona=personas.id_persona
+                    WHERE consultas.fecha_registro=CURDATE()
+                    GROUP BY personas.sexo";
+        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+
+    public function citaSexo()
+    {
+        $db = new ModeloBase();
+        $query = "SELECT personas.sexo, COUNT(*) AS total_sexo FROM consultas AS consultas
+                    JOIN personas AS personas
+                    ON consultas.id_persona=personas.id_persona
+                    JOIN especialidad as especialidad
+                    ON consultas.id_especialidad=especialidad.id_especialidad
+                    WHERE consultas.fecha_registro=CURDATE() AND especialidad.modalidad='Por cita'
+                    GROUP BY personas.sexo";
+        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+
+    public function citaSexoFechaDesdeHasta($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT personas.sexo, COUNT(*) AS total_sexo FROM consultas AS consultas
+                    JOIN personas AS personas
+                    ON consultas.id_persona=personas.id_persona
+                    JOIN especialidad as especialidad
+                    ON consultas.id_especialidad=especialidad.id_especialidad
+                    WHERE consultas.fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta' AND especialidad.modalidad='Por cita'
+                    GROUP BY personas.sexo";
         $resultado = $db->FectAll($query);
         return $resultado;
     }
@@ -174,6 +208,23 @@ class dashboardModel extends ModeloBase
     public function edad()
     {
         $db = new ModeloBase();
+        // $query = "SELECT 
+        //             CASE 
+        //                 WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) <= 12 THEN 'Niño'
+        //                 WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 13 AND 17 THEN 'Adolescente'
+        //                 WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 18 AND 54 THEN 'Adulto'
+        //                 WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) >= 55 THEN 'Adulto Mayor'
+        //             END AS categoria,
+        //             COUNT(*) AS cantidad
+        //             FROM 
+        //                 personas
+                    
+        //             WHERE personas.fecha_registro=CURDATE()
+        //             GROUP BY 
+        //                 categoria
+        //             ORDER BY 
+        //                 categoria ASC;
+        //                     ";
         $query = "SELECT 
                     CASE 
                         WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) <= 12 THEN 'Niño'
@@ -184,11 +235,13 @@ class dashboardModel extends ModeloBase
                     COUNT(*) AS cantidad
                     FROM 
                         personas
+                    JOIN consultas 
+                    ON consultas.id_persona=personas.id_persona
+                    WHERE consultas.fecha_registro=CURDATE()
                     GROUP BY 
                         categoria
                     ORDER BY 
-                        categoria ASC;
-                            ";
+                        categoria ASC;";
         $resultado = $db->FectAll($query);
         return $resultado;
     }
@@ -216,6 +269,35 @@ class dashboardModel extends ModeloBase
         return $resultado;
     }
 
+    public function citasEdadFechaDesdehasta($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT 
+                    CASE 
+                        WHEN TIMESTAMPDIFF(YEAR, personas.fecha_nacimiento, CURDATE()) <= 12 THEN 'Niño'
+                        WHEN TIMESTAMPDIFF(YEAR, personas.fecha_nacimiento, CURDATE()) BETWEEN 13 AND 17 THEN 'Adolescente'
+                        WHEN TIMESTAMPDIFF(YEAR, personas.fecha_nacimiento, CURDATE()) BETWEEN 18 AND 54 THEN 'Adulto'
+                        WHEN TIMESTAMPDIFF(YEAR, personas.fecha_nacimiento, CURDATE()) >= 55 THEN 'Adulto Mayor'
+                    END AS categoria,
+                    COUNT(*) AS cantidad
+                    FROM 
+                        consultas as consultas
+                    JOIN especialidad as especialidad
+                    ON consultas.id_especialidad=especialidad.id_especialidad
+                    JOIN personas as personas
+                    ON consultas.id_persona=personas.id_persona
+                     WHERE 
+                     consultas.fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta'
+                    AND especialidad.modalidad='Por cita'
+                    GROUP BY 
+                        categoria
+                    ORDER BY 
+                        categoria ASC;";
+        $resultado = $db->FectAll($query);
+        return $resultado;
+    }
+
+
     public function fechaDesdeHastaTipoConsulta($fechaDesde, $fechaHasta)
     {
 
@@ -240,6 +322,37 @@ class dashboardModel extends ModeloBase
                     FROM consultas AS consultas
                     JOIN tipo_consulta AS tipo_consulta ON consultas.id_tipo_consulta = tipo_consulta.id_tipo_consulta
                     GROUP BY tipo_consulta.motivo;
+                ";
+
+        $resultado = $db->FectAll($query);
+
+        return $resultado;
+    }
+
+    public function chartCitasEdad()
+    {
+
+        $db = new ModeloBase();
+        $query = "SELECT 
+                    CASE 
+                        WHEN TIMESTAMPDIFF(YEAR, personas.fecha_nacimiento, CURDATE()) <= 12 THEN 'Niño'
+                        WHEN TIMESTAMPDIFF(YEAR, personas.fecha_nacimiento, CURDATE()) BETWEEN 13 AND 17 THEN 'Adolescente'
+                        WHEN TIMESTAMPDIFF(YEAR, personas.fecha_nacimiento, CURDATE()) BETWEEN 18 AND 54 THEN 'Adulto'
+                        WHEN TIMESTAMPDIFF(YEAR, personas.fecha_nacimiento, CURDATE()) >= 55 THEN 'Adulto Mayor'
+                    END AS categoria,
+                    COUNT(*) AS cantidad
+                    FROM 
+                        consultas as consultas
+                    JOIN especialidad as especialidad
+                    ON consultas.id_especialidad=especialidad.id_especialidad
+                    JOIN personas as personas
+                    ON consultas.id_persona=personas.id_persona
+                    WHERE consultas.fecha_registro=CURDATE()
+                    AND especialidad.modalidad='Por cita'
+                    GROUP BY 
+                        categoria
+                    ORDER BY 
+                        categoria ASC;
                 ";
 
         $resultado = $db->FectAll($query);
