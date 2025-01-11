@@ -362,8 +362,8 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                 <label class="formulario__label" for="sexo">Sexo</label>
                                 <select class="form-control formulario__validacion__input" name="sexo" id="update_sexo">
                                     <option value="">Seleccione</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Femenino</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
                                 </select>
                             </div>
                         </div>

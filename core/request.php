@@ -14,6 +14,9 @@ if (!empty($page)) {
 		'edad' => array('model' => 'dashboardModel', 'view' => 'edad', 'controller' => 'dashboardController'),
 		'filtro' => array('model' => 'dashboardModel', 'view' => 'filtro', 'controller' => 'dashboardController'),
 		'todosTiposConsulta' => array('model' => 'dashboardModel', 'view' => 'todosTiposConsulta', 'controller' => 'dashboardController'),
+		'chartCitasEdad' => array('model' => 'dashboardModel', 'view' => 'chartCitasEdad', 'controller' => 'dashboardController'),
+		'chartCitasSexo' => array('model' => 'dashboardModel', 'view' => 'chartCitasSexo', 'controller' => 'dashboardController'),
+
 
 		'inicioUsuario' => array('model' => 'UsuarioModel', 'view' => 'inicioUsuario', 'controller' => 'UsuarioController'),
 		'loginUsuario' => array('model' => 'UsuarioModel', 'view' => 'loginUsuario', 'controller' => 'UsuarioController'),

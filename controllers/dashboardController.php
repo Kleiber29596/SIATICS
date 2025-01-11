@@ -79,6 +79,24 @@ class dashboardController
                 echo json_encode($data);
         }
 
+        public function chartCitasEdad()
+        {
+                $modelDashboard = new dashboardModel();
+
+                $data = $modelDashboard->chartCitasEdad();
+
+                echo json_encode($data);
+        }
+
+        public function chartCitasSexo()
+        {
+                $modelDashboard = new dashboardModel();
+
+                $data = $modelDashboard->citaSexo();
+
+                echo json_encode($data);
+        }
+
         public function filtrarDashboard($fechaDesde, $fechaHasta)
         {
                 $modelDashboard = new dashboardModel();
@@ -99,6 +117,12 @@ class dashboardController
 
                 //total_pacientes por edad y rango de fechas
                 $total_pacientes_edad = $modelDashboard->edadFechaDesdehasta($fechaDesde, $fechaHasta);
+
+                //total citas por edad y rang de fechas
+                $total_citas_edad = $modelDashboard->edadFechaDesdehasta($fechaDesde, $fechaHasta);
+
+                //total citas por edad y rang de fechas
+                $total_citas_sexo = $modelDashboard->citaSexoFechaDesdeHasta($fechaDesde, $fechaHasta);
 
 
                 foreach ($data_total_citas as $data_total_citas) {
@@ -125,6 +149,8 @@ class dashboardController
                         'total_consultas_especialidad'  => json_encode($total_consultas_especialidad),
                         'tota_pacientes_sexo'           => json_encode($tota_pacientes_sexo),
                         'total_pacientes_edad'          => json_encode($total_pacientes_edad),
+                        'total_citas_edad'              => json_encode($total_citas_edad),
+                        'total_citas_sexo'              => json_encode($total_citas_sexo),
                 );
 
                 return $datos;
