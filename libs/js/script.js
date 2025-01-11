@@ -205,15 +205,18 @@ document.addEventListener('DOMContentLoaded', function() {
               },
           })
           .done(function (response) {
-              //console.log(response.data.citas);
-              //console.log(response.data.especialidad.nombre_especialidad);
 
               if (response.data.success) {
                   // Mostrar información en el modal
                   $('#espe').text(response.data.especialidad.nombre_especialidad);
                   $('#fecha').text(viewDate);
                   $('#dataModalLabel').text('Citas pendientes');
-
+                  let nom_doc = 'Dr(a). ' + response.data.obtenerDoctor.nombre;
+                  $('#doct').text(nom_doc);
+                  $('#espe_green').show();
+                  $('#est').text('Pendientes');
+                  $('#ob').hide();
+                  $('#espe_red').hide();
                   $('#tablaDatos').empty();
                   // Agregar citas a la tabla
 
@@ -312,12 +315,6 @@ function loadEvents(events) {
         // Transformar los eventos para que contengan solo el título
         const transformedEvents = events.map(event => {
             const dia = new Date(event.start).toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase(); // Obtener el día de la semana y convertir a minúsculas
-
-            // Imprimir para depuración
-            //console.log("Día extraído:", diaLaboral);
-
-            // Imprimir el arreglo de días laborales para depuración
-            //console.log("Días laborales:", diaLaboral);
 
             const index = diaLaboral.indexOf(dia); // Verificar si el día está en el arreglo de días laborales
 
@@ -3728,6 +3725,7 @@ function listarVer(id){
             $('#doct').text(response.data.Nom_doctor);
             $('#espe_green').hide();
             $('#espe_red').hide();
+            $('#ob').show();
             if (response.data.estatus == 1) {
               $('#est').text('Pendiente');
               $('#espe_green').show();
@@ -3736,7 +3734,7 @@ function listarVer(id){
               $('#espe_red').show();
             }
             
-            $('#obs_cita').val(response.data.observacion);
+            $('#obs_cita').text(response.data.observacion);
             $('#tablaDatos tbody').empty();
             $('#dataModalLabel').text('Datos de la citas');
             response.data.datos_personas.forEach(function(D_persona) {
