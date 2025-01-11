@@ -101,14 +101,47 @@ document.addEventListener('DOMContentLoaded', function() {
                         data: {
                             especialidad: id_especialidad_cita,
                             doctor: id_doctor_cita,
+                            nuevaFecha: nuevaFecha,
                         },
                     })
                     .done(function(response) {
                         if (response.data.success) {
-                            $('#fecha_cita').val(nuevaFecha);
-                            $("#txt-especialidad").val(response.data.nombre_especialidad);
-                            $("#txt-doctor").val(response.data.nombre_doctor);
-                            $("#modalAgregarCitas").modal('show');
+                            // Obtener el límite de citas y los días laborales
+                            var limiteCita = document.getElementById("limiteCita").value.split(',').map(Number);
+                            var diaLaboral = document.getElementById("diaLaboral").value.split(',').map(dia => dia.trim().toLowerCase());
+
+                            // Obtener el día de la fecha seleccionada
+                            const fechaSeleccionada = new Date(nuevaFecha);
+                            const diaSeleccionado = fechaSeleccionada.toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase();
+                            
+                            // Inicializar el conteo de citas para el día seleccionado
+                            let totalCitas = 0;
+
+                            // Verificar el conteo de citas para la fecha seleccionada
+                            response.data.conteo_FechaCita.forEach(function(conteoCitas) {
+                                // Aquí asumimos que conteoCitas.total_citas es el total de citas para la fecha seleccionada
+                                totalCitas += conteoCitas.total_citas; // Sumar el total de citas
+                            });
+
+                            // Obtener el índice del día seleccionado en el arreglo de días laborales
+                            const index = diaLaboral.indexOf(diaSeleccionado);
+
+                            // Verificar si hay disponibilidad solo para el día seleccionado
+                            if (index !== -1 && totalCitas < limiteCita[index]) {
+                                console.log('Se puede realizar la cita');
+                                $('#fecha_cita').val(nuevaFecha);
+                                $("#txt-especialidad").val(response.data.nombre_especialidad);
+                                $("#txt-doctor").val(response.data.nombre_doctor);
+                                $("#modalAgregarCitas").modal('show');
+                            } else {
+                                // Solo mostrar el mensaje de error si no hay disponibilidad en la fecha seleccionada
+                                Swal.fire({
+                                    icon: "error",
+                                    confirmButtonColor: "#3085d6",
+                                    title: 'Lo sentimos',
+                                    text: 'Para esta fecha no hay cupo disponible.',
+                                });
+                            }
                         }
                     })
                     .fail (function(e) {
@@ -154,9 +187,9 @@ document.addEventListener('DOMContentLoaded', function() {
           var doctor = $('#doctor').val();
           var especialidad = $('#especialidad').val();
 
-          console.log(formattedDate);
+          /*console.log(formattedDate);
           console.log(doctor);
-          console.log(especialidad);
+          console.log(especialidad);*/
 
           // Limpiar la tabla antes de agregar nuevos datos
           $('#tablaDatos tbody').empty();
@@ -172,25 +205,43 @@ document.addEventListener('DOMContentLoaded', function() {
               },
           })
           .done(function (response) {
-              console.log(response.data.citas);
-              console.log(response.data.especialidad.nombre_especialidad);
+              //console.log(response.data.citas);
+              //console.log(response.data.especialidad.nombre_especialidad);
 
               if (response.data.success) {
                   // Mostrar información en el modal
                   $('#espe').text(response.data.especialidad.nombre_especialidad);
                   $('#fecha').text(viewDate);
+                  $('#dataModalLabel').text('Citas pendientes');
 
+                  $('#tablaDatos').empty();
                   // Agregar citas a la tabla
+
+                  let tablaContenido = '<thead>' +
+                      '<tr>' +
+                          '<th scope="col">ID</th>' +
+                          '<th scope="col">Nombre</th>' +
+                          '<th scope="col">N° Documento</th>' +
+                          '<th scope="col">Observacion</th>' +
+                      '</tr>' + 
+                  '</thead>' +
+                  '<tbody>'; // Iniciar el tbody
+                  
+                  // Iterar sobre las citas y construir las filas de la tabla
                   response.data.citas.forEach(function(cita) {
-                      $('#tablaDatos tbody').append(
+                      tablaContenido += 
                           '<tr>' +
                               '<th scope="row">' + cita.num + '</th>' +
                               '<td>' + cita.nombre + '</td>' +
                               '<td>' + cita.cedula + '</td>' +
                               '<td>' + cita.observacion + '</td>' +
-                          '</tr>'
-                      );
+                          '</tr>';
                   });
+
+                  tablaContenido += '</tbody>';
+
+                  // Agregar el contenido a la tabla
+                  $('#tablaDatos').append(tablaContenido);
 
                   // Mostrar el modal
                   $('#dataModal').modal('show');
@@ -235,64 +286,16 @@ $(document).ready(function() {
 
 
 
-/*function loadEvents(events) {
-  var limiteCita = document.getElementById("limiteCita").value;
-  var diaLaboral = document.getElementById("diaLaboral").value;
-
-  var citasPorDia = {};
-
-  for (var i = 0; i < diaLaboral.length; i++) {
-      // Asegúrate de que no excedas el tamaño del arreglo citasLimites
-    citasPorDia[diaLaboral] = limiteCita;
-  }
-
-
-
-  /*console.log('limiteCita ' + limiteCita);
-  console.log('diaLaboral ' + diaLaboral);--
-      if (events) {
-          // Transformar los eventos para que contengan solo el título
-          const transformedEvents = events.map(event => {
-              return {
-                  title: event.conteo, // Asegúrate de que 'conteo' sea la propiedad correcta
-                  start: event.start,   // Asegúrate de que 'start' sea una fecha válida
-                  end: event.end,       // Asegúrate de que 'end' sea una fecha válida
-                  color: '#f1231a',     // Color del evento
-                  textColor: '#ffffff'  // Cambia 'with' a un color válido
-              };
-          });
-
-          //console.log('Veamos si llega: ', transformedEvents);
-
-          // Primero, eliminamos todos los eventos existentes
-          calendar.removeAllEvents(); // Eliminar eventos existentes
-
-          // Luego, agregamos los nuevos eventos
-          calendar.addEventSource(transformedEvents); // Agregar nuevos eventos
-          calendar.render();
-      } else {
-        calendar.removeAllEvents(); // Eliminar eventos existentes
-        calendar.render();
-        //console.warn('No se proporcionaron eventos.');
-        Swal.fire({
-            icon: "warning",
-            confirmButtonColor: "#3085d6",
-            title: 'Oops',
-            text: 'Este doctor no posee nunguna cita pautada.',
-        });
-      }
-  }*/
-
-
+//---------------------------------------Cargar eventos al calendario------------------------------------//
 function loadEvents(events) {
     // Obtener los valores de los elementos
     var limiteCita = document.getElementById("limiteCita").value; // "15, 12"
-    //var limiteCita = '3,3';
+    //var limiteCita = '2,2';
     var diaLaboral = document.getElementById("diaLaboral").value; // "Martes, Jueves"
 
     // Imprimir los valores para depuración
-    console.log("limiteCita:", limiteCita);
-    console.log("diaLaboral:", diaLaboral);
+    //console.log("limiteCita:", limiteCita);
+    //console.log("diaLaboral:", diaLaboral);
 
     // Convertir las cadenas separadas por comas en arreglos
     limiteCita = limiteCita.split(',').map(Number); // Convertir a números
@@ -311,7 +314,7 @@ function loadEvents(events) {
             const dia = new Date(event.start).toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase(); // Obtener el día de la semana y convertir a minúsculas
 
             // Imprimir para depuración
-            //console.log("Día extraído:", dia);
+            //console.log("Día extraído:", diaLaboral);
 
             // Imprimir el arreglo de días laborales para depuración
             //console.log("Días laborales:", diaLaboral);
@@ -343,7 +346,7 @@ function loadEvents(events) {
                     // Si el límite ha sido alcanzado, puedes agregar un evento indicando que está lleno
                     //console.log(`Límite alcanzado para ${dia}. No se puede agregar más citas.`);
                     return {
-                        title: conteo + ' - full', // Mensaje de que ya no se pueden agregar citas
+                        title: conteo, // Mensaje de que ya no se pueden agregar citas
                         start: event.start,
                         end: event.end,
                         color: '#f1231a', // Color para indicar que está lleno
@@ -415,13 +418,6 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
     let estatus_cita = 1;
     let id_doctor_cita = document.getElementById("doctor").value;
 
-    /*console.log(ID);
-    console.log(fecha_cita);
-    console.log(observacion_cita);
-    console.log(id_especialidad_cita);
-    console.log(estatus_cita);
-    console.log(id_doctor_cita);*/
-
    if (ID) {
       $.ajax({
           url: "index.php?page=registrarCita",
@@ -454,9 +450,9 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
 
               $("#tabla_citas").DataTable().ajax.reload();
               //document.getElementById("formCalendarCita").reset();
-            } else {
+            } else if(response.data.success == false) {
               Swal.fire({
-                icon: "danger",
+                icon: "warning",
                 confirmButtonColor: "#3085d6",
                 title: response.data.message,
                 text: response.data.info,
@@ -591,122 +587,6 @@ $(document).ready(function () {
     });
   });
 });
-
-
-/*
-
-function loadEvents(events) {
-  console.log(events);
-  if (events) {
-    $('#DIVcalendar').fullCalendar('removeEvents'); // Eliminar eventos existentes
-    $('#DIVcalendar').fullCalendar('addEventSource', events; // Agregar nuevos eventos
-    $('#DIVcalendar').fullCalendar('renderEvents'); // Renderizar eventos
-  }
-}
-
-$(document).ready(function () {
-  $("#doctorCita").on("change", function () {
-    $("#doctorCita option:selected").each(function () {
-      elegido = $(this).val();
-      $.ajax({
-        url: "index.php?page=llenarSelectHorarioDoctor",
-        type: "post",
-        dataType: "json",
-        data: {
-          elegido: elegido,
-        },
-      })
-      .done(function (response) {
-        if (response.data.success == true) {
-          if (Array.isArray(response.data.events)) {
-              loadEvents(response.data.events);
-          } else {
-              console.error("response.data.events no es un array:", response.data.events);
-          }            
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-    });
-  });
-});
-
-*/
-
-/*document.addEventListener('DOMContentLoaded', function() {
-
-  var calendarEl = document.getElementById('DIVcalendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      locale: 'es',
-      selectable: true,
-
-      events: [
-        { 
-            title: 'No hay cita',
-            start: '2024-09-20',
-            end: '2024-09-20',
-            color: '#f1231a',
-        },
-
-        { 
-            title: 'No hay cita',
-            start: '2024-09-25',
-            end: '2024-09-25',
-            color: '#f1231a',
-        }
-      ],
-
-      slotMinTime: function() {
-        // Calcula la fecha de mañana a las 00:00 horas
-        var tomorrow = new Date();
-        //tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-        return tomorrow;
-      },
-
-      dateClick: function(info) {
-        var f = info.dateStr;
-        const cadenaFecha = f;
-        var numeroDia = new Date(cadenaFecha).getDay();
-        
-        if (numeroDia == 5 || numeroDia == 6) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: 'Este días no hay cosultas',
-          });
-        }else if(numeroDia == 3){ //----- esto es para filtrar los dias de trabajo del doctor-----//
-          Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: 'El especialista no labora éste día.',
-          });
-        }else if (info.date < new Date()) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'No puedes se puede realizar cita para esta fecha.',
-          });
-        }else {
-          // Aquí puedes agregar la lógica para crear un nuevo evento, etc.
-          //alert('Fecha seleccionada: ' + info.dateStr);
-          $('#fecha_cita').val(info.dateStr);
-        }
-      },
-
-      eventClick: function(info) {
-        Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'No hay cupos disponibles para este día.',
-            });
-        info.el.style.borderColor = 'red';
-      },
-    });
-      calendar.render();
-  });*/
 
 
 let contador = 0;
@@ -1191,7 +1071,7 @@ $(document).ready(function () {
               row[5] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
     
-                   <button type="button" title="Ver" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
+                   <button type="button" title="Ver" class="btn btn-warning btn-sm"  onclick="listarModificacionCita(` +
               row[5] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
 
@@ -1209,7 +1089,7 @@ $(document).ready(function () {
               row[5] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
 
-               <button type="button" title="Actualizar" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
+               <button type="button" title="Actualizar" class="btn btn-warning btn-sm"  onclick="listarModificacionCita(` +
               row[5] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
               
@@ -2510,88 +2390,6 @@ if (agregar_persona) {
       });
   }
 }
-
-
-// agregar_historia_medica = document.getElementById("agregar_historia_medica")
-// if (agregar_historia_medica) {
-//   agregar_historia_medica.addEventListener("click", agregarHistoriaMedica, false);
-
-//   function agregarHistoriaMedica() {
-
-
-
-//     // Obtener las enfermedades seleccionadas del select múltiple
-//     let enfermedadesSeleccionadas = Array.from(document.querySelector('.select-multiple-enfermedades').selectedOptions).map(option => option.value);
-//    //Medicamentos seleccionados del select múltiple
-//     let medicamentosSeleccionados = Array.from(document.querySelector('.select-multiple-medicamentos').selectedOptions).map(option => option.value);
-//     let tipo_sangre           = document.getElementById("tipo_sangre").value;
-//     let fumador               = document.getElementById("fumador").checked ? "Sí" : "No";
-//     let alcohol               = document.getElementById("alcohol").checked ? "Sí" : "No";
-//     let ac_fisica             = document.getElementById("ac_fisica").checked ? "Sí" : "No";
-//     let medicado              = document.getElementById("medicado").checked ? "Sí" : "No";
-//     let ciru_hospi            = document.getElementById("ciru_hospi").value;
-//     let alergia               = document.getElementById("alergia").value;
-//     let antec_fami            = document.getElementById("antec_fami").value;
-//     let id_persona_h          = document.getElementById("id_representado").value;
-//     let frecuencia_f          = document.getElementById("frecuencia_f");
-//     let frecuencia_alcohol    = document.getElementById("frecuencia_alcohol");
-//     let frecuencia_ac_f       = document.getElementById("frecuencia_ac_f");
-  
-//     $.ajax({
-//       url: "index.php?page=registrarHistoriaMedica",
-//       type: "post",
-//       dataType: "json",
-//       data: {
-        
-//         /*-- Datos del historial medico ---- */
-
-//         tipo_sangre: tipo_sangre,
-//         enfermedades: enfermedadesSeleccionadas,
-//         fumador: fumador,
-//         alcohol: alcohol,
-//         ac_fisica: ac_fisica,
-//         medicado: medicado,
-//         ciru_hospi: ciru_hospi,
-//         alergia: alergia,
-//         id_persona_h: id_persona_h,
-//         antec_fami: antec_fami,
-//         medicamentos :medicamentosSeleccionados,
-//         frecuencia_alcohol :frecuencia_alcohol,
-//         frecuencia_f :frecuencia_f,
-//         frecuencia_ac_f: frecuencia_ac_f
-
-//       },
-//     })
-//       .done(function (response) {
-//         if (response.data.success == true) {
-        
-//           document.getElementById("formRegistrarHistoriaMedica").reset();
-
-//           $("#modalAgregarHistoriaMedica").modal("hide");
-
-//           Swal.fire({
-//             icon: "success",
-//             confirmButtonColor: "#3085d6",
-//             title: response.data.message,
-//             text: response.data.info,
-//           });
-
-//         } else {
-          
-//           Swal.fire({
-//             icon: "danger",
-//             confirmButtonColor: "#3085d6",
-//             title: response.data.message,
-//             text: response.data.info,
-//           });
-//         }
-//       })
-//       .fail(function () {
-//         console.log("error");
-//       });
-//   }
-// }
-
 
 const agregarHistoriaMedicaButton = document.getElementById("agregar_historia_medica");
 
@@ -3910,200 +3708,135 @@ if (agregar_cita = document.getElementById("agregar_cita")) {
   }
 }*/
 
-/* -------------- Listar datos para actualización ------------------ */
-
-function listarActualizacionCita(id) {
+/*------------ listar Ver Cita ------------------*/
+function listarVer(id){
   let id_cita = id;
 
-  let update_contenedor_datos_paciente = document.getElementById(
-    "contenedor_datos_paciente"
-  );
-  let update_especialidad = document.getElementById(
-    "update_especialidad"
-  ).value;
-  let update_doctor = document.getElementById("update_doctor").value;
-  let update_fecha_cita = document.getElementById("update_fecha_cita").value;
-  let update_estatus_cita = document.getElementById(
-    "update_estatus_cita"
-  ).value;
-  let update_observacion_cita = document.getElementById(
-    "update_observacion_cita"
-  ).value;
-
-  $.ajax({
-    url: "index.php?page=listarActualizacionCita",
-    type: "post",
-    dataType: "json",
-    data: {
-      id_cita: id_cita,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success == true) {
-        document.getElementById("update_tipo_documento_consulta").innerHTML =
-          response.data.datos_paciente.tipo_documento;
-        document.getElementById("update_n_documento_consulta").innerHTML =
-          response.data.datos_paciente.n_documento;
-        document.getElementById("update_nombres_consulta").innerHTML =
-          response.data.datos_paciente.nombres;
-        document.getElementById("update_apellidos_consulta").innerHTML =
-          response.data.datos_paciente.apellidos;
-        document.getElementById("update_fecha_nac_consulta").innerHTML =
-          response.data.datos_paciente.fecha_nacimiento;
-        document.getElementById("update_sexo_consulta").innerHTML =
-          response.data.datos_paciente.sexo;
-        document.getElementById("update_telefono_consulta").innerHTML =
-          response.data.datos_paciente.telefono;
-        document.getElementById("update_estatus_consulta").innerHTML =
-          response.data.datos_paciente.estatus;
-        document.getElementById("update_estado_consulta").innerHTML =
-          response.data.datos_paciente.estado;
-        document.getElementById("update_municipio_consulta").innerHTML =
-          response.data.datos_paciente.municipio;
-        document.getElementById("update_parroquia_consulta").innerHTML =
-          response.data.datos_paciente.parroquia;
-        document
-          .getElementById("update_id_paciente_cita")
-          .setAttribute("value", response.data.id_paciente);
-
-        document
-          .getElementById("update_contenedor_datos_paciente")
-          .removeAttribute("style");
-
-        document.getElementById("update_especialidad").value =
-          response.data.id_especialidad;
-        document.getElementById("update_doctor").value =
-          response.data.id_doctor;
-        document.getElementById("update_fecha_cita").value =
-          response.data.fecha_cita;
-        document.getElementById("update_estatus_cita").value =
-          response.data.estatus;
-        document.getElementById("update_observacion_cita").value =
-          response.data.observacion;
-        document.getElementById("update_id_cita").value = response.data.id_cita;
-
-        if (response.data.datos_paciente.estatus == 1) {
-          document.getElementById("update_estatus_consulta").innerHTML =
-            "<button class='btn btn-success'>Activo</button>";
-        } else {
-          document.getElementById("update_estatus_consulta").innerHTML =
-            "<button class='btn btn-danger'>inactivo</button>";
-        }
-
-        if (response.data.datos_paciente.tipo_documento == "Venezolano") {
-          document.getElementById("update_tipo_documento_consulta").innerHTML =
-            "V";
-        } else {
-          document.getElementById("update_estatus_consulta").innerHTML =
-            "<button class='btn btn-danger'>inactivo</button>";
-        }
-
-        var estado_municipio = (document.getElementById("doctor").innerHTML =
-          '<option value="">Seleccione</option>');
-
-        for (es = 0; es < response.data.select_doctor.length; es++) {
-          //Crea el elemento <option> dentro del select municipio
-          var itemOption = document.createElement("option");
-
-          //Contenido de los <option> del select municipios
-          var doctor = document.createTextNode(
-            response.data.select_doctor[es].nombres +
-              " " +
-              response.data.select_doctor[es].apellidos +
-              " C.I -" +
-              response.data.select_doctor[es].n_documento +
-              " - " +
-              response.data.select_doctor[es].dias_trabajo
-          );
-          var id_doctor = document.createTextNode(
-            response.data.select_doctor[es].id_doctor
-          );
-
-          //Crear atributo value para los elemento option
-          var attValue = document.createAttribute("value");
-          attValue.value = response.data.select_doctor[es].id_doctor;
-          itemOption.setAttributeNode(attValue);
-
-          //Añadir contenido a los <option> creados
-          itemOption.appendChild(doctor);
-
-          document.getElementById("update_doctor").appendChild(itemOption);
-          document
-            .getElementById("cont-loader")
-            .setAttribute("style", "display:none;");
-        }
-
-        $("#modalActualizarCita").modal("show");
-      } else {
-      }
-    })
-    .fail(function () {
-      console.log("error");
-    });
-}
-
-/* -------------- Modificar Cita ------------------ */
-var modificar_cita;
-if ((modificar_cita = document.getElementById("modificar_cita"))) {
-  modificar_cita.addEventListener("click", modificarCita, false);
-
-  function modificarCita() {
-    let id_cita = document.getElementById("update_id_cita").value;
-    let id_paciente = document.getElementById("update_id_paciente_cita").value;
-    let update_especialidad = document.getElementById(
-      "update_especialidad"
-    ).value;
-    let update_doctor = document.getElementById("update_doctor").value;
-    let update_fecha_cita = document.getElementById("update_fecha_cita").value;
-    let update_estatus_cita = document.getElementById(
-      "update_estatus_cita"
-    ).value;
-    let update_observacion_cita = document.getElementById(
-      "update_observacion_cita"
-    ).value;
-
-    $.ajax({
-      url: "index.php?page=modificarCita",
-      type: "post",
-      dataType: "json",
-      data: {
-        id_cita: id_cita,
-        id_paciente: id_paciente,
-        update_especialidad: update_especialidad,
-        update_doctor: update_doctor,
-        update_fecha_cita: update_fecha_cita,
-        update_estatus_cita: update_estatus_cita,
-        update_observacion_cita: update_observacion_cita,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formActualizarCita").reset();
-
-          $("#modalActualizarCita").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_citas").DataTable().ajax.reload();
-        } else {
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
+   $.ajax({
+        url: "index.php?page=listarActualizacionCita",
+        type: "post",
+        dataType: "json",
+        data: {
+          id_cita: id_cita,
+        },
       })
-      .fail(function () {
-        console.log("error");
-      });
-  }
+        .done(function (response) {
+          console.log(response.data.select_doctor);
+          if (response.data.success == true) {
+            $('#espe').text(response.data.nom_especialidad);
+            $('#fecha').text(response.data.fecha_cita);
+            $('#doct').text(response.data.Nom_doctor);
+            $('#espe_green').hide();
+            $('#espe_red').hide();
+            if (response.data.estatus == 1) {
+              $('#est').text('Pendiente');
+              $('#espe_green').show();
+            }else if (response.data.estatus == 0) {
+              $('#est').text('Finalizado');
+              $('#espe_red').show();
+            }
+            
+            $('#obs_cita').val(response.data.observacion);
+            $('#tablaDatos tbody').empty();
+            $('#dataModalLabel').text('Datos de la citas');
+            response.data.datos_personas.forEach(function(D_persona) {
+                // Agregar cada cédula como un nuevo <tr> en la tabla
+                $('#tablaDatos tbody').append(
+                  '<tr>' +
+                      '<th style="background-color:#bfc1c3;">Nº documento</th>' +
+                      '<th style="background-color:#bfc1c3;">Nombres/Apellidos</th>' +
+                      '<th style="background-color:#bfc1c3;">Telefono</th>' +
+                      '<th style="background-color:#bfc1c3;">Sexo</th>' +
+                      '<th style="background-color:#bfc1c3;">Edad</th>' +
+                      '<th style="background-color:#bfc1c3;">Dirección</th>' +
+                  '</tr>' +
+                  '<tr id="trDatos">' +
+                      '<td id="n_doc">'+ D_persona.cedula +'</td>' +
+                      '<td id="nom_ape">'+ D_persona.nombre +'</td>' +
+                      '<td id="tlf">'+  D_persona.telefono +'</td>' +
+                      '<td id="sex">'+ D_persona.sexo +'</td>' +
+                      '<td id="edad">'+ D_persona.edad +'</td>' +
+                      '<td id="direcc">'+ D_persona.direccion +'</td>' +
+                  '</tr>'
+                );
+            });
+            //$('#tablaDatos').empty();
+            $("#dataModal").modal("show");
+          } else {
+            Swal.fire({
+              icon: "danger",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+          }
+        })
+        .fail(function (e) {
+          console.log(e);
+        });
+  //alert('id de la cita para ver' + id_cita);
 }
+
+
+/* -------------- Listar datos para actualización ------------------ */
+  function listarModificacionCita(id) {
+    let id_cita = id;
+    //console.log(id_cita);
+     $.ajax({
+        url: "index.php?page=listarActualizacionCita",
+        type: "post",
+        dataType: "json",
+        data: {
+          id_cita: id_cita,
+        },
+      })
+        .done(function (response) {
+          console.log(response.data.select_doctor);
+          if (response.data.success == true) {
+            $('#tabla_datosPersona tbody').empty();
+            $('#txt-doc').empty();
+            response.data.datos_personas.forEach(function(D_persona) {
+                // Agregar cada cédula como un nuevo <tr> en la tabla
+                $('#tabla_datosPersona tbody').append(
+                  '<tr id="trDatos">' +
+                      '<td id="n_doc">'+ D_persona.cedula +'</td>' +
+                      '<td id="nom_ape">'+ D_persona.nombre +'</td>' +
+                      '<td id="tlf">'+  D_persona.telefono +'</td>' +
+                      '<td id="sex">'+ D_persona.sexo +'</td>' +
+                      '<td id="edad">'+ D_persona.edad +'</td>' +
+                      '<td id="direcc">'+ D_persona.direccion +'</td>' +
+                  '</tr>'
+                );
+            });
+            //console.log(response.data.id_especialidad);
+            //document.getElementById('txt-esp').value = response.data.id_especialidad;
+            $('#txt-esp').val(response.data.nom_especialidad);
+            $('#id-esp').val(response.data.id_especialidad);
+            response.data.select_doctor.forEach(function(doc){
+              $('#txt-doc').append(
+                  '<option value=' + doc.id_doctor + '>' + 'Dr(a). ' + doc.nombres + '.  ' + doc.tipo_documento + '-' + doc.n_documento + '</option>'
+                );
+              //$('#txt-doc').val();
+            });            
+            $('#fech_cita').val(response.data.fecha_cita);
+            $('#observacion_cita').val(response.data.observacion);
+            document.getElementById('observacion_cita').value = response.data.observacion;
+            $('#modalModificarCitas').modal('show');
+          } else {
+            Swal.fire({
+              icon: "danger",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+          }
+        })
+        .fail(function (e) {
+          console.log(e);
+        });
+    //alert('id de la cita para actualizar' + id_cita);
+  }
+
 
 /* -------------- Agregar medicamentos ------------------ */
 let agregar_medicamento = document.getElementById("agregar_medicamento");
@@ -5251,25 +4984,6 @@ $('#estado').select2({
 
 
 
-$('#presentacion').select2({
-  dropdownParent: $('#modalAgregarMedicamentos')
-});
-
-
-$('#categoria').select2({
-  dropdownParent: $('#modalAgregarMedicamentos')
-});
-
-// $('#categoria_update').select2({
-//   dropdownParent: $('#modalActualizarMedicamentos')
-// });
-
-// $('#presentacion_update').select2({
-//   dropdownParent: $('#modalActualizarMedicamentos')
-// });
-
-
-
 
 
 
@@ -5335,135 +5049,7 @@ $(document).ready(function () {
 
 /* -------------- Listar datos para actualización ------------------ */
 
-function listarActualizacionCita(id) {
-  let id_cita = id;
 
-  let update_contenedor_datos_paciente = document.getElementById(
-    "contenedor_datos_paciente"
-  );
-  let update_especialidad = document.getElementById(
-    "update_especialidad"
-  ).value;
-  let update_doctor = document.getElementById("update_doctor").value;
-  let update_fecha_cita = document.getElementById("update_fecha_cita").value;
-  let update_estatus_cita = document.getElementById(
-    "update_estatus_cita"
-  ).value;
-  let update_observacion_cita = document.getElementById(
-    "update_observacion_cita"
-  ).value;
-
-  $.ajax({
-    url: "index.php?page=listarActualizacionCita",
-    type: "post",
-    dataType: "json",
-    data: {
-      id_cita: id_cita,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success == true) {
-        document.getElementById("update_tipo_documento_consulta").innerHTML =
-          response.data.datos_paciente.tipo_documento;
-        document.getElementById("update_n_documento_consulta").innerHTML =
-          response.data.datos_paciente.n_documento;
-        document.getElementById("update_nombres_consulta").innerHTML =
-          response.data.datos_paciente.nombres;
-        document.getElementById("update_apellidos_consulta").innerHTML =
-          response.data.datos_paciente.apellidos;
-        document.getElementById("update_fecha_nac_consulta").innerHTML =
-          response.data.datos_paciente.fecha_nacimiento;
-        document.getElementById("update_sexo_consulta").innerHTML =
-          response.data.datos_paciente.sexo;
-        document.getElementById("update_telefono_consulta").innerHTML =
-          response.data.datos_paciente.telefono;
-        document.getElementById("update_estatus_consulta").innerHTML =
-          response.data.datos_paciente.estatus;
-        document.getElementById("update_estado_consulta").innerHTML =
-          response.data.datos_paciente.estado;
-        document.getElementById("update_municipio_consulta").innerHTML =
-          response.data.datos_paciente.municipio;
-        document.getElementById("update_parroquia_consulta").innerHTML =
-          response.data.datos_paciente.parroquia;
-        document
-          .getElementById("update_id_paciente_cita")
-          .setAttribute("value", response.data.id_paciente);
-
-        document
-          .getElementById("update_contenedor_datos_paciente")
-          .removeAttribute("style");
-
-        document.getElementById("update_especialidad").value =
-          response.data.id_especialidad;
-        document.getElementById("update_doctor").value =
-          response.data.id_doctor;
-        document.getElementById("update_fecha_cita").value =
-          response.data.fecha_cita;
-        document.getElementById("update_estatus_cita").value =
-          response.data.estatus;
-        document.getElementById("update_observacion_cita").value =
-          response.data.observacion;
-        document.getElementById("update_id_cita").value = response.data.id_cita;
-
-        if (response.data.datos_paciente.estatus == 1) {
-          document.getElementById("update_estatus_consulta").innerHTML =
-            "<button class='btn btn-success'>Activo</button>";
-        } else {
-          document.getElementById("update_estatus_consulta").innerHTML =
-            "<button class='btn btn-danger'>inactivo</button>";
-        }
-
-        if (response.data.datos_paciente.tipo_documento == "Venezolano") {
-          document.getElementById("update_tipo_documento_consulta").innerHTML =
-            "V";
-        } else {
-          document.getElementById("update_estatus_consulta").innerHTML =
-            "<button class='btn btn-danger'>inactivo</button>";
-        }
-
-        var estado_municipio = (document.getElementById("doctor").innerHTML =
-          '<option value="">Seleccione</option>');
-
-        for (es = 0; es < response.data.select_doctor.length; es++) {
-          //Crea el elemento <option> dentro del select municipio
-          var itemOption = document.createElement("option");
-
-          //Contenido de los <option> del select municipios
-          var doctor = document.createTextNode(
-            response.data.select_doctor[es].nombres +
-              " " +
-              response.data.select_doctor[es].apellidos +
-              " C.I -" +
-              response.data.select_doctor[es].n_documento +
-              " - " +
-              response.data.select_doctor[es].dias_trabajo
-          );
-          var id_doctor = document.createTextNode(
-            response.data.select_doctor[es].id_doctor
-          );
-
-          //Crear atributo value para los elemento option
-          var attValue = document.createAttribute("value");
-          attValue.value = response.data.select_doctor[es].id_doctor;
-          itemOption.setAttributeNode(attValue);
-
-          //Añadir contenido a los <option> creados
-          itemOption.appendChild(doctor);
-
-          document.getElementById("update_doctor").appendChild(itemOption);
-          document
-            .getElementById("cont-loader")
-            .setAttribute("style", "display:none;");
-        }
-
-        $("#modalActualizarCita").modal("show");
-      } else {
-      }
-    })
-    .fail(function () {
-      console.log("error");
-    });
-}
 
 /* -------------- Modificar Cita ------------------ */
 var modificar_cita;

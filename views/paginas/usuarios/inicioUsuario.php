@@ -39,7 +39,7 @@
     <main>
         <div class="center">
                 <div class="flex">
-                    <img src="libs/img/logo-caritas.jpg" style="width: 68%;">
+                    <img src="libs/img/siatics2.png" style="width: 68%; margin: 20px auto;">
                 </div>
                 <form class="row g-3 needs-validation" novalidate>
                     <div class="txt_field">
