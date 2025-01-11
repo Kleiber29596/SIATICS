@@ -21,7 +21,7 @@ class MotivosModel extends ModeloBase {
 	/*------------Método para mostrar un motivo --------*/
 	public function obtenerMotivo($id) {
 		$db = new ModeloBase();
-		$query = "SELECT m.id_tipo_consulta, m.motivo, m.id_especialidad, m.fecha_registro, e.nombre_especialidad FROM tipo_consulta AS m LEFT JOIN especialidad AS e ON m.id_especialidad = e.id_especialidad  WHERE id_tipo_consulta = ".$id."";
+		$query = "SELECT m.id_tipo_consulta, m.motivo, m.id_especialidad, e.nombre_especialidad FROM tipo_consulta AS m LEFT JOIN especialidad AS e ON m.id_especialidad = e.id_especialidad  WHERE id_tipo_consulta = ".$id."";
 		$resultado = $db->obtenerTodos($query);
 		
 		
