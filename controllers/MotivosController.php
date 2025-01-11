@@ -140,52 +140,6 @@ class MotivosController
 	}
 
 
-
-
-
-public function modificarEspecialidad(){
-
-		$modelEspecialidad = new EspecialidadModel();
-		$id_especialidad = $_POST['id_especialidad'];
-		$datos = array(
-			'nombre_especialidad'   => $_POST['update_nombre_especialidad'],
-			'estatus_especialidad'  => $_POST['update_estatus_especialidad'],
-		);
-
-		$resultado = $modelEspecialidad->modificarEspecialidad($id_especialidad, $datos);
-
-		if($resultado)
-		{
-			$data = [
-				'data' => [
-					'success'            =>  true,
-					'message'            => 'Guardado exitosamente',
-					'info'               =>  'Los datos de la especialidad han sido modificados'
-				],
-				'code' => 1,
-			];
-	
-			echo json_encode($data);
-			exit();
-		}
-		else {
-			$data = [
-				'data' => [
-					'success'            =>  false,
-					'message'            => 'Ocurrió un error al modificar los datos de la especialidad',
-					'info'               =>  ''
-				],
-				'code' => 0,
-			];
-	
-			echo json_encode($data);
-			exit();
-		}
-
-	}
-
-
-
 		public function modificarMotivo(){
 
 			$modelMotivos = new MotivosModel();

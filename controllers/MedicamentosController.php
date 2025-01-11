@@ -10,7 +10,7 @@ class MedicamentosController
 		/*HEADER */
 		require_once('./views/includes/cabecera.php');
 
-		require_once('./views/paginas/inventario/inicioMedicamentos.php');
+		require_once('./views/paginas/medicamentos/inicioMedicamentos.php');
 
 		/* FOOTER */
 		require_once('./views/includes/pie.php');
@@ -65,17 +65,25 @@ class MedicamentosController
 		
 		$modelMedicamentos = new MedicamentosModel();
 
-		$datos = array(
+		$datos_m = array(
 						/*datos del recipe*/
-			'id_medicamento'       	=> $_POST['id_medicamento'],
-			'id_presentacion'  		=> $_POST['id_presentacion'],
+			'nombre_medicamento'    => $_POST['nombre_medicamento'],
+			'codigo'                => $_POST['id_categoria'],
 			'fecha_registro'	    => $fecha_registro
 		);
 		
-		$resultado = $modelMedicamentos->registrarPresentacionMedicamento($datos);
+		$resultado_m = $modelMedicamentos->registrarMedicamento($datos_m);
+		$id_medicamento = $resultado_m['ultimo_id'];
+
+		$datos_pm = array(
+			'id_medicamento'    => $id_medicamento,
+			'id_presentacion'   => $_POST['id_presentacion'],
+			'fecha_registro'	=> $fecha_registro
+		);
+
+		$resultado_pm = $modelMedicamentos->registrarPresentacionMedicamento($datos_pm);
 		
-		if ($resultado) {
-			
+		if ($resultado_pm) {
 			$data = [
 				'data' => [
 					'success'            =>  true,
@@ -235,5 +243,97 @@ class MedicamentosController
 
 	}
 
+	public function listarActualizacionMedicamento(){
+		$modelMedicamentos = new MedicamentosModel();
 	
+		$id_medicamento = $_POST['id_medicamento'];
+		$listar = $modelMedicamentos->obtenerMedicamento($id_medicamento);
+		
+		foreach($listar as $listar)
+		{
+	
+			$id_presentacion_medicamento       = $listar['id_presentacion_medicamento'];
+			$id_medicamento					   = $listar['id_medicamento'];
+			$nombre_medicamento				   = $listar['nombre_medicamento'];
+			$categoria						   = $listar['codigo'];
+			$presentacion					   = $listar['id_presentacion'];
+
+			
+		}
+	
+		$data = [
+			'data' => [
+				'success'              =>  true,
+				'message'              => 'Registro encontrado',
+				'info'                 =>  '',
+				'id_presentacion_medicamento' => $id_presentacion_medicamento,
+				'id_medicamento'			=> $id_medicamento,
+				'nombre_medicamento'    => $nombre_medicamento,
+				'categoria'             => $categoria,
+				'presentacion'          => $presentacion,
+	
+			],
+			'code' => 0,
+		];
+	
+		echo json_encode($data);
+	
+		exit();
+	}
+
+
+	public function modificarMedicamento(){
+
+		$modelMedicamentos = new MedicamentosModel();
+		$id_medicamento = $_POST['id_medicamento'];
+		$id_pm = $_POST['id_pm'];
+		$datos_m = array(
+			'nombre_medicamento'   		=> $_POST['nombre_medicamento_update'],
+			'codigo'  					=> $_POST['categoria_update']
+		);
+
+		$resultado_m = $modelMedicamentos->modificarMedicamento($id_medicamento, $datos_m);
+
+		$datos_pm = array(
+			'id_presentacion'  					=> $_POST['presentacion_update']
+			
+		);
+
+		$resultado_pm = $modelMedicamentos->modificarPresentacionMedicamento($id_pm, $datos_pm);
+
+		if($resultado_m || $resultado_pm)
+		{
+			$data = [
+				'data' => [
+					'success'            =>  true,
+					'message'            => 'Guardado exitosamente',
+					'info'               =>  'Los datos del medicamento han sido modificados'
+				],
+				'code' => 1,
+			];
+	
+			echo json_encode($data);
+			exit();
+		}
+		else {
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Ocurrió un error al modificar los datos del motivo',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+	
+			echo json_encode($data);
+			exit();
+		}
+
+
+	}
+
+
 }
+
+
+

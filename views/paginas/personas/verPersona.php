@@ -42,9 +42,15 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
  
     require_once 'models/PersonasModel.php'; 
+    require_once 'controllers/MedicamentosController.php';
+
  
-    $modelPersonas              = new PersonasModel(); 
- 
+    $modelPersonas              = new PersonasModel();
+    $medicamentosController     = new MedicamentosController();
+    
+    $selectMedicamentos               = $medicamentosController->selectMedicamentos();
+    $selectEnfermedades               = $modelPersonas->selectEnfermedades();
+    // var_dump($medicamentos); die();
     $id_persona = $_GET['id']; 
  
     $datos_personas              = $modelPersonas->listarDatosPersona($id_persona);
@@ -287,7 +293,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     <?php }else{}?>
 
                                     <div class="collapse-container-h ">
-                                        <button class="collapse-button-h btn btn-primary">Mostrar historia médica/Ocultar</button>
+                                        <button class="collapse-button-h btn btn-primary">Mostrar historia
+                                            médica/Ocultar</button>
                                         <div class="collapse-content-h col-12">
                                             <div class="table-responsive mb-3">
                                                 <table class="table table-bordered table-primary table-hover ">
@@ -652,8 +659,215 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
     </div>
 </div>
 
-<!-- Modal agregar historial medico -->
 
+
+<!-- Modal agregar representado -->
+
+<div class="modal fade" id="modalAgregarRepresentado" tabindex="-1" aria-labelledby="modalAgregarRepresentadoLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarRepresentadoLabel">Agregar Representado <i
+                        class="fas fa-user"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="registrar_representado">
+
+
+                    <div class="row">
+
+                        <div class="col-sm-2 mb-3">
+                            <div class="form-group" id="grupo_tipo_documento_r">
+                                <label class="formulario__label" for="tipo_documento_r">Tipo de
+                                    documento</label>
+                                <select class="form-control formulario__validacion__input" name="tipo_documento_r"
+                                    id="tipo_documento_r">
+                                    <option value="">Seleccione</option>
+                                    <option value="V">V</option>
+                                    <option value="E">E</option>
+                                    <option value="P">P</option>
+                                </select>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-sm-3 mb-3" id="grupo_n_documento_r">
+                            <label class="formulario__label" for="n_documento_representante">Nº
+                                documento</label>
+                            <div class="form-group">
+                                <input type="hidden" value="<?= $id_persona ?>" id="id_representado">
+                                <input class="form-control formulario__validacion__input" type="text" id="n_documento_r"
+                                    name="n_documento_r" placeholder="Nº de documento">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El número de documento debe contener solo numeros
+                                y
+                                un
+                                mínimo de 7
+                                digitos y máximo 8.
+                            </p>
+                        </div>
+
+                        <div class="col-sm-2 mb-3">
+                            <div class="form-group" id="grupo_sexo">
+                                <label class="formulario__label" for="sexo">Sexo</label>
+                                <br>
+                                Masculino <input class="formulario__validacion__input" type="radio" name="sexo"
+                                    id="sexo" value="Masculino" selected>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 mb-3">
+                            <div class="form-group" id="grupo_sexo">
+                                <label class="formulario__label" for="sexo"></label>
+                                <br>
+                                Femenino <input class="formulario__validacion__input" type="radio" name="sexo" id="sexo"
+                                    value="Femenino">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 mb-3" id="grupo_fecha_nac">
+                            <div class="form-group">
+                                <label class="formulario__label" for="fecha_nac_r">Fecha de nacimiento</label>
+                                <input type="date" class="form-control formulario__validacion__input" id="fecha_nac_r"
+                                    name="fecha_nac" required>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">La fecha de nacimiento no puede ser una fecha
+                                futura.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 mb-3" id="grupo_primer_nombre_r">
+                            <label class="formulario__label" for="primer_nombre_r">Primer nombre</label>
+                            <div class="form-group">
+                                <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
+                                    type="text" id="primer_nombre_r" name="primer_nombre_r" placeholder="Primer nombre"
+                                    required>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
+                                guion_bajo</p>
+                        </div>
+
+                        <div class="col-sm-3 mb-3" id="grupo_segundo_nombre_r">
+                            <label class="formulario__label" for="segundo_nombre_r">Segundo nombre</label>
+                            <div class="form-group">
+                                <input class="form-control formulario__validacion__input" type="text"
+                                    id="segundo_nombre_r" name="segundo_nombre_r" placeholder="Segundo nombre">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
+                                guion_bajo</p>
+                        </div>
+
+                        <div class="col-sm-3 mb-3" id="grupo_primer_apellido_r">
+                            <label class="formulario__label" for="primer_apellido">Primer apellido</label>
+                            <div class="form-group ">
+                                <input class="form-control formulario__validacion__input" type="text"
+                                    id="primer_apellido_r" name="primer_apellido_r" placeholder="Primer apellido"
+                                    required>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El apellido debe contener Letras y espacios,
+                                pueden
+                                llevar acentos.</p>
+                        </div>
+
+                        <div class="col-sm-3 mb-3" id="grupo_segundo_apellido_r">
+                            <label class="formulario__label" for="grupo_primer_apellido">Segundo
+                                apellido</label>
+                            <div class="form-group ">
+                                <input class="form-control formulario__validacion__input" type="text"
+                                    id="segundo_apellido_r" name="segundo_apellido_r" placeholder="Segundo apellido">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El apellido debe contener Letras y espacios,
+                                pueden
+                                llevar acentos.</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 mb-3">
+                            <div class="form-group" id="grupo_parentesco">
+                                <label class="formulario__label" for="parentesco">Parentesco</label>
+                                <select class="form-control" id="parentesco" name="parentesco">
+                                    <option value="">Seleccione</option>
+                                    <option value="padre">Padre</option>
+                                    <option value="madre">Madre</option>
+                                    <option value="otro">Abuela/o</option>
+                                    <option value="otro">Hermana/o</option>
+                                </select>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El número de documento debe contener solo
+                                numeros
+                                y
+                                un
+                                mínimo de 7
+                                digitos y máximo 8.
+                            </p>
+                        </div>
+
+                        <div class="col-sm-3" id="grupo_telefono_r">
+                            <label class="formulario__label" for="telefono_r">Telefono</label>
+                            <div class="form-group">
+                                <input class="form-control formulario__validacion__input" type="text" id="telefono_r"
+                                    name="telefono_r" placeholder="telefono...">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El numero de telefono debe contener solo
+                                numeros
+                                y 11
+                                digitos
+                            </p>
+                        </div>
+
+                        <div class="col-sm-3" id="grupo_correo_r">
+                            <label class="formulario__label" for="correo">Correo</label>
+                            <div class="form-group">
+                                <input class="form-control formulario__validacion__input" type="email" id="correo_r"
+                                    name="correo_r" placeholder="jhon@gmail.com">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El correo solo puede contener letras,
+                                numeros,
+                                puntos,
+                                guiones.
+                            </p>
+                        </div>
+
+                        <div class="col-sm-3" id="grupo_direccion_r">
+                            <label class="formulario__label " for="direccion">Dirección</label>
+                            <div class="form-group">
+                                <input class="form-control formulario__validacion__input" type="text" id="direccion_r"
+                                    name="direccion_r" placeholder="Dirección">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">La dirección puede contener solo letras,
+                                numeros,
+                                espacios, puntos, numerales y guiones.
+                            </p>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="agregar_representante">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal agregar historial medico -->
 
 <div class="modal fade" id="modalAgregarHistoriaMedica" tabindex="-1" aria-labelledby="modalAgregarHistoriaMedicaLabel"
     aria-hidden="true">
@@ -694,10 +908,15 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                 <select
                                     class="js-example-basic-multiple select2-selection--single select-multiple-enfermedades"
                                     style="width:100%" name="states[]" multiple="multiple">
-                                    <option value="1">Hipertensión</option>
-                                    <option value="2">Asma</option>
-                                    <option value="3">Diabetes</option>
+                                    <?php foreach ($selectEnfermedades as $e) {?>
+
+                                    <option value="<?= $e['id_patologia'] ?>">
+                                        <?= $e['nombre']?>
+                                    </option>
+                                    <?php } ?>
                                 </select>
+                                <small id="estadoHelp" class="form-text text-muted">Selecciona la
+                                    enfermedad</small>
                             </div>
                         </div>
                     </div>
@@ -762,10 +981,16 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                 <select
                                     class="js-example-basic-multiple select2-selection--single select-multiple-medicamentos"
                                     style="width:100%" name="states[]" multiple="multiple">
-                                    <option value="1">Acetaminofén</option>
-                                    <option value="2">Atamel</option>
-                                    <option value="3">Diclofenac potásico</option>
+
+                                    <?php foreach ($selectMedicamentos as $m) { var_dump($medicamento);?>
+
+                                    <option value="<?= $m['id_presentacion_medicamento'] ?>">
+                                        <?= $m['nombre_medicamento'] . ' ' . $m['presentacion'] ?>
+                                    </option>
+                                    <?php } ?>
                                 </select>
+                                <small id="estadoHelp" class="form-text text-muted">Selecciona el
+                                    medicamento</small>
                             </div>
                         </div>
 
@@ -862,6 +1087,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
         </div>
     </div>
 </div>
+
 
 
 <script>
