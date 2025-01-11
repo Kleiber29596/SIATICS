@@ -498,14 +498,22 @@ EOT;
 
 		$modelCitas = new CitasModel();
 		$modelEspecialidad = new EspecialidadModel();
+		$modelDoctor = new DoctorModel();
 
 		$buscar = $modelCitas->BuscarCitasXFechas($doctor, $fechaCita);
 		$espe_nom = $modelEspecialidad->obtenerEspecialidad($especialidad);
+		$obtenerDoctor = $modelDoctor->obtenerDoctor($doctor);
 
 		//$espe = [];
 		foreach ($espe_nom as $key => $value) {
 		    $espe = [
 		        'nombre_especialidad' => $value['nombre_especialidad']
+		    ];
+		}
+
+		foreach ($obtenerDoctor as $key => $value) {
+		    $doct = [
+		        'nombre' => $value['nombre']
 		    ];
 		}
 
@@ -532,7 +540,8 @@ EOT;
 					'message'            => 'Citas encontradas',
 					'info'               =>  '',
 					'citas' 			 =>  $resultados,
-					'especialidad' 		 =>	 $espe
+					'especialidad' 		 =>	 $espe,
+					'obtenerDoctor'      =>  $doct
 				],
 				'code' => 0,
 			];

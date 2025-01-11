@@ -110,7 +110,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         <p><strong>Especialidad: </strong><span id="espe"></span></p>
                     </div>
                     <div class="col-lg-6">
-                        <p><strong>Observacion: </strong><input type="text" name="" id="obs_cita" disabled style="width: 50%;"></p>
+                        <p id="ob"><strong>Observacion: </strong><span id="obs_cita"></span></p>
                     </div>
                 </div>
                 <div class="row">
