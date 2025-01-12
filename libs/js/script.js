@@ -2573,11 +2573,15 @@ if (agregar_reprentante) {
   }
 }
 
-let n_documento;
 
-if (n_documento) {
-  document.getElementById("n_documento").addEventListener("blur", function () {
-    let n_documento = document.getElementById("n_documento").value;
+
+let n_documento_persona = document.getElementById("n_documento");
+
+if (n_documento_persona) {
+
+  console.log(n_documento_persona);
+    n_documento_persona.addEventListener("blur", function () {
+    n_documento = n_documento_persona.value;
 
     if (n_documento) {
         $.ajax({
@@ -2591,8 +2595,8 @@ if (n_documento) {
               Swal.fire({
                 icon: "warning",
                 confirmButtonColor: "#3085d6",
-                title: "Número de documento ya existe",
-                text: "El número de documento ingresado ya está registrado. Por favor, verifique e intente nuevamente."
+                title: "¡Número de documento duplicado!",
+                text: "Por favor, verifica el número y vuelve a intentarlo."
             });
 
                 // Bloquear el botón de guardar si el documento ya existe
@@ -4375,6 +4379,7 @@ function consultarPersonaC() {
          document.getElementById("fecha_cita").innerHTML =  `<span class="badge bg-success"> <i class="bi bi-calendar"></i> ${response.data.fecha} </span>`;
          document.getElementById("estatus_cita").innerHTML = `<span class="badge bg-danger">Pendiente</span>`;
          document.getElementById("id_cita_agendada").setAttribute("value", response.data.id_cita);
+         document.getElementById("validar_fecha").setAttribute("value", response.data.validar_fecha);
         
          contenedor_cita.removeAttribute("style");
 

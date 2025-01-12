@@ -61,7 +61,7 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
 <!-- Modal Agregar Persona-->
 <div class="modal fade" id="modalAgregarPersona" tabindex="-1" aria-labelledby="modalAgregarPersonaLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalAgregarPersona"> Agregar Personas <i class="fas fa-user"></i> </h5>
@@ -73,7 +73,34 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                     <div class="step" id="step-1">
                         <!----------------- Grupo Nombres ----------------------->
                         <div class="row">
-                            <h5>Datos personales</h5>
+
+                            <div class="col-sm-3">
+                                <div class="form-group" id="grupo_tipo_documento">
+                                    <label class="formulario__label" for="tipo_documento">Tipo documento</label>
+                                    <select class="form-control formulario__validacion__input" name="tipo_documento"
+                                        id="tipo_documento">
+                                        <option value="V">V</option>
+                                        <option value="E">E</option>
+                                        <option value="P">P</option>
+                                    </select>
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 mb3" id="grupo_n_documento">
+                                <label class="formulario__label" for="n_documento">Nº de documento</label>
+                                <div class="form-group">
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="n_documento" name="n_documento" placeholder="Ingrese el Nº" required>
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                </div>
+                                <p class="formulario__input-error">El número de documento debe contener solo némeros y
+                                    un
+                                    mínimo de 7
+                                    digitos y máximo 8.
+                                </p>
+                            </div>
+
                             <div class="col-sm-3" id="grupo_primer_nombre">
                                 <label class="formulario__label" for="nombres">Primer nombre</label>
                                 <div class="form-group">
@@ -96,7 +123,9 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                     guion_bajo</p>
                             </div>
 
-
+                        </div>
+                        <br>
+                        <div class="row">
                             <!----------------- Grupo Apellidos ----------------------->
                             <div class="col-sm-3" id="grupo_primer_apellido">
                                 <label class="formulario__label" for="primer_apellido">Primer apellido</label>
@@ -120,11 +149,7 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                 <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
                                     llevar acentos.</p>
                             </div>
-
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <div class="form-group" id="grupo_sexo">
                                     <label class="formulario__label" for="sexo">Sexo</label>
                                     <br>
@@ -132,7 +157,7 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                         id="sexo" value="Masculino" selected>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <div class="form-group" id="grupo_sexo">
                                     <label class="formulario__label" for="sexo"></label>
                                     <br>
@@ -140,7 +165,12 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                         id="sexo" value="Femenino">
                                 </div>
                             </div>
-                            <div class="col-sm-4" id="grupo_fecha_nac">
+
+                        </div>
+                        <br>
+                        <div class="row">
+
+                            <div class="col-sm-3" id="grupo_fecha_nac">
                                 <div class="form-group">
                                     <label class="formulario__label" for="fecha_nac">Fecha de nacimiento</label>
                                     <input type="date" class="form-control formulario__validacion__input" id="fecha_nac"
@@ -151,7 +181,7 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                 </p>
                             </div>
 
-                            <div class="col-sm-4" id="grupo_telefono">
+                            <div class="col-sm-3" id="grupo_telefono">
                                 <label class="formulario__label" for="telefono">Telefono</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" type="text" id="telefono"
@@ -162,38 +192,10 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                     digitos
                                 </p>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <div class="form-group" id="grupo_tipo_documento">
-                                    <label class="formulario__label" for="tipo_documento">Tipo</label>
-                                    <select class="form-control formulario__validacion__input" name="tipo_documento"
-                                        id="tipo_documento">
-                                        <option value="V">V</option>
-                                        <option value="E">E</option>
-                                        <option value="P">P</option>
-                                    </select>
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                            </div>
 
                             <!-------------------------- Grupo Nº documento ----------------------------------->
 
-                            <div class="col-sm-4 mb3" id="grupo_n_documento">
-                                <label class="formulario__label" for="n_documento">Numero de documento</label>
-                                <div class="form-group">
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="n_documento" name="n_documento" placeholder="numero de documento..."
-                                        required>
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                                </div>
-                                <p class="formulario__input-error">El numero de documento debe contener solo numeros y
-                                    un
-                                    mínimo de 7
-                                    digitos y máximo 8.
-                                </p>
-                            </div>
+
                             <div class="col-sm-6 mb-3" id="grupo_correo">
                                 <label class="formulario__label" for="correo">Correo</label>
                                 <div class="form-group">
@@ -418,7 +420,8 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
 
                     <br>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="modificar_persona" title="Guardar persona"><i class="fas fa-save"></i> Guardar</button>
+                        <button type="button" class="btn btn-primary" id="modificar_persona" title="Guardar persona"><i
+                                class="fas fa-save"></i> Guardar</button>
                     </div>
                 </form>
             </div>
