@@ -35,10 +35,12 @@
 
 </head>
 
-<body>
+<body style="background-image: url(./libs/img/mosaico.png);
+    background-repeat: no-repeat;
+    background-position: center;">
     <main>
         <div class="center">
-                <div class="flex">
+                <div class="flex" style="margin-top: 35px;">
                     <img src="libs/img/siatics2.png" style="width: 68%; margin: 20px auto;">
                 </div>
                 <form class="row g-3 needs-validation" novalidate>
@@ -53,7 +55,7 @@
                         <label>Contraseña</label>
                     </div>
                     <!-- <input id="iniciar_sesion" type="submit" value="Entrar"> -->
-                    <button id="iniciar_sesion" type="button">Entrar</button>
+                    <button class="btn btn-primary" id="iniciar_sesion" type="button">Entrar</button>
 
                     <div class="signup_link">
 
