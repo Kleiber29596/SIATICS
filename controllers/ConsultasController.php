@@ -459,4 +459,52 @@ public function modificarReceta()
 		
 	}
 
+	public function suspenderTratamiento()
+	{
+		$id_receta 					= $_POST['id_receta_suspension'];
+		$observacion_suspension 	= $_POST['observacion_suspension'];
+		$id_consulta_update 		= $_POST['id_consulta_update'];
+
+		$modelRecipes = new RecipeModel();
+		$datos = array(
+			'estatus'					=> 0,
+			'observacion_suspension'	=> $observacion_suspension
+		);
+
+		$modificar = $modelRecipes->modificarReceta($id_receta, $datos);
+
+		$receta_medicamentos = $modelRecipes->consultarRecetaUpdate($id_consulta_update);
+
+		if ($modificar) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Tratamiento suspendido exitosamente',
+					'info'              	 	    =>  '',
+					'receta_medicamentos'   		=> $receta_medicamentos
+					
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al suspender el tratamiento',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+	}
+
 }

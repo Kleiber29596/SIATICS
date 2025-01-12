@@ -5150,104 +5150,192 @@ function listarDatosConsulta(id) {
           response.data.id_consulta;
         
 
-          document.getElementById("multiples_medicamentos_update").innerHTML =
-          "<tr><th>Medicamento</th><th>tratamiento</th><th>Acciones</th></tr>";
-
-        response.data.receta_medicamentos.forEach(function (medicamento, index) {
-          contador = contador + 1;
-
-          //7document.getElementById("total_beneficiarios_view").innerHTML = contador;
-
-          let class_contenedor = "row contenedor_" + medicamento.id_recipe_medicamento;
-          let id_contenedor = "contenedor_" + medicamento.id_recipe_medicamento;
-
-          let id_medicamento = "id_medicamento_" + medicamento.id_recipe_medicamento;
-          let id_presentacion = "id_presentacion_" + medicamento.id_recipe_medicamento;
-          let id_boton_borrar = "id_boton_borrar_" + medicamento.id_recipe_medicamento;
-          
-          //Contenedor de los detalles agregados
-          var cont_elemento = document.createElement("tr");
-          cont_elemento.setAttribute("id", id_contenedor);
-          cont_elemento.setAttribute("class", "contenedor_medicamento");
-          cont_elemento.setAttribute(
-            "style",
-            "background:#e2e3e5; border:  solid 1px #ccc; text-align: center; padding: 10px;"
-          );
-          document
-            .getElementById("multiples_medicamentos_update")
-            .appendChild(cont_elemento);
-
-          //td que almacena los nombres de las especies
-          var td_medicamentos = document.createElement("td");
-          td_medicamentos.setAttribute("id", id_medicamento);
-          td_medicamentos.setAttribute("class", "ente");
-          td_medicamentos.setAttribute(
-            "style",
-            "border: solid 1px #ccc; text-align: center; padding: 10px;"
-          );
-          cont_elemento.appendChild(td_medicamentos);
-
-          //td que almacena que almacena las presentaciones de las especies
-          var td_presentacion = document.createElement("td");
-          td_presentacion.setAttribute("id", id_presentacion);
-          td_presentacion.setAttribute("class", "cuenta_movimiento");
-          td_presentacion.setAttribute(
-            "style",
-            "border: solid 1px #ccc; text-align: center; padding: 10px;"
-          );
-          cont_elemento.appendChild(td_presentacion);
-
-          //Columna que almacena el boton borrar
-          var td_accion_borrar = document.createElement("td");
-          td_accion_borrar.setAttribute("id", id_boton_borrar);
-          td_accion_borrar.setAttribute("class", "acciones");
-          td_accion_borrar.setAttribute(
-            "style",
-            "border: solid 1px #ccc; text-align: center; padding: 10px;"
-          );
-          cont_elemento.appendChild(td_accion_borrar);
-
-          //Boton Modificar
-          var btn_update = document.createElement("button");
-          btn_update.setAttribute("class", "btn btn-warning btn-sm");
-          btn_update.setAttribute("title", "Modificar");
-          btn_update.setAttribute("type", "button");
-          btn_update.setAttribute(
-            "onclick",
-            "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
-          );
-          btn_update.setAttribute(
-            "style",
-            "background:#ffc107; color: #FFF; margin-left: 10px;"
-          );
-          td_accion_borrar.appendChild(btn_update);
-          
-
-          //Icono del boton modificar
-          var icono_btn_update = document.createElement("i");
-          icono_btn_update.setAttribute("class", "fas fa-edit");
-          icono_btn_update.setAttribute("data-id", "");
-          btn_update.appendChild(icono_btn_update);
-
-          if(medicamento.dosis > 1 & medicamento.frecuencia > 1) {
-            document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
-            document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion;          
-          } else if (medicamento.dosis > 1 & medicamento.frecuencia == 1) {
-            document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
-            document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;            
-          } else if (medicamento.dosis == 1 & medicamento.frecuencia > 1) {
-            document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
-            document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion;            
-          } else {
-            document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
-            document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;          
-          }
-         
+          if(response.data.receta_medicamentos.length < 1)
+            {
+              console.log(response.data.receta_medicamentos.length);
+              document.getElementById("multiples_medicamentos_update").innerHTML =
+              "<tr><th>Medicamento</th><th>tratamiento</th><th>Observación</th><th>Estatus</th><th>Acciones</th></tr><tr style='text-align:center; font-size: 17px; '><td colspan='5'>No hay medicamentos recetados</td></tr>";
+            }else{
+              console.log(response.data.receta_medicamentos.length);
+              document.getElementById("multiples_medicamentos_update").innerHTML =
+              "<tr><th>Medicamento</th><th>tratamiento</th><th>Observación</th><th>Estatus</th><th>Acciones</th></tr></tr>";
       
-          document
-            .getElementById("contenedor_datos_medicamentos_update")
-            .removeAttribute("style");
-        });
+              response.data.receta_medicamentos.forEach(function (medicamento, index) {
+                contador = contador + 1;
+          
+                //7document.getElementById("total_beneficiarios_view").innerHTML = contador;
+          
+                let class_contenedor = "row contenedor_" + medicamento.id_recipe_medicamento;
+                let id_contenedor = "contenedor_" + medicamento.id_recipe_medicamento;
+          
+                let id_medicamento = "id_medicamento_" + medicamento.id_recipe_medicamento;
+                let id_presentacion = "id_presentacion_" + medicamento.id_recipe_medicamento;
+                let id_estatus = "id_estatus_" + medicamento.id_recipe_medicamento;
+                let  id_observacion = "id_observacion_" + medicamento.id_recipe_medicamento;
+
+                let id_boton_borrar = "id_boton_borrar_" + medicamento.id_recipe_medicamento;
+                
+                //Contenedor de los detalles agregados
+                var cont_elemento = document.createElement("tr");
+                cont_elemento.setAttribute("id", id_contenedor);
+                cont_elemento.setAttribute("class", "contenedor_medicamento");
+                cont_elemento.setAttribute(
+                  "style",
+                  "background:#e2e3e5; border:  solid 1px #ccc; text-align: center; padding: 10px;"
+                );
+                document
+                  .getElementById("multiples_medicamentos_update")
+                  .appendChild(cont_elemento);
+          
+                //td que almacena los nombres de las especies
+                var td_medicamentos = document.createElement("td");
+                td_medicamentos.setAttribute("id", id_medicamento);
+                td_medicamentos.setAttribute("class", "ente");
+                td_medicamentos.setAttribute(
+                  "style",
+                  "border: solid 1px #ccc; text-align: center; padding: 10px;"
+                );
+                cont_elemento.appendChild(td_medicamentos);
+          
+                //td que almacena que almacena las presentaciones de las especies
+                var td_presentacion = document.createElement("td");
+                td_presentacion.setAttribute("id", id_presentacion);
+                td_presentacion.setAttribute("class", "cuenta_movimiento");
+                td_presentacion.setAttribute(
+                  "style",
+                  "border: solid 1px #ccc; text-align: center; padding: 10px;"
+                );
+                cont_elemento.appendChild(td_presentacion);
+
+
+                //td obersevacion
+                var td_observacion = document.createElement("td");
+                td_observacion.setAttribute("id", id_observacion);
+                td_observacion.setAttribute("class", "estatus");
+                td_observacion.setAttribute(
+                  "style",
+                  "border: solid 1px #ccc; text-align: center; padding: 10px;"
+                );
+                cont_elemento.appendChild(td_observacion);
+                
+          
+                //td estatus
+                var td_estatus = document.createElement("td");
+                td_estatus.setAttribute("id", id_estatus);
+                td_estatus.setAttribute("class", "estatus");
+                td_estatus.setAttribute(
+                  "style",
+                  "border: solid 1px #ccc; text-align: center; padding: 10px;"
+                );
+                cont_elemento.appendChild(td_estatus);
+          
+                //Columna que almacena el boton borrar
+                var td_accion_borrar = document.createElement("td");
+                td_accion_borrar.setAttribute("id", id_boton_borrar);
+                td_accion_borrar.setAttribute("class", "acciones");
+                td_accion_borrar.setAttribute(
+                  "style",
+                  "border: solid 1px #ccc; text-align: center; padding: 10px;"
+                );
+                cont_elemento.appendChild(td_accion_borrar);
+          
+          
+                //Boton Modificar
+                var btn_update = document.createElement("button");
+                btn_update.setAttribute("class", "btn btn-warning btn-sm");
+                btn_update.setAttribute("title", "Modificar");
+                btn_update.setAttribute("type", "button");
+                btn_update.setAttribute(
+                  "onclick",
+                  "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
+                );
+                btn_update.setAttribute(
+                  "style",
+                  "background:#ffc107; color: #FFF; margin-left: 10px;"
+                );
+                td_accion_borrar.appendChild(btn_update);
+          
+                //Boton suspender
+                var btn_suspender = document.createElement("button");
+                btn_suspender.setAttribute("class", "btn btn-danger btn-sm");
+                btn_suspender.setAttribute("title", "Suspender tratamiento");
+                if(medicamento.estatus == 0)
+                {
+                  btn_suspender.setAttribute("disabled", "true");
+                }
+                btn_suspender.setAttribute("type", "button");
+                btn_suspender.setAttribute(
+                  "onclick",
+                  "activarSuspension(" + medicamento.id_recipe_medicamento + ")"
+                );
+                btn_suspender.setAttribute(
+                  "style",
+                  "background: #bb2d3b; color: #FFF; margin-left: 10px;"
+                );
+                td_accion_borrar.appendChild(btn_suspender);
+                
+          
+                //Icono del boton modificar
+                var icono_btn_update = document.createElement("i");
+                icono_btn_update.setAttribute("class", "fas fa-edit");
+                icono_btn_update.setAttribute("data-id", "");
+                btn_update.appendChild(icono_btn_update);
+          
+                //Icono del boton suspender
+                var icono_btn_suspender = document.createElement("i");
+                icono_btn_suspender.setAttribute("class", "fas fa-ban");
+                icono_btn_suspender.setAttribute("data-id", "");
+                btn_suspender.appendChild(icono_btn_suspender);
+          
+                if(medicamento.dosis > 1 & medicamento.frecuencia > 1) {
+                  document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+                  document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion;
+                  if(medicamento.estatus == 0){
+                    document.getElementById(id_estatus).innerHTML = '<span class="badge bg-danger" style="color: white;">Suspendido</span>';
+                    document.getElementById(id_observacion).innerHTML = medicamento.observacion_suspension;
+                  }else{
+                    document.getElementById(id_estatus).innerHTML = '<span class="badge bg-success" style="color: white;">habilitado</span>';
+                    document.getElementById(id_observacion).innerHTML = "No hay observación";
+                  }
+                } else if (medicamento.dosis > 1 & medicamento.frecuencia == 1) {
+                  document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+                  document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;  
+                  if(medicamento.estatus == 0){
+                    document.getElementById(id_estatus).innerHTML = '<span class="badge bg-danger" style="color: white;">Suspendido</span>';
+                    document.getElementById(id_observacion).innerHTML = medicamento.observacion_suspension;
+                  }else{
+                    document.getElementById(id_estatus).innerHTML = '<span class="badge bg-success" style="color: white;">habilitado</span>';
+                    document.getElementById(id_observacion).innerHTML = "No hay observación";
+                  }    
+                } else if (medicamento.dosis == 1 & medicamento.frecuencia > 1) {
+                  document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+                  document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion; 
+                  if(medicamento.estatus == 0){
+                    document.getElementById(id_estatus).innerHTML = '<span class="badge bg-danger" style="color: white;">Suspendido</span>';
+                    document.getElementById(id_observacion).innerHTML = medicamento.observacion_suspension;
+                  }else{
+                    document.getElementById(id_estatus).innerHTML = '<span class="badge bg-success" style="color: white;">habilitado</span>';
+                    document.getElementById(id_observacion).innerHTML = "No hay observación";
+                  }           
+                } else {
+                  document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+                  document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;
+                  if(medicamento.estatus == 0){
+                    document.getElementById(id_estatus).innerHTML = '<span class="badge bg-danger" style="color: white;">Suspendido</span>';
+                    document.getElementById(id_observacion).innerHTML = medicamento.observacion_suspension;
+                  }else{
+                    document.getElementById(id_estatus).innerHTML = '<span class="badge bg-success" style="color: white;">habilitado</span>';
+                    document.getElementById(id_observacion).innerHTML = "No hay observación";
+                  }       
+                }
+               
+            
+                document
+                  .getElementById("contenedor_datos_medicamentos_update")
+                  .removeAttribute("style");
+              });
+          
+            }
         
         $("#modalActualizarConsultas").modal("show");
       } else {
@@ -5256,6 +5344,253 @@ function listarDatosConsulta(id) {
     .fail(function () {
       console.log("error");
     });
+}
+
+/* -------------- Suspender tratamiento ------------------ */
+
+function activarSuspension(id) {
+
+  let id_receta = id;
+  
+  const contenedor_observacion_suspension = document.getElementById("contenedor_observacion_suspension");
+  const observacion_suspension = document.getElementById("observacion_suspension");
+  contenedor_observacion_suspension.removeAttribute("style");
+  let id_receta_suspension = document.getElementById("id_receta_suspension").value = id_receta;
+
+}
+
+function desactivarSuspension() {
+  const contenedor_observacion_suspension = document.getElementById("contenedor_observacion_suspension");
+  contenedor_observacion_suspension.setAttribute("style", "display:none;");
+  const observacion_suspension = document.getElementById("observacion_suspension");
+  observacion_suspension.value = "";
+
+  Swal.fire({ icon: "success", title: "Operación cancelada exitosamente", confirmButtonColor: "#3085d6" });
+}
+
+function suspenderTratamiento() {
+
+  let id_receta_suspension = document.getElementById("id_receta_suspension").value;
+  let observacion_suspension = document.getElementById("observacion_suspension").value;
+  let id_consulta_update = document.getElementById("id_consulta_update").value;
+
+  $.ajax({ 
+    url: "index.php?page=suspenderTratamiento", 
+    type: "post", 
+    dataType: "json", 
+    data: { 
+      id_receta_suspension    : id_receta_suspension,
+      observacion_suspension  : observacion_suspension,
+      id_consulta_update      : id_consulta_update
+    } }).done(function (response) {
+    if (response.data.success == true) {
+
+      document.getElementById("contenedor_observacion_suspension").setAttribute("style", "display:none;");
+
+      Swal.fire({ 
+        icon: "success", 
+        title: response.data.message, 
+        confirmButtonColor: "#3085d6", 
+        text: response.data.info 
+      });
+
+      //Refrescar los datos de la receta
+      
+      if(response.data.receta_medicamentos.length < 1)
+        {
+          console.log(response.data.receta_medicamentos.length);
+          document.getElementById("multiples_medicamentos_update").innerHTML =
+          "<tr><th>Medicamento</th><th>tratamiento</th><th>Observación</th><th>Estatus</th><th>Acciones</th></tr><tr style='text-align:center; font-size: 17px; '><td colspan='5'>No hay medicamentos recetados</td></tr>";
+        }else{
+          console.log(response.data.receta_medicamentos.length);
+          document.getElementById("multiples_medicamentos_update").innerHTML =
+          "<tr><th>Medicamento</th><th>tratamiento</th><th>Observación</th><th>Estatus</th><th>Acciones</th></tr></tr>";
+  
+          response.data.receta_medicamentos.forEach(function (medicamento, index) {
+            contador = contador + 1;
+      
+            //7document.getElementById("total_beneficiarios_view").innerHTML = contador;
+      
+            let class_contenedor = "row contenedor_" + medicamento.id_recipe_medicamento;
+            let id_contenedor = "contenedor_" + medicamento.id_recipe_medicamento;
+      
+            let id_medicamento = "id_medicamento_" + medicamento.id_recipe_medicamento;
+            let id_presentacion = "id_presentacion_" + medicamento.id_recipe_medicamento;
+            let id_estatus = "id_estatus_" + medicamento.id_recipe_medicamento;
+            let  id_observacion = "id_observacion_" + medicamento.id_recipe_medicamento;
+
+            let id_boton_borrar = "id_boton_borrar_" + medicamento.id_recipe_medicamento;
+            
+            //Contenedor de los detalles agregados
+            var cont_elemento = document.createElement("tr");
+            cont_elemento.setAttribute("id", id_contenedor);
+            cont_elemento.setAttribute("class", "contenedor_medicamento");
+            cont_elemento.setAttribute(
+              "style",
+              "background:#e2e3e5; border:  solid 1px #ccc; text-align: center; padding: 10px;"
+            );
+            document
+              .getElementById("multiples_medicamentos_update")
+              .appendChild(cont_elemento);
+      
+            //td que almacena los nombres de las especies
+            var td_medicamentos = document.createElement("td");
+            td_medicamentos.setAttribute("id", id_medicamento);
+            td_medicamentos.setAttribute("class", "ente");
+            td_medicamentos.setAttribute(
+              "style",
+              "border: solid 1px #ccc; text-align: center; padding: 10px;"
+            );
+            cont_elemento.appendChild(td_medicamentos);
+      
+            //td que almacena que almacena las presentaciones de las especies
+            var td_presentacion = document.createElement("td");
+            td_presentacion.setAttribute("id", id_presentacion);
+            td_presentacion.setAttribute("class", "cuenta_movimiento");
+            td_presentacion.setAttribute(
+              "style",
+              "border: solid 1px #ccc; text-align: center; padding: 10px;"
+            );
+            cont_elemento.appendChild(td_presentacion);
+
+
+            //td obersevacion
+            var td_observacion = document.createElement("td");
+            td_observacion.setAttribute("id", id_observacion);
+            td_observacion.setAttribute("class", "estatus");
+            td_observacion.setAttribute(
+              "style",
+              "border: solid 1px #ccc; text-align: center; padding: 10px;"
+            );
+            cont_elemento.appendChild(td_observacion);
+            
+      
+            //td estatus
+            var td_estatus = document.createElement("td");
+            td_estatus.setAttribute("id", id_estatus);
+            td_estatus.setAttribute("class", "estatus");
+            td_estatus.setAttribute(
+              "style",
+              "border: solid 1px #ccc; text-align: center; padding: 10px;"
+            );
+            cont_elemento.appendChild(td_estatus);
+      
+            //Columna que almacena el boton borrar
+            var td_accion_borrar = document.createElement("td");
+            td_accion_borrar.setAttribute("id", id_boton_borrar);
+            td_accion_borrar.setAttribute("class", "acciones");
+            td_accion_borrar.setAttribute(
+              "style",
+              "border: solid 1px #ccc; text-align: center; padding: 10px;"
+            );
+            cont_elemento.appendChild(td_accion_borrar);
+      
+      
+            //Boton Modificar
+            var btn_update = document.createElement("button");
+            btn_update.setAttribute("class", "btn btn-warning btn-sm");
+            btn_update.setAttribute("title", "Modificar");
+            btn_update.setAttribute("type", "button");
+            btn_update.setAttribute(
+              "onclick",
+              "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
+            );
+            btn_update.setAttribute(
+              "style",
+              "background:#ffc107; color: #FFF; margin-left: 10px;"
+            );
+            td_accion_borrar.appendChild(btn_update);
+      
+            //Boton suspender
+            var btn_suspender = document.createElement("button");
+            btn_suspender.setAttribute("class", "btn btn-danger btn-sm");
+            btn_suspender.setAttribute("title", "Suspender tratamiento");
+            if (medicamento.estatus == 0) {
+              btn_suspender.setAttribute("disabled", "true");
+            }
+            btn_suspender.setAttribute("type", "button");
+            btn_suspender.setAttribute(
+              "onclick",
+              "activarSuspension(" + medicamento.id_recipe_medicamento + ")"
+            );
+            btn_suspender.setAttribute(
+              "style",
+              "background: #bb2d3b; color: #FFF; margin-left: 10px;"
+            );
+            td_accion_borrar.appendChild(btn_suspender);
+            
+      
+            //Icono del boton modificar
+            var icono_btn_update = document.createElement("i");
+            icono_btn_update.setAttribute("class", "fas fa-edit");
+            icono_btn_update.setAttribute("data-id", "");
+            btn_update.appendChild(icono_btn_update);
+      
+            //Icono del boton suspender
+            var icono_btn_suspender = document.createElement("i");
+            icono_btn_suspender.setAttribute("class", "fas fa-ban");
+            icono_btn_suspender.setAttribute("data-id", "");
+            btn_suspender.appendChild(icono_btn_suspender);
+      
+            if(medicamento.dosis > 1 & medicamento.frecuencia > 1) {
+              document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+              document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion;
+              if(medicamento.estatus == 0){
+                document.getElementById(id_estatus).innerHTML = '<span class="badge bg-danger" style="color: white;">Suspendido</span>';
+                document.getElementById(id_observacion).innerHTML = medicamento.observacion_suspension;
+              }else{
+                document.getElementById(id_estatus).innerHTML = '<span class="badge bg-success" style="color: white;">habilitado</span>';
+                document.getElementById(id_observacion).innerHTML = "No hay observación";
+              }
+            } else if (medicamento.dosis > 1 & medicamento.frecuencia == 1) {
+              document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+              document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;  
+              if(medicamento.estatus == 0){
+                document.getElementById(id_estatus).innerHTML = '<span class="badge bg-danger" style="color: white;">Suspendido</span>';
+                document.getElementById(id_observacion).innerHTML = medicamento.observacion_suspension;
+              }else{
+                document.getElementById(id_estatus).innerHTML = '<span class="badge bg-success" style="color: white;">habilitado</span>';
+                document.getElementById(id_observacion).innerHTML = "No hay observación";
+              }    
+            } else if (medicamento.dosis == 1 & medicamento.frecuencia > 1) {
+              document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+              document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion; 
+              if(medicamento.estatus == 0){
+                document.getElementById(id_estatus).innerHTML = '<span class="badge bg-danger" style="color: white;">Suspendido</span>';
+                document.getElementById(id_observacion).innerHTML = medicamento.observacion_suspension;
+              }else{
+                document.getElementById(id_estatus).innerHTML = '<span class="badge bg-success" style="color: white;">habilitado</span>';
+                document.getElementById(id_observacion).innerHTML = "No hay observación";
+              }           
+            } else {
+              document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+              document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;
+              if(medicamento.estatus == 0){
+                document.getElementById(id_estatus).innerHTML = '<span class="badge bg-danger" style="color: white;">Suspendido</span>';
+                document.getElementById(id_observacion).innerHTML = medicamento.observacion_suspension;
+              }else{
+                document.getElementById(id_estatus).innerHTML = '<span class="badge bg-success" style="color: white;">habilitado</span>';
+                document.getElementById(id_observacion).innerHTML = "No hay observación";
+              }       
+            }
+           
+        
+            document
+              .getElementById("contenedor_datos_medicamentos_update")
+              .removeAttribute("style");
+          });
+      
+        }
+
+      
+    
+    } else {
+      Swal.fire({ icon: "error", title: response.data.message, confirmButtonColor: "#3085d6", text: response.data.info });
+    }
+  })   .fail(function () {
+    console.log("error");
+  });
+  
 }
 
 

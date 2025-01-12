@@ -661,7 +661,23 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
 
             <br>
-
+            <div class="container" id="contenedor_observacion_suspension" style="display: none;">
+                <div class="row" style="display: flex; align-items: flex-end;">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="observacion_suspension">Observación de la suspensión</label>
+                            <input class="form-control" type="text" id="observacion_suspension" placeholder="Ingrese la observación de la suspensión">
+                            <input type="hidden" id="id_receta_suspension" value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-success" onclick="suspenderTratamiento()">Aceptar</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-danger" onclick="desactivarSuspension()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
             <div class="row" id="contenedor_datos_medicamentos_update" style="display: none;">
                 <div class="col-sm-12 table-responsive">
 
@@ -695,6 +711,9 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 </div>
 </div>
 </div>
+
+
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
