@@ -151,7 +151,7 @@ class PersonasModel extends ModeloBase
 	/*------------Método para consultar un registro de una persona mediante la cedula --------*/
 public function listarDatosPersona($id_persona) {
     $db = new ModeloBase();
-    $query = "SELECT p.id_persona, p.n_documento, p.tipo_documento,  CONCAT(p.tipo_documento,'-',p.n_documento) AS documento, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos,  p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, h.id, h.tipo_sangre, h.fumador, h.alcohol, h.actividad_fisica, h.medicado, h.cirugia_hospitalaria, h.alergia, h.antec_fami FROM  personas AS p  LEFT JOIN historia_medica AS h ON h.id_persona = p.id_persona WHERE p.id_persona = $id_persona";
+    $query = "SELECT p.id_persona, p.n_documento, p.tipo_documento,  CONCAT(p.tipo_documento,'-',p.n_documento) AS documento, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos, DATE_FORMAT(p.fecha_nacimiento, '%d/%m/%Y') AS fecha_nac, p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, h.id, h.tipo_sangre, h.fumador, h.alcohol, h.actividad_fisica, h.medicado, h.cirugia_hospitalaria, h.alergia, h.antec_fami FROM  personas AS p  LEFT JOIN historia_medica AS h ON h.id_persona = p.id_persona WHERE p.id_persona = $id_persona";
     $resultado = $db->obtenerTodos($query);
     return $resultado;
 }
@@ -219,7 +219,7 @@ public function listarMedicamentos($id_historia_medica) {
         c.id_especialidad, 
         c.observacion, 
         c.estatus, 
-        DATE_FORMAT(c.fecha_cita, '%d/%m/%Y') AS fecha_cita,  -- Aquí aplicamos el formato
+        DATE_FORMAT(c.fecha_cita, '%d/%m/%Y') AS fecha_cita, c.fecha_cita AS validar_fecha,  -- Aquí aplicamos el formato
         c.id_doctor,
         e.nombre_especialidad, 
         d.id_persona AS id_especialista, 

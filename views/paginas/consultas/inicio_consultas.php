@@ -162,6 +162,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     <div class="form-group">
                                         <input type="hidden" name="ID" id="ID">
                                         <input type="hidden" name="id_cita_agendada" id="id_cita_agendada">
+                                        <input type="hidden" name="validar_fecha" id="validar_fecha">
+
                                         <input class="form-control formulario__validacion__input" type="text"
                                             id="n_documento_persona" name="n_documento_persona"
                                             placeholder="número de documento...">
@@ -803,16 +805,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarFechaAtencion() {
 
 
-        const fechaCita = document.getElementById('fecha_cita').textContent.trim();
+        const fechaCita = document.getElementById('validar_fecha').value;
 
         if (fechaCita != '') {
-
+            console.log(fechaCita);
             // Convertir fecha de cita y fecha actual a objetos Date
             const fechaCitaObj = new Date(`${fechaCita}T00:00:00`);
             console.log(fechaCitaObj);
             const fechaHoy = new Date();
             fechaHoy.setHours(0, 0, 0, 0);
-            console.log(fechaHoy);
+          
             // Comparar las fechas
             if (fechaCitaObj.getTime() === fechaHoy.getTime()) {
 
