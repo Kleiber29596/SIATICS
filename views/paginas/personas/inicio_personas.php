@@ -79,6 +79,7 @@ if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
                                     <label class="formulario__label" for="tipo_documento">Tipo documento</label>
                                     <select class="form-control formulario__validacion__input" name="tipo_documento"
                                         id="tipo_documento">
+                                        <option value="">Seleccione</option>
                                         <option value="V">V</option>
                                         <option value="E">E</option>
                                         <option value="P">P</option>
