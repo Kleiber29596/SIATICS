@@ -104,6 +104,7 @@ if (!empty($page)) {
 		'listarDatosConsulta' => array('model' => 'ConsultaModel', 	  'view' => 'listarDatosConsulta',   'controller' 		=> 'ConsultasController'),
 		'obtenerDatosReceta'  => array('model' => 'ConsultaModel', 	  'view' => 'obtenerDatosReceta',    'controller'  		=> 'ConsultasController'),
 		'modificarReceta'  	  => array('model' => 'ConsultaModel', 	  'view' => 'modificarReceta',       'controller'  		=> 'ConsultasController'),
+		'suspenderTratamiento'  	  => array('model' => 'ConsultaModel', 	  'view' => 'suspenderTratamiento',       'controller'  		=> 'ConsultasController'),
 		/* Modulo motivos */
 		'inicioMotivos'  	  			  => array('model' => 'MotivosModel', 	  'view' => 'inicio',         		       'controller'  			=> 'MotivosController'),
 		'listarMotivos'  	  			  => array('model' => 'MotivosModel', 	  'view' => 'listarMotivos',               'controller'  			=> 'MotivosController'),
