@@ -64,6 +64,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         $documento                  = $datos_personas['n_documento']; 
         $nombre_apellido            = $datos_personas['nombres_apellidos']; 
         $fecha_nacimiento           = $datos_personas['fecha_nacimiento'];
+        $fecha_nac                  = $datos_personas['fecha_nac'];
         $sexo                       = $datos_personas['sexo']; 
         $telefono                   = $datos_personas['telefono']; 
         $correo                     = $datos_personas['correo']; 
@@ -193,7 +194,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                                     <td><?= $sexo ?></td>
                                                     <td><?= $telefono ?></td>
                                                     <td><?= $correo ?></td>
-                                                    <td><?= $fecha_nacimiento ?></td>
+                                                    <td><?= $fecha_nac ?></td>
                                                     <td><?= $direccion ?></td>
                                                     <td>
                                                         <?php

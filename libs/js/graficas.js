@@ -70,9 +70,10 @@ am4core.ready(function () {
     {
       "label": "<i class='fas fa-print'><i>",
       "menu": [
-        { "type": "png", "label": "PNG" },
+        
         { "label": "PRINT", "type": "print" },
-        { "type": "pdf", "label": "PDF" }
+        { "type": "pdf", "label": "PDF" },
+        { "type": "xlsx", "label": "EXC"}
       ]
     }
   ];
@@ -136,9 +137,10 @@ am4core.ready(function () {
     {
       "label": "<i class='fas fa-print'><i>",
       "menu": [
-        { "type": "png", "label": "PNG" },
+        
         { "label": "PRINT", "type": "print" },
-        { "type": "pdf", "label": "PDF" }
+        { "type": "pdf", "label": "PDF" },
+        { "type": "xlsx", "label": "EXC"}
       ]
     }
   ]
@@ -201,9 +203,10 @@ am4core.ready(function () {
     {
       "label": "<i class='fas fa-print'><i>",
       "menu": [
-        { "type": "png", "label": "PNG" },
+        
         { "label": "PRINT", "type": "print" },
-        { "type": "pdf", "label": "PDF" }
+        { "type": "pdf", "label": "PDF" },
+        { "type": "xlsx", "label": "EXC"}
       ]
     }
   ]
@@ -265,9 +268,10 @@ am4core.ready(function () {
     {
       "label": "<i class='fas fa-print'><i>",
       "menu": [
-        { "type": "png", "label": "PNG" },
+        
         { "label": "PRINT", "type": "print" },
-        { "type": "pdf", "label": "PDF" }
+        { "type": "pdf", "label": "PDF" },
+        { "type": "xlsx", "label": "EXC"}
       ]
     }
   ]
@@ -329,9 +333,10 @@ am4core.ready(function () {
     {
       "label": "<i class='fas fa-print'><i>",
       "menu": [
-        { "type": "png", "label": "PNG" },
+        
         { "label": "PRINT", "type": "print" },
-        { "type": "pdf", "label": "PDF" }
+        { "type": "pdf", "label": "PDF" },
+        { "type": "xlsx", "label": "EXC"}
       ]
     }
   ]

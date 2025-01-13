@@ -80,7 +80,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                 <div class="card-body">
                     <p></p>
                     <!-- Button trigger modal  -->
-                    <button title="Agregar Consulta" class="btn btn-primary" data-bs-toggle="modal"
+                    <button onclick="gestionarModal('modalAgregarConsulta', 'mostrar')" title="Agregar Consulta" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#modalAgregarConsulta">
                         <i class="fas fa-plus"></i>
                     </button>
@@ -117,7 +117,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
             <div class="modal-header">
                 <h5 class="modal-title" id="modalAgregarConsultasLabel">Agregar Consulta <i
                         class="bi bi-clipboard-check"></i></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button onclick="gestionarModal('modalAgregarConsulta', 'ocultar')"  type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -162,6 +162,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     <div class="form-group">
                                         <input type="hidden" name="ID" id="ID">
                                         <input type="hidden" name="id_cita_agendada" id="id_cita_agendada">
+                                        <input type="hidden" name="validar_fecha" id="validar_fecha">
+
                                         <input class="form-control formulario__validacion__input" type="text"
                                             id="n_documento_persona" name="n_documento_persona"
                                             placeholder="número de documento...">
@@ -659,7 +661,23 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
 
             <br>
-
+            <div class="container" id="contenedor_observacion_suspension" style="display: none;">
+                <div class="row" style="display: flex; align-items: flex-end;">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="observacion_suspension">Observación de la suspensión</label>
+                            <input class="form-control" type="text" id="observacion_suspension" placeholder="Ingrese la observación de la suspensión">
+                            <input type="hidden" id="id_receta_suspension" value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-success" onclick="suspenderTratamiento()">Aceptar</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-danger" onclick="desactivarSuspension()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
             <div class="row" id="contenedor_datos_medicamentos_update" style="display: none;">
                 <div class="col-sm-12 table-responsive">
 
@@ -693,6 +711,9 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 </div>
 </div>
 </div>
+
+
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -784,16 +805,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarFechaAtencion() {
 
 
-        const fechaCita = document.getElementById('fecha_cita').textContent.trim();
+        const fechaCita = document.getElementById('validar_fecha').value;
 
         if (fechaCita != '') {
-
+            console.log(fechaCita);
             // Convertir fecha de cita y fecha actual a objetos Date
             const fechaCitaObj = new Date(`${fechaCita}T00:00:00`);
             console.log(fechaCitaObj);
             const fechaHoy = new Date();
             fechaHoy.setHours(0, 0, 0, 0);
-            console.log(fechaHoy);
+          
             // Comparar las fechas
             if (fechaCitaObj.getTime() === fechaHoy.getTime()) {
 
@@ -821,6 +842,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
+
+
 </script>
 
 <?php

@@ -93,35 +93,38 @@ EOT;
 						/*datos intermedia */
 		//REGISTRAR ESTUDIOS
 		$medicamentos = $modelMedicamentos->listarMedicamentosTemporales();
-		foreach($medicamentos as $medicamento)
-		{
 
-			$id_medicamento 	    = $medicamento['id_presentacion_medicamento'];
-			$dosis 	   				= $medicamento['dosis'];
-			$unidad_medida 	   	    = $medicamento['unidad_medida'];
-			$frecuencia 	   	    = $medicamento['frecuencia'];
-			$cantidad 	   	    	= $medicamento['cantidad'];
-			$intervalo 	   	    	= $medicamento['intervalo'];
+		if(!empty($medicamentos)){
+			foreach($medicamentos as $medicamento)
+			{
+				$id_medicamento 	    = $medicamento['id_presentacion_medicamento'];
+				$dosis 	   				= $medicamento['dosis'];
+				$unidad_medida 	   	    = $medicamento['unidad_medida'];
+				$frecuencia 	   	    = $medicamento['frecuencia'];
+				$cantidad 	   	    	= $medicamento['cantidad'];
+				$intervalo 	   	    	= $medicamento['intervalo'];
+			}
+
+			$datos_intermedia= array(
+				'id_presentacion_medicamento' => $id_medicamento,
+				'id_recipe' 				  => $id_recipe,
+				'dosis' 			  		  => $dosis,
+				'unidad_medida' 			  => $unidad_medida,
+				'frecuencia' 			  	  => $frecuencia ,
+				'cantidad' 			  		  => $cantidad,
+				'intervalo' 			      => $intervalo,
+				'fecha_registro'			  => $fecha_registro
+			);
+
+			$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
+			
 		}
 			
-		$datos_intermedia= array(
-			'id_presentacion_medicamento' => $id_medicamento,
-			'id_recipe' 				  => $id_recipe,
-			'dosis' 			  		  => $dosis,
-			'unidad_medida' 			  => $unidad_medida,
-			'frecuencia' 			  	  => $frecuencia ,
-			'cantidad' 			  		  => $cantidad,
-			'intervalo' 			      => $intervalo,
-			'fecha_registro'			  => $fecha_registro
-		);
-		$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
 		$peso   = $_POST['peso'];
 		$altura = $_POST['altura'];
 		$id_cita = $_POST['id_cita_agendada'];
-		// var_dump($id_cita);
-		
 
-						/*datos de la consulta*/
+		/*datos de la consulta*/
 		$datos_consulta = array(
 			'id_persona'         	=> $_POST['id_persona'],
 			'id_tipo_consulta'  	=> $_POST['tipo_consulta'],
@@ -457,6 +460,54 @@ public function modificarReceta()
 			
 		
 		
+	}
+
+	public function suspenderTratamiento()
+	{
+		$id_receta 					= $_POST['id_receta_suspension'];
+		$observacion_suspension 	= $_POST['observacion_suspension'];
+		$id_consulta_update 		= $_POST['id_consulta_update'];
+
+		$modelRecipes = new RecipeModel();
+		$datos = array(
+			'estatus'					=> 0,
+			'observacion_suspension'	=> $observacion_suspension
+		);
+
+		$modificar = $modelRecipes->modificarReceta($id_receta, $datos);
+
+		$receta_medicamentos = $modelRecipes->consultarRecetaUpdate($id_consulta_update);
+
+		if ($modificar) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Tratamiento suspendido exitosamente',
+					'info'              	 	    =>  '',
+					'receta_medicamentos'   		=> $receta_medicamentos
+					
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al suspender el tratamiento',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
 	}
 
 }

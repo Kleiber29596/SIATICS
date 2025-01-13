@@ -699,6 +699,7 @@ public function listarDatosUpdate()
 			$observacion				= $lista['observacion'];
 			$estatus					= $lista['estatus'];
 			$fecha						= $lista['fecha_cita'];
+			$validar_fecha			    = $lista['validar_fecha'];
 			$id_cita					= $lista['id_cita'];
 			$id_especialidad			= $lista['id_especialidad'];
 			$id_especialista			= $lista['id_especialista'];
@@ -716,7 +717,6 @@ public function listarDatosUpdate()
 					'info'              	 	    =>  '',
 					'id_persona'		   			=> $id_persona,
 					'n_documento_persona' 			=> $n_documento_persona,
-					'nombres' 		    			=> $fecha_nac,
 					'nombres_persona'				=> $nombres_persona,
 					'sexo_persona'			    	=> $sexo_persona,
 					'tlf_persona'			    	=> $tlf_persona,
@@ -730,7 +730,8 @@ public function listarDatosUpdate()
 					'fecha'							=> $fecha,
 					'id_cita'						=> $id_cita,
 					'id_especialidad' 				=> $id_especialidad,
-					'id_especialista'				=> $id_especialista
+					'id_especialista'				=> $id_especialista,
+					'validar_fecha'				    => $validar_fecha
 				],
 				'code' => 0,
 			];
