@@ -208,14 +208,14 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                     <div class="form-group">
                                         <label for="sexoMasculino">Sexo</label>
                                         <br>
-                                        Masculino <input type="radio" name="sexo" id="sexoMasculino" value="Masculino" disabled selected>
+                                        Masculino <input type="radio" name="sexo" id="sexoMasculino" value="Masculino" disabled>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="sexoFemenino"></label>
                                         <br>
-                                        Femenino <input type="radio" name="sexo" id="sexoFemenino" disabled value="Femenino">
+                                        Femenino <input type="radio" name="sexo" id="sexoFemenino" value="Femenino" disabled>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">

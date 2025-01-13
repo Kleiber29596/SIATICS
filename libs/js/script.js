@@ -927,11 +927,11 @@ if (document.getElementById("agregar_usuario")) {
         let s_nombre = document.getElementById("s_nombre").value;
         let p_apellido = document.getElementById("p_apellido").value;
         let s_apellido = document.getElementById("s_apellido").value;
-        let sexo = document.getElementById("sexo").value; // Obtener el valor
+        //let sexo = document.getElementsByName("sexo"); // Obtener el valor
         let fechaNacimiento = document.getElementById("fechaNacimiento").value; // Obtener el valor
         let numTelf = document.getElementById("numTelf").value; // Obtener el valor
         let tipoDoc = document.getElementById("T_doc").value; // Obtener el valor
-        let numeroDoc = document.getElementById("cedula").value; // Obtener el valor
+        let numeroDoc = document.getElementById("cedu").value; // Obtener el valor
         let correo = document.getElementById("correo").value;
         let direccion_c = document.getElementById("direccion_c").value;
         let tipo_persona = document.getElementById("tipo_persona").value;
@@ -949,7 +949,16 @@ if (document.getElementById("agregar_usuario")) {
         let especialidad = document.getElementById("especialidad").value;
         let archivo = document.getElementById("subirfoto2").value;
         
-      
+        var sexo = document.getElementsByName("sexo");
+        var sexoSeleccionado = ""; // Inicializa la variable
+
+        for (var i = 0; i < sexo.length; i++) {
+            if (sexo[i].checked) {
+                sexoSeleccionado = sexo[i].value; // Obtén el valor del radio button seleccionado
+                break; // Salir del bucle una vez que encuentres el seleccionado
+            }
+        }
+
         let horarios = [];
 
         cap_Dia.forEach((input, index) => {
@@ -966,7 +975,7 @@ if (document.getElementById("agregar_usuario")) {
             p_apellido: p_apellido,
             s_nombre: s_nombre,
             s_apellido: s_apellido,
-            sexo: sexo,
+            sexo: sexoSeleccionado,
             fechaNacimiento: fechaNacimiento,
             numTelf: numTelf,
             tipoDoc: tipoDoc,
@@ -986,8 +995,9 @@ if (document.getElementById("agregar_usuario")) {
             archivo: archivo
         };
 
+        console.log(datosFormUsuario);
         
-        if (contrasena != confirmar_contrasena) {
+       /* if (contrasena != confirmar_contrasena) {
           Swal.fire({
             icon: "error",
             title: "Atención",
@@ -1028,7 +1038,7 @@ if (document.getElementById("agregar_usuario")) {
                 confirmButtonColor: "#3085d6",
               });
           });
-        }
+        }*/
     }
 }
 
@@ -4377,7 +4387,8 @@ function consultarPersona() {
 document.addEventListener("DOMContentLoaded", function() {
     // Obtener el botón por su ID
     const botonConsulta = document.getElementById("citaPersona_consulta");
-    const inputIds = ['p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'sexoMasculino', 'sexoFemenino', 'fechaNacimiento', 'numTelf', 'correo', 'direccion_c'];
+    const inputIds = ['p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'sexoMasculino', 
+        'sexoFemenino', 'fechaNacimiento', 'numTelf', 'correo', 'direccion_c'];
 
     botonConsulta.addEventListener("click", function() {
         // Obtener el valor de la cédula cada vez que se hace clic en el botón
@@ -4412,10 +4423,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     $('#s_nombre').val(response.data.s_nombre);
                     $('#p_apellido').val(response.data.p_apellido);
                     $('#s_apellido').val(response.data.s_apellido);
-
-                    $('#sexoMasculino').val(response.data.sexo);
-                    $('#sexoFemenino').val(response.data.sexo);
-
+                    if (response.data.sexo == 'M'){
+                        $('#sexoFemenino').prop('checked', false);
+                        $('#sexoMasculino').prop('checked', true);
+                    }else if (response.data.sexo == 'F'){
+                        $('#sexoMasculino').prop('checked', false);
+                        $('#sexoFemenino').prop('checked', true);
+                    };
                     $('#fechaNacimiento').val(response.data.fecha_nac);
                     $('#numTelf').val(response.data.telefono);
                     $('#correo').val(response.data.correo);
@@ -4439,6 +4453,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     $('#numTelf').val('');
                     $('#correo').val('');
                     $('#direccion_c').val('');
+                    $('#sexoMasculino').prop('checked', false);
+                    $('#sexoFemenino').prop('checked', false);
                     Swal.fire({
                       icon: "warning",
                       confirmButtonColor: "#3085d6",
