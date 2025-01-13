@@ -4302,6 +4302,92 @@ function consultarPersona() {
   
 }
 
+/*-------------------------------------------------*/
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Obtener el botón por su ID
+    const botonConsulta = document.getElementById("citaPersona_consulta");
+    const inputIds = ['p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'sexoMasculino', 'sexoFemenino', 'fechaNacimiento', 'numTelf', 'correo', 'direccion_c'];
+
+    botonConsulta.addEventListener("click", function() {
+        // Obtener el valor de la cédula cada vez que se hace clic en el botón
+        const Ced = document.getElementById('cedu').value;
+
+           if (Ced == '') {
+                Swal.fire({
+                  icon: "warning",
+                  title: '¡Cuidado!',
+                  confirmButtonColor: "#3085d6",
+                  text: 'Campo cedula vacio',
+                });
+           }else{
+                 $.ajax({
+                   url: "index.php?page=consultarPersonaUsuario",
+                   type: "post",
+                   dataType: "json",
+                   data: {
+                     n_documento_persona: Ced,
+                   },
+                 })
+               .done(function (response) {
+                if (response.data.success == true) {
+                    Swal.fire({
+                      icon: "success",
+                      title: response.data.message,
+                      confirmButtonColor: "#0d6efd",
+                      text: response.data.info,
+                    });
+
+                    $('#p_nombre').val(response.data.p_nombre);
+                    $('#s_nombre').val(response.data.s_nombre);
+                    $('#p_apellido').val(response.data.p_apellido);
+                    $('#s_apellido').val(response.data.s_apellido);
+
+                    $('#sexoMasculino').val(response.data.sexo);
+                    $('#sexoFemenino').val(response.data.sexo);
+
+                    $('#fechaNacimiento').val(response.data.fecha_nac);
+                    $('#numTelf').val(response.data.telefono);
+                    $('#correo').val(response.data.correo);
+                    $('#direccion_c').val(response.data.direccion);
+                    inputIds.forEach(function(id) {
+                        $("#" + id).prop("disabled", true);
+                    });
+                    /*$('s_nombre').text();
+                    $('s_nombre').text();
+                    $('s_nombre').text();*/          
+                }else{
+                    $('#p_nombre').val('');
+                    $('#s_nombre').val('');
+                    $('#p_apellido').val('');
+                    $('#s_apellido').val('');
+
+                    $('#sexoMasculino').val('');
+                    $('#sexoFemenino').val('');
+
+                    $('#fechaNacimiento').val('');
+                    $('#numTelf').val('');
+                    $('#correo').val('');
+                    $('#direccion_c').val('');
+                    Swal.fire({
+                      icon: "warning",
+                      confirmButtonColor: "#3085d6",
+                      title: response.data.message,
+                      text: response.data.info,
+                    });
+                    inputIds.forEach(function(id) {
+                        $("#" + id).prop("disabled", false);
+                    });
+                }        
+               })
+               .fail(function (error) {
+                 console.log(error);
+               });
+           }
+    });
+});
+
+
 /* --------------  Consultar Persona / Modulo consultas ------------------ */
 
 let consultar_persona_c;

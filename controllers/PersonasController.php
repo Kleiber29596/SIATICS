@@ -601,6 +601,75 @@ public function listarDatosUpdate()
 	}
 
 
+	/* Metodo para consultar persona usuario */
+
+	public function consultarPersonaUsuario()
+	{	
+		
+		$n_documento_persona = $_POST['n_documento_persona'];
+		$modelPersonas = new PersonasModel();
+		$listar = $modelPersonas->consultarPersonaUsuario($n_documento_persona);
+
+
+		foreach ($listar as $lista) {
+			$id_persona			= $lista['id_persona'];
+			$tipo_documento 	= $lista['tipo_documento'];
+			$n_documento 		= $lista['n_documento'];
+			$p_nombre 		    = $lista['p_nombre'];
+			$s_nombre  			= $lista['s_nombre'];
+			$p_apellido 		= $lista['p_apellido'];
+			$s_apellido 		= $lista['s_apellido'];
+			$telefono 			= $lista['telefono'];
+			$fecha_nac 			= $lista['fecha_nacimiento'];
+			$sexo 				= $lista['sexo'];
+			$correo 			= $lista['correo'];
+			$direccion 			= $lista['direccion'];			
+		}
+
+		//$edad_persona = obtener_edad($fecha_nac);
+			
+		if (!empty($n_documento)) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'id_persona'		   			=> $id_persona,
+					'tipo_documento'				=> $tipo_documento,
+					'n_documento_persona' 			=> $n_documento,
+					'p_nombre'						=> $p_nombre,
+					's_nombre'						=> $s_nombre,
+					'telefono'						=> $telefono,
+					'p_apellido'					=> $p_apellido,
+					's_apellido'					=> $s_apellido,
+					'fecha_nac'						=> $fecha_nac,
+					//'edad_persona'			    	=> $edad_persona,
+					'sexo'			    			=> $sexo,
+					'correo'						=> $correo,
+					'direccion'						=> $direccion
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+		}else{
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Atención!',
+					'info'               =>  'Este numero de documento no esta registrado '
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}		
+	}
+
+
 	/* Metodo para consultar persona / Modulo consulta */
 
 	public function consultarPersonaC()

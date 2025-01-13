@@ -144,70 +144,6 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                         <div class="bloque-1 active">
                             <div class="row">
                                 <h5>Datos personales</h5>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="p_nombre">Primer nombre</label>
-                                        <input class="form-control" type="text" name="p_nombre" id="p_nombre"
-                                            placeholder="Primer nombre" onkeyup="pmayus(this)" required>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="s_nombre">Segundo nombre</label>
-                                        <input class="form-control" type="text" name="s_nombre" id="s_nombre"
-                                            placeholder="Segundo nombre" onkeyup="pmayus(this)">
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="p_apellido">Primer apellido</label>
-                                        <input class="form-control" type="text" name="p_apellido" id="p_apellido"
-                                            placeholder="Primer apellido" onkeyup="pmayus(this)" required>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="s_apellido">Segundo apellido</label>
-                                        <input class="form-control" type="text" name="s_apellido" id="s_apellido"
-                                            placeholder="Segundo apellido" onkeyup="pmayus(this)">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label for="sexo">Sexo</label>
-                                        <br>
-                                        Masculino <input class="" type="radio" name="sexo" id="sexo" value="Masculino" selected>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label for="sexo"></label>
-                                        <br>
-                                        Femenino <input class="" type="radio" name="sexo" id="sexo" value="Femenino">
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                        <input class="form-control" type="date" name="fechaNacimiento"
-                                            id="fechaNacimiento" maxlength="10" oninput="validarFechaNacimiento()"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="numTelf">Numero de contacto</label>
-                                        <input class="form-control" type="text" name="numTelf" id="numTelf"
-                                            placeholder="Numero de contacto" maxlength="8" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="T_doc">Tipo</label>
@@ -222,30 +158,104 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="cedula">Numero de cedula</label>
-                                        <input class="form-control" type="text" name="cedula" id="cedula" maxlength="10"
-                                            placeholder="Ingresa el número de cédula" onkeyup="mayus(this);" required>
+                                        <input class="form-control" type="text" name="cedu" id="cedu" maxlength="10"
+                                            placeholder="Ingresa el número de cédula" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1"
+                                    style="display: flex; justify-content: flex-start; align-items: flex-end;">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary" id="citaPersona_consulta"
+                                            title="Buscar persona"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="p_nombre">Primer nombre</label>
+                                        <input class="form-control" type="text" name="p_nombre" disabled id="p_nombre"
+                                            placeholder="Primer nombre" onkeyup="pmayus(this)" required>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="s_nombre">Segundo nombre</label>
+                                        <input class="form-control" type="text" name="s_nombre" disabled id="s_nombre"
+                                            placeholder="Segundo nombre" onkeyup="pmayus(this)">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="p_apellido">Primer apellido</label>
+                                        <input class="form-control" type="text" name="p_apellido" disabled id="p_apellido"
+                                            placeholder="Primer apellido" onkeyup="pmayus(this)" required>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="s_apellido">Segundo apellido</label>
+                                        <input class="form-control" type="text" name="s_apellido" disabled id="s_apellido"
+                                            placeholder="Segundo apellido" onkeyup="pmayus(this)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="sexoMasculino">Sexo</label>
+                                        <br>
+                                        Masculino <input type="radio" name="sexo" id="sexoMasculino" value="Masculino" disabled selected>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="sexoFemenino"></label>
+                                        <br>
+                                        Femenino <input type="radio" name="sexo" id="sexoFemenino" disabled value="Femenino">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="fechaNacimiento">Fecha de nacimiento</label>
+                                        <input class="form-control" type="date" disabled name="fechaNacimiento"
+                                            id="fechaNacimiento" maxlength="10" oninput="validarFechaNacimiento()"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="numTelf">Numero de contacto</label>
+                                        <input class="form-control" type="text" name="numTelf" disabled id="numTelf"
+                                            placeholder="Numero de contacto" maxlength="8" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="correos">Correo</label>
+                                        <input class="form-control" type="email" name="correo" disabled id="correo"
+                                            maxlength="60" placeholder="Ingresa la dirección">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="correos">Correo</label>
-                                        <input class="form-control" type="email" name="correo" id="correo"
-                                            maxlength="60" placeholder="Ingresa la dirección">
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
                                         <label for="direccion_c">Dirección corta</label>
-                                        <textarea class="form-control" name="direccion_c" id="direccion_c" cols="4"
+                                        <textarea class="form-control" name="direccion_c" disabled id="direccion_c" cols="4"
                                             rows="2" placeholder="Ingresa una dirección corta" required></textarea>
                                     </div>
                                 </div>
                                 <div>
                                     <input type="hidden" name="tipo_persona" id="tipo_persona" value="usuario">
                                 </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                
                             </div>
                             <br>
                         </div>
