@@ -26,6 +26,72 @@ $('#modalAgregarHistoriaMedica').on('shown.bs.modal', function() {
   });
 });
 
+// function mostarModal(name) {
+  
+//   $("#modalAgregarConsulta").modal("show");
+
+
+//   // Ejemplo de uso:
+//   const elementosConClase = document.getElementsByClassName('modal-backdrop fade show');
+
+//   // Iterar sobre los elementos encontrados:
+//   for (let i = 0; i < elementosConClase.length; i++) {
+//   console.log(elementosConClase[i]); // Imprime cada elemento
+//   elementosConClase[i].style.display = "block"; // Modifica el texto de cada elemento
+//   }
+
+//   }
+
+// function cerrarModalConsulta() {
+//   $("#modalAgregarConsulta").modal("hide");
+
+
+//   // Ejemplo de uso:
+//   const elementosConClase = document.getElementsByClassName('modal-backdrop fade show');
+
+//   // Iterar sobre los elementos encontrados:
+//   for (let i = 0; i < elementosConClase.length; i++) {
+//   console.log(elementosConClase[i]); // Imprime cada elemento
+//   elementosConClase[i].style.display = "none"; // Modifica el texto de cada elemento
+//   }
+
+//   }
+
+function gestionarModal(modalId, accion = 'mostrar') {
+  const modal = $(`#${modalId}`);
+
+  if (!modal.length) { 
+    console.error(`Modal con ID "${modalId}" no encontrado.`);
+    return;
+  }
+
+  if (accion === 'mostrar') {
+    modal.modal('show');
+
+    const elementosConClase = document.getElementsByClassName('modal-backdrop fade show');
+
+
+    for (let i = 0; i < elementosConClase.length; i++) {
+      console.log(elementosConClase[i]); 
+      elementosConClase[i].style.display = "block"; 
+    }
+  } else if (accion === 'ocultar' || accion === 'cerrar') {
+    modal.modal('hide');
+
+    const elementosConClase = document.getElementsByClassName('modal-backdrop fade show');
+
+ 
+    for (let i = 0; i < elementosConClase.length; i++) {
+      console.log(elementosConClase[i]);
+      elementosConClase[i].style.display = "none";
+    }
+  } else {
+    console.error(`Acción "${accion}" no válida. Use 'mostrar' u 'ocultar'.`);
+  }
+
+
+}
+
 
 /* -------------- Citas / Caledario ------------------ */
 
@@ -4688,7 +4754,9 @@ const confirmMessage = `
             let contenedor = document.getElementById("contenedor_datos_medicamentos");
             contenedor.setAttribute("style", "display: none;");
   
-            $("#modalAgregarConsulta").modal("hide");
+            //$("#modalAgregarConsulta").modal("hide");
+
+           gestionarModal('modalAgregarConsulta', 'ocultar');
   
             Swal.fire({
               icon: "success",

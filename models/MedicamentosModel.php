@@ -145,7 +145,7 @@ public function removerMedicamento($id) {
 public function listarMedicamentosTemporales() {
 	$db = new ModeloBase();
 	$query = "SELECT * FROM  tbl_temporal_medicamentos";
-	$resultado = $db->obtenerTodos($query);
+	$resultado = $db->FectAssoc($query);
 	return $resultado;
 }
 
