@@ -80,7 +80,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                 <div class="card-body">
                     <p></p>
                     <!-- Button trigger modal  -->
-                    <button title="Agregar Consulta" class="btn btn-primary" data-bs-toggle="modal"
+                    <button onclick="gestionarModal('modalAgregarConsulta', 'mostrar')" title="Agregar Consulta" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#modalAgregarConsulta">
                         <i class="fas fa-plus"></i>
                     </button>
@@ -117,7 +117,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
             <div class="modal-header">
                 <h5 class="modal-title" id="modalAgregarConsultasLabel">Agregar Consulta <i
                         class="bi bi-clipboard-check"></i></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button onclick="gestionarModal('modalAgregarConsulta', 'ocultar')"  type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -842,6 +842,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
+
+
 </script>
 
 <?php

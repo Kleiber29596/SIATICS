@@ -34,7 +34,7 @@ public function listarConsultas()
 		// DB table to use 
 		$table = <<<EOT
         (
-		SELECT DISTINCT c.id_consulta, c.id_tipo_consulta, c.id_persona, DATE_FORMAT(c.fecha_registro, '%d/%m/%Y') AS fecha_registro, c.edad, t.codigo, t.motivo,  CONCAT(p.tipo_documento, '-', p.n_documento) AS documento, CONCAT(p.p_nombre, ' ', p.s_nombre, ' ', p.p_apellido, ' ', p.s_apellido) AS nombre_apellido,  e.modalidad FROM consultas c INNER JOIN tipo_consulta t ON c.id_tipo_consulta = t.id_tipo_consulta
+		SELECT DISTINCT c.id_consulta, c.id_tipo_consulta, c.id_persona, c.fecha_registro, c.edad, t.codigo, t.motivo,  CONCAT(p.tipo_documento, '-', p.n_documento) AS documento, CONCAT(p.p_nombre, ' ', p.s_nombre, ' ', p.p_apellido, ' ', p.s_apellido) AS nombre_apellido,  e.modalidad FROM consultas c INNER JOIN tipo_consulta t ON c.id_tipo_consulta = t.id_tipo_consulta
 INNER JOIN personas p ON c.id_persona = p.id_persona
 INNER JOIN especialidad e ON c.id_especialidad = e.id_especialidad
 ORDER BY c.id_consulta DESC
@@ -93,35 +93,38 @@ EOT;
 						/*datos intermedia */
 		//REGISTRAR ESTUDIOS
 		$medicamentos = $modelMedicamentos->listarMedicamentosTemporales();
-		foreach($medicamentos as $medicamento)
-		{
 
-			$id_medicamento 	    = $medicamento['id_presentacion_medicamento'];
-			$dosis 	   				= $medicamento['dosis'];
-			$unidad_medida 	   	    = $medicamento['unidad_medida'];
-			$frecuencia 	   	    = $medicamento['frecuencia'];
-			$cantidad 	   	    	= $medicamento['cantidad'];
-			$intervalo 	   	    	= $medicamento['intervalo'];
+		if(!empty($medicamentos)){
+			foreach($medicamentos as $medicamento)
+			{
+				$id_medicamento 	    = $medicamento['id_presentacion_medicamento'];
+				$dosis 	   				= $medicamento['dosis'];
+				$unidad_medida 	   	    = $medicamento['unidad_medida'];
+				$frecuencia 	   	    = $medicamento['frecuencia'];
+				$cantidad 	   	    	= $medicamento['cantidad'];
+				$intervalo 	   	    	= $medicamento['intervalo'];
+			}
+
+			$datos_intermedia= array(
+				'id_presentacion_medicamento' => $id_medicamento,
+				'id_recipe' 				  => $id_recipe,
+				'dosis' 			  		  => $dosis,
+				'unidad_medida' 			  => $unidad_medida,
+				'frecuencia' 			  	  => $frecuencia ,
+				'cantidad' 			  		  => $cantidad,
+				'intervalo' 			      => $intervalo,
+				'fecha_registro'			  => $fecha_registro
+			);
+
+			$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
+			
 		}
 			
-		$datos_intermedia= array(
-			'id_presentacion_medicamento' => $id_medicamento,
-			'id_recipe' 				  => $id_recipe,
-			'dosis' 			  		  => $dosis,
-			'unidad_medida' 			  => $unidad_medida,
-			'frecuencia' 			  	  => $frecuencia ,
-			'cantidad' 			  		  => $cantidad,
-			'intervalo' 			      => $intervalo,
-			'fecha_registro'			  => $fecha_registro
-		);
-		$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
 		$peso   = $_POST['peso'];
 		$altura = $_POST['altura'];
 		$id_cita = $_POST['id_cita_agendada'];
-		// var_dump($id_cita);
-		
 
-						/*datos de la consulta*/
+		/*datos de la consulta*/
 		$datos_consulta = array(
 			'id_persona'         	=> $_POST['id_persona'],
 			'id_tipo_consulta'  	=> $_POST['tipo_consulta'],
