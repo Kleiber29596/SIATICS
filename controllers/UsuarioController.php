@@ -230,7 +230,8 @@ EOT;
 				$miObjeto->correo = $data->correo;
 				$miObjeto->direccion_c = $data->direccion_c;
 				$miObjeto->tipo_persona = $data->tipo_persona;
-
+				
+				
 				//Datos de horario//
 				$miObjeto->horarios = $data->horarios; //viene en arreglo
 				
@@ -240,7 +241,7 @@ EOT;
 				$miObjeto->rol = $data->rol;
 				$miObjeto->especialidad = $data->especialidad;
 				$miObjeto->archivo = $data->archivo;
-
+			
 				$miArreglo = (array) $miObjeto;
 
 				$datosPersona = [];

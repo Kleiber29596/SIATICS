@@ -208,14 +208,14 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                     <div class="form-group">
                                         <label for="sexoMasculino">Sexo</label>
                                         <br>
-                                        Masculino <input type="radio" name="sexo" id="sexoMasculino" value="Masculino" disabled>
+                                        Masculino <input type="radio" name="sexo"  value="Masculino" >
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="sexoFemenino"></label>
                                         <br>
-                                        Femenino <input type="radio" name="sexo" id="sexoFemenino" value="Femenino" disabled>
+                                        Femenino <input type="radio" name="sexo"  value="Femenino" >
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -230,7 +230,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                     <div class="form-group">
                                         <label for="numTelf">Numero de contacto</label>
                                         <input class="form-control" type="text" name="numTelf" disabled id="numTelf"
-                                            placeholder="Numero de contacto" maxlength="8" required>
+                                            placeholder="Número de contacto" maxlength="11" required>
                                     </div>
                                 </div>
                             </div>
@@ -338,9 +338,11 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="rol">Roll</label>
+                                        <label for="rol">Rol</label>
                                         <select class="form-control" name="rol" id="rol">
                                             <option value="3" selected disabled>Doctor/a</option>
+                                            <option value="4" selected disabled>Recepcionista</option>
+                                            <option value="4" selected disabled>RRHH</option>                         
                                         </select>
                                     </div>
                                 </div>

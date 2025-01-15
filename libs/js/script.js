@@ -950,14 +950,16 @@ if (document.getElementById("agregar_usuario")) {
         let archivo = document.getElementById("subirfoto2").value;
         
         var sexo = document.getElementsByName("sexo");
-        var sexoSeleccionado = ""; // Inicializa la variable
-
-        for (var i = 0; i < sexo.length; i++) {
-            if (sexo[i].checked) {
-                sexoSeleccionado = sexo[i].value; // Obtén el valor del radio button seleccionado
-                break; // Salir del bucle una vez que encuentres el seleccionado
-            }
+        
+        for (let i = 0; i < sexo.length; i++) {
+          if (sexo[i].checked) {
+            // Si el radio está seleccionado, obtener su valor
+            var sexoSeleccionado = sexo[i].value;
+            console.log("El sexo seleccionado es:", sexoSeleccionado);
+            break;
+          }
         }
+       
 
         let horarios = [];
 
@@ -997,7 +999,7 @@ if (document.getElementById("agregar_usuario")) {
 
         console.log(datosFormUsuario);
         
-       /* if (contrasena != confirmar_contrasena) {
+       if (contrasena != confirmar_contrasena) {
           Swal.fire({
             icon: "error",
             title: "Atención",
@@ -1038,7 +1040,7 @@ if (document.getElementById("agregar_usuario")) {
                 confirmButtonColor: "#3085d6",
               });
           });
-        }*/
+        }
     }
 }
 
