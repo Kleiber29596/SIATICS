@@ -4042,58 +4042,6 @@ function listarDatosMedicamento(id) {
 
 
 
-$(document).ready(function () {
-  $("#tabla_consultas").DataTable({
-    order: [[0, "DESC"]],
-    procesing: true,
-    serverSide: true,
-    ajax: "http://127.0.0.1/sigeser/index.php?page=listarConsultas",
-    pageLength: 10,
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 4,
-        render: function (data, type, row, meta) {
-          let botones =
-            `
-                    <button type="button" class="btn btn-primary btn-sm" onclick="VerDatosPersona(` +
-            row[5] +
-            `)"><i class="fas fa-eye"></i></button>&nbsp;
-    
-                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosPersona(` +
-            row[5] +
-            `)"><i class="fas fa-edit"></i></button>&nbsp;
-
-            <a href="index.php?page="imprimirRecipe"?id=`+row[5]+`" class="btn btn-secondary btn-sm"><i
-            class="fas fa-print"></i></a>&nbsp;
-     `;
-          return botones;
-        },
-      },
-    ],
-    dom: "Bfrtip",
-    language: {
-      decimal: "",
-      emptyTable: "No hay información",
-      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
-      infoFiltered: "(Filtrado de _MAX_ total entradas)",
-      infoPostFix: "",
-      thousands: ",",
-      lengthMenu: "Mostrar _MENU_ Entradas",
-      loadingRecords: "Cargando...",
-      processing: "Procesando...",
-      search: "Buscar:",
-      zeroRecords: "Sin resultados encontrados",
-      paginate: {
-        first: "Primero",
-        last: "Ultimo",
-        next: "Siguiente",
-        previous: "Anterior",
-      },
-    },
-  });
-});
 
 function listarDatosPersona(id) {
   let id_persona = id;
@@ -5308,20 +5256,20 @@ function listarDatosConsulta(id) {
                 cont_elemento.appendChild(td_accion_borrar);
           
           
-                //Boton Modificar
-                var btn_update = document.createElement("button");
-                btn_update.setAttribute("class", "btn btn-warning btn-sm");
-                btn_update.setAttribute("title", "Modificar");
-                btn_update.setAttribute("type", "button");
-                btn_update.setAttribute(
-                  "onclick",
-                  "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
-                );
-                btn_update.setAttribute(
-                  "style",
-                  "background:#ffc107; color: #FFF; margin-left: 10px;"
-                );
-                td_accion_borrar.appendChild(btn_update);
+                // //Boton Modificar
+                // var btn_update = document.createElement("button");
+                // btn_update.setAttribute("class", "btn btn-warning btn-sm");
+                // btn_update.setAttribute("title", "Modificar");
+                // btn_update.setAttribute("type", "button");
+                // btn_update.setAttribute(
+                //   "onclick",
+                //   "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
+                // );
+                // btn_update.setAttribute(
+                //   "style",
+                //   "background:#ffc107; color: #FFF; margin-left: 10px;"
+                // );
+                // td_accion_borrar.appendChild(btn_update);
           
                 //Boton suspender
                 var btn_suspender = document.createElement("button");
@@ -5343,11 +5291,11 @@ function listarDatosConsulta(id) {
                 td_accion_borrar.appendChild(btn_suspender);
                 
           
-                //Icono del boton modificar
-                var icono_btn_update = document.createElement("i");
-                icono_btn_update.setAttribute("class", "fas fa-edit");
-                icono_btn_update.setAttribute("data-id", "");
-                btn_update.appendChild(icono_btn_update);
+                // //Icono del boton modificar
+                // var icono_btn_update = document.createElement("i");
+                // icono_btn_update.setAttribute("class", "fas fa-edit");
+                // icono_btn_update.setAttribute("data-id", "");
+                // btn_update.appendChild(icono_btn_update);
           
                 //Icono del boton suspender
                 var icono_btn_suspender = document.createElement("i");
@@ -5554,20 +5502,20 @@ function suspenderTratamiento() {
             cont_elemento.appendChild(td_accion_borrar);
       
       
-            //Boton Modificar
-            var btn_update = document.createElement("button");
-            btn_update.setAttribute("class", "btn btn-warning btn-sm");
-            btn_update.setAttribute("title", "Modificar");
-            btn_update.setAttribute("type", "button");
-            btn_update.setAttribute(
-              "onclick",
-              "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
-            );
-            btn_update.setAttribute(
-              "style",
-              "background:#ffc107; color: #FFF; margin-left: 10px;"
-            );
-            td_accion_borrar.appendChild(btn_update);
+            // //Boton Modificar
+            // var btn_update = document.createElement("button");
+            // btn_update.setAttribute("class", "btn btn-warning btn-sm");
+            // btn_update.setAttribute("title", "Modificar");
+            // btn_update.setAttribute("type", "button");
+            // btn_update.setAttribute(
+            //   "onclick",
+            //   "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
+            // );
+            // btn_update.setAttribute(
+            //   "style",
+            //   "background:#ffc107; color: #FFF; margin-left: 10px;"
+            // );
+            // td_accion_borrar.appendChild(btn_update);
       
             //Boton suspender
             var btn_suspender = document.createElement("button");
@@ -5588,11 +5536,11 @@ function suspenderTratamiento() {
             td_accion_borrar.appendChild(btn_suspender);
             
       
-            //Icono del boton modificar
-            var icono_btn_update = document.createElement("i");
-            icono_btn_update.setAttribute("class", "fas fa-edit");
-            icono_btn_update.setAttribute("data-id", "");
-            btn_update.appendChild(icono_btn_update);
+            // //Icono del boton modificar
+            // var icono_btn_update = document.createElement("i");
+            // icono_btn_update.setAttribute("class", "fas fa-edit");
+            // icono_btn_update.setAttribute("data-id", "");
+            // btn_update.appendChild(icono_btn_update);
       
             //Icono del boton suspender
             var icono_btn_suspender = document.createElement("i");
@@ -5977,6 +5925,8 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
         .done(function (response) {
   
           if (response.data.success == true) {
+
+            document.getElementById("formActualizarConsultas").reset();
   
             Swal.fire({
               icon: "success",
@@ -5985,12 +5935,11 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
               text: response.data.info,
             });
               
-            $("#modalActualizarConsultas").modal("show");
+            $("#modalActualizarConsultas").modal("hide")
+
+          $("#tbl_consultas").DataTable().ajax.reload();
           } else {
-            document
-              .getElementById("cont-loader")
-              .setAttribute("style", "display:none;");
-  
+
             Swal.fire({
               icon: "error",
               confirmButtonColor: "#3085d6",
@@ -6000,10 +5949,7 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
           }
         })
         .fail(function () {
-          document
-            .getElementById("cont-loader")
-            .setAttribute("style", "display:none;");
-  
+        
           console.log("error");
         });
     }
@@ -6315,7 +6261,7 @@ if (
             title: response.data.message,
             text: response.data.info,
           });
-
+          
           $("#tbl_medicamentos").DataTable().ajax.reload();
         } else {
           Swal.fire({

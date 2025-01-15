@@ -144,7 +144,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             ">
                     <p>Datos del paciente</p>
                     <p>Datos de la consulta</p>
-                    <p>Receta medica</p>
+                    <p>Receta médica</p>
                 </div>
                 <form action="" id="formRegistrarConsultas" -->
                     <div id="registroForm">
@@ -169,7 +169,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                             placeholder="número de documento...">
                                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                     </div>
-                                    <p class="formulario__input-error">El numero de documento debe contener solo numeros
+                                    <p class="formulario__input-error">El número de documento debe contener solo numeros
                                         y
                                         un
                                         mínimo de 7
@@ -276,8 +276,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                 <!-- Campo para la altura del paciente -->
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label for="altura">Altura (cm)</label>
-                                        <input class="form-control" type="number" id="altura" name="altura" min="1"
+                                        <label for="altura">Altura (m)</label>
+                                        <input class="form-control" type="number" step="0.01" id="altura" name="altura" min="1"
                                             placeholder="Ingrese la altura">
                                     </div>
                                 </div>
@@ -489,7 +489,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="" id="formActualizarConsultas">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -533,8 +533,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         <!-- Campo para la altura del paciente -->
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label for="altura">Altura (cm)</label>
-                                <input class="form-control" type="float" id="update_altura" name="altura "
+                                <label for="altura">Altura (m)</label>
+                                <input class="form-control" type="number" step="0.01" id="update_altura" name="altura "
                                     placeholder="Ingrese la altura">
                             </div>
                         </div>
@@ -554,7 +554,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="instrucciones">Diagnóstico</label>
-                                <textarea class="form-control" id="update_diagnostico" name="diagnostico" rows="3"
+                                <textarea class="form-control" id="update_diagnostico" name="update_diagnostico" rows="3"
                                     placeholder="Ingrese el diagnóstico"></textarea>
                             </div>
 

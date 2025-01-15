@@ -1,11 +1,41 @@
 <?php
 
+function obtener_edad($fecha_nacimiento)
+{
+    // Validación: la fecha de nacimiento debe ser menor o igual a la fecha actual
+    $fecha_nacimiento_obj = new DateTime($fecha_nacimiento);
+    $hoy = new DateTime();
+
+    if ($fecha_nacimiento_obj > $hoy) {
+        return "Fecha de nacimiento inválida: no puede ser posterior a la fecha actual.";
+    }
+
+    // Si la fecha es válida, procedemos con el cálculo de la edad
+    $diferencia = $hoy->diff($fecha_nacimiento_obj);
+    return $diferencia->format("%y");
+}
+
 $id = intval($_GET['id']);
+
 
 $objeto = new ConsultasController();
 
 $recetas = $objeto->datosReceta($id);
 $medicamentos = $objeto->datosReceta($id);
+
+
+foreach ($recetas as $receta) {
+    $paciente = $receta['paciente'];
+    $cedula = $receta['ciPaciente'];
+    $edad = $receta['edad'];
+    $doctor = $receta['autor'];
+    $ciDoctor = $receta['ciDoctor'];
+    $fecha_nacimiento = $receta['fecha_nacimiento'];
+    // $mpps = $receta['mpps'];
+}
+
+$edad = obtener_edad($fecha_nacimiento);
+
 
 ?>
 
@@ -22,154 +52,127 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Médico</title>
-    <link rel="stylesheet" href="libs/css/sb-admin-2.min.css">
+    <link rel="stylesheet" href="<?= SERVERURL?>libs/css/sb-admin-2.min.css">
 </head>
 
 <body>
-    <style>
-    body {
-        font-family: arial;
-        color: #333;
+    <!DOCTYPE html>
+    <html lang="es">
 
-    }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Recipe Médico</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-    table {
-        border: solid 1px #000;
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 100%;
-    }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
 
-    tr {
-        border: solid 1px #000;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    td {
-        border: solid 1px #000;
-        font-size: 16px;
-        padding: 10px;
-    }
+        .header img {
+            max-width: 150px;
+        }
 
-    th {
-        border: solid 1px #000;
-        font-size: 16px;
-        padding: 5px;
-    }
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
 
-    .btn-success {
-        background-color: #48C9B0;
-        color: #FFF;
-        border: none;
-        padding: 5px;
-        border-radius: 5px;
-    }
+        .patient-info,
+        .footer {
+            margin-top: 20px;
+        }
 
-    .btn-danger {
-        background-color: #E74C3C;
-        color: #FFF;
-        border: none;
-        padding: 5px;
-        border-radius: 5px;
-    }
-    </style>
+        .patient-info table,
+        .footer table {
+            width: 30%;
+        }
 
-    <!-- Banner
-    <div class="container" style="margin-top: 20px;">
-        <table style="border: 0px">
-            <tr style="border: 0px">
-                <th rowspan="2" style="border: 0px">
-                    <img style="width: 100%; margin-top: 5px; float: left;" src="<?= SERVERURL ?>libs/img/cintillo1.png"
-                        alt="">
-                </th>
-            </tr>
-            <tr style="border: 0px">
-                <th style="border: 0px"></th>
-            </tr>
-        </table><br><br>
-    </div><br><br><br>
- -->
-    <?php
-				foreach ($recetas as $receta){
-                    $autor      = $receta['autor'];
-                    $paciente   = $receta['paciente'];
-                }
-                    
-					?>
+        .patient-info th,
+        .footer th {
+            text-align: left;
+            padding: 5px;
+        }
 
-    <div class="container">
-        <table style="background:#e2e3e5;">
-            <thead>
-                <tr style="border: 0px">
-                    <th style="text-align: left;">
-                        <p style="margin: 0px;">Fecha: <?php echo date("d/m/Y") ?></p>
-                    </th>
-                    <th style="text-align: left;">
-                        <p style="margin: 0px;">Hora: <?php echo date("h:i a") ?></p>
-                    </th>
-                </tr>
-                <tr style="border: 0px">
-                    <th style="text-align: left;">
-                        <p style="margin: 0px;">Doctor: <?php echo $autor ?></p>
-                    </th>
-                    <th style="text-align: left;">
-                        <p style="margin: 0px;">Paciente: <?php echo $paciente ?></p>
-                    </th>
-                </tr>
+        .indications {
+            margin: 20px 0;
+            border: 1px solid #000;
+            height: 200px;
+        }
 
-            </thead>
-        </table>
-    </div><br>
+        .footer p {
+            font-size: 12px;
+        }
+        </style>
+    </head>
 
-    <!-- Encabezado -->
-    <div class="container" style="margin-bottom: 20px;">
-        <h2 style="text-align: center; border:none;">Receta médica</h2>
-    </div><br>
+    <body>
+        <div class="container">
+            <div class="header">
+                <img src="<?= SERVERURL?>libs/img/siatics2.png" alt="Logo Cáritas">
+            </div>
 
-    <table class="table table-bordered" style="background:#e2e3e5;">
-        <tr>
-            <th>Medicamento</th>
-            <th>Dosis</th>
-            <th>Frecuencia</th>
-            <th>Duracion</th>
-        </tr>
+            <div class="patient-info">
+                <table>
+                    <tr>
+                        <th>Paciente:</th>
+                        <td><?= $paciente; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Cédula:</th>
+                        <td><?= $cedula; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Edad:</th>
+                        <td><?= $edad; ?></td>
+                    </tr>
+                </table>
+            </div>
 
-        <?php
-			if(!empty($medicamentos)){
-				foreach ($medicamentos as $m){
-                    $instrucciones = $m['instrucciones'];
-                    
-					?>
-        <tr>
-            <td><?=$m['nombre_medicamento']." ".$m['presentacion'];?></td>
-            <td><?=
-            $m['dosis']." ".$m['unidad_medida'];?></td>
-            <td><?='cada '.$m['frecuencia'].' horas';?></td>
-            <td><?='por '.$m['duracion'];?></td>
-        </tr>
-        <?php
-				}
-			}
-			
-			?>
-    </table>
-    <br>
-    <table style="background:#e2e3e5;">
-        <thead>
-            <tr>
-                <th>Intrucciones adicionales</th>
-            </tr>
+            <div class="indications" style="text-align:left;">
+                <?php foreach ($medicamentos as $m) { ?>
+                <p style="margin: left 4px;"> <?= $m['nombre_medicamento'].' '.$m['dosis'].' '.$m['unidad_medida'].' cada '.$m['frecuencia'].' por '.$m['duracion'] ;?></p>
 
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <p><?=$instrucciones;?></p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                <?php } ?>       
+            </div>
 
-    <p>
+            <div class="footer">
+                <table>
+                    <tr>
+                        <th>Doctor(a):</th>
+                        <td><?php echo $doctor; ?></td>
+                    </tr>
+                    <tr>
+                        <th>CI:</th>
+                        <td><?php echo $ciDoctor; ?></td>
+                    </tr>
+                    <tr>
+                        <th>MPPS:</th>
+                        <td><?php echo $mpps; ?></td>
+                    </tr>
+                </table>
+                <p>* Un plato saludable es indicación de una alimentación balanceada. Las frutas y vegetales crudos son
+                    salud. ¡Que no falten en tu comida!</p>
+            </div>
+        </div>
+    </body>
+
+    </html>
+
 
 </body>
 

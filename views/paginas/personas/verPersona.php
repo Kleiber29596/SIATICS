@@ -60,7 +60,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     foreach ($datos_personas as $datos_personas) { 
         $id_persona                 = $datos_personas['id_persona']; 
         $n_documento                = $datos_personas['n_documento']; 
-        $tipo_documento             = $datos_personas['direccion']; 
+        $tipo_documento             = $datos_personas['tipo_documento']; 
         $documento                  = $datos_personas['n_documento']; 
         $nombre_apellido            = $datos_personas['nombres_apellidos']; 
         $fecha_nacimiento           = $datos_personas['fecha_nacimiento'];
@@ -189,7 +189,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                             </thead>
                                             <tbody>
                                                 <tr class="table-primary">
-                                                    <td><?= $documento ?></td>
+                                                    <td><?= $tipo_documento.''.$documento ?></td>
                                                     <td><?= $nombre_apellido ?></td>
                                                     <td><?= $sexo ?></td>
                                                     <td><?= $telefono ?></td>
@@ -378,19 +378,19 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                                                             <tr class="table-success">
                                                                 <td>
-                                                                    <?php echo $h['fecha_registro'] ?>
+                                                                    <?=  $h['fecha_registro'] ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $h['nombre_especialidad'] ?>
+                                                                    <?= $h['nombre_especialidad'] ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $h['especialista'] ?>
+                                                                    <?= $h['especialista'] ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $h['motivo'] ?>
+                                                                    <?= $h['motivo'] ?>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="index.php?page=imprimirRecipe&amp;id=<?php echo $h['id_consulta']?>"
+                                                                    <a href="index.php?page=imprimirRecipe&amp;id=<?= $h['id_consulta']?>"
                                                                         target="_blank" class="btn btn-danger btn-sm"><i
                                                                             class="fas fa-print"></i></a>&nbsp
                                                                 </td>

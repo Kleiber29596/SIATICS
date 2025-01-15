@@ -36,9 +36,14 @@ public function consultarReceta($id_consulta) {
     $db = new ModeloBase();
     $query = "SELECT 
     c.id_consulta, 
-    c.id AS id_autor, 
+    c.id AS id_autor,
+	c.diagnostico,
+	c.peso,
+	c.altura,
+	c.presion_arterial,
+	c.id_tipo_consulta, 
     u.id_Persona, 
-    CONCAT(e.p_nombre, ' ', e.p_apellido) AS autor, 
+    CONCAT(e.p_nombre, ' ', e.p_apellido) AS autor,  CONCAT(e.tipo_documento,' ', e.n_documento) AS ciDoctor,
     r.instrucciones, 
     re_me.id_presentacion_medicamento, 
     re_me.dosis, 
@@ -50,7 +55,7 @@ public function consultarReceta($id_consulta) {
     m.nombre_medicamento, 
     p.presentacion, 
     c.id_persona, 
-    CONCAT(pa.p_nombre, ' ', pa.p_apellido) AS paciente
+    CONCAT(pa.p_nombre, ' ', pa.p_apellido) AS paciente, CONCAT(pa.tipo_documento,' ',pa.n_documento) AS ciPaciente, pa.fecha_nacimiento
 FROM 
     consultas AS c 
 INNER JOIN recipes AS r ON c.id_recipe = r.id_recipe 
@@ -60,7 +65,7 @@ INNER JOIN medicamentos AS m ON pre_me.id_medicamento = m.id_medicamento
 INNER JOIN presentacion AS p ON pre_me.id_presentacion = p.id_presentacion 
 INNER JOIN usuario AS u ON c.id = u.id 
 LEFT JOIN personas AS e ON u.id_Persona = e.id_persona 
-LEFT JOIN personas AS pa ON c.id_persona = pa.id_persona 
+LEFT JOIN personas AS pa ON c.id_persona = pa.id_persona LEFT JOIN tipo_consulta AS tipo_c ON c.id_tipo_consulta = tipo_c.id_tipo_consulta
 WHERE c.id_consulta = ".$id_consulta."";
     $resultado = $db->obtenerTodos($query);
     return $resultado;

@@ -94,7 +94,10 @@ EOT;
 		//REGISTRAR ESTUDIOS
 		$medicamentos = $modelMedicamentos->listarMedicamentosTemporales();
 
+		//var_dump($medicamentos); die();
+
 		if(!empty($medicamentos)){
+
 			foreach($medicamentos as $medicamento)
 			{
 				$id_medicamento 	    = $medicamento['id_presentacion_medicamento'];
@@ -113,7 +116,8 @@ EOT;
 				'frecuencia' 			  	  => $frecuencia ,
 				'cantidad' 			  		  => $cantidad,
 				'intervalo' 			      => $intervalo,
-				'fecha_registro'			  => $fecha_registro
+				'fecha_registro'			  => $fecha_registro,
+				'estatus' 					  => 1
 			);
 
 			$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
@@ -365,7 +369,8 @@ EOT;
 			'id_tipo_consulta'         	            => $_POST['update_tipo_consulta'],
 			'peso'							        => $_POST['update_peso'],
 			'altura'							    => $_POST['update_altura'],
-			'presion_arterial'				        => $_POST['update_presion_arterial']
+			'presion_arterial'				        => $_POST['update_presion_arterial'],
+			'diagnostico'					        => $_POST['update_diagnostico'],
 		
 		);
 		
