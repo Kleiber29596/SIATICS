@@ -57,41 +57,52 @@ class UsuarioController
 			
 		}
 
-		$verificacion = password_verify($contrasena, $hash);
-		
-		
+		if (!empty($id_bd)) {
+			$verificacion = password_verify($contrasena, $hash);
+			if ($verificacion) {
 
-		if ($verificacion) {
+				session_start();
 
-			session_start();
-
-			$_SESSION['user_id'] 			= $id_bd;
-			$_SESSION['usuario'] 			= $usuario_bd;
-			$_SESSION['tipo_persona'] 		= $tipo_persona;
-			$_SESSION['foto'] 				= $foto_bd;
-			$_SESSION['rol_usuario'] 		= $rol_bd;
-			$_SESSION['id_especialidad']	= $id_especialidad;
-			$_SESSION['id_doctor']			= $id_doctor;
-			$_SESSION['nombre_user'] 		= $nombre_bd;
-			$_SESSION['apellido_user'] 		= $apellido_bd;
-			$_SESSION['estatus_usuario'] 	= $estatus;
-
-		
+				$_SESSION['user_id'] 			= $id_bd;
+				$_SESSION['usuario'] 			= $usuario_bd;
+				$_SESSION['tipo_persona'] 		= $tipo_persona;
+				$_SESSION['foto'] 				= $foto_bd;
+				$_SESSION['rol_usuario'] 		= $rol_bd;
+				$_SESSION['id_especialidad']	= $id_especialidad;
+				$_SESSION['id_doctor']			= $id_doctor;
+				$_SESSION['nombre_user'] 		= $nombre_bd;
+				$_SESSION['apellido_user'] 		= $apellido_bd;
+				$_SESSION['estatus_usuario'] 	= $estatus;
 
 			
-			$data = [
-				'data' => [
-					'success'            =>  true,
-					'message'            => 'Usuario encontrado',
-					'info'               =>  ''
-				],
-				'code' => 1,
-			];
 
-			echo json_encode($data);
-			exit();
-		} else {
+				
+				$data = [
+					'data' => [
+						'success'            =>  true,
+						'message'            => 'Usuario encontrado',
+						'info'               =>  ''
+					],
+					'code' => 1,
+				];
 
+				echo json_encode($data);
+				exit();
+			} else {
+
+				$data = [
+					'data' => [
+						'success'            =>  false,
+						'message'            => 'Nombre de usuario o contraseña incorrectos',
+						'info'               =>  'En caso de no estar registrado deberás comunicarte con el administrador para el registro respectivo.'
+					],
+					'code' => 0,
+				];
+
+				echo json_encode($data);
+				exit();
+			}
+		}else{
 			$data = [
 				'data' => [
 					'success'            =>  false,

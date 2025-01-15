@@ -199,6 +199,13 @@ public function listarMedicamentos($id_historia_medica) {
 	    return $resultado;
 	}
 
+	public function consultarPersonaUsuario($n_documento) {
+	    $db = new ModeloBase();
+	    $query = "SELECT p.id_persona, p.tipo_documento, p.n_documento, p.p_nombre, p.s_nombre, p.p_apellido, p.s_apellido, p.fecha_nacimiento, p.sexo, p.telefono, p.correo, p.direccion FROM personas p WHERE n_documento = '$n_documento'";
+	    $resultado = $db->obtenerTodos($query);
+	    return $resultado;
+	}
+
 	/*------ Metodo para consultar persona / Modulo consulta -------*/
 	
 	public function consultarPersonaC($n_documento) {
