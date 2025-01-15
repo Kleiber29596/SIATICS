@@ -23,10 +23,10 @@ function iniciarSesion(e)
         }
     })
     .done(function(response) {
+
         if (response.data.success == true) 
         {
             
-
             Swal.fire({
                 icon: 'success',
                 confirmButtonColor: '#3085d6',
@@ -47,8 +47,8 @@ function iniciarSesion(e)
             });
         }
     })
-    .fail(function() {
-        console.log("error");
+    .fail(function(e) {
+        console.log(e);
     });
 }
 }
