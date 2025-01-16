@@ -699,13 +699,13 @@ function obtenerDatosTabla(tabla) {
 }
 
 /* Loader */
-$(document).ready(function () {
-  setTimeout(() => {
-    document
-      .getElementById("cont-loader")
-      .setAttribute("style", "display:none;");
-  }, "1000");
-});
+// $(document).ready(function () {
+//   setTimeout(() => {
+//     document
+//       .getElementById("cont-loader")
+//       .setAttribute("style", "display:none;");
+//   }, "1000");
+// });
 
 /* -------------- Modulo Usuario ------------------ */
 
@@ -2386,6 +2386,17 @@ if (agregar_persona) {
     let tipo_persona      = document.getElementById("tipo_persona").value;
     let fecha_nac         = document.getElementById("fecha_nac").value;
 
+    var sexoP = document.getElementsByName("sexo");
+        
+        for (let i = 0; i < sexoP.length; i++) {
+          if (sexoP[i].checked) {
+            // Si el radio está seleccionado, obtener su valor
+            var sexoSeleccionadoP = sexoP[i].value;
+            console.log("El sexo seleccionado es:", sexoSeleccionadoP);
+            break;
+          }
+        }
+
 
 
     $.ajax({
@@ -2403,7 +2414,7 @@ if (agregar_persona) {
         n_documento: n_documento,
         telefono: telefono,
         fecha_nac: fecha_nac,
-        sexo: sexo,
+        sexo: sexoSeleccionadoP,
         correo: correo,
         direccion: direccion,
         tipo_persona: tipo_persona,
@@ -2412,10 +2423,14 @@ if (agregar_persona) {
     })
       .done(function (response) {
         if (response.data.success == true) {
+
+           // $("#modalAgregarPersona").modal("hide");
+           gestionarModal('modalAgregarPersona', 'ocultar');
+           document.getElementById("formRegistrarPersona").reset(); 
       
           const limpiarEstilosValidacion = () => {
             // Listado de los campos a los que se les quiere quitar los estilos de validación
-            const campos = ['primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'direccion', 'telefono', 'tipo_documento' ];
+            const campos = ['primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'direccion', 'telefono', 'tipo_documento','n_documento','correo','fecha_nac' ];
         
             campos.forEach(campo => {
                 const grupo = document.getElementById(`grupo_${campo}`);
@@ -2434,9 +2449,9 @@ if (agregar_persona) {
         // Llamar a esta función cuando necesites limpiar los estilos de validación
         limpiarEstilosValidacion();
         
-          document.getElementById("formRegistrarPersona").reset();
+         
 
-          $("#modalAgregarPersona").modal("hide");
+         
 
           Swal.fire({
             icon: "success",
@@ -2521,14 +2536,16 @@ if (agregarHistoriaMedicaButton) {
 
       if (result.data.success) {
         document.getElementById("formRegistrarHistoriaMedica").reset();
-        $("#modalAgregarHistoriaMedica").modal("hide");
-
+        gestionarModal('registrarHistoriaMedica', 'ocultar');
+        
         Swal.fire({
           icon: "success",
           confirmButtonColor: "#3085d6",
           title: result.data.message,
           text: result.data.info,
         });
+
+        window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${response.data.id_persona_h}`;
       } else {
         Swal.fire({
           icon: "danger",
@@ -2548,8 +2565,8 @@ if (agregarHistoriaMedicaButton) {
 
 /* --------- REGISTRAR REPRESENTANTE ----------- */
 
-agregar_reprentante = document.getElementById("agregar_representante")
-if (agregar_reprentante) {
+agregar_representante = document.getElementById("agregar_representante")
+if (agregar_representante) {
   agregar_representante.addEventListener("click", agregarRepresentante, false);
 
   function agregarRepresentante() {
@@ -2568,8 +2585,18 @@ if (agregar_reprentante) {
     let parentesco          = document.getElementById("parentesco").value;
     let id_representado     = document.getElementById("id_representado").value;
     let fecha_nac_r         = document.getElementById("fecha_nac_r").value;
+    let sexoR               = document.getElementsByName("sexo");
      // let id_representante    = document.getElementById("id_representante").value;
     // let id_persona_r        = document.getElementById("id_persona_r").value;
+
+    for (let i = 0; i < sexoR.length; i++) {
+      if (sexoR[i].checked) {
+        // Si el radio está seleccionado, obtener su valor
+        var sexoSeleccionadoR = sexoR[i].value;
+        console.log("El sexo seleccionado es:", sexoSeleccionadoR);
+        break;
+      }
+    }
 
     $.ajax({
       url: "index.php?page=registrarRepresentante",
@@ -2589,7 +2616,8 @@ if (agregar_reprentante) {
         direccion_r: direccion_r,
         parentesco: parentesco,
         id_representado: id_representado,
-        fecha_nac_r: fecha_nac_r
+        fecha_nac_r: fecha_nac_r,
+        sexo: sexoSeleccionadoR
         // id_representante: id_representante,
         // id_persona_r: id_persona_r
 
@@ -2619,7 +2647,7 @@ if (agregar_reprentante) {
         // Llamar a esta función cuando necesites limpiar los estilos de validación
         limpiarEstilosValidacionRepresentante();
         
-          document.getElementById("registrar_representante").reset();
+          document.getElementById("formRegistrarRepresentante").reset();
 
           $("#modalAgregarRepresentante").modal("hide");
 
@@ -3995,7 +4023,6 @@ if (agregar_medicamento) {
         .done(function (response) {
           if (response.data.success == true) {
             document.getElementById("formRegistrarMotivo").reset();
-  
             $("#modalAgregarMotivo").modal("hide");
   
             Swal.fire({

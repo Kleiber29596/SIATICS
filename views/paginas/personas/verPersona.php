@@ -61,7 +61,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         $id_persona                 = $datos_personas['id_persona']; 
         $n_documento                = $datos_personas['n_documento']; 
         $tipo_documento             = $datos_personas['tipo_documento']; 
-        $documento                  = $datos_personas['n_documento']; 
+        $documento                  = $datos_personas['documento']; 
         $nombre_apellido            = $datos_personas['nombres_apellidos']; 
         $fecha_nacimiento           = $datos_personas['fecha_nacimiento'];
         $fecha_nac                  = $datos_personas['fecha_nac'];
@@ -189,7 +189,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                             </thead>
                                             <tbody>
                                                 <tr class="table-primary">
-                                                    <td><?= $tipo_documento.''.$documento ?></td>
+                                                    <td><?= $documento ?></td>
                                                     <td><?= $nombre_apellido ?></td>
                                                     <td><?= $sexo ?></td>
                                                     <td><?= $telefono ?></td>
@@ -211,17 +211,16 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                                             {
                                                                 ?>
 
-                                                        <button title="Agregrar representante" class="btn btn-danger"
+                                                        <button title="Agregrar representante" class="btn btn-danger btn-sm"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#modalAgregarRepresentante"><i
                                                                 class="fas fa-user-plus"
                                                                 title="agregar representante"></i></button>
 
-                                                        <button title="Agregrar representante" class="btn btn-danger"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#modalAgregarRepresentante"><i
-                                                                class="fas fa-clipboard-user"></i></button>
-
+                                                        <button title="Llenar historial médico"
+                                                            class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#modalAgregarHistoriaMedica"><i
+                                                                class="bi bi-clipboard-plus"></i></button>
                                                         <?php
                                                             }else{
                                                                 ?>
@@ -293,7 +292,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     </div>
                                     <?php }else{}?>
 
-                                    <div class="collapse-container-h ">
+                                    <div class="collapse-container-h" style="width: 100%;" >
                                         <button class="collapse-button-h btn btn-primary">Mostrar historia
                                             médica/Ocultar</button>
                                         <div class="collapse-content-h col-12">
@@ -359,8 +358,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                                     <h5>Histórico de consultas</h5>
                                                 </strong>
                                                 <div class="table-responsive">
-                                                    <table class="table table-bordered table-hover display" id="example"
-                                                        style="width:100%">
+                                                    <table class="table table-bordered table-hover display" id="example" >
 
                                                         <thead>
                                                             <tr class="table-success">
@@ -396,16 +394,11 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                                                 </td>
                                                             </tr>
 
-                                                            <?php }} else{?>
+                                                            <?php }} ?>
 
-                                                            <tr class="table-success" style="text-align: center;">
-                                                                <td colspan="5" style="text-align: center;">No hay
-                                                                    registros
-                                                                </td>
-                                                            </tr>
+                                                            
 
-
-                                                            <?php } ?>
+                                                          
 
 
                                                         </tbody>
@@ -467,7 +460,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" id="registrar_representante">
+                <form action="" id="formRegistrarRepresentante">
 
 
                     <div class="row">
@@ -592,10 +585,11 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                 <label class="formulario__label" for="parentesco">Parentesco</label>
                                 <select class="form-control" id="parentesco" name="parentesco">
                                     <option value="">Seleccione</option>
-                                    <option value="padre">Padre</option>
-                                    <option value="madre">Madre</option>
-                                    <option value="otro">Abuela/o</option>
-                                    <option value="otro">Hermana/o</option>
+                                    <option value="Padre">Padre</option>
+                                    <option value="Madre">Madre</option>
+                                    <option value="Abuelo/a">Abuela/o</option>
+                                    <option value="Hermano/a">Hermana/o</option>
+                                    <option value="Tio/a">Hermana/o</option>
                                 </select>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
@@ -674,7 +668,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" id="registrar_representado">
+                <form action="" id="formRegistrarRepresentado">
 
 
                     <div class="row">

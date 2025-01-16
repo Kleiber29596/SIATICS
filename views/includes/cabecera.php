@@ -110,9 +110,9 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     </style>
 
     <!-- Loader -->
-    <div class="cont-loader" id="cont-loader">
+    <!-- <div class="cont-loader" id="cont-loader">
         <div class="custom-loader"></div>
-    </div>
+    </div> -->
 
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">

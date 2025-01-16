@@ -242,6 +242,7 @@ class PersonasController
 				$datos_enfermedades =  array(
 					'id_patologia'                 => $id_enfermedad,
 					'id_historia_medica'     	   => $id_historia_medica,
+					'id_persona_h'				   => $id_persona_h
 					
 				);
 				$resultado_enferm = $modelPersonas->registrarEnfermedades($datos_enfermedades);
