@@ -2680,6 +2680,118 @@ if (agregar_representante) {
 }
 
 
+/* --------- REGISTRAR REPRESENTANTE ----------- */
+
+agregar_representado = document.getElementById("agregar_representado")
+if (agregar_representado) {
+  agregar_representado.addEventListener("click", agregarRepresentado, false);
+
+  function agregarRepresentado() {
+
+    /*Datos del representado */
+
+    let primer_nombre_re     = document.getElementById("primer_nombre_re").value;
+    let segundo_nombre_re    = document.getElementById("segundo_nombre_re").value;
+    let primer_apellido_re   = document.getElementById("primer_apellido_re").value;
+    let segundo_apellido_re  = document.getElementById("segundo_apellido_re").value;
+    let tipo_documento_re    = document.getElementById("tipo_documento_re").value;
+    let n_documento_re       = document.getElementById("n_documento_re").value;
+    let telefono_re          = document.getElementById("telefono_re").value;
+    let correo_re            = document.getElementById("correo_re").value;
+    let direccion_re         = document.getElementById("direccion_re").value;
+    let parentesco           = document.getElementById("parentesco_re").value;
+    let id_representante     = document.getElementById("id_representante").value;
+    let fecha_nac_re         = document.getElementById("fecha_nac_re").value;
+    let sexoRe               = document.getElementsByName("sexo");
+    
+    for (let i = 0; i < sexoRe.length; i++) {
+      if (sexoRe[i].checked) {
+        // Si el radio está seleccionado, obtener su valor
+        var sexoSeleccionadoRe = sexoRe[i].value;
+        break;
+      }
+    }
+
+    $.ajax({
+      url: "index.php?page=registrarRepresentado",
+      type: "post",
+      dataType: "json",
+      data: {
+        
+        // Datos del representado
+        primer_nombre_re: primer_nombre_re,
+        segundo_nombre_re: segundo_nombre_re,
+        primer_apellido_re: primer_apellido_re,
+        segundo_apellido_re: segundo_apellido_re,
+        tipo_documento_re: tipo_documento_re,
+        n_documento_re: n_documento_re,
+        telefono_re: telefono_re,
+        correo_re: correo_re,
+        direccion_re: direccion_re,
+        parentesco: parentesco,
+        id_representante: id_representante,
+        fecha_nac_re: fecha_nac_re,
+        sexo: sexoSeleccionadoRe
+
+      },
+    })
+      .done(function (response) {
+        if (response.data.success == true) {
+      
+          const limpiarEstilosValidacionRepresentado = () => {
+            // Listado de los campos a los que se les quiere quitar los estilos de validación
+            const campos = ['primer_nombre_r', 'segundo_nombre_r', 'primer_apellido_r', 'segundo_apellido_r', 'direccion_r', 'telefono_r', 'tipo_documento_r', 'n_documento_r', 'parentesco'];
+        
+            campos.forEach(campo => {
+                const grupo = document.getElementById(`grupo_${campo}`);
+                grupo.classList.remove('formulario__grupo-incorrecto', 'formulario__grupo-correcto'); // Remueve clases de validación
+                const icono = document.querySelector(`#grupo_${campo} i`);
+                if (icono) {
+                    icono.classList.remove('fa-check-circle', 'fa-times-circle'); // Remueve iconos de validación
+                }
+                const errorTexto = document.querySelector(`#grupo_${campo} .formulario__input-error`);
+                if (errorTexto) {
+                    errorTexto.classList.remove('formulario__input-error-activo'); // Oculta mensajes de error
+                }
+            });
+        };
+        
+        // Llamar a esta función cuando necesites limpiar los estilos de validación
+        limpiarEstilosValidacionRepresentado();
+        
+          document.getElementById("formRegistrarRepresentado").reset();
+
+          $("#modalAgregarRepresentado").modal("hide");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+
+          window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${response.data.id_representante}`;
+
+ 
+
+
+        } else {
+          
+          Swal.fire({
+            icon: "danger",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  }
+}
+
+
 
 let n_documento_persona = document.getElementById("n_documento");
 

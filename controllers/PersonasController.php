@@ -313,11 +313,20 @@ class PersonasController
 	$registro_r  = $modelPersonas->registrarRepresentante($datosRepresentante);
 	$ultimo_id_r = $registro_r['ultimo_id'];
 
+		// Datos tbl representado
+		$datosRepresentado = array(
+			// 'parentesco'         => $_POST['parentesco'],
+			'id_persona'         => $id_representado
+		);
+
+	$registro_representado  = $modelPersonas->registrarRepresentado($datosRepresentado);
+	$ultimo_id_representado = $registro_representado['ultimo_id'];
+
 		//Registro tbl intermedia
 
 		$datosTblIntermdia = array(
 			'id_representante'   => $ultimo_id_r,
-			'id_persona'         => $id_representado
+			'id_persona'         => $ultimo_id_representado
 		);
 
 	$resultado = $modelPersonas->registrarTblIntermedia($datosTblIntermdia);
@@ -340,6 +349,87 @@ class PersonasController
 			'data' => [
 				'success'            =>  false,
 				'message'            => 'Ocurrió un error al registrar el representante',
+				'info'               =>  ''
+			],
+			'code' => 0,
+		];
+
+		echo json_encode($data);
+		exit();
+	}
+
+		
+	}
+
+
+	public function registrarRepresentado() {
+		$fecha_registro = date('Y-m-d');
+		$modelPersonas = new PersonasModel();
+		$id_representante = $_POST['id_representante'];
+			
+		// Datos personales del representante
+		$datos = array(
+			'p_nombre'            => $_POST['primer_nombre_re'],
+			's_nombre'            => $_POST['segundo_nombre_re'],
+			'p_apellido'          => $_POST['primer_apellido_re'],
+			's_apellido'          => $_POST['segundo_apellido_re'],
+			'tipo_documento'      => $_POST['tipo_documento_re'],
+			'n_documento'         => $_POST['n_documento_re'],
+			'telefono'            => $_POST['telefono_re'],
+			'correo'              => $_POST['correo_re'],
+			'direccion'           => $_POST['direccion_re'],
+			'fecha_registro'      => $fecha_registro
+		);
+
+	
+	$registro_p = $modelPersonas->registrarPersona($datos);
+	$ultimo_id_p = $registro_p['ultimo_id'];
+
+		// Datos tbl representados
+		$datosRepresentado = array(
+			'parentesco'         => $_POST['parentesco'],
+			'id_persona'         => $ultimo_id_p
+		);
+
+	$registro_representado  = $modelPersonas->registrarRepresentado($datosRepresentado);
+	$ultimo_id_representado = $registro_representado['ultimo_id'];
+
+	// Datos tbl representante
+	$datosRepresentante = array(
+		// 'parentesco'         => $_POST['parentesco'],
+		'id_persona'         => $id_representante
+	);
+
+	$registro_representante  = $modelPersonas->registrarRepresentante($datosRepresentante);
+	$ultimo_id_representante = $registro_representante['ultimo_id'];
+
+		//Registro tbl intermedia
+
+		$datosTblIntermedia = array(
+			'id_representante'   => $ultimo_id_representante,
+			'id_persona'         => $ultimo_id_representado
+		);
+
+	$resultado = $modelPersonas->registrarTblIntermedia($datosTblIntermedia);
+
+	if ($resultado) {
+		$data = [
+			'data' => [
+				'success'            =>  true,
+				'message'            => 'Guardado exitosamente',
+				'info'               => 'El representado ha sido registrado con exito',
+				'id_representante'	 => $id_representante
+			],
+			'code' => 1,
+		];
+
+		echo json_encode($data);
+		exit();
+	} else {
+		$data = [
+			'data' => [
+				'success'            =>  false,
+				'message'            => 'Ocurrió un error al registrar el representado',
 				'info'               =>  ''
 			],
 			'code' => 0,

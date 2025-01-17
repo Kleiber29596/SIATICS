@@ -21,7 +21,7 @@
 
 <?php
 
-
+error_reporting(0);
 
  
 if (session_status() === PHP_SESSION_ACTIVE) { 
@@ -54,7 +54,6 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     $id_persona = $_GET['id']; 
  
     $datos_personas              = $modelPersonas->listarDatosPersona($id_persona);
-    $datos_representante         = $modelPersonas->verRepresentante($id_persona);
     $historia_consultas          = $modelPersonas->historiaConsultas($id_persona);
  
     foreach ($datos_personas as $datos_personas) { 
@@ -82,15 +81,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         $antec_fami                 = $datos_personas['antec_fami'];       
     }
 
-    foreach ($datos_representante as $datos) { 
-        $nombres_apellidos_r            = $datos['nombres_apellidos']; 
-        $documento_r                    = $datos['documento']; 
-        $direccion_r                    = $datos['direccion']; 
-        $telefono_r                     = $datos['telefono']; 
-        $correo_r                       = $datos['correo'];
-        $parentesco                     = $datos['parentesco']; 
 
-    } 
 
  if(!empty($id_historia_medica)) {
 
@@ -115,9 +106,25 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         $medicamentos = implode(', ', $array_medicamentos);
       
     }
-
-
  }
+
+  $validar_representante = $modelPersonas->consultarRepresentante($id_persona);
+  if(!empty($validar_representante)) {
+    foreach ($validar_representante as $validar_representante) {
+        $id_representante = $validar_representante['id_representante'];
+        // var_dump($id_representante);
+    }
+    }
+
+
+    $validar_representado = $modelPersonas->consultarRepresentado($id_persona);
+    
+    if(!empty($validar_representado)) {
+        foreach ($validar_representado as $validar_representado) {
+            $id_representado = $validar_representado['id'];
+            var_dump($id_representado);
+        }
+        }
 
  
 ?>
@@ -178,7 +185,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                             <thead>
                                                 <tr class="table-primary">
                                                     <th style="background-color:#b7d0f7;">Nª documento</th>
-                                                    <th style="background-color:#b7d0f7;">Nombre y Apellido</th>
+                                                    <th style="background-color:#b7d0f7;">Nombres/Apellidos</th>
                                                     <th style="background-color:#b7d0f7;">Sexo</th>
                                                     <th style="background-color:#b7d0f7;">Telèfono</th>
                                                     <th style="background-color:#b7d0f7;">Correo</th>
@@ -255,7 +262,22 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                                     <!-- Datos del representante-->
 
-                                    <?php if(!empty($nombres_apellidos_r)) {?>
+                                    <?php if(!empty($id_representado)) {
+                                    
+                                    $datos_representante         = $modelPersonas->verRepresentante($id_representado);
+
+                                    foreach ($datos_representante as $datos_representante) {
+                                        $nombres_apellidos_r            = $datos_representante['nombres_apellidos']; 
+                                        $documento_r                    = $datos_representante['documento']; 
+                                        $direccion_r                    = $datos_representante['direccion']; 
+                                        $telefono_r                     = $datos_representante['telefono']; 
+                                        $correo_r                       = $datos_representante['correo'];
+                                        $parentesco                     = $datos_representante['parentesco']; 
+                                    }
+                                        
+                                    ?>
+                                        
+                                        
                                     <h5>DATOS DEL REPRESENTANTE</h5>
                                     <div class="table-responsive mb-3">
                                         <table class="table table-bordered table-hover ">
@@ -263,7 +285,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                             <thead>
                                                 <tr class="table-primary">
                                                     <th style=" background-color:#b7d0f7;">Nº documento</th>
-                                                    <th style=" background-color:#b7d0f7;">Nombres/apellidos</th>
+                                                    <th style=" background-color:#b7d0f7;">Nombres/Apellidos</th>
                                                     <th style=" background-color:#b7d0f7;">Telefono</th>
                                                     <th style=" background-color:#b7d0f7;">Correo</th>
                                                     <th style=" background-color:#b7d0f7;">Direccion</th>
@@ -290,9 +312,54 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                         </table>
 
                                     </div>
-                                    <?php }else{}?>
+                                    <?php }elseif(!empty($id_representante)){
+                                        
+                                    $datos_representado = $modelPersonas->verRepresentado($id_representante);
+                                    foreach ($datos_representado as $datos_representado) {
+                                        $nombres_apellidos_re            = $datos_representado['nombres_apellidos']; 
+                                        $documento_re                    = $datos_representado['documento']; 
+                                        $direccion_re                    = $datos_representado['direccion']; 
+                                        $telefono_re                     = $datos_representado['telefono']; 
+                                        $correo_re                       = $datos_representado['correo'];
+                                        $parentesco_re                   = $datos_representado['parentesco']; 
+                                    }
+                                    
+                                    ?>
 
-                                    <div class="collapse-container-h" style="width: 100%;" >
+                                    <h5>DATOS DEL REPRESENTADO</h5>
+
+                                    <div class="table-responsive mb-3">
+                                        <table class="table table-bordered table-hover ">
+
+                                            <thead>
+                                                <tr class="table-primary">
+                                                    <th style=" background-color:#b7d0f7;">Nº documento</th>
+                                                    <th style=" background-color:#b7d0f7;">Nombres/Apellidos</th>
+                                                    <th style=" background-color:#b7d0f7;">Telefono</th>
+                                                    <th style=" background-color:#b7d0f7;">Correo</th>
+                                                    <th style=" background-color:#b7d0f7;">Direccion</th>
+                                                    <th style=" background-color:#b7d0f7;">Parentesco</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="table-primary">
+                                                    <td><?= $documento_re ?></td>
+                                                    <td><?= $nombres_apellidos_re ?></td>
+                                                    <td><?= $telefono_re ?></td>
+                                                    <td><?= $correo_re ?></td>
+                                                    <td><?= $direccion_re ?></td>
+                                                    <td><?= $parentesco_re ?></td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    
+                                    <?php }?>
+
+                                    <div class="collapse-container-h col-12" >
                                         <button class="collapse-button-h btn btn-primary">Mostrar historia
                                             médica/Ocultar</button>
                                         <div class="collapse-content-h col-12">
@@ -357,8 +424,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                                 <strong>
                                                     <h5>Histórico de consultas</h5>
                                                 </strong>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered table-hover display" id="example" >
+                                                <div class="table-responsive" >
+                                                    <table class="table table-bordered table-hover display" style="width: 100%;" id="example" >
 
                                                         <thead>
                                                             <tr class="table-success">
@@ -486,7 +553,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             <label class="formulario__label" for="n_documento_representante">Nº
                                 documento</label>
                             <div class="form-group">
-                                <input type="hidden" value="<?= $id_persona ?>" id="id_representado">
+                                <input type="hidden" value="<?= $id_persona ?>" id="id_representante">
+                                <input type="hidden" name="tipo_persona" id="tipo_persona" value="Paciente">
                                 <input class="form-control formulario__validacion__input" type="text" id="n_documento_r"
                                     name="n_documento_r" placeholder="Nº de documento">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -587,9 +655,9 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     <option value="">Seleccione</option>
                                     <option value="Padre">Padre</option>
                                     <option value="Madre">Madre</option>
-                                    <option value="Abuelo/a">Abuela/o</option>
-                                    <option value="Hermano/a">Hermana/o</option>
-                                    <option value="Tio/a">Hermana/o</option>
+                                    <option value="Abuelo/a">Abuelo/a</option>
+                                    <option value="Hermano/a">Hermano/a</option>
+                                    <option value="Tio/a">Tio/a</option>
                                 </select>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
@@ -663,7 +731,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalAgregarRepresentadoLabel">Agregar Representado <i
+                <h5 class="modal-title" id="modalAgregarRepresentadoLabel">Agregar representado <i
                         class="fas fa-user"></i></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -674,11 +742,11 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                     <div class="row">
 
                         <div class="col-sm-2 mb-3">
-                            <div class="form-group" id="grupo_tipo_documento_r">
-                                <label class="formulario__label" for="tipo_documento_r">Tipo de
+                            <div class="form-group" id="grupo_tipo_documento_re">
+                                <label class="formulario__label" for="tipo_documento_re">Tipo de
                                     documento</label>
-                                <select class="form-control formulario__validacion__input" name="tipo_documento_r"
-                                    id="tipo_documento_r">
+                                <select class="form-control formulario__validacion__input" name="tipo_documento_re"
+                                    id="tipo_documento_re">
                                     <option value="">Seleccione</option>
                                     <option value="V">V</option>
                                     <option value="E">E</option>
@@ -690,13 +758,14 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
 
 
-                        <div class="col-sm-3 mb-3" id="grupo_n_documento_r">
+                        <div class="col-sm-3 mb-3" id="grupo_n_documento_re">
                             <label class="formulario__label" for="n_documento_representante">Nº
                                 documento</label>
                             <div class="form-group">
                                 <input type="hidden" value="<?= $id_persona ?>" id="id_representado">
-                                <input class="form-control formulario__validacion__input" type="text" id="n_documento_r"
-                                    name="n_documento_r" placeholder="Nº de documento">
+                                <input type="hidden" name="tipo_persona" id="tipo_persona" value="Paciente">
+                                <input class="form-control formulario__validacion__input" type="text" id="n_documento_re"
+                                    name="n_documento_re" placeholder="Nº de documento">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">El número de documento debe contener solo numeros
@@ -725,9 +794,9 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         </div>
                         <div class="col-sm-3 mb-3" id="grupo_fecha_nac">
                             <div class="form-group">
-                                <label class="formulario__label" for="fecha_nac_r">Fecha de nacimiento</label>
-                                <input type="date" class="form-control formulario__validacion__input" id="fecha_nac_r"
-                                    name="fecha_nac" required>
+                                <label class="formulario__label" for="fecha_nac_re">Fecha de nacimiento</label>
+                                <input type="date" class="form-control formulario__validacion__input" id="fecha_nac_re"
+                                    name="fecha_nac_re" required>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">La fecha de nacimiento no puede ser una fecha
@@ -737,11 +806,11 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3 mb-3" id="grupo_primer_nombre_r">
-                            <label class="formulario__label" for="primer_nombre_r">Primer nombre</label>
+                        <div class="col-sm-3 mb-3" id="grupo_primer_nombre_re">
+                            <label class="formulario__label" for="primer_nombre_re">Primer nombre</label>
                             <div class="form-group">
                                 <input class="form-control formulario__validacion__input" onkeyup="pmayus(this);"
-                                    type="text" id="primer_nombre_r" name="primer_nombre_r" placeholder="Primer nombre"
+                                    type="text" id="primer_nombre_re" name="primer_nombre_re" placeholder="Primer nombre"
                                     required>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
@@ -749,22 +818,22 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                 guion_bajo</p>
                         </div>
 
-                        <div class="col-sm-3 mb-3" id="grupo_segundo_nombre_r">
-                            <label class="formulario__label" for="segundo_nombre_r">Segundo nombre</label>
+                        <div class="col-sm-3 mb-3" id="grupo_segundo_nombre_re">
+                            <label class="formulario__label" for="segundo_nombre_re">Segundo nombre</label>
                             <div class="form-group">
                                 <input class="form-control formulario__validacion__input" type="text"
-                                    id="segundo_nombre_r" name="segundo_nombre_r" placeholder="Segundo nombre">
+                                    id="segundo_nombre_re" name="segundo_nombre_re" placeholder="Segundo nombre">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
                                 guion_bajo</p>
                         </div>
 
-                        <div class="col-sm-3 mb-3" id="grupo_primer_apellido_r">
-                            <label class="formulario__label" for="primer_apellido">Primer apellido</label>
+                        <div class="col-sm-3 mb-3" id="grupo_primer_apellido_re">
+                            <label class="formulario__label" for="primer_apellido_re">Primer apellido</label>
                             <div class="form-group ">
                                 <input class="form-control formulario__validacion__input" type="text"
-                                    id="primer_apellido_r" name="primer_apellido_r" placeholder="Primer apellido"
+                                    id="primer_apellido_re" name="primer_apellido_re" placeholder="Primer apellido"
                                     required>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
@@ -773,12 +842,12 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                 llevar acentos.</p>
                         </div>
 
-                        <div class="col-sm-3 mb-3" id="grupo_segundo_apellido_r">
+                        <div class="col-sm-3 mb-3" id="grupo_segundo_apellido_re">
                             <label class="formulario__label" for="grupo_primer_apellido">Segundo
                                 apellido</label>
                             <div class="form-group ">
                                 <input class="form-control formulario__validacion__input" type="text"
-                                    id="segundo_apellido_r" name="segundo_apellido_r" placeholder="Segundo apellido">
+                                    id="segundo_apellido_re" name="segundo_apellido_re" placeholder="Segundo apellido">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">El apellido debe contener Letras y espacios,
@@ -789,14 +858,16 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                     <div class="row">
                         <div class="col-sm-3 mb-3">
-                            <div class="form-group" id="grupo_parentesco">
-                                <label class="formulario__label" for="parentesco">Parentesco</label>
-                                <select class="form-control" id="parentesco" name="parentesco">
+                            <div class="form-group" id="grupo_parentesco_re">
+                                <label class="formulario__label" for="parentesco_re">Parentesco</label>
+                                <select class="form-control" id="parentesco_re" name="parentesco_re">
                                     <option value="">Seleccione</option>
                                     <option value="padre">Padre</option>
                                     <option value="madre">Madre</option>
-                                    <option value="otro">Abuela/o</option>
-                                    <option value="otro">Hermana/o</option>
+                                    <option value="Hijo/a">Hijo/a</option>
+                                    <option value="Abuelo/a">Abuelo/a</option>
+                                    <option value="Hermano/a">Hermano/a</option>
+                                    <option value="Tio/a">Tio/a</option>
                                 </select>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
@@ -809,11 +880,11 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             </p>
                         </div>
 
-                        <div class="col-sm-3" id="grupo_telefono_r">
-                            <label class="formulario__label" for="telefono_r">Telefono</label>
+                        <div class="col-sm-3" id="grupo_telefono_re">
+                            <label class="formulario__label" for="telefono_re">Telefono</label>
                             <div class="form-group">
-                                <input class="form-control formulario__validacion__input" type="text" id="telefono_r"
-                                    name="telefono_r" placeholder="telefono...">
+                                <input class="form-control formulario__validacion__input" type="text" id="telefono_re"
+                                    name="telefono_re" placeholder="telefono...">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">El numero de telefono debe contener solo
@@ -823,11 +894,11 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             </p>
                         </div>
 
-                        <div class="col-sm-3" id="grupo_correo_r">
-                            <label class="formulario__label" for="correo">Correo</label>
+                        <div class="col-sm-3" id="grupo_correo_re">
+                            <label class="formulario__label" for="correo_re">Correo</label>
                             <div class="form-group">
-                                <input class="form-control formulario__validacion__input" type="email" id="correo_r"
-                                    name="correo_r" placeholder="jhon@gmail.com">
+                                <input class="form-control formulario__validacion__input" type="email" id="correo_re"
+                                    name="correo_re" placeholder="jhon@gmail.com">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">El correo solo puede contener letras,
@@ -837,11 +908,11 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                             </p>
                         </div>
 
-                        <div class="col-sm-3" id="grupo_direccion_r">
+                        <div class="col-sm-3" id="grupo_direccion_re">
                             <label class="formulario__label " for="direccion">Dirección</label>
                             <div class="form-group">
-                                <input class="form-control formulario__validacion__input" type="text" id="direccion_r"
-                                    name="direccion_r" placeholder="Dirección">
+                                <input class="form-control formulario__validacion__input" type="text" id="direccion_re"
+                                    name="direccion_re" placeholder="Ingrese la dirección">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
                             <p class="formulario__input-error">La dirección puede contener solo letras,
@@ -855,7 +926,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="agregar_representante">Guardar</button>
+                <button type="button" class="btn btn-primary" id="agregar_representado">Guardar</button>
             </div>
         </div>
     </div>

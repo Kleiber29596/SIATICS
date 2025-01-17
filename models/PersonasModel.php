@@ -33,6 +33,19 @@ class PersonasModel extends ModeloBase
 		}
 	}
 
+	/* Registrar representado */
+	public function registrarRepresentado($datos)
+	{
+		$db = new ModeloBase();
+		try {
+			$insertar = $db->insertar('representados', $datos);
+
+			return $insertar;
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
 
 	/* Registrar enfermedades /historia médica */
 
@@ -250,21 +263,33 @@ public function listarMedicamentos($id_historia_medica) {
 	    return $resultado;
 	}
 
-	public function consultarRepresentante($documento_representante) {
+	public function consultarRepresentante($id_persona) {
 	    $db = new ModeloBase();
-	    $query = "SELECT p.id_persona, CONCAT(p.p_nombre,' ',p.s_nombre) AS nombres, CONCAT(p.p_apellido,' ',p.s_apellido) AS apellidos, CONCAT(p.tipo_documento ,' ',p.n_documento) AS documento, r.id_representante, r.parentesco FROM personas AS p LEFT JOIN representantes AS r ON r.id_persona = p.id_persona WHERE n_documento = ".$documento_representante."";
-	    $resultado = $db->obtenerTodos($query);
-	    return $resultado;
-	}
-
-	public function verRepresentante($id_persona) {
-	    $db = new ModeloBase();
-	    $query = "SELECT  representantes_personas.id_representante_persona, representantes_personas.id_representante, r.id_persona, r.parentesco, CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) AS nombres_apellidos, CONCAT(p.tipo_documento,' ',p.n_documento)  AS documento,  p.telefono, p.correo, p.direccion FROM representantes_personas INNER JOIN representantes AS r ON r.id_representante = representantes_personas.id_representante INNER  JOIN personas AS p ON p.id_persona = r.id_persona WHERE representantes_personas.id_persona = ".$id_persona."";
+	    $query = "SELECT p.id_persona, CONCAT(p.p_nombre,' ',p.s_nombre) AS nombres, CONCAT(p.p_apellido,' ',p.s_apellido) AS apellidos, CONCAT(p.tipo_documento ,' ',p.n_documento) AS documento, r.id_representante, r.parentesco FROM personas AS p LEFT JOIN representantes AS r ON r.id_persona = p.id_persona WHERE p.id_persona = ".$id_persona."";
 	    $resultado = $db->FectAssoc($query);
 	    return $resultado;
 	}
 
+	public function consultarRepresentado($id_persona) {
+	    $db = new ModeloBase();
+	    $query = "SELECT p.id_persona, CONCAT(p.p_nombre,' ',p.s_nombre) AS nombres, CONCAT(p.p_apellido,' ',p.s_apellido) AS apellidos, CONCAT(p.tipo_documento ,' ',p.n_documento) AS documento, r.id, r.parentesco FROM personas AS p LEFT JOIN representados AS r ON r.id_persona = p.id_persona WHERE p.id_persona = ".$id_persona."";
+	    $resultado = $db->FectAssoc($query);
+	    return $resultado;
+	}
 
+	public function verRepresentante($id_representado) {
+	    $db = new ModeloBase();
+	    $query = "SELECT  representantes_personas.id_representante_persona, representantes_personas.id_representante, representantes.id_persona AS id_representante, representantes.parentesco, p.id_persona, CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) AS nombres_apellidos, CONCAT(p.tipo_documento,' ',p.n_documento)  AS documento,  p.telefono, p.correo, p.direccion FROM representantes_personas INNER JOIN representantes ON representantes_personas.id_representante = representantes.id_representante INNER JOIN personas AS p ON p.id_persona = representantes.id_persona WHERE representantes_personas.id_persona = ".$id_representado."";
+	    $resultado = $db->FectAssoc($query);
+	    return $resultado;
+	}
+
+	public function verRepresentado($id_representante) {
+	    $db = new ModeloBase();
+	    $query = "SELECT  representantes_personas.id_representante_persona, representantes_personas.id_persona, representados.id_persona AS id_representado, representados.parentesco, p.id_persona, CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) AS nombres_apellidos, CONCAT(p.tipo_documento,' ',p.n_documento)  AS documento,  p.telefono, p.correo, p.direccion FROM representantes_personas INNER JOIN representados ON representantes_personas.id_persona = representados.id INNER JOIN personas AS p ON p.id_persona = representados.id_persona WHERE representantes_personas.id_representante = ".$id_representante."";
+	    $resultado = $db->FectAssoc($query);
+	    return $resultado;
+	}
 
 	public function consultarPersonaCita($id_persona) {
 	    $db = new ModeloBase();
