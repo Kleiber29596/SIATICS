@@ -241,8 +241,7 @@ class PersonasController
 	
 				$datos_enfermedades =  array(
 					'id_patologia'                 => $id_enfermedad,
-					'id_historia_medica'     	   => $id_historia_medica,
-					'id_persona_h'				   => $id_persona_h
+					'id_historia_medica'     	   => $id_historia_medica
 					
 				);
 				$resultado_enferm = $modelPersonas->registrarEnfermedades($datos_enfermedades);
@@ -257,7 +256,8 @@ class PersonasController
 				'data' => [
 					'success'            =>  true,
 					'message'            => 'Guardado exitosamente',
-					'info'               =>  'La historia médica se ha guardado con exito'
+					'info'               =>  'La historia médica se ha guardado con exito',
+					'id_persona_h'	     => $data['id_persona_h']
 				],
 				'code' => 1,
 			];
@@ -297,6 +297,7 @@ class PersonasController
 			'telefono'            => $_POST['telefono_r'],
 			'correo'              => $_POST['correo_r'],
 			'direccion'           => $_POST['direccion_r'],
+			'tipo_persona'        => $_POST['tipo_persona_r'],
 			'fecha_registro'      => $fecha_registro
 		);
 
@@ -378,6 +379,7 @@ class PersonasController
 			'telefono'            => $_POST['telefono_re'],
 			'correo'              => $_POST['correo_re'],
 			'direccion'           => $_POST['direccion_re'],
+			'tipo_persona'        => $_POST['tipo_persona_re'],
 			'fecha_registro'      => $fecha_registro
 		);
 

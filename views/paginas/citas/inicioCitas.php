@@ -256,7 +256,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" id="formRegistrarCita">
+                <form action="" id="formModificarCita">
                     <div class="row" id="contenedor_datos_persona">
                         <div class="col-sm-12 mt-3">
                             <p>Datos de la persona</p>
@@ -283,14 +283,16 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                     <div class="row">
                         <div class="col-sm-6">
                             <label for="txt-esp">Especialidad</label>
-                            <input type="label" class="form-control" name="txt-esp" id="txt-esp"
-                                disabled>
+                            <input type="label" class="form-control" name="txt-esp" id="txt-esp" disabled>
+                            <input type="hidden" class="form-control" name="id_cita" id="id_cita">
+                                
                             <input type="hidden" id="id-esp">
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="txt-doctor">Doctor</label>
-                                <select class="form-control" name="txt-doc" id="txt-doc">
+                                <select class="form-control" name="txt-doc"  id="txt-doc">
+
                                     
                                 </select>                                
                             </div>
@@ -308,7 +310,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                         <div class="col-sm-6">
                             <div class="form-group mt-3">
                                 <label for="observacion_cita">Observación</label>
-                                <textarea id="observacion_cita" class="form-control rounded"
+                                <textarea id="observacion_cita_update" class="form-control rounded"
                                     placeholder="Escriba aquí"></textarea>
                             </div>
                         </div>

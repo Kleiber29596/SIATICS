@@ -173,7 +173,7 @@ EOT;
 				'db'        => 'estatus',
 				'dt'        => 5,
 				'formatter' => function ($d, $row) {
-					return ($d == 1) ? '<button class="btn btn-success btn-sm">Activo</button>' : '<button class="btn btn-danger btn-sm">Inactivo</button>';
+					return ($d == 1) ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-danger">Inactivo</span>';
 				}
 			),
 			array('db' => 'id', 'dt' => 6),

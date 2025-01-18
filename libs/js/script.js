@@ -2586,6 +2586,7 @@ if (agregar_representante) {
     let id_representado     = document.getElementById("id_representado").value;
     let fecha_nac_r         = document.getElementById("fecha_nac_r").value;
     let sexoR               = document.getElementsByName("sexo");
+    let tipo_persona         = document.getElementsByName("tipo_persona");
      // let id_representante    = document.getElementById("id_representante").value;
     // let id_persona_r        = document.getElementById("id_persona_r").value;
 
@@ -2617,7 +2618,8 @@ if (agregar_representante) {
         parentesco: parentesco,
         id_representado: id_representado,
         fecha_nac_r: fecha_nac_r,
-        sexo: sexoSeleccionadoR
+        sexo: sexoSeleccionadoR,
+        tipo_persona: tipo_persona
         // id_representante: id_representante,
         // id_persona_r: id_persona_r
 
@@ -2680,7 +2682,7 @@ if (agregar_representante) {
 }
 
 
-/* --------- REGISTRAR REPRESENTANTE ----------- */
+/* --------- REGISTRAR REPRESENTADO ----------- */
 
 agregar_representado = document.getElementById("agregar_representado")
 if (agregar_representado) {
@@ -2703,6 +2705,8 @@ if (agregar_representado) {
     let id_representante     = document.getElementById("id_representante").value;
     let fecha_nac_re         = document.getElementById("fecha_nac_re").value;
     let sexoRe               = document.getElementsByName("sexo");
+    let tipo_persona         = document.getElementsByName("tipo_persona");
+    
     
     for (let i = 0; i < sexoRe.length; i++) {
       if (sexoRe[i].checked) {
@@ -2731,7 +2735,8 @@ if (agregar_representado) {
         parentesco: parentesco,
         id_representante: id_representante,
         fecha_nac_re: fecha_nac_re,
-        sexo: sexoSeleccionadoRe
+        sexo: sexoSeleccionadoRe,
+        tipo_persona: tipo_persona
 
       },
     })
@@ -3523,186 +3528,6 @@ $(document).ready(function () {
   });
 });
 
-/* -------------- Citas / Consultar Paciente ------------------ */
-
-var consultar_paciente;
-if ((consultar_paciente = document.getElementById("consultar_paciente"))) {
-  consultar_paciente.addEventListener("click", consultarPaciente, false);
-
-  function consultarPaciente() {
-    let n_documento = document.getElementById("n_documento").value;
-    let contenedor_datos_paciente = document.getElementById(
-      "contenedor_datos_paciente"
-    );
-    //let id_paciente_cita = document.getElementById("id_paciente_cita");
-
-    $.ajax({
-      url: "index.php?page=consultarPaciente",
-      type: "post",
-      dataType: "json",
-      data: {
-        n_documento: n_documento,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("n_documento_consulta").innerHTML =
-            response.data.tipo_documento + "-" + response.data.n_documento;
-          document.getElementById("nombres_consulta").innerHTML =
-            response.data.nombres;
-          document.getElementById("apellidos_consulta").innerHTML =
-            response.data.apellidos;
-          document.getElementById("fecha_nac_consulta").innerHTML =
-            response.data.fecha_nacimiento;
-          document.getElementById("sexo_consulta").innerHTML =
-            response.data.sexo;
-          document.getElementById("telefono_consulta").innerHTML =
-            response.data.telefono;
-          document.getElementById("direccion_consulta").innerHTML =
-            response.data.estado +
-            ", Municipio " +
-            response.data.municipio +
-            ", Parroquia " +
-            response.data.parroquia;
-          document
-            .getElementById("id_paciente_cita")
-            .setAttribute("value", response.data.id_paciente);
-
-          contenedor_datos_paciente.removeAttribute("style");
-          Swal.fire({
-            icon: "success",
-            title: response.data.message,
-            confirmButtonColor: "#0d6efd",
-            text: response.data.info,
-          });
-
-          if (response.data.estatus == 1) {
-            document.getElementById("estatus_consulta").innerHTML =
-              "<button class='btn btn-success'>Activo</button>";
-          } else {
-            document.getElementById("estatus_consulta").innerHTML =
-              "<button class='btn btn-danger'>inactivo</button>";
-          }
-        } else {
-          Swal.fire({
-            icon: "error",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}
-
-/* -------------- Citas / Consultar Paciente ------------------ */
-
-var update_consultar_paciente;
-if (
-  (update_consultar_paciente = document.getElementById(
-    "update_consultar_paciente"
-  ))
-) {
-  update_consultar_paciente.addEventListener(
-    "click",
-    updateConsultarPaciente,
-    false
-  );
-
-  function updateConsultarPaciente() {
-    document.getElementById("cont-loader").removeAttribute("style");
-    let update_n_documento =
-      document.getElementById("update_n_documento").value;
-    let update_contenedor_datos_paciente = document.getElementById(
-      "update_contenedor_datos_paciente"
-    );
-    let update_id_paciente_cita = document.getElementById(
-      "update_id_paciente_cita"
-    );
-
-    $.ajax({
-      url: "index.php?page=updateConsultarPaciente",
-      type: "post",
-      dataType: "json",
-      data: {
-        update_n_documento: update_n_documento,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("update_tipo_documento_consulta").innerHTML =
-            response.data.tipo_documento;
-          document.getElementById("update_n_documento_consulta").innerHTML =
-            response.data.n_documento;
-          document.getElementById("update_nombres_consulta").innerHTML =
-            response.data.nombres;
-          document.getElementById("update_apellidos_consulta").innerHTML =
-            response.data.apellidos;
-          document.getElementById("update_fecha_nac_consulta").innerHTML =
-            response.data.fecha_nacimiento;
-          document.getElementById("update_sexo_consulta").innerHTML =
-            response.data.sexo;
-          document.getElementById("update_telefono_consulta").innerHTML =
-            response.data.telefono;
-          document.getElementById("update_estatus_consulta").innerHTML =
-            response.data.estatus;
-          document.getElementById("update_estado_consulta").innerHTML =
-            response.data.estado;
-          document.getElementById("update_municipio_consulta").innerHTML =
-            response.data.municipio;
-          document.getElementById("update_parroquia_consulta").innerHTML =
-            response.data.parroquia;
-          document
-            .getElementById("update_id_paciente_cita")
-            .setAttribute("value", response.data.id_paciente);
-
-          update_contenedor_datos_paciente.removeAttribute("style");
-          document
-            .getElementById("cont-loader")
-            .setAttribute("style", "display:none;");
-          Swal.fire({
-            icon: "success",
-            title: response.data.message,
-            confirmButtonColor: "#0d6efd",
-            text: response.data.info,
-          });
-
-          if (response.data.estatus == 1) {
-            document.getElementById("update_estatus_consulta").innerHTML =
-              "<button class='btn btn-success'>Activo</button>";
-          } else {
-            document.getElementById("update_estatus_consulta").innerHTML =
-              "<button class='btn btn-danger'>inactivo</button>";
-          }
-
-          if (response.data.tipo_documento == "Venezolano") {
-            document.getElementById(
-              "update_tipo_documento_consulta"
-            ).innerHTML = "V";
-          } else {
-            document.getElementById("update_estatus_consulta").innerHTML =
-              "<button class='btn btn-danger'>inactivo</button>";
-          }
-        } else {
-          document
-            .getElementById("cont-loader")
-            .setAttribute("style", "display:none;");
-          Swal.fire({
-            icon: "error",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}
 
 
 //--------------------select especialidad/doctor ----------------------//
@@ -3869,63 +3694,6 @@ $(document).ready(function () {
 });
 
 
-/* -------------- Citas / Guardar Cita ------------------ */
-
-/*var agregar_cita;
-if (agregar_cita = document.getElementById("agregar_cita")) {
-  agregar_cita.addEventListener("click", agregarCita, false);
-
-  function agregarCita() {
-    let id_persona_cita = document.getElementById("id_persona").value;
-    let fecha_cita = document.getElementById("fecha_cita").value;
-    let observacion_cita = document.getElementById("observacion_cita").value;
-    let id_especialidad_cita = document.getElementById("txt-especialidad").value;
-    //let estatus_cita = document.getElementById("estatus_cita").value;
-    let id_doctor_cita = document.getElementById("txt-doctor").value;
-
-    //console.log(fecha_cita);
-
-    $.ajax({
-      url: "index.php?page=registrarCita",
-      type: "post",
-      dataType: "json",
-      data: {
-        id_paciente_cita: id_paciente_cita,
-        id_doctor_cita: id_doctor_cita,
-        fecha_cita: fecha_cita,
-        observacion_cita: observacion_cita,
-        estatus_cita: estatus_cita,
-        id_especialidad_cita: id_especialidad_cita,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formRegistrarCita").reset();
-
-          $("#modalAgregarCitas").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_citas").DataTable().ajax.reload();
-        } else {
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}*/
 
 /*------------ listar Ver Cita ------------------*/
 function listarVer(id){
@@ -3940,14 +3708,16 @@ function listarVer(id){
         },
       })
         .done(function (response) {
-          console.log(response.data.select_doctor);
+          
+          let ob = document.getElementById('observacion_cita').innerHTML = response.data.observacion;
+            console.log(ob);
           if (response.data.success == true) {
             $('#espe').text(response.data.nom_especialidad);
             $('#fecha').text(response.data.fecha_cita);
             $('#doct').text(response.data.Nom_doctor);
             $('#espe_green').hide();
             $('#espe_red').hide();
-            $('#ob').show();
+          
             if (response.data.estatus == 1) {
               $('#est').text('Pendiente');
               $('#espe_green').show();
@@ -3956,7 +3726,9 @@ function listarVer(id){
               $('#espe_red').show();
             }
             
-            $('#obs_cita').text(response.data.observacion);
+            
+
+            
             $('#tablaDatos tbody').empty();
             $('#dataModalLabel').text('Datos de la citas');
             response.data.datos_personas.forEach(function(D_persona) {
@@ -4011,8 +3783,12 @@ function listarVer(id){
         },
       })
         .done(function (response) {
-          console.log(response.data.select_doctor);
+          
           if (response.data.success == true) {
+           document.getElementById('observacion_cita_update').value = response.data.observacion;
+           document.getElementById('id_cita').value = response.data.id_cita;
+           
+            
             $('#tabla_datosPersona tbody').empty();
             $('#txt-doc').empty();
             response.data.datos_personas.forEach(function(D_persona) {
@@ -4037,7 +3813,8 @@ function listarVer(id){
                   '<option value=' + doc.id_doctor + '>' + 'Dr(a). ' + doc.nombres + '.  ' + doc.tipo_documento + '-' + doc.n_documento + '</option>'
                 );
               //$('#txt-doc').val();
-            });            
+            });
+            document.getElementById('txt-doc').value = response.data.id_doctor;              
             $('#fech_cita').val(response.data.fecha_cita);
             $('#observacion_cita').val(response.data.observacion);
             document.getElementById('observacion_cita').value = response.data.observacion;
@@ -4057,6 +3834,64 @@ function listarVer(id){
     //alert('id de la cita para actualizar' + id_cita);
   }
 
+
+/* -------------- Modificar Cita ------------------ */
+var modificar_cita;
+if ((modificar_cita = document.getElementById("modificar_cita"))) {
+  modificar_cita.addEventListener("click", modificarCita, false);
+
+  function modificarCita() {
+    let id_cita = document.getElementById("id_cita").value;
+    let id_persona = document.getElementById("id_persona").value;
+    let id_doctor = document.getElementById("txt-doc").value;
+    let fecha_cita = document.getElementById("fech_cita").value;
+    let observacion = document.getElementById("observacion_cita_update").value;
+    let id_especialidad = document.getElementById("id-esp").value;
+
+    $.ajax({
+      url: "index.php?page=modificarCita",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_cita: id_cita,
+        id_persona: id_persona,
+        id_doctor: id_doctor,
+        fecha_cita: fecha_cita,
+        observacion: observacion,
+        id_especialidad: id_especialidad,
+        
+      },
+    })
+      .done(function (response) {
+        if (response.data.success == true) {
+          document.getElementById("formModificarCita").reset();
+
+          $("#modalModificarCitas").modal("hide");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+          
+          $("#tabla_citas").DataTable().ajax.reload();
+        } else {
+          Swal.fire({
+            icon: "danger",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+
+  }
+
+}
 
 /* -------------- Agregar medicamentos ------------------ */
 let agregar_medicamento = document.getElementById("agregar_medicamento");
@@ -4634,7 +4469,7 @@ function consultarPersonaC() {
          document.getElementById("especialista_cita").innerHTML =  response.data.especialista;
          document.getElementById("observacion_cita").innerHTML =  response.data.observacion;
          document.getElementById("fecha_cita").innerHTML =  `<span class="badge bg-success"> <i class="bi bi-calendar"></i> ${response.data.fecha} </span>`;
-         document.getElementById("estatus_cita").innerHTML = `<span class="badge bg-danger">Pendiente</span>`;
+         document.getElementById("estatus_cita").innerHTML = `<span class="badge bg-success">Pendiente</span>`;
          document.getElementById("id_cita_agendada").setAttribute("value", response.data.id_cita);
          document.getElementById("validar_fecha").setAttribute("value", response.data.validar_fecha);
         

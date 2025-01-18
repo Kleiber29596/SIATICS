@@ -60,9 +60,9 @@ EOT;
 				'formatter' => function ($d, $row) {
 					switch ($d) {
 						case 0:
-							return '<button class="btn btn-danger btn-sm">Finzalizada</button>';
+							return '<span class="badge bg-danger">Finalizada</span>';
 						case 1:
-							return '<button class="btn btn-success btn-sm">Pendiente</button>';
+							return '<span class="badge bg-success">Pendiente</span>';
 					}
 				}
 			),
@@ -326,53 +326,7 @@ EOT;
 	}
 
 	
-	public function modificarCita()
-	{
-
-		$modelCitas = new CitasModel();
-		$id_cita = $_POST['id_cita'];
-
-		$datos = array(
-
-			'id_cita'   	 	 => $_POST['id_cita'],
-			'id_especialidad'	 => $_POST['update_especialidad'],
-			'id_doctor'		 	 => $_POST['update_doctor'],
-			'fecha_cita'	 	 => $_POST['update_fecha_cita'],
-			'estatus'	 		 => $_POST['update_estatus_cita'],
-			'observacion'		 => $_POST['update_observacion_cita'],
-			'id_paciente'	     => $_POST['id_paciente']
-		);
-		
 	
-
-		$resultado = $modelCitas->modificarCita($id_cita, $datos);
-
-		if ($resultado) {
-			$data = [
-				'data' => [
-					'success'            =>  true,
-					'message'            => 'Guardado exitosamente',
-					'info'               =>  'Los datos de la cita han sido modificados'
-				],
-				'code' => 1,
-			];
-
-			echo json_encode($data);
-			exit();
-		} else {
-			$data = [
-				'data' => [
-					'success'            =>  false,
-					'message'            => 'Ocurrió un error al modificar los datos de la cita',
-					'info'               =>  ''
-				],
-				'code' => 0,
-			];
-
-			echo json_encode($data);
-			exit();
-		}
-	}
 
 
 	public function obtenerCitasDisponibles()
@@ -563,6 +517,50 @@ EOT;
 		exit();
 
 		}
+	}
+
+	public function modificarCita(){
+		$modelCitas = new CitasModel();
+		$id_cita = $_POST['id_cita'];
+
+		$datos = array (
+			'id_cita' 		  => $_POST['id_cita'],
+			'id_especialidad' => $_POST['id_especialidad'],
+			'id_doctor'       => $_POST['id_doctor'],
+			'fecha_cita'      => $_POST['fecha_cita'],
+			// 'estatus'         => $_POST['estatus'],
+			'observacion'     => $_POST['observacion']
+		);
+
+		$resultado = $modelCitas->modificarCita($id_cita, $datos);
+
+		if ($resultado) {
+			$data = [
+				'data' => [
+					'success'            =>  true,
+					'message'            => 'Guardado exitosamente',
+					'info'               =>  'La cita ha sido modificada con exito'
+				],
+				'code' => 1,
+			];
+
+			echo json_encode($data);
+			exit();
+		} else {
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Ocurrió un error al modificar la cita',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+
+			echo json_encode($data);
+			exit();
+		}
+
+
 	}
 
 
