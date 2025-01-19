@@ -122,7 +122,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     if(!empty($validar_representado)) {
         foreach ($validar_representado as $validar_representado) {
             $id_representado = $validar_representado['id'];
-            var_dump($id_representado);
+            // var_dump($id_representado);
         }
         }
 

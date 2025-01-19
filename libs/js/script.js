@@ -5076,6 +5076,14 @@ $('#estado').select2({
   dropdownParent: $('#modalAgregarPersona')
 });
 
+$('#presentacion').select2({
+  dropdownParent: $('#modalAgregarMedicamentos')
+});
+
+$('#categoria').select2({
+  dropdownParent: $('#modalAgregarMedicamentos')
+});
+
 
 
 
