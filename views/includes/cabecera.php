@@ -8,6 +8,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     $rol                = $_SESSION['rol_usuario'];
     $id_especialidad    = $_SESSION['id_especialidad'];
     $id_doctor          = $_SESSION['id_doctor'];
+    $nombre_rol         = $_SESSION['nombre_rol'];
    
 
 
@@ -25,6 +26,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     $rol                = $_SESSION['rol_usuario'];
     $id_especialidad    = $_SESSION['id_especialidad'];
     $id_doctor          = $_SESSION['id_doctor'];
+    $nombre_rol         = $_SESSION['nombre_rol'];
 
     
     if (empty($usuario) && empty($id_usuario)) {
@@ -57,7 +59,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i"
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
@@ -84,7 +86,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <script src="libs/vendor/calendar/moment.min.js"></script>
     <script src="libs/vendor/calendar/fullcalendar.min.js"></script>
     <script src="libs/vendor/calendar/bootstrap.min.js"></script>
-  
+
     <!-- AmChart Js -->
     <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
@@ -95,18 +97,17 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 <body>
 
     <style>
-        #grafica, 
-        #grafica_tipos_consultas, 
-        #grafica_consultas_doctores, 
-        #sexo_chart, 
-        #edad_chart,
-        #graficaFiltroFechaDesdeHasta,
-        #graficaFechaDesdehasta,
-        #sexo_chartFechaDesdeHasta {
-            width: 100%;
-            height: 500px;
-        }
-
+    #grafica,
+    #grafica_tipos_consultas,
+    #grafica_consultas_doctores,
+    #sexo_chart,
+    #edad_chart,
+    #graficaFiltroFechaDesdeHasta,
+    #graficaFechaDesdehasta,
+    #sexo_chartFechaDesdeHasta {
+        width: 100%;
+        height: 500px;
+    }
     </style>
 
     <!-- Loader -->
@@ -121,7 +122,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             <a href="#" class="logo d-flex align-items-center">
                 <!--<img src="libs/img/siatics2.png" alt="">
                     style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 60%; height:80px;">-->
-                     <img src="libs/img/siatics2.png" alt="" style="max-height: 55px; margin: auto;">
+                <img src="libs/img/siatics2.png" alt="" style="max-height: 55px; margin: auto;">
                 <!---->
                 <!-- <span class="d-none d-lg-block">Jornadas De Ferias</span> -->
             </a>
@@ -144,9 +145,11 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <span class="badge bg-success" style="margin-right: 10px;"><?= $nombre_rol ?></span>
                         <img src="libs/img/user.jpg" alt="Profile" class="rounded-circle">
                         <!--<img src="<?= SERVERURL ?>foto_usuario/<?= $foto ?>" alt="Profile" class="rounded-circle">-->
                         <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $usuario ?></span>
+                        
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -184,6 +187,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
 
+        <!-- CONTENIDO ROL (ADMINISTRADOR) -->
+        <?php if ($rol == 2) { ?>
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
@@ -252,11 +257,168 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
-                <i class="bi bi-capsule"></i> <span>Medicamentos</span>
+                    <i class="bi bi-capsule"></i> <span>Medicamentos</span>
                 </a>
             </li><!-- End Especialidades Page Nav -->
 
         </ul>
+        <?php } ?>
+
+        <!-- FIN DE CONTENIDO RECEPCIONISTA -->
+
+        <!-- CONTENIDO DEL ROL = RECEPCIONISTA -->
+
+        <?php if ($rol == 4) { ?>
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicio">
+                    <i class="bi bi-grid"></i>
+                    <span>Panel</span>
+                </a>
+            </li><!-- Modulos-->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
+                    <i class="bi bi-person"></i>
+                    <span>Personas</span>
+                </a>
+            </li><!-- End usuarios Page Nav -->
+
+            <li>
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioCitas">
+                    <i class="bi bi-calendar"></i><span>Citas</span>
+                </a>
+            </li>
+
+
+        </ul>
+
+        <?php } ?>
+        <!-- FIN DEL CONTENIDO RECEPCIONISTA-->
+
+        <!-- CONTENIDO ROL (DOCTOR) -->
+        <?php if ($rol == 3) { ?>
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicio">
+                    <i class="bi bi-grid"></i>
+                    <span>Panel</span>
+                </a>
+            </li><!-- Modulos-->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
+                    <i class="bi bi-person"></i>
+                    <span>Personas</span>
+                </a>
+            </li><!-- End usuarios Page Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Salud</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioConsultas">
+                            <i class="bi bi-circle"></i><span>Consultas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioCitas">
+                            <i class="bi bi-circle"></i><span>Citas</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </li><!-- End Ferias Nav -->
+
+
+
+            <li class="nav-heading">Configuracion</li>
+
+            <!-- <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=ModuloUsuario">
+                    <i class="bi bi-person"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li> -->
+
+            <!-- <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioRoles">
+                    <i class="bi bi-lock"></i> <span>Roles</span>
+                </a>
+            </li> -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioEspecialidad">
+                    <i class="bi bi-lock"></i> <span>Especialidades</span>
+                </a>
+            </li><!-- End Especialidades Page Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMotivos">
+                    <i class="bi bi-lock"></i> <span>Motivos</span>
+                </a>
+            </li><!-- End Especialidades Page Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
+                    <i class="bi bi-capsule"></i> <span>Medicamentos</span>
+                </a>
+            </li><!-- End Especialidades Page Nav -->
+
+        </ul>
+        <?php } ?>
+
+         <!-- FIN DEL CONTENIDO (DOCTOR) -->
+
+
+                <!-- CONTENIDO ROL (RRHH) -->
+        <?php if ($rol == 6) { ?>
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-heading">Configuracion</li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=ModuloUsuario">
+                    <i class="bi bi-person"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li> 
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioRoles">
+                    <i class="bi bi-lock"></i> <span>Roles</span>
+                </a>
+            </li>
+
+            <!-- <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioEspecialidad">
+                    <i class="bi bi-lock"></i> <span>Especialidades</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMotivos">
+                    <i class="bi bi-lock"></i> <span>Motivos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
+                    <i class="bi bi-capsule"></i> <span>Medicamentos</span>
+                </a>
+            </li>   -->
+
+        </ul>
+        <?php } ?>
+
+         <!-- FIN DEL CONTENIDO (DOCTOR) -->
+
+         
 
     </aside><!-- End Sidebar-->
 

@@ -1025,10 +1025,11 @@ if (document.getElementById("agregar_usuario")) {
                   });
                 document.getElementById("formRegistrarUsuario").reset();
                 document.getElementById("camposNew").innerHTML = '';
-                nuevoHorario = []; // Limpiar el arreglo
-                horarios = []; // Limpiar el arreglo
                 $("#agregarUsuarioModal").modal("hide");
                 $("#tablaUsuario").DataTable().ajax.reload();
+                nuevoHorario = []; // Limpiar el arreglo
+                horarios = []; // Limpiar el arreglo
+              
               };
           })
           .fail(function (error) {
@@ -2115,23 +2116,19 @@ function verUsuario(id) {
   })
     .done(function (response) {
       if (response.data.success == true) {
-        document.getElementById("nombre_usuario").innerHTML =
-          response.data.nombre + " " + response.data.apellido;
-        document.getElementById("cedula_usuario").innerHTML =
-          response.data.origen + "-" + response.data.cedula;
-        document.getElementById("usuario_usuario").innerHTML =
-          "Usuario: " + response.data.usuario;
-        document.getElementById("correo_usuario").innerHTML =
-          "Correo: " + response.data.correo;
-        document.getElementById("estatus_usuario").innerHTML =
-          ": " + response.data.estatus;
+        document.getElementById("nombre_apellido_u").innerHTML ='<span class="badge" style="font-size: 15px;">Nombre/Apellido: </span>'+response.data.nombre_apellido;
+        document.getElementById("nombre_usuario").innerHTML ='<span class="badge" style="font-size: 15px;">Usuario: </span>'+ response.data.usuario;
+        document.getElementById("documento_u").innerHTML ='<span class="badge" style="font-size: 15px;">N° documento: </span>'+ response.data.documento;
+        document.getElementById("fecha_u").innerHTML = response.data.fecha;
+        document.getElementById("foto_usuario").setAttribute('src', `libs/img/${response.data.foto}`);
+
 
         if (response.data.estatus == 1) {
           document.getElementById("estatus_usuario").innerHTML =
-            "Estado: <button class='btn btn-success'>Activo</button>";
+            "<span class='badge' style='font-size: 15px;' >Estatus:</span> <span class='badge bg-success'>Activo</span>";
         } else {
           document.getElementById("estatus_usuario").innerHTML =
-            "Estado: <button class='btn btn-danger'>inactivo</button>";
+            "<span class='badge' style='font-size: 15px;'>Estatus: </span> <span class='badge bg-danger'>Inactivo</span>";
         }
 
         $("#modalVisualizarUsuario").modal("show");
@@ -5077,6 +5074,14 @@ $('#especialidad_motivo').select2({
 
 $('#estado').select2({
   dropdownParent: $('#modalAgregarPersona')
+});
+
+$('#presentacion').select2({
+  dropdownParent: $('#modalAgregarMedicamentos')
+});
+
+$('#categoria').select2({
+  dropdownParent: $('#modalAgregarMedicamentos')
 });
 
 

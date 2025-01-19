@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 28-12-2024 a las 17:21:46
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 19-01-2025 a las 02:28:04
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,7 +37,33 @@ CREATE TABLE `categoria_medicamento` (
 --
 
 INSERT INTO `categoria_medicamento` (`codigo`, `categoria`) VALUES
-(2, 'analgésico antipirético');
+(1, 'Anestésicos '),
+(2, 'Analgésicos Antipiréticos AINES'),
+(3, 'Antialérgicos '),
+(4, 'Antiepilépticos '),
+(5, 'Antihelmínticos Antiparasitarios  '),
+(6, 'Antibióticos Antifúngicos Antivirales  '),
+(7, 'Antiamebianos Antileishmaniasis '),
+(8, 'Antimaláricos '),
+(9, 'Inmunosupresores Antineoplásicos'),
+(10, 'Antituberculosis '),
+(11, 'Medicinas con afectación sanguínea '),
+(12, 'Fármacos cardiovasculares '),
+(13, 'Preparaciones Dermatológicas '),
+(14, 'Antiinflamatorios '),
+(15, 'Antidiabéticos '),
+(16, 'Diuréticos '),
+(17, 'Fármacos Gastrointestinales '),
+(18, 'Antiespasmódicos '),
+(19, 'Laxante'),
+(20, 'Antidiarreico sales de rehidratación oral '),
+(21, 'Preparaciones Oftalmológicas '),
+(22, 'Psicoterapéuticos '),
+(23, 'Antiasmáticos Antitusígenos '),
+(24, 'Vitaminas'),
+(25, 'Infusiones'),
+(26, 'Infusiones'),
+(27, 'Otra categoría');
 
 -- --------------------------------------------------------
 
@@ -55,6 +81,13 @@ CREATE TABLE `citas` (
   `fecha_cita` date NOT NULL,
   `fecha_registro` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `citas`
+--
+
+INSERT INTO `citas` (`id_cita`, `id_persona`, `id_especialidad`, `id_doctor`, `observacion`, `estatus`, `fecha_cita`, `fecha_registro`) VALUES
+(1, 1, 1, 36, 'Cuadro de depresión.', 1, '2025-01-18', '2025-01-11');
 
 -- --------------------------------------------------------
 
@@ -76,23 +109,9 @@ CREATE TABLE `consultas` (
   `id_doctor` int(11) NOT NULL,
   `id` int(11) DEFAULT NULL,
   `fecha_registro` date NOT NULL,
-  `fecha_actualizacion` date DEFAULT NULL
+  `fecha_actualizacion` date DEFAULT NULL,
+  `estatus` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `consultas`
---
-
-INSERT INTO `consultas` (`id_consulta`, `id_especialidad`, `id_tipo_consulta`, `id_persona`, `diagnostico`, `peso`, `altura`, `presion_arterial`, `edad`, `id_recipe`, `id_doctor`, `id`, `fecha_registro`, `fecha_actualizacion`) VALUES
-(1, 4, 8, 5, 'Tos seca', 60, 2, '120/80', NULL, 26, 35, 57, '2024-12-10', NULL),
-(2, 4, 7, 5, 'Tos seca', 60, 1.76, '120/80', NULL, 27, 35, 57, '2024-12-10', NULL),
-(3, 4, 8, 7, 'Tos seca', 60, 1, '120/80', NULL, 28, 35, 57, '2024-12-10', NULL),
-(4, 4, 8, 7, ' Refriado', 60, 1, '120/80', NULL, 41, 35, 57, '2024-12-11', NULL),
-(5, 4, 8, 7, 'tos', 60, 1, '120/80', NULL, 42, 35, 57, '2024-12-11', NULL),
-(6, 4, 8, 7, 'Tos seca', 80, 1, '120/80', NULL, 43, 35, 57, '2024-12-11', NULL),
-(7, 4, 8, 7, 'Tos seca', 20, 1, '120/80', NULL, 44, 35, 57, '2024-12-11', NULL),
-(8, 1, 10, 1, 'depresión', 0, 0, '', NULL, 45, 37, 60, '2024-12-18', NULL),
-(9, 4, 1, 7, 'Tos seca.', 50, 1, '120/80', NULL, 46, 35, 57, '2024-12-19', NULL);
 
 -- --------------------------------------------------------
 
@@ -125,7 +144,16 @@ INSERT INTO `doctor` (`id_doctor`, `id_especialidad`, `id_persona`) VALUES
 (34, 4, 37),
 (35, 4, 38),
 (36, 1, 39),
-(37, 1, 40);
+(37, 1, 40),
+(38, 0, 67),
+(39, 1, 68),
+(40, 0, 69),
+(41, 0, 71),
+(42, 0, 72),
+(44, 0, 84),
+(45, 0, 85),
+(46, 1, 86),
+(47, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -147,10 +175,7 @@ CREATE TABLE `especialidad` (
 INSERT INTO `especialidad` (`id_especialidad`, `nombre_especialidad`, `modalidad`, `tm_porcita`) VALUES
 (1, 'PSICOLOGÍA', 'Por cita', 30),
 (3, 'PEDIATRIA', 'Sin cita', 0),
-(4, 'MEDICINA GENERAL', 'Sin cita', 0),
-(7, 'CARDIOLOGÍA', 'Por cita', 20),
-(8, 'ODONTOLOGIA', 'Por cita', 20),
-(9, 'NUTRICION', 'Por cita', 40);
+(4, 'MEDICINA GENERAL', 'Sin cita', 0);
 
 -- --------------------------------------------------------
 
@@ -290,19 +315,8 @@ CREATE TABLE `historia_medica` (
   `medicado` varchar(10) NOT NULL,
   `cirugia_hospitalaria` varchar(100) NOT NULL,
   `alergia` varchar(100) NOT NULL,
-  `fecha_reg` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fecha_modif` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `fecha_reg` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `historia_medica`
---
-
-INSERT INTO `historia_medica` (`id`, `id_persona`, `tipo_sangre`, `fumador`, `frecuencia_f`, `alcohol`, `frecuencia_alcohol`, `actividad_fisica`, `frecuencia_ac_f`, `antec_fami`, `medicado`, `cirugia_hospitalaria`, `alergia`, `fecha_reg`, `fecha_modif`) VALUES
-(1, 10, 'A+', 'Sí', 'Array', 'No', 'Array', 'Sí', 'Array', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-26 04:00:00', '0000-00-00 00:00:00'),
-(2, 5, 'A+', 'Sí', 'Array', 'No', 'Array', 'Sí', 'Array', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-26 04:00:00', '0000-00-00 00:00:00'),
-(3, 7, 'A+', 'Sí', '2 cigarros diarios.', 'No', '', 'Sí', '30 minutos al día.', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-26 04:00:00', '0000-00-00 00:00:00'),
-(4, 6, 'A+', 'Sí', '2 cigarros diarios.', 'No', '', 'Sí', 'Camina 30 minutos al día.', 'N/A', 'Sí', 'N/A', 'N/A', '2024-12-26 04:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -316,20 +330,6 @@ CREATE TABLE `histo_medic` (
   `id_presentacion_medicamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `histo_medic`
---
-
-INSERT INTO `histo_medic` (`id_histo_medic`, `id_historia_medica`, `id_presentacion_medicamento`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 2, 2),
-(4, 2, 3),
-(5, 3, 2),
-(6, 3, 3),
-(7, 4, 1),
-(8, 4, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -341,20 +341,6 @@ CREATE TABLE `histo_patologias` (
   `id_historia_medica` int(11) NOT NULL,
   `id_patologia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `histo_patologias`
---
-
-INSERT INTO `histo_patologias` (`id_histo_patologia`, `id_historia_medica`, `id_patologia`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 2, 1),
-(4, 2, 2),
-(5, 3, 1),
-(6, 3, 2),
-(7, 3, 3),
-(8, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -394,7 +380,14 @@ INSERT INTO `horario` (`id`, `id_doctor`, `dia`, `hora_entrada`, `hora_salida`) 
 (17, 36, 'Lunes', '06:00:00', '12:00:00'),
 (18, 36, 'Martes', '06:00:00', '12:00:00'),
 (19, 37, 'Lunes', '06:00:00', '12:00:00'),
-(20, 37, 'Martes', '06:00:00', '12:00:00');
+(20, 37, 'Martes', '06:00:00', '12:00:00'),
+(21, 38, 'Lunes', '08:11:00', '18:00:00'),
+(22, 39, 'Lunes', '06:00:00', '12:00:00'),
+(26, 44, 'Lunes', '06:00:00', '00:00:00'),
+(27, 45, 'Lunes', '06:00:00', '00:00:00'),
+(28, 46, 'Lunes', '06:00:00', '00:00:00'),
+(29, 46, 'Martes', '06:00:00', '12:00:00'),
+(30, 47, 'Lunes', '08:00:00', '12:00:00');
 
 -- --------------------------------------------------------
 
@@ -416,7 +409,105 @@ CREATE TABLE `medicamentos` (
 INSERT INTO `medicamentos` (`id_medicamento`, `nombre_medicamento`, `codigo`, `fecha_registro`) VALUES
 (1, 'Acetaminofen', 2, '2024-12-10'),
 (2, 'Atamel', 2, '2024-12-21'),
-(3, 'Diclofenac Potásico', 2, '2024-12-21');
+(3, 'Diclofenac Potásico', 2, '2024-12-21'),
+(4, 'Vitamina K1', 24, '2025-01-14'),
+(5, 'Ketamina', 1, '2025-01-14'),
+(6, 'Lidocaina', 1, '2025-01-14'),
+(7, 'Naloxona', 1, '2025-01-14'),
+(8, 'Diclofenac', 2, '2025-01-14'),
+(9, 'Diclofenac Sódico', 2, '2025-01-14'),
+(10, 'Diclofenac Potásico ', 2, '2025-01-14'),
+(11, 'Diclofenac Sódico', 2, '2025-01-14'),
+(12, 'Ibuprofeno', 2, '2025-01-14'),
+(13, 'Ibuprofeno', 2, '2025-01-14'),
+(14, 'Paracetamol', 2, '2025-01-14'),
+(15, 'Paracetamol', 2, '2025-01-14'),
+(16, 'Paracetamol', 2, '2025-01-14'),
+(17, 'Paracetamol', 2, '2025-01-14'),
+(18, 'Tramadol', 2, '2025-01-14'),
+(19, 'Prometazina', 3, '2025-01-14'),
+(20, 'Albendazol', 5, '2025-01-14'),
+(21, 'Mebendazol', 5, '2025-01-14'),
+(22, 'Amoxicilina', 6, '2025-01-14'),
+(23, 'Amoxicilina', 6, '2025-01-14'),
+(24, 'Ampicilina Sódica', 6, '2025-01-14'),
+(25, 'Cefalexina', 6, '2025-01-14'),
+(26, 'Cloxacilina', 6, '2025-01-14'),
+(27, 'Cotrimoxazol', 6, '2025-01-14'),
+(28, 'Doxicilina', 6, '2025-01-14'),
+(29, 'Fluconazol', 6, '2025-01-14'),
+(30, 'Gentamicina', 6, '2025-01-14'),
+(31, 'Ketoconazol', 6, '2025-01-14'),
+(32, 'Nistatina', 6, '2025-01-18'),
+(33, 'Nistatina', 6, '2025-01-18'),
+(34, 'Penicilina', 6, '2025-01-18'),
+(35, 'Metronidazol', 7, '2025-01-18'),
+(36, 'Arteméter', 8, '2025-01-18'),
+(37, 'Artesiunato', 8, '2025-01-18'),
+(38, 'Sulfato de quinina', 8, '2025-01-18'),
+(39, 'Azatioprina', 9, '2025-01-18'),
+(40, 'Dexametasona', 9, '2025-01-18'),
+(41, 'Tamoxifeno', 9, '2025-01-18'),
+(42, 'Etambutil', 10, '2025-01-18'),
+(43, 'Pirazinamida', 10, '2025-01-18'),
+(44, 'Ácido Fólico', 11, '2025-01-18'),
+(45, 'Sulfato ferroso', 11, '2025-01-18'),
+(46, 'Ácido acetilsalisílico ', 12, '2025-01-18'),
+(47, 'Atenolol ', 12, '2025-01-18'),
+(48, 'Captopril', 12, '2025-01-18'),
+(49, 'Enalapril', 12, '2025-01-18'),
+(50, 'Clotrimazol', 13, '2025-01-18'),
+(51, 'Gluconato de clorhexidina', 13, '2025-01-18'),
+(52, 'Hidrocortisona', 13, '2025-01-18'),
+(53, 'Nistatina', 13, '2025-01-18'),
+(54, 'Nitrato de Miconazol', 13, '2025-01-18'),
+(55, 'Sulfadiazina de plata', 13, '2025-01-18'),
+(56, 'Yodo povidona', 13, '2025-01-18'),
+(57, 'Hidrocortisona', 14, '2025-01-18'),
+(58, 'Prednisolona', 14, '2025-01-18'),
+(59, 'Glibenclamida', 15, '2025-01-18'),
+(60, 'Glicilazida', 15, '2025-01-18'),
+(61, 'Metformina', 15, '2025-01-18'),
+(62, 'Furosemida', 16, '2025-01-18'),
+(63, 'Furosemida ', 16, '2025-01-18'),
+(64, 'Hidroclorotiazida', 16, '2025-01-18'),
+(65, 'Metoclopramida', 17, '2025-01-18'),
+(66, 'Hidróxido de aluminio', 17, '2025-01-18'),
+(67, 'Omeprazol', 17, '2025-01-18'),
+(68, 'Ranitidina', 17, '2025-01-18'),
+(69, 'Sulfato de Atropina', 18, '2025-01-18'),
+(70, 'Sulfato de Atropina', 18, '2025-01-18'),
+(71, 'Butilbromuro de Hioscina', 18, '2025-01-18'),
+(72, 'Loperamida ', 20, '2025-01-18'),
+(73, 'Sulfato de Zinc', 20, '2025-01-18'),
+(74, 'Gentamicina', 21, '2025-01-18'),
+(75, 'Tetraciclina', 21, '2025-01-18'),
+(76, 'Clorpromazina', 22, '2025-01-18'),
+(77, 'Bromhexina', 23, '2025-01-18'),
+(78, 'Lactato de calcio', 24, '2025-01-18'),
+(79, 'Multivitamínico', 24, '2025-01-18'),
+(80, 'Vitamina A', 24, '2025-01-18'),
+(81, 'Vitamina B1', 24, '2025-01-18'),
+(82, 'Vitamina C', 24, '2025-01-18'),
+(83, 'Vitamina K1', 24, '2025-01-18'),
+(84, 'Vitamina B', 24, '2025-01-18'),
+(85, 'Cloruro de sodio', 25, '2025-01-18'),
+(86, 'Desinfectante de agua', 25, '2025-01-18'),
+(87, 'Glucosa', 25, '2025-01-18'),
+(88, 'Eritromicina etilsuccinato', 6, '2025-01-18'),
+(89, 'Albendazol', 5, '2025-01-18'),
+(90, 'Ceftriaxona Sódica', 6, '2025-01-18'),
+(91, 'Cefixima', 6, '2025-01-18'),
+(92, 'Ciprofloxacina', 6, '2025-01-18'),
+(93, 'Eritromicina', 6, '2025-01-18'),
+(94, 'Nifedipina', 12, '2025-01-18'),
+(95, 'Metildopa', 12, '2025-01-18'),
+(96, 'Betametasona', 13, '2025-01-18'),
+(97, 'Trisilicato de magnesio', 17, '2025-01-18'),
+(98, 'Butilbromuro de Hioscina', 18, '2025-01-18'),
+(99, 'Tetraciclina', 21, '2025-01-18'),
+(100, 'Ringer lactato', 26, '2025-01-18'),
+(101, 'Carbamazepina', 4, '2025-01-18');
 
 -- --------------------------------------------------------
 
@@ -6421,20 +6512,7 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`id_persona`, `tipo_persona`, `n_documento`, `tipo_documento`, `p_nombre`, `s_nombre`, `p_apellido`, `s_apellido`, `fecha_nacimiento`, `sexo`, `telefono`, `direccion`, `correo`, `fecha_registro`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
-(1, 'Paciente', '12345678', 'V', 'Carlos', 'Andrés', 'Pérez', 'García', '1990-05-15', 'M', '04141234567', 'Av. Bolívar 123', 'carlos.perez@example.com', '2024-12-04', 1, 1, 1),
-(2, 'Paciente', '87654321', 'V', 'María', 'Josefina', 'Rodríguez', 'López', '1985-09-20', 'F', '04127654321', 'Calle Sucre 456', 'maria.rodriguez@example.com', '2024-12-04', 1, 2, 3),
-(3, 'Paciente', '13579246', 'V', 'Ana', 'Beatriz', 'Martínez', 'Ruiz', '1997-12-01', 'F', '04126789123', 'Sector La Paz 9', 'ana.martinez@example.com', '2024-12-04', 3, 4, 7),
-(4, 'Paciente', '24681357', 'V', 'José', 'Luis', 'Hernández', 'Torres', '1988-03-18', 'M', '04247895621', 'Av. Principal 145', 'jose.hernandez@example.com', '2024-12-04', 4, 5, 9),
-(5, 'Paciente', '98765432', 'V', 'Ricardo', '', 'Morales', 'Fernández', '1992-08-14', 'M', '04149876543', 'Urbanización Sur 67', 'ricardo.morales@example.com', '2024-12-04', 6, 7, 13),
-(6, 'Paciente', '54321678', 'V', 'Patricia', 'Alejandra', 'Rivero', 'Camacho', '1999-01-27', 'F', '04121234598', 'Sector Este 12', 'patricia.rivero@example.com', '2024-12-04', 7, 8, 15),
-(7, 'Paciente', '78945612', 'V', 'Carmen', 'Luisa', 'Reyes', 'Pérez', '1983-04-12', 'F', '04120009876', 'Av. Libertador 89', 'carmen.reyes@example.com', '2024-12-04', 9, 10, 19),
-(8, 'Paciente', '65478932', 'V', 'Luis', 'Enrique', 'Gómez', 'Salazar', '1995-09-05', 'M', '04147894567', 'Calle Oeste 34', 'luis.gomez@example.com', '2024-12-04', 2, 3, 6),
-(9, 'Paciente', '98732154', 'V', 'Gloria', 'Esther', 'Ramos', 'Delgado', '1991-01-21', 'F', '04128904567', 'Sector Norte 21', 'gloria.ramos@example.com', '2024-12-04', 5, 8, 12),
-(10, 'Paciente', '32165498', 'V', 'Eduardo', 'José', 'Vargas', 'Márquez', '1987-06-30', 'M', '04137894562', 'Urbanización La Luna 45', 'eduardo.vargas@example.com', '2024-12-04', 3, 6, 10),
-(38, 'usuario', '29596688', 'V', 'Kleiber', 'Antonio', 'Aranguren', 'Pacheco', '1964-03-21', 'Masculino', '12345678', 'Ruiz pineda', 'Kleiber8113@gmail.com', '2024-12-03', NULL, NULL, NULL),
-(39, 'usuario', '27333664', 'V', 'Jesus', 'Antonio', 'Aranguren', 'Pacheco', '1999-12-11', 'Masculino', '123456', 'Ruiz pineda', 'jesusaranguren675@gmail.com', '2024-12-09', NULL, NULL, NULL),
-(41, 'Paciente', '6214066', 'V', 'Federico', 'Antonio', 'Aranguren', 'Pacheco', '1964-03-21', 'Masculino', '04149177038', 'Ruiz pineda', 'kleiber8113@gmail.com', '2024-12-19', NULL, NULL, NULL),
-(42, 'Paciente', '16203350', 'V', 'Marli', 'Levis', 'Pacheco', 'Marrufo', '1982-02-08', 'F', '04269092838', 'Ruiz pineda', 'leivyspacheko@gmail.com', '2024-12-21', NULL, NULL, NULL);
+(1, 'usuario', '29596688', 'V', 'Kleiber', 'Antonio', 'Aranguren', 'Pacheco', '2003-11-08', 'Masculino', '04161454551', 'Ruiz pineda', 'kleiber8113@gmail.com', '2025-01-18', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -6453,7 +6531,23 @@ CREATE TABLE `presentacion` (
 --
 
 INSERT INTO `presentacion` (`id_presentacion`, `presentacion`, `fecha_registro`) VALUES
-(1, 'Pastillas', '2024-12-10');
+(1, 'Ampollas', '2025-01-14'),
+(2, 'Tabletas', '2025-01-15'),
+(3, 'Gel', '2025-01-15'),
+(4, 'Supositorios', '2025-01-15'),
+(5, 'Suspensión Oral', '2025-01-15'),
+(6, 'Solución', '2025-01-15'),
+(7, 'Tabletas masticables ', '2025-01-15'),
+(8, 'Tabletas recubiertas', '2025-01-15'),
+(9, 'Cápsulas', '2025-01-15'),
+(10, 'Crema', '2025-01-15'),
+(11, 'Pomada', '2025-01-15'),
+(12, 'Inyectable', '2025-01-15'),
+(13, 'Ungüento', '2025-01-15'),
+(14, 'Gotas', '2025-01-15'),
+(15, 'Jarabe', '2025-01-15'),
+(16, 'Tabletas dispersables', '2025-01-15'),
+(17, 'Infusión Intravenosa', '2025-01-18');
 
 -- --------------------------------------------------------
 
@@ -6473,9 +6567,107 @@ CREATE TABLE `presentacion_medicamentos` (
 --
 
 INSERT INTO `presentacion_medicamentos` (`id_presentacion_medicamento`, `id_medicamento`, `id_presentacion`, `fecha_registro`) VALUES
-(1, 1, 1, '2024-12-10'),
-(2, 2, 1, '2024-12-21'),
-(3, 3, 1, '2024-12-21');
+(1, 1, 2, '2024-12-10'),
+(2, 2, 2, '2024-12-21'),
+(3, 3, 1, '2024-12-21'),
+(4, 4, 12, '2025-01-14'),
+(5, 5, 1, '2025-01-14'),
+(6, 6, 1, '2025-01-14'),
+(7, 7, 1, '2025-01-14'),
+(8, 8, 3, '2025-01-14'),
+(9, 9, 1, '2025-01-14'),
+(10, 10, 2, '2025-01-14'),
+(11, 11, 2, '2025-01-14'),
+(12, 12, 2, '2025-01-14'),
+(13, 13, 15, '2025-01-14'),
+(14, 14, 2, '2025-01-14'),
+(15, 15, 1, '2025-01-14'),
+(16, 16, 5, '2025-01-14'),
+(17, 17, 15, '2025-01-14'),
+(18, 18, 4, '2025-01-14'),
+(19, 19, 1, '2025-01-14'),
+(20, 20, 7, '2025-01-14'),
+(21, 21, 2, '2025-01-14'),
+(22, 22, 2, '2025-01-14'),
+(23, 23, 15, '2025-01-14'),
+(24, 24, 12, '2025-01-14'),
+(25, 25, 4, '2025-01-14'),
+(26, 26, 4, '2025-01-14'),
+(27, 27, 2, '2025-01-14'),
+(28, 28, 2, '2025-01-14'),
+(29, 29, 4, '2025-01-14'),
+(30, 30, 1, '2025-01-14'),
+(31, 31, 2, '2025-01-14'),
+(32, 32, 5, '2025-01-18'),
+(33, 33, 2, '2025-01-18'),
+(34, 34, 2, '2025-01-18'),
+(35, 35, 2, '2025-01-18'),
+(36, 36, 12, '2025-01-18'),
+(37, 37, 12, '2025-01-18'),
+(38, 38, 2, '2025-01-18'),
+(39, 39, 2, '2025-01-18'),
+(40, 40, 12, '2025-01-18'),
+(41, 41, 2, '2025-01-18'),
+(42, 42, 2, '2025-01-18'),
+(43, 43, 2, '2025-01-18'),
+(44, 44, 2, '2025-01-18'),
+(45, 45, 2, '2025-01-18'),
+(46, 46, 2, '2025-01-18'),
+(47, 47, 2, '2025-01-18'),
+(48, 48, 2, '2025-01-18'),
+(49, 49, 2, '2025-01-18'),
+(50, 50, 10, '2025-01-18'),
+(51, 51, 6, '2025-01-18'),
+(52, 52, 10, '2025-01-18'),
+(53, 53, 11, '2025-01-18'),
+(54, 54, 10, '2025-01-18'),
+(55, 55, 10, '2025-01-18'),
+(56, 56, 6, '2025-01-18'),
+(57, 57, 12, '2025-01-18'),
+(58, 58, 2, '2025-01-18'),
+(59, 59, 2, '2025-01-18'),
+(60, 60, 2, '2025-01-18'),
+(61, 61, 2, '2025-01-18'),
+(62, 62, 12, '2025-01-18'),
+(63, 63, 2, '2025-01-18'),
+(64, 64, 2, '2025-01-18'),
+(65, 65, 2, '2025-01-18'),
+(66, 66, 2, '2025-01-18'),
+(67, 67, 9, '2025-01-18'),
+(68, 68, 2, '2025-01-18'),
+(69, 69, 0, '2025-01-18'),
+(70, 70, 12, '2025-01-18'),
+(71, 71, 2, '2025-01-18'),
+(72, 72, 2, '2025-01-18'),
+(73, 73, 2, '2025-01-18'),
+(74, 74, 14, '2025-01-18'),
+(75, 75, 10, '2025-01-18'),
+(76, 76, 2, '2025-01-18'),
+(77, 77, 15, '2025-01-18'),
+(78, 78, 2, '2025-01-18'),
+(79, 79, 2, '2025-01-18'),
+(80, 80, 9, '2025-01-18'),
+(81, 81, 12, '2025-01-18'),
+(82, 82, 2, '2025-01-18'),
+(83, 83, 12, '2025-01-18'),
+(84, 84, 2, '2025-01-18'),
+(85, 85, 17, '2025-01-18'),
+(86, 86, 2, '2025-01-18'),
+(87, 87, 17, '2025-01-18'),
+(88, 88, 5, '2025-01-18'),
+(89, 89, 2, '2025-01-18'),
+(90, 90, 12, '2025-01-18'),
+(91, 91, 2, '2025-01-18'),
+(92, 92, 2, '2025-01-18'),
+(93, 93, 2, '2025-01-18'),
+(94, 94, 2, '2025-01-18'),
+(95, 95, 2, '2025-01-18'),
+(96, 96, 10, '2025-01-18'),
+(97, 97, 2, '2025-01-18'),
+(98, 98, 12, '2025-01-18'),
+(99, 99, 13, '2025-01-18'),
+(100, 100, 17, '2025-01-18'),
+(101, 101, 2, '2025-01-18');
 
 -- --------------------------------------------------------
 
@@ -6489,58 +6681,6 @@ CREATE TABLE `recipes` (
   `instrucciones` text NOT NULL,
   `fecha_registro` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `recipes`
---
-
-INSERT INTO `recipes` (`id_recipe`, `id_usuario`, `instrucciones`, `fecha_registro`) VALUES
-(1, 28, 'Instrucciones...', '2024-11-13'),
-(2, 28, '....', '2024-11-13'),
-(3, 28, 'Instrucciones', '2024-11-13'),
-(4, 28, '....', '2024-11-13'),
-(5, 28, '', '2024-11-19'),
-(6, 28, '', '2024-11-21'),
-(7, 57, '', '2024-12-04'),
-(8, 57, '', '2024-12-04'),
-(9, 57, '', '2024-12-08'),
-(10, 57, '', '2024-12-08'),
-(11, 57, '', '2024-12-08'),
-(12, 57, '', '2024-12-09'),
-(13, 57, '', '2024-12-10'),
-(14, 57, '', '2024-12-10'),
-(15, 57, '', '2024-12-10'),
-(16, 57, '', '2024-12-10'),
-(17, 57, '', '2024-12-10'),
-(18, 57, '', '2024-12-10'),
-(19, 57, '', '2024-12-10'),
-(20, 57, '', '2024-12-10'),
-(21, 57, '', '2024-12-10'),
-(22, 57, '', '2024-12-10'),
-(23, 57, '', '2024-12-10'),
-(24, 57, '', '2024-12-10'),
-(25, 57, 'Tomar abundante agua.', '2024-12-10'),
-(26, 57, 'Tomar abundante agua.', '2024-12-10'),
-(27, 57, 'Tomar en ayunas.', '2024-12-10'),
-(28, 57, 'Tomar antes de comer', '2024-12-10'),
-(29, 57, 'Tomar antes de comer.', '2024-12-11'),
-(30, 57, 'Tomar antes de comer.', '2024-12-11'),
-(31, 57, 'Tomar antes de comer.', '2024-12-11'),
-(32, 57, 'Tomar antes de comer.', '2024-12-11'),
-(33, 57, 'Tos seca', '2024-12-11'),
-(34, 57, 'Tos seca', '2024-12-11'),
-(35, 57, 'Tomar antes de comer.', '2024-12-11'),
-(36, 57, 'Tomar antes de comer.', '2024-12-11'),
-(37, 57, 'Tomar antes de comer.', '2024-12-11'),
-(38, 57, 'Tomar antes de comer', '2024-12-11'),
-(39, 57, 'Tomar antes de comer', '2024-12-11'),
-(40, 57, 'Tomar.', '2024-12-11'),
-(41, 57, 'Tomar agua', '2024-12-11'),
-(42, 57, '', '2024-12-11'),
-(43, 57, 'Tos seca', '2024-12-11'),
-(44, 57, 'Tomar agua', '2024-12-11'),
-(45, 60, '', '2024-12-18'),
-(46, 57, '', '2024-12-19');
 
 -- --------------------------------------------------------
 
@@ -6558,34 +6698,34 @@ CREATE TABLE `recipes_medicamentos` (
   `cantidad` int(50) DEFAULT NULL,
   `intervalo` varchar(50) DEFAULT NULL,
   `fecha_registro` date DEFAULT NULL,
-  `fecha_actualizacion` date DEFAULT NULL
+  `fecha_actualizacion` date DEFAULT NULL,
+  `estatus` int(11) NOT NULL,
+  `observacion_suspension` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `recipes_medicamentos`
+-- Estructura de tabla para la tabla `representados`
 --
 
-INSERT INTO `recipes_medicamentos` (`id_recipe_medicamento`, `id_presentacion_medicamento`, `id_recipe`, `dosis`, `unidad_medida`, `frecuencia`, `cantidad`, `intervalo`, `fecha_registro`, `fecha_actualizacion`) VALUES
-(31, 1, 27, 1, 'pastilla', 7, 3, 'días', '2024-12-10', NULL),
-(32, 1, 28, 1, 'pastilla', 8, 2, 'semanas', '2024-12-10', NULL),
-(33, 1, 29, 1, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(34, 1, 30, 1, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(35, 1, 31, 1, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(36, 1, 32, 1, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(37, 1, 33, 2, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(38, 1, 34, 2, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(39, 1, 35, 1, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(40, 1, 36, 1, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(41, 1, 37, 1, 'pastilla', 8, 2, 'semanas', '2024-12-11', NULL),
-(42, NULL, 38, NULL, NULL, NULL, NULL, NULL, '2024-12-11', NULL),
-(43, NULL, 39, NULL, NULL, NULL, NULL, NULL, '2024-12-11', NULL),
-(44, 1, 40, 1, 'pastilla', 8, 2, 'días', '2024-12-11', NULL),
-(45, 1, 41, 1, 'pastilla', 2, 8, 'días', '2024-12-11', NULL),
-(46, NULL, 42, NULL, NULL, NULL, NULL, NULL, '2024-12-11', NULL),
-(47, 1, 43, 1, 'pastilla', 7, 8, 'semanas', '2024-12-11', NULL),
-(48, 1, 44, 1, 'pastilla', 8, 2, 'días', '2024-12-11', NULL),
-(49, NULL, 45, NULL, NULL, NULL, NULL, NULL, '2024-12-18', NULL),
-(50, 1, 46, 1, 'pastilla', 8, 2, 'días', '2024-12-19', NULL);
+CREATE TABLE `representados` (
+  `id` int(11) NOT NULL,
+  `id_persona` int(11) NOT NULL,
+  `parentesco` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `representados`
+--
+
+INSERT INTO `representados` (`id`, `id_persona`, `parentesco`) VALUES
+(2, 57, 'Hijo/a'),
+(3, 58, 'Hijo/a'),
+(4, 59, 'Hijo/a'),
+(7, 43, NULL),
+(8, 62, 'Hijo/a'),
+(9, 65, 'madre');
 
 -- --------------------------------------------------------
 
@@ -6596,15 +6736,8 @@ INSERT INTO `recipes_medicamentos` (`id_recipe_medicamento`, `id_presentacion_me
 CREATE TABLE `representantes` (
   `id_representante` int(11) NOT NULL,
   `id_persona` int(11) NOT NULL,
-  `parentesco` varchar(20) NOT NULL
+  `parentesco` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Volcado de datos para la tabla `representantes`
---
-
-INSERT INTO `representantes` (`id_representante`, `id_persona`, `parentesco`) VALUES
-(1, 18, 'padre');
 
 -- --------------------------------------------------------
 
@@ -6617,13 +6750,6 @@ CREATE TABLE `representantes_personas` (
   `id_representante` int(11) NOT NULL,
   `id_persona` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Volcado de datos para la tabla `representantes_personas`
---
-
-INSERT INTO `representantes_personas` (`id_representante_persona`, `id_representante`, `id_persona`) VALUES
-(1, 1, 17);
 
 -- --------------------------------------------------------
 
@@ -6642,11 +6768,10 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `rol`, `estatus`) VALUES
-(1, 'SOPORTE', 1),
 (2, 'ADMINISTRADOR', 1),
 (3, 'DOCTOR', 1),
 (4, 'RECEPCIONISTA', 1),
-(5, 'COORDINADORA', 1),
+(5, 'COORDINADOR/A', 1),
 (6, 'RRHH', 1);
 
 -- --------------------------------------------------------
@@ -6725,10 +6850,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `id_Persona`, `usuario`, `foto`, `contrasena`, `id_rol`, `estatus`, `fecha_registro`) VALUES
-(28, 29, 'kleiber2003', 'user.jpg', '123456', 6, 1, '2024-11-20'),
-(45, 9, 'jesusZ', '', '123', 2, 1, '2024-11-23'),
-(54, 32, 'Juan', 'C:\\fakepath\\22ENP55LDZHWXKWS42G5CRYTW4.jpeg', '$2y$10$bmsc8QSefI/Li/kKuu6r7OkBM.we7vXASWIQLDY.esgV73XbS4S/e', 3, 1, '2024-12-03'),
-(57, 38, 'kleiber2003', 'C:\\fakepath\\22ENP55LDZHWXKWS42G5CRYTW4.jpeg', '$2y$10$er4CCp2wg1YG1OP3smjF1.DFY8zFqeQ0R6Cij52bom7S/SfuyLNcm', 2, 1, '2024-12-03');
+(73, 1, 'kleiber2003', '', '$2y$10$kDzZRSN.Pru24unes6TX2OLhefYbVw3UdK8ET4fN6K1qs3lQnaIka', 2, 1, '2025-01-18');
 
 --
 -- Índices para tablas volcadas
@@ -6814,12 +6936,6 @@ ALTER TABLE `presentacion`
   ADD PRIMARY KEY (`id_presentacion`);
 
 --
--- Indices de la tabla `presentacion_medicamentos`
---
-ALTER TABLE `presentacion_medicamentos`
-  ADD PRIMARY KEY (`id_presentacion_medicamento`);
-
---
 -- Indices de la tabla `recipes`
 --
 ALTER TABLE `recipes`
@@ -6830,6 +6946,12 @@ ALTER TABLE `recipes`
 --
 ALTER TABLE `recipes_medicamentos`
   ADD PRIMARY KEY (`id_recipe_medicamento`);
+
+--
+-- Indices de la tabla `representados`
+--
+ALTER TABLE `representados`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `representantes`
@@ -6876,25 +6998,25 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `categoria_medicamento`
 --
 ALTER TABLE `categoria_medicamento`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_cita` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `consultas`
 --
 ALTER TABLE `consultas`
-  MODIFY `id_consulta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_consulta` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `id_doctor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_doctor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
@@ -6906,31 +7028,31 @@ ALTER TABLE `especialidad`
 -- AUTO_INCREMENT de la tabla `historia_medica`
 --
 ALTER TABLE `historia_medica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `histo_medic`
 --
 ALTER TABLE `histo_medic`
-  MODIFY `id_histo_medic` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_histo_medic` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `histo_patologias`
 --
 ALTER TABLE `histo_patologias`
-  MODIFY `id_histo_patologia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_histo_patologia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `horario`
 --
 ALTER TABLE `horario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamentos`
 --
 ALTER TABLE `medicamentos`
-  MODIFY `id_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT de la tabla `patologias`
@@ -6942,37 +7064,43 @@ ALTER TABLE `patologias`
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `presentacion_medicamentos`
+-- AUTO_INCREMENT de la tabla `presentacion`
 --
-ALTER TABLE `presentacion_medicamentos`
-  MODIFY `id_presentacion_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `presentacion`
+  MODIFY `id_presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `id_recipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id_recipe` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `recipes_medicamentos`
 --
 ALTER TABLE `recipes_medicamentos`
-  MODIFY `id_recipe_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_recipe_medicamento` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `representados`
+--
+ALTER TABLE `representados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes`
 --
 ALTER TABLE `representantes`
-  MODIFY `id_representante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_representante` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes_personas`
 --
 ALTER TABLE `representantes_personas`
-  MODIFY `id_representante_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_representante_persona` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -6984,7 +7112,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tbl_temporal_medicamentos`
 --
 ALTER TABLE `tbl_temporal_medicamentos`
-  MODIFY `id_temporal_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_temporal_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_consulta`
@@ -6996,7 +7124,7 @@ ALTER TABLE `tipo_consulta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

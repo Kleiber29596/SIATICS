@@ -48,7 +48,7 @@ class RolesController
 				'db'        => 'estatus',
 				'dt'        => 2,
 				'formatter' => function ($d, $row) {
-					return ($d == 1) ? '<button class="btn btn-success btn-sm">Activo</button>' : '<button class="btn btn-danger btn-sm">Inactivo</button>';
+					return ($d == 1) ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-success">Inactivo</span>';
 				}),
 			array('db' => 'id', 'dt' => 3),
 			array('db' => 'estatus', 'dt' => 4)

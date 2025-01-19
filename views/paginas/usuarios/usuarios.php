@@ -340,9 +340,10 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                     <div class="form-group">
                                         <label for="rol">Rol</label>
                                         <select class="form-control" name="rol" id="rol">
-                                            <option value="3" selected disabled>Doctor/a</option>
-                                            <option value="4" selected disabled>Recepcionista</option>
-                                            <option value="4" selected disabled>RRHH</option>                         
+                                            <option value="3" selected >Doctor/a</option>
+                                            <option value="4" selected >Recepcionista</option>
+                                            <option value="5" selected >Coordinador/a</option>
+                                            <option value="6" selected >RRHH</option>                         
                                         </select>
                                     </div>
                                 </div>
@@ -539,7 +540,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalVisualizarUsuarioLabel">Usuario</h5>
+                <h5 class="modal-title" id="modalVisualizarUsuarioLabel">Usuario <i class="bi bi-person-circle fs-2"></i></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -549,16 +550,13 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                             <a title="Datos del visitante" href="#"
                                 class="list-group-item  list-group-item-action active">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 id="nombre_apellido" class="mb-1">Informacion del Usuario</h5>
-                                    <small id="fecha_usuario"></small>
+                                    <h5 id="nombre_apellido" class="mb-1">Información del usuario</h5>
+                                    <small id="fecha_u"></small>
                                 </div>
-                                <p id="cedula_usuario" class="mb-1"></p>
-                                <p id="nombre_usuario" class="mb-1"></p>
-                                <p id="usuario_usuario" class="mb-1"></p>
-                                <p id="apellido_usuario" class="mb-1"></p>
-                                <p id="correo_usuario" class="mb-1"></p>
-
                                 <br>
+                                <p id="documento_u" class="mb-1"></p>
+                                <p id="nombre_usuario" class="mb-1" ></p>
+                                <p id="nombre_apellido_u" class="mb-1"></p>
                                 <p id="estatus_usuario" class="mb-1"></p>
                             </a>
                         </div>
