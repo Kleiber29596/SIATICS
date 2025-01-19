@@ -233,6 +233,7 @@ $especialidades = $objeto->selectEspecialidadCitas();
                 <button type="button" class="btn btn-primary" id="agregar_cita" title="Guardar cita"><i
                         class="fas fa-save"></i> Guardar</button>
             </div>
+            
         </div>
 
     </div>

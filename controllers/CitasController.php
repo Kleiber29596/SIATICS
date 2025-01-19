@@ -383,15 +383,16 @@ EOT;
 
 	public function registrarCita()
 	{
-
-
 		$modelCitas = new CitasModel();
+		$modelPersonas = new PersonasModel();
+		$id_persona = $_POST['ID'];
 
+		//$tipo_persona = "";
 		$fecha = date("Y-m-d"); //obteniendo fecha del registro
 
 		//REGISTRAR CITA
 		$datos = array(
-			'id_persona'   			  	    => $_POST['ID'],
+			'id_persona'   			  	    => $id_persona,
 			'id_doctor'    					=> $_POST['id_doctor_cita'],
 			'id_especialidad'		    	=> $_POST['id_especialidad_cita'],
 			'observacion'					=> $_POST['observacion_cita'],
@@ -400,29 +401,59 @@ EOT;
 			'fecha_registro'				=> $fecha
 		);
 
-		$verificar = $modelCitas->VerificarCita($_POST['ID'], $_POST['id_especialidad_cita'], $_POST['fecha_cita']);
+		$c_persona = $modelPersonas->consultarPersonaCita($id_persona);
+		$tipo_persona = null; // Initialize as null
 
-		if (empty($verificar)) {
-			$resultado = $modelCitas->registrarCita($datos);
-			if ($resultado) {
-				$data = [
-					'data' => [
-						'success'            =>  true,
-						'message'            => 'Guardado exitosamente',
-						'info'               =>  'La cita ha sido registrada con exito'
-					],
-					'code' => 1,
-				];
+		if (!empty($c_persona)) {
+		    // Assuming $c_persona is an array of stdClass objects
+		    // If it's a single stdClass object, you can access it directly
+		    if (is_array($c_persona)) {
+		        // If it's an array, access the first element
+		        $tipo_persona = [
+		            'tipo_perso' => $c_persona[0]->tipo_persona // Accessing the property using object syntax
+		        ];
+		    }
+		}
 
-				echo json_encode($data);
-				exit();
-				//FIN REGISTRAR CITA
-			}else{
+		/*echo json_encode();
+		exit();*/
+			$t = $tipo_persona['tipo_perso'];
+		if ($t == 'Paciente') {
+			$verificar = $modelCitas->VerificarCita($_POST['ID'], $_POST['id_especialidad_cita'], $_POST['fecha_cita']);
+			if (empty($verificar)) {
+				$resultado = $modelCitas->registrarCita($datos);
+				if ($resultado) {
+					$data = [
+						'data' => [
+							'success'            =>  true,
+							'message'            => 'Guardado exitosamente',
+							'info'               =>  'La cita ha sido registrada con exito'
+						],
+						'code' => 1,
+					];
+
+					echo json_encode($data);
+					exit();
+					//FIN REGISTRAR CITA
+				}else{
+					$data = [
+						'data' => [
+							'success'            =>  false,
+							'message'            => '¡Uy!',
+							'info'               =>  'Ocurrio un error inesperado al intentar registrar esta cita.'
+						],
+						'code' => 0,
+					];
+
+					echo json_encode($data);
+					exit();
+				}
+			} else {
 				$data = [
 					'data' => [
 						'success'            =>  false,
-						'message'            => '¡Uy!',
-						'info'               =>  'Ocurrio un error inesperado al intentar registrar esta cita.'
+						'message'            => '¡Hey!',
+						'info'               =>  'Esta persona ya posee una cita registrada para la misma fecha y especialidad.'
 					],
 					'code' => 0,
 				];
@@ -430,12 +461,14 @@ EOT;
 				echo json_encode($data);
 				exit();
 			}
-		} else {
+			echo json_encode($tipo_persona);
+			exit();
+		}else if($t == 'usuario'){
 			$data = [
 				'data' => [
 					'success'            =>  false,
 					'message'            => '¡Hey!',
-					'info'               =>  'Esta persona ya posee una cita registrada para la misma fecha y especialidad.'
+					'info'               =>  'Para esta persona no se puede realizar cita.'
 				],
 				'code' => 0,
 			];
