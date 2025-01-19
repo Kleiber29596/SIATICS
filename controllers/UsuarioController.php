@@ -49,6 +49,7 @@ class UsuarioController
 			$foto_bd 			= $resultado['foto'];
 			$hash 				= $resultado['contrasena'];
 			$rol_bd 			= $resultado['id_rol'];
+			$nombre_rol	        = $resultado['rol'];
 			$id_especialidad 	= $resultado['id_especialidad'];
 			$id_doctor 			= $resultado['id_doctor'];
 			$nombre_bd 			= $resultado['p_nombre'];
@@ -73,6 +74,7 @@ class UsuarioController
 				$_SESSION['nombre_user'] 		= $nombre_bd;
 				$_SESSION['apellido_user'] 		= $apellido_bd;
 				$_SESSION['estatus_usuario'] 	= $estatus;
+				$_SESSION['nombre_rol'] 	    = $nombre_rol;
 
 			
 
@@ -356,16 +358,14 @@ EOT;
 
 		foreach ($listar as $listar) {
 
-			$id_usuario 	= $listar['id'];
-			$cedula 		= $listar['cedula'];
-			$usuario 		= $listar['usuario'];
-			$nombre 		= $listar['nombre'];
-			$apellido 		= $listar['apellido'];
-			$correo 		= $listar['correo'];
-			$estatus 		= $listar['estatus'];
-			$rol 			= $listar['rol'];
-			$foto 			= $listar['foto'];
-			$fecha 			= $listar['fecha'];
+			$id_usuario 			= $listar['id'];
+			$usuario 				= $listar['usuario'];
+			$documento 				= $listar['documento'];
+			$nombre_apellido 		= $listar['nombre_apellido'];
+			$estatus 				= $listar['estatus'];
+			$rol 					= $listar['rol'];
+			$foto 					= $listar['foto'];
+			$fecha 					= $listar['fecha_registro'];
 		}
 
 		$data = [
@@ -374,15 +374,57 @@ EOT;
 				'message'            => 'Registro encontrado',
 				'info'               =>  '',
 				'id'				 => $id_usuario,
-				'cedula'    		 => $cedula,
 				'usuario'			 => $usuario,
-				'nombre'			 => $nombre,
-				'apellido'			 => $apellido,
-				'correo'			 => $correo,
-				'estatus'		     => $estatus,
-				'rol'		     	 => $rol,
-				'foto'		     	 => $foto,
-				'fecha'		     	 => $fecha,
+				'documento'			 => $documento,
+				'nombre_apellido'	 => $nombre_apellido,
+				'estatus'			 => $estatus,
+				'rol'				 => $rol,
+				'foto'				 => $foto,
+				'fecha'				 => $fecha
+			],
+			'code' => 0,
+		];
+
+		echo json_encode($data);
+
+		exit();
+	}
+
+
+	public function listarDatosUsuario()
+	{
+		$modelUsuario = new UsuarioModel();
+
+		$id_usuario = $_POST['id_usuario'];
+
+		$listar = $modelUsuario->obtenerUsuario($id_usuario);
+
+
+		foreach ($listar as $listar) {
+
+			$id_usuario 			= $listar['id'];
+			$usuario 				= $listar['usuario'];
+			$documento 				= $listar['documento'];
+			$nombre_apellido 		= $listar['nombre_apellido'];
+			$estatus 				= $listar['estatus'];
+			$rol 					= $listar['rol'];
+			$foto 					= $listar['foto'];
+			$fecha 					= $listar['fecha_registro'];
+		}
+
+		$data = [
+			'data' => [
+				'success'            =>  true,
+				'message'            => 'Registro encontrado',
+				'info'               =>  '',
+				'id'				 => $id_usuario,
+				'usuario'			 => $usuario,
+				'documento'			 => $documento,
+				'nombre_apellido'	 => $nombre_apellido,
+				'estatus'			 => $estatus,
+				'rol'				 => $rol,
+				'foto'				 => $foto,
+				'fecha'				 => $fecha
 			],
 			'code' => 0,
 		];

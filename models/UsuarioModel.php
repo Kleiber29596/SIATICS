@@ -50,7 +50,7 @@ class UsuarioModel extends ModeloBase {
 	public function verificarUsuario($usuario)
 	{
 		$db = new ModeloBase();
-		$query ="SELECT u.id, u.usuario, pe.tipo_persona, u.foto, u.contrasena, u.id_rol, d.id_especialidad, pe.p_nombre, pe.p_apellido, u.estatus, u.id_Persona, d.id_doctor FROM usuario AS u INNER JOIN personas AS pe ON pe.id_persona = u.id_Persona INNER JOIN doctor AS d ON d.id_persona = pe.id_persona WHERE u.usuario = '$usuario'";
+		$query ="SELECT u.id, u.usuario, pe.tipo_persona, u.foto, u.contrasena, u.id_rol, d.id_especialidad, pe.p_nombre, pe.p_apellido, u.estatus, u.id_Persona, d.id_doctor, r.rol FROM usuario AS u INNER JOIN personas AS pe ON pe.id_persona = u.id_Persona INNER JOIN doctor AS d ON d.id_persona = pe.id_persona INNER JOIN roles AS r ON r.id = u.id_rol  WHERE u.usuario = '$usuario'";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;	
 	}
@@ -60,7 +60,7 @@ class UsuarioModel extends ModeloBase {
 /*------------ Metodo para mostrar un registro --------*/
 	public function obtenerUsuario($id) {
 		$db = new ModeloBase();
-		$query = "SELECT * FROM usuario WHERE id = ".$id."";
+		$query = "SELECT usuario,id_rol, usuario.id, usuario.estatus, usuario.foto, usuario.fecha_registro, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombre_apellido, CONCAT(p.tipo_documento,' ',p.n_documento) AS documento, r.rol FROM usuario INNER JOIN personas AS p ON usuario.id_Persona = p.id_persona INNER JOIN roles AS r ON r.id = usuario.id_rol WHERE usuario.id = ".$id."";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
@@ -68,6 +68,15 @@ class UsuarioModel extends ModeloBase {
 	public function logoutUsuario() {
 		
 	}
+
+	/*------------ Metodo para mostrar un registro --------*/
+	public function listarDatosUsuario($id) {
+		$db = new ModeloBase();
+		$query = "SELECT p.id_persona,  CONCAT(p.tipo_documento,' ',p.n_documento) AS documento, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos, DATE_FORMAT(p.fecha_nacimiento, '%d/%m/%Y') AS fecha_nac, p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, h.id, h.tipo_sangre, h.fumador, h.alcohol, h.actividad_fisica, h.medicado, h.cirugia_hospitalaria, h.alergia, h.antec_fami FROM  personas AS p  LEFT JOIN historia_medica AS h ON h.id_persona = p.id_persona WHERE p.id_persona = $id_persona";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
 
 /*------------ Metodo para modificar un registro --------*/
 	public function modificarUsuario($id, $datos) {

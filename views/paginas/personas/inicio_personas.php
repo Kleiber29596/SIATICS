@@ -7,9 +7,6 @@ $update_municipios = $objeto->selectMunicipio();
 $update_parroquias = $objeto->selectParroquia();
 
 
-if ($rol == 6 ||  $rol == 5 || $rol == 1 ) {
-    echo "<h1>No tienes los permisos suficientes para ingresar en este modulo</h1>";
-} else {
 ?>
 
 <style>
@@ -503,8 +500,3 @@ function nextPrev(n) {
         </div>
     </div>
 </div>
-
-<?php 
-} 
- 
-    ?>
