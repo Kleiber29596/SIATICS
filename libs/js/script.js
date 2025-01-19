@@ -496,6 +496,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
           },
         })
           .done(function (response) {
+            //console.log(response);
             if (response.data.success == true) {
               document.getElementById("formRegistrarCita").reset();
               document.getElementById("formCalendarCita").reset();
@@ -523,7 +524,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
             }
           })
           .fail(function (e) {
-            console.log(e);
+            //console.log(e);
             Swal.fire({
                 icon: "error",
                 confirmButtonColor: "#3085d6",

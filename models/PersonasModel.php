@@ -293,7 +293,7 @@ public function listarMedicamentos($id_historia_medica) {
 
 	public function consultarPersonaCita($id_persona) {
 	    $db = new ModeloBase();
-	    $query = "SELECT p.id_persona, CONCAT(p.tipo_documento,'-',p.n_documento) AS cedula, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombre, TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) AS edad, p.sexo, p.telefono, p.direccion, p.correo FROM personas p WHERE p.id_persona = ".$id_persona."";
+	    $query = "SELECT p.id_persona, p.tipo_persona, CONCAT(p.tipo_documento,'-',p.n_documento) AS cedula, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombre, TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) AS edad, p.sexo, p.telefono, p.direccion, p.correo FROM personas p WHERE p.id_persona = ".$id_persona."";
 	    $resultado = $db->FectAll($query);
 	    return $resultado;
 	}
