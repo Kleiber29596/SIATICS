@@ -1262,19 +1262,17 @@ function listarActualizacionUsuario(id) {
   let id_usuario = id;
 
   let id_usuario_update = document.getElementById("id_usuario_update").value;
-  let cedula = document.getElementById("cedula_update").value;
-  let nombre = document.getElementById("nombre_update").value;
-  let apellido = document.getElementById("apellido_update").value;
-  let usuario = document.getElementById("usuario_update").value;
-  let contrasena = document.getElementById("contrasena_update").value;
-  let correo = document.getElementById("correo_update").value;
-  let estatus = document.getElementById("estatus_update").value;
-  let input_id_usuario = document.getElementById("id_usuario");
-
+  let n_documento       = document.getElementById("n_documento_u").value;
+  let tipo_d            = document.getElementById("tipo_documento_u").value;
+  let primer_nombre     = document.getElementById("p_nombre_u").value;
+  let segundo_nombre    = document.getElementById("s_nombre_u").value;
+  let primer_apellido   = document.getElementById("p_apellido_u").value;
+  let segundo_apellido  = document.getElementById("s_apellido_u").value;
+  let estatus           = document.getElementById("estatus_u").value;
   let listar = "listar";
 
   $.ajax({
-    url: "index.php?page=verUsuario",
+    url: "index.php?page=listarDatosUsuario",
     type: "post",
     dataType: "json",
     data: {
@@ -1284,17 +1282,18 @@ function listarActualizacionUsuario(id) {
     .done(function (response) {
       if (response.data.success == true) {
         document.getElementById("id_usuario_update").value = response.data.id;
-        document.getElementById("cedula_update").value = response.data.cedula;
-        document.getElementById("nombre_update").value = response.data.nombre;
-        document.getElementById("apellido_update").value =
-          response.data.apellido;
-        document.getElementById("usuario_update").value = response.data.usuario;
-        document.getElementById("correo_update").value = response.data.correo;
-        document.getElementById("estatus_update").value = response.data.estatus;
-        document.getElementById("rol_update").value = response.data.rol;
-        document
-          .getElementById("img_update_preview")
-          .setAttribute("src", "foto_usuario/" + response.data.foto);
+        document.getElementById("n_documento_u").value       = response.data.documento;
+        document.getElementById("tipo_documento_u").value    = response.data.tipo_doc;
+        document.getElementById("p_nombre_u").value   = response.data.p_nombre;
+        document.getElementById("s_nombre_u").value   = response.data.s_nombre;
+        document.getElementById("p_apellido_u").value   = response.data.p_apellido;
+        document.getElementById("s_apellido_u").value   = response.data.s_apellido;
+        document.getElementById("usuario_u").value = response.data.usuario;
+        document.getElementById("correo_u").value = response.data.correo;
+        document.getElementById("direccion_u").value = response.data.direccion;
+        document.getElementById("estatus_u").value = response.data.estatus;
+        document.getElementById("rol_u").value = response.data.rol;
+        document.getElementById("img_update_preview").setAttribute("src", "foto_usuario/" + response.data.foto);
 
         $("#modalActualizarUsuarios").modal("show");
       } else {
@@ -2132,52 +2131,6 @@ function verUsuario(id) {
         }
 
         $("#modalVisualizarUsuario").modal("show");
-      } else {
-      }
-    })
-    .fail(function () {
-      console.log("error");
-    });
-}
-/*Listar datos para actualizacion de usuario*/
-function listarActualizacionUsuario(id) {
-  let id_usuario = id;
-
-  let origen = document.getElementById("origen_update").value;
-  let cedula = document.getElementById("cedula_update").value;
-  let nombre = document.getElementById("nombre_update").value;
-  let apellido = document.getElementById("apellido_update").value;
-  let usuario = document.getElementById("usuario_update").value;
-  let contrasena = document.getElementById("contrasena_update").value;
-  let correo = document.getElementById("correo_update").value;
-  let estatus = document.getElementById("estatus_update").value;
-  let input_id_usuario = document.getElementById("id_usuario");
-
-  let listar = "listar";
-
-  $.ajax({
-    url: "index.php?page=verUsuario",
-    type: "post",
-    dataType: "json",
-    data: {
-      id_usuario: id_usuario,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success == true) {
-        document.getElementById("id_usuario").value = response.data.id;
-        document.getElementById("origen_update").value = response.data.origen;
-        document.getElementById("cedula_update").value = response.data.cedula;
-        document.getElementById("nombre_update").value = response.data.nombre;
-        document.getElementById("apellido_update").value =
-          response.data.apellido;
-        document.getElementById("usuario_update").value = response.data.usuario;
-        document.getElementById("contrasena_update").value =
-          response.data.contrasena;
-        document.getElementById("correo_update").value = response.data.correo;
-        document.getElementById("estatus_update").value = response.data.estatus;
-
-        $("#modalActualizarUsuarios").modal("show");
       } else {
       }
     })

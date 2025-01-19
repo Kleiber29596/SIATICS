@@ -190,16 +190,17 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="p_apellido">Primer apellido</label>
-                                        <input class="form-control" type="text" name="p_apellido" disabled id="p_apellido"
-                                            placeholder="Primer apellido" onkeyup="pmayus(this)" required>
+                                        <input class="form-control" type="text" name="p_apellido" disabled
+                                            id="p_apellido" placeholder="Primer apellido" onkeyup="pmayus(this)"
+                                            required>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="s_apellido">Segundo apellido</label>
-                                        <input class="form-control" type="text" name="s_apellido" disabled id="s_apellido"
-                                            placeholder="Segundo apellido" onkeyup="pmayus(this)">
+                                        <input class="form-control" type="text" name="s_apellido" disabled
+                                            id="s_apellido" placeholder="Segundo apellido" onkeyup="pmayus(this)">
                                     </div>
                                 </div>
                             </div>
@@ -208,14 +209,14 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                     <div class="form-group">
                                         <label for="sexoMasculino">Sexo</label>
                                         <br>
-                                        Masculino <input type="radio" name="sexo"  value="Masculino" >
+                                        Masculino <input type="radio" name="sexo" value="Masculino">
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="sexoFemenino"></label>
                                         <br>
-                                        Femenino <input type="radio" name="sexo"  value="Femenino" >
+                                        Femenino <input type="radio" name="sexo" value="Femenino">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -245,8 +246,9 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="direccion_c">Dirección corta</label>
-                                        <textarea class="form-control" name="direccion_c" disabled id="direccion_c" cols="4"
-                                            rows="2" placeholder="Ingresa una dirección corta" required></textarea>
+                                        <textarea class="form-control" name="direccion_c" disabled id="direccion_c"
+                                            cols="4" rows="2" placeholder="Ingresa una dirección corta"
+                                            required></textarea>
                                     </div>
                                 </div>
                                 <div>
@@ -255,7 +257,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                             </div>
                             <br>
                             <div class="row">
-                                
+
                             </div>
                             <br>
                         </div>
@@ -340,10 +342,10 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                     <div class="form-group">
                                         <label for="rol">Rol</label>
                                         <select class="form-control" name="rol" id="rol">
-                                            <option value="3" selected >Doctor/a</option>
-                                            <option value="4" selected >Recepcionista</option>
-                                            <option value="5" selected >Coordinador/a</option>
-                                            <option value="6" selected >RRHH</option>                         
+                                            <option value="3" selected>Doctor/a</option>
+                                            <option value="4" selected>Recepcionista</option>
+                                            <option value="5" selected>Coordinador/a</option>
+                                            <option value="6" selected>RRHH</option>
                                         </select>
                                     </div>
                                 </div>
@@ -384,82 +386,143 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
 </div>
 
 
-<!-- Modal Actualizar Usuario-->
 
-<!-- Modal -->
+
+
+<!-- Modal Actualizar medicamento -->
 <div class="modal fade" id="modalActualizarUsuarios" tabindex="-1" aria-labelledby="modalActualizarUsuariosLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalActualizarUsuariosLabel">Modificar Usuarios</h5>
+                <h5 class="modal-title" id="modalActualizarUsuariosLabel">Modificar Usuario <i class="fas fa-edit"></i>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" id="formActualizarUsuario">
-
+                <form action="" id="formActualizarMedicamento">
 
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <input id="id_usuario_update" name="id_usuario_update" type="hidden" value="">
+
+                        <div class="col-sm-3">
+                            <div class="form-group" id="grupo_tipo_documento">
+                                <label class="formulario__label" for="tipo_documento_u">Tipo documento</label>
+                                <select class="form-control formulario__validacion__input" name="tipo_documento_u"
+                                    id="tipo_documento_u">
+                                    <option value="">Seleccione</option>
+                                    <option value="V">V</option>
+                                    <option value="E">E</option>
+                                    <option value="P">P</option>
+                                </select>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
+                        </div>
+
+                        <div class="col-sm-3 mb3" id="grupo_n_documento">
+                            <label class="formulario__label" for="n_documento">Nº de documento</label>
+                            <div class="form-group">
+                                <input class="form-control formulario__validacion__input" type="text" id="n_documento_u"
+                                    maxlength="8" minlength="6" name="n_documento_u" placeholder="Ingrese el Nº"
+                                    required>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El número de documento debe contener solo némeros y
+                                un
+                                mínimo de 7
+                                digitos y máximo 8.
+                            </p>
                         </div>
                     </div>
 
+
                     <div class="row">
-                        <div class="col-sm-4">
+
+                        <div class="col-sm-3" id="grupo_primer_nombre">
+                            <label class="formulario__label" for="nombres">Primer nombre</label>
                             <div class="form-group">
-                                <label for="cedula_update">Cedula</label>
-                                <input class="form-control" type="text" id="cedula_update" name="cedula_update"
-                                    placeholder="V/E">
+                                <input id="id_usuario_update" name="id_usuario_update" type="hidden" value="">
+                                <input class="form-control formulario__validacion__input" type="text" id="p_nombre_u"
+                                    name="p_nombre_u" placeholder="Primer nombre" required>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
+                            <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
+                                guion_bajo</p>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-3" id="grupo_segundo_nombre">
+                            <label class="formulario__label" for="segundo_nombre_u">Segundo nombre</label>
                             <div class="form-group">
-                                <label for="nombre_update">Nombre</label>
-                                <input class="form-control" type="text" id="nombre_update" name="nombre_update"
-                                    onkeyup="mayus(this);" maxlength="40" placeholder="Ingresa el nombre">
+                                <input class="form-control formulario__validacion__input" type="text" id="s_nombre_u"
+                                    name="s_nombre_u" placeholder="Segundo nombre">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
+                            <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
+                                guion_bajo</p>
+                        </div>
+                        <div class="col-sm-3" id="grupo_primer_apellido">
+                            <label class="formulario__label" for="primer_apellido_u">Primer apellido</label>
+                            <div class="form-group ">
+                                <input class="form-control formulario__validacion__input" type="text" id="p_apellido_u"
+                                    name="p_apellido_u" placeholder="Primer apellido" required>
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                            </div>
+                            <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
+                                llevar acentos.</p>
                         </div>
 
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="apellido_update">Apellido</label>
-                                <input class="form-control" type="apellido" id="apellido_update" name="apellido_update"
-                                    onkeyup="mayus(this);" maxlength="40" placeholder="Ingresa la Apellido">
+                        <div class="col-sm-3" id="grupo_segundo_apellido">
+                            <label class="formulario__label" for="grupo_primer_apellido">Segundo apellido</label>
+                            <div class="form-group ">
+                                <input class="form-control formulario__validacion__input" type="text" id="s_apellido_u"
+                                    name="s_apellido_u" placeholder="Segundo apellido">
+                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
+                            <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
+                                llevar acentos.</p>
                         </div>
+
+                    </div>
+
+
+                    <div class="row">
+
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="correo_update">Correo</label>
-                                <input class="form-control" type="email" id="correo_update" name="correo_update"
+                                <input class="form-control" type="email" id="correo_u" name="correo_update_u"
                                     onkeyup="mayus(this);" maxlength="60" placeholder="Ingresa la dirección">
                             </div>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label for="contrasena_update">Contraseña</label>
-                                <input class="form-control" type="password" id="contrasena_update"
-                                    name="contrasena_update" maxlength="60" placeholder="Ingresa la contraseña">
+                                <label for="direccion_u">Dirección</label>
+                                <input class="form-control" type="text" id="direccion_u" name="direccion_u"
+                                    maxlength="60" placeholder="Ingresa la dirección">
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="telefono_update">Confirmar contraseña</label>
-                                <input class="form-control" type="password" id="confirmar_contrasena_update"
-                                    name="confirmar_contrasena_update" maxlength="60"
-                                    placeholder="Ingresa la contraseña">
-                            </div>
-                        </div>
+
+                        <!-- <div class="col-sm-4">
+<div class="form-group">
+<label for="contrasena_update">Contraseña</label>
+<input class="form-control" type="password" id="contrasena_update_u" name="contrasena_update"
+    maxlength="60" placeholder="Ingresa la contraseña">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+<label for="telefono_update">Confirmar contraseña</label>
+<input class="form-control" type="password" id="confirmar_contrasena_update"
+    name="confirmar_contrasena_update" maxlength="60" placeholder="Ingresa la contraseña">
+</div>
+</div> -->
 
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="usuario_update">Usuario</label>
-                                <input class="form-control" type="text" id="usuario_update" name="usuario_update"
-                                    maxlength="40" placeholder="Ingresa el nombre de usuario">
+                                <input class="form-control" type="text" id="usuario_u" name="usuario_u" maxlength="40"
+                                    placeholder="Ingresa el nombre de usuario">
                             </div>
                         </div>
 
@@ -468,15 +531,15 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
 
                             <div class="form-group">
                                 <label for="rol_update">Rol</label>
-                                <select class="form-control" name="rol_update" id="rol_update">
+                                <select class="form-control" name="rol_u" id="rol_u">
                                     <option value="">Seleccione</option>
                                     <?php
-                                    foreach ($roles_update as $roles_update) {
-                                    ?>
+            foreach ($roles_update as $roles_update) {
+            ?>
                                     <option value="<?= $roles_update['id'] ?>"><?= $roles_update['rol'] ?></option>
                                     <?php
-                                    }
-                                    ?>
+            }
+            ?>
                                 </select>
                             </div>
 
@@ -485,7 +548,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="estatus_update">Estatus</label>
-                                <select class="form-control" name="estatus_update" id="estatus_update">
+                                <select class="form-control" name="estatus_u" id="estatus_u">
                                     <option value="">Seleccione</option>
                                     <option value="1">Activo</option>
                                     <option value="2">Inactivo</option>
@@ -512,14 +575,16 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                             <label class="custom-control-label" for="check_foto">Actualizar foto de perfil</label>
                         </div>
                     </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" title="Cerrar el modal"
+                            data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="modificar_usuario"
+                            title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" title="Cerrar el modal"
-                    data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" id="modificar_usuario" title="Guardar cambios"><i
-                        class="fas fa-save"></i> Guardar</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>
@@ -540,7 +605,8 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalVisualizarUsuarioLabel">Usuario <i class="bi bi-person-circle fs-2"></i></h5>
+                <h5 class="modal-title" id="modalVisualizarUsuarioLabel">Usuario <i
+                        class="bi bi-person-circle fs-2"></i></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -555,7 +621,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                 </div>
                                 <br>
                                 <p id="documento_u" class="mb-1"></p>
-                                <p id="nombre_usuario" class="mb-1" ></p>
+                                <p id="nombre_usuario" class="mb-1"></p>
                                 <p id="nombre_apellido_u" class="mb-1"></p>
                                 <p id="estatus_usuario" class="mb-1"></p>
                             </a>

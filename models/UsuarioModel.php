@@ -65,14 +65,12 @@ class UsuarioModel extends ModeloBase {
 		return $resultado;
 	}
 
-	public function logoutUsuario() {
-		
-	}
+
 
 	/*------------ Metodo para mostrar un registro --------*/
 	public function listarDatosUsuario($id) {
 		$db = new ModeloBase();
-		$query = "SELECT p.id_persona,  CONCAT(p.tipo_documento,' ',p.n_documento) AS documento, CONCAT(p.p_nombre,' ',p.p_apellido) AS nombres_apellidos, DATE_FORMAT(p.fecha_nacimiento, '%d/%m/%Y') AS fecha_nac, p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, h.id, h.tipo_sangre, h.fumador, h.alcohol, h.actividad_fisica, h.medicado, h.cirugia_hospitalaria, h.alergia, h.antec_fami FROM  personas AS p  LEFT JOIN historia_medica AS h ON h.id_persona = p.id_persona WHERE p.id_persona = $id_persona";
+		$query = "SELECT p.id_persona, p.tipo_documento, p.n_documento, p.p_nombre, p.s_nombre, p.p_apellido, p.s_apellido, p.correo, p.direccion, DATE_FORMAT(p.fecha_nacimiento, '%d/%m/%Y') AS fecha_nac, p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, u.usuario, u.id_rol, u.estatus, u.foto, r.rol, u.id FROM  usuario AS u INNER JOIN  personas AS p ON p.id_persona = u.id_Persona INNER JOIN roles AS r ON r.id = u.id_rol  WHERE u.id  = ".$id."";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}

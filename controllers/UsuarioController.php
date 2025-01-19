@@ -397,15 +397,21 @@ EOT;
 
 		$id_usuario = $_POST['id_usuario'];
 
-		$listar = $modelUsuario->obtenerUsuario($id_usuario);
+		$listar = $modelUsuario->listarDatosUsuario($id_usuario);
 
 
 		foreach ($listar as $listar) {
 
 			$id_usuario 			= $listar['id'];
 			$usuario 				= $listar['usuario'];
-			$documento 				= $listar['documento'];
-			$nombre_apellido 		= $listar['nombre_apellido'];
+			$tipo_doc				= $listar['tipo_documento'];		
+			$documento 				= $listar['n_documento'];
+			$p_nombre 				= $listar['p_nombre'];
+			$s_nombre 				= $listar['s_nombre'];
+			$p_apellido 			= $listar['p_apellido'];
+			$s_apellido 		    = $listar['s_apellido'];
+			$correo					= $listar['correo'];
+			$direccion				= $listar['direccion'];
 			$estatus 				= $listar['estatus'];
 			$rol 					= $listar['rol'];
 			$foto 					= $listar['foto'];
@@ -419,8 +425,14 @@ EOT;
 				'info'               =>  '',
 				'id'				 => $id_usuario,
 				'usuario'			 => $usuario,
+				'tipo_doc'			 => $tipo_doc,
 				'documento'			 => $documento,
-				'nombre_apellido'	 => $nombre_apellido,
+				'p_nombre'			 => $p_nombre,
+				's_nombre'			 => $s_nombre,
+				'p_apellido'		 => $p_apellido,
+				's_apellido'	     => $s_apellido,
+				'correo'			 => $correo,
+				'direccion'			 => $direccion,
 				'estatus'			 => $estatus,
 				'rol'				 => $rol,
 				'foto'				 => $foto,
