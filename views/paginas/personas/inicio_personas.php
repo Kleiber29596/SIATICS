@@ -89,7 +89,7 @@ $update_parroquias = $objeto->selectParroquia();
                                 <label class="formulario__label" for="n_documento">Nº de documento</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" type="text"
-                                        id="n_documento" name="n_documento" placeholder="Ingrese el Nº" required>
+                                        id="n_documento" maxlength="8" minlength="6" name="n_documento" placeholder="Ingrese el Nº" required>
                                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
                                 <p class="formulario__input-error">El número de documento debe contener solo némeros y
@@ -98,7 +98,10 @@ $update_parroquias = $objeto->selectParroquia();
                                     digitos y máximo 8.
                                 </p>
                             </div>
-
+                        </div>
+                        <br>
+                        <div class="row">
+                            <!----------------- Grupo Apellidos ----------------------->
                             <div class="col-sm-3" id="grupo_primer_nombre">
                                 <label class="formulario__label" for="nombres">Primer nombre</label>
                                 <div class="form-group">
@@ -120,11 +123,6 @@ $update_parroquias = $objeto->selectParroquia();
                                 <p class="formulario__input-error">El nombre debe contener Letras, numeros, guion y
                                     guion_bajo</p>
                             </div>
-
-                        </div>
-                        <br>
-                        <div class="row">
-                            <!----------------- Grupo Apellidos ----------------------->
                             <div class="col-sm-3" id="grupo_primer_apellido">
                                 <label class="formulario__label" for="primer_apellido">Primer apellido</label>
                                 <div class="form-group ">
@@ -147,7 +145,10 @@ $update_parroquias = $objeto->selectParroquia();
                                 <p class="formulario__input-error">El apellido debe contener Letras y espacios, pueden
                                     llevar acentos.</p>
                             </div>
-                            <div class="col-sm-3">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-2">
                                 <div class="form-group" id="grupo_sexo">
                                     <label class="formulario__label" for="sexo">Sexo</label>
                                     <br>
@@ -155,7 +156,7 @@ $update_parroquias = $objeto->selectParroquia();
                                         id="sexo" value="Masculino" selected>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <div class="form-group" id="grupo_sexo">
                                     <label class="formulario__label" for="sexo"></label>
                                     <br>
@@ -163,11 +164,6 @@ $update_parroquias = $objeto->selectParroquia();
                                         id="sexo" value="Femenino">
                                 </div>
                             </div>
-
-                        </div>
-                        <br>
-                        <div class="row">
-
                             <div class="col-sm-3" id="grupo_fecha_nac">
                                 <div class="form-group">
                                     <label class="formulario__label" for="fecha_nac">Fecha de nacimiento</label>
@@ -179,7 +175,7 @@ $update_parroquias = $objeto->selectParroquia();
                                 </p>
                             </div>
 
-                            <div class="col-sm-3" id="grupo_telefono">
+                            <div class="col-sm-5" id="grupo_telefono">
                                 <label class="formulario__label" for="telefono">Telefono</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" type="text" id="telefono"
@@ -190,10 +186,9 @@ $update_parroquias = $objeto->selectParroquia();
                                     digitos
                                 </p>
                             </div>
-
                             <!-------------------------- Grupo Nº documento ----------------------------------->
-
-
+                        </div>
+                        <div class="row mt-3">
                             <div class="col-sm-6 mb-3" id="grupo_correo">
                                 <label class="formulario__label" for="correo">Correo</label>
                                 <div class="form-group">
@@ -206,10 +201,7 @@ $update_parroquias = $objeto->selectParroquia();
                                     guiones.
                                 </p>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-
-                            <div class="col-sm-12" id="grupo_direccion">
+                            <div class="col-sm-6" id="grupo_direccion">
                                 <label class="formulario__label" for="direccion">Dirección corta</label>
                                 <div class="form-group">
                                     <input class="form-control formulario__validacion__input" cols="4" rows="2"

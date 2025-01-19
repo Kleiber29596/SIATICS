@@ -170,8 +170,9 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                         <li>
 
                             <a class="dropdown-item d-flex align-items-center"
-                                href="<?= SERVERURL ?>index.php?page=inicioUsuario">
-                                <i class="bi bi-box-arrow-right"></i>
+                                href="<?= SERVERURL ?>index.php?page=logoutUsuario"
+                                id="cerrar_sesion" >
+                                <i class="bi bi-box-arrow-left"></i>
                                 <span>Cerrar sesion</span>
                             </a>
                         </li>
