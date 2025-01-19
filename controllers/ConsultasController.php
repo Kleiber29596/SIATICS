@@ -106,21 +106,23 @@ EOT;
 				$frecuencia 	   	    = $medicamento['frecuencia'];
 				$cantidad 	   	    	= $medicamento['cantidad'];
 				$intervalo 	   	    	= $medicamento['intervalo'];
+
+				$datos_intermedia= array(
+					'id_presentacion_medicamento' => $id_medicamento,
+					'id_recipe' 				  => $id_recipe,
+					'dosis' 			  		  => $dosis,
+					'unidad_medida' 			  => $unidad_medida,
+					'frecuencia' 			  	  => $frecuencia ,
+					'cantidad' 			  		  => $cantidad,
+					'intervalo' 			      => $intervalo,
+					'fecha_registro'			  => $fecha_registro,
+					'estatus' 					  => 1
+				);
+	
+				$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
 			}
 
-			$datos_intermedia= array(
-				'id_presentacion_medicamento' => $id_medicamento,
-				'id_recipe' 				  => $id_recipe,
-				'dosis' 			  		  => $dosis,
-				'unidad_medida' 			  => $unidad_medida,
-				'frecuencia' 			  	  => $frecuencia ,
-				'cantidad' 			  		  => $cantidad,
-				'intervalo' 			      => $intervalo,
-				'fecha_registro'			  => $fecha_registro,
-				'estatus' 					  => 1
-			);
-
-			$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
+			
 			
 		}
 			
