@@ -215,7 +215,7 @@ EOT;
 	public function datosReceta($id_consulta)
 	{
 		$modelRecipe = new RecipeModel();
-		$receta = $modelRecipe->consultarReceta($id_consulta);
+		$receta = $modelRecipe->consultarReceta($id_consulta); 
 		return $receta;
 	}
 
