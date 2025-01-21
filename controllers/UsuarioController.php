@@ -403,6 +403,7 @@ EOT;
 		foreach ($listar as $listar) {
 
 			$id_usuario 			= $listar['id'];
+			$id_persona 			= $listar['id_persona'];
 			$usuario 				= $listar['usuario'];
 			$tipo_doc				= $listar['tipo_documento'];		
 			$documento 				= $listar['n_documento'];
@@ -412,8 +413,10 @@ EOT;
 			$s_apellido 		    = $listar['s_apellido'];
 			$correo					= $listar['correo'];
 			$direccion				= $listar['direccion'];
+			$telefono				= $listar['telefono'];
 			$estatus 				= $listar['estatus'];
 			$rol 					= $listar['rol'];
+			$id_rol 			    = $listar['id_rol'];
 			$foto 					= $listar['foto'];
 			$fecha 					= $listar['fecha_registro'];
 		}
@@ -433,10 +436,13 @@ EOT;
 				's_apellido'	     => $s_apellido,
 				'correo'			 => $correo,
 				'direccion'			 => $direccion,
+				'telefono'           => $telefono,
 				'estatus'			 => $estatus,
 				'rol'				 => $rol,
 				'foto'				 => $foto,
-				'fecha'				 => $fecha
+				'fecha'				 => $fecha,
+				'id_rol'			 => $id_rol,
+				'id_persona'         => $id_persona
 			],
 			'code' => 0,
 		];
@@ -446,229 +452,229 @@ EOT;
 		exit();
 	}
 
-	public function modificarUsuario()
-	{
+	// public function modificarUsuario()
+	// {
 
-		$validator = array('success' => false, 'messages' => array());
+	// 	$validator = array('success' => false, 'messages' => array());
 
-		if (!empty($_FILES["archivo"]["name"])) {
+	// 	if (!empty($_FILES["archivo"]["name"])) {
 
-			$modelUsuarios = new UsuarioModel();
-
-
-			$fileName = basename($_FILES["archivo"]["name"]);
-			$targetFilePath = './foto_usuario/' . $fileName;
+	// 		$modelUsuarios = new UsuarioModel();
 
 
-			$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-			$allowTypes = array('jpg', 'png', 'jpeg');
-			if (in_array($fileType, $allowTypes)) {
-				if (copy($_FILES["archivo"]["tmp_name"], $targetFilePath)) {
-
-					$uploadedFile = $fileName;
-					$fecha_actual = date("d-m-Y");
-					/* comprobar campos vacios */
-
-					if ($_POST['cedula_update'] == "" || $_POST['nombre_update'] == "" || $_POST['apellido_update'] == "" || $_POST['correo_update'] == "" || $_POST['contrasena_update'] == "" || $_POST['usuario_update'] == "" || $_POST['estatus_update'] == "") {
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Atención',
-								'info'         => 'Verifica que todos los campos estén llenos a la hora de registrar un usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-					if (Validacion::verificar_datos("[0-9]{1,10}", $_POST['cedula_update'])) {
-
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Datos inválidos',
-								'info'         => 'Solo se permiten numeros en el campo cédula del usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-					if (Validacion::verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}", $_POST['nombre_update'])) {
-
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Datos inválidos',
-								'info'         => 'Solo se permiten caracteres alfabéticos con una longitud de 40 caracteres en el nombre del usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-					if (Validacion::verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}", $_POST['apellido_update'])) {
-
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Datos inválidos',
-								'info'         => 'Solo se permiten caracteres alfabéticos con una longitud de 40 caracteres en el apellido del usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-					////
+	// 		$fileName = basename($_FILES["archivo"]["name"]);
+	// 		$targetFilePath = './foto_usuario/' . $fileName;
 
 
+	// 		$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
-					$id_usuario = $_POST['id_usuario_update'];
+	// 		$allowTypes = array('jpg', 'png', 'jpeg');
+	// 		if (in_array($fileType, $allowTypes)) {
+	// 			if (copy($_FILES["archivo"]["tmp_name"], $targetFilePath)) {
 
-					$extraer_datos_usuario = $modelUsuarios->obtenerUsuario($id_usuario);
+	// 				$uploadedFile = $fileName;
+	// 				$fecha_actual = date("d-m-Y");
+	// 				/* comprobar campos vacios */
 
-					foreach ($extraer_datos_usuario as $extraer_datos_usuario) {
-						$foto_tbl_usuario 		= $extraer_datos_usuario['foto'];
-					}
+	// 				if ($_POST['cedula_update'] == "" || $_POST['nombre_update'] == "" || $_POST['apellido_update'] == "" || $_POST['correo_update'] == "" || $_POST['contrasena_update'] == "" || $_POST['usuario_update'] == "" || $_POST['estatus_update'] == "") {
+	// 					$data = [
+	// 						'data' => [
+	// 							'error'        => true,
+	// 							'message'      => 'Atención',
+	// 							'info'         => 'Verifica que todos los campos estén llenos a la hora de registrar un usuario.'
+	// 						],
+	// 						'code' => 0,
+	// 					];
 
-					//var_dump($foto_tbl_usuario); die();
+	// 					echo json_encode($data);
+	// 					exit();
+	// 				}
 
-					$route_photo = './foto_usuario/' . $foto_tbl_usuario;
+	// 				if (Validacion::verificar_datos("[0-9]{1,10}", $_POST['cedula_update'])) {
 
-					$imagen = $route_photo;
+	// 					$data = [
+	// 						'data' => [
+	// 							'error'        => true,
+	// 							'message'      => 'Datos inválidos',
+	// 							'info'         => 'Solo se permiten numeros en el campo cédula del usuario.'
+	// 						],
+	// 						'code' => 0,
+	// 					];
 
-					if (file_exists($imagen)) {
-						if (unlink($imagen)) {
-							//echo "La imagen se ha eliminado correctamente.";
-						} else {
-							//echo "No se pudo eliminar la imagen.";
-						}
-					} else {
-						//echo "La imagen no existe.";
-					}
+	// 					echo json_encode($data);
+	// 					exit();
+	// 				}
 
-					$datos = array(
-						'cedula'    	=> $_POST['cedula_update'],
-						'usuario'		=> $_POST['usuario_update'],
-						'nombre'		=> $_POST['nombre_update'],
-						'apellido'		=> $_POST['apellido_update'],
-						'correo'		=> $_POST['correo_update'],
-						'foto'			=> $fileName,
-						'contrasena'	=> $_POST['contrasena_update'],
-						'rol'			=> $_POST['rol_update'],
-						'estatus'		=> $_POST['estatus_update'],
-					);
+	// 				if (Validacion::verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}", $_POST['nombre_update'])) {
 
-					$resultado = $modelUsuarios->modificarUsuario($id_usuario, $datos);
+	// 					$data = [
+	// 						'data' => [
+	// 							'error'        => true,
+	// 							'message'      => 'Datos inválidos',
+	// 							'info'         => 'Solo se permiten caracteres alfabéticos con una longitud de 40 caracteres en el nombre del usuario.'
+	// 						],
+	// 						'code' => 0,
+	// 					];
 
-					if ($resultado) {
-						$data = [
-							'data' => [
-								'success'            =>  true,
-								'message'            => 'Guardado exitosamente',
-								'info'               =>  'Los datos del usuario han sido modificados'
-							],
-							'code' => 1,
-						];
+	// 					echo json_encode($data);
+	// 					exit();
+	// 				}
 
-						echo json_encode($data);
-						exit();
-					} else {
-						$data = [
-							'data' => [
-								'success'            =>  false,
-								'message'            => 'Ocurrió un error al modificar los datos del usuario',
-								'info'               =>  ''
-							],
-							'code' => 0,
-						];
+	// 				if (Validacion::verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}", $_POST['apellido_update'])) {
 
-						echo json_encode($data);
-						exit();
-					}
-				} else {
-					$data = [
-						'data' => [
-							'success'            =>  false,
-							'message'            => 'No se copio la imagen',
-							'info'               =>  ''
-						],
-						'code' => 0,
-					];
+	// 					$data = [
+	// 						'data' => [
+	// 							'error'        => true,
+	// 							'message'      => 'Datos inválidos',
+	// 							'info'         => 'Solo se permiten caracteres alfabéticos con una longitud de 40 caracteres en el apellido del usuario.'
+	// 						],
+	// 						'code' => 0,
+	// 					];
 
-					echo json_encode($data);
-					exit();
-				}
-			} else {
-				//$validator['messages'] = 'SOLO SE PERMITE FORMATOS JPG, PNG Y JPEG.';
+	// 					echo json_encode($data);
+	// 					exit();
+	// 				}
 
-				$data = [
-					'data' => [
-						'success'            =>  false,
-						'message'            => 'Solo se permiten formatos jpg, png y jpeg.',
-						'info'               =>  ''
-					],
-					'code' => 0,
-				];
+	// 				////
 
-				echo json_encode($data);
-				exit();
-			}
-		} else {
 
-			$modelUsuarios = new UsuarioModel();
-			$id_usuario = $_POST['id_usuario_update'];
 
-			$datos = array(
-				'cedula'    	=> $_POST['cedula_update'],
-				'usuario'		=> $_POST['usuario_update'],
-				'nombre'		=> $_POST['nombre_update'],
-				'apellido'		=> $_POST['apellido_update'],
-				'correo'		=> $_POST['correo_update'],
-				'contrasena'	=> $_POST['contrasena_update'],
-				'rol'			=> $_POST['rol_update'],
-				'estatus'		=> $_POST['estatus_update'],
-			);
+	// 				$id_usuario = $_POST['id_usuario_update'];
 
-			$resultado = $modelUsuarios->modificarUsuario($id_usuario, $datos);
+	// 				$extraer_datos_usuario = $modelUsuarios->obtenerUsuario($id_usuario);
 
-			if ($resultado) {
-				$data = [
-					'data' => [
-						'success'            =>  true,
-						'message'            => 'Guardado exitosamente',
-						'info'               =>  'Los datos del usuario han sido modificados'
-					],
-					'code' => 1,
-				];
+	// 				foreach ($extraer_datos_usuario as $extraer_datos_usuario) {
+	// 					$foto_tbl_usuario 		= $extraer_datos_usuario['foto'];
+	// 				}
 
-				echo json_encode($data);
-				exit();
-			} else {
-				$data = [
-					'data' => [
-						'success'            =>  false,
-						'message'            => 'Ocurrió un error al modificar los datos del usuario',
-						'info'               =>  ''
-					],
-					'code' => 0,
-				];
+	// 				//var_dump($foto_tbl_usuario); die();
 
-				echo json_encode($data);
-				exit();
-			}
-		}
-	}
+	// 				$route_photo = './foto_usuario/' . $foto_tbl_usuario;
+
+	// 				$imagen = $route_photo;
+
+	// 				if (file_exists($imagen)) {
+	// 					if (unlink($imagen)) {
+	// 						//echo "La imagen se ha eliminado correctamente.";
+	// 					} else {
+	// 						//echo "No se pudo eliminar la imagen.";
+	// 					}
+	// 				} else {
+	// 					//echo "La imagen no existe.";
+	// 				}
+
+	// 				$datos = array(
+	// 					'cedula'    	=> $_POST['cedula_update'],
+	// 					'usuario'		=> $_POST['usuario_update'],
+	// 					'nombre'		=> $_POST['nombre_update'],
+	// 					'apellido'		=> $_POST['apellido_update'],
+	// 					'correo'		=> $_POST['correo_update'],
+	// 					'foto'			=> $fileName,
+	// 					'contrasena'	=> $_POST['contrasena_update'],
+	// 					'rol'			=> $_POST['rol_update'],
+	// 					'estatus'		=> $_POST['estatus_update'],
+	// 				);
+
+	// 				$resultado = $modelUsuarios->modificarUsuario($id_usuario, $datos);
+
+	// 				if ($resultado) {
+	// 					$data = [
+	// 						'data' => [
+	// 							'success'            =>  true,
+	// 							'message'            => 'Guardado exitosamente',
+	// 							'info'               =>  'Los datos del usuario han sido modificados'
+	// 						],
+	// 						'code' => 1,
+	// 					];
+
+	// 					echo json_encode($data);
+	// 					exit();
+	// 				} else {
+	// 					$data = [
+	// 						'data' => [
+	// 							'success'            =>  false,
+	// 							'message'            => 'Ocurrió un error al modificar los datos del usuario',
+	// 							'info'               =>  ''
+	// 						],
+	// 						'code' => 0,
+	// 					];
+
+	// 					echo json_encode($data);
+	// 					exit();
+	// 				}
+	// 			} else {
+	// 				$data = [
+	// 					'data' => [
+	// 						'success'            =>  false,
+	// 						'message'            => 'No se copio la imagen',
+	// 						'info'               =>  ''
+	// 					],
+	// 					'code' => 0,
+	// 				];
+
+	// 				echo json_encode($data);
+	// 				exit();
+	// 			}
+	// 		} else {
+	// 			//$validator['messages'] = 'SOLO SE PERMITE FORMATOS JPG, PNG Y JPEG.';
+
+	// 			$data = [
+	// 				'data' => [
+	// 					'success'            =>  false,
+	// 					'message'            => 'Solo se permiten formatos jpg, png y jpeg.',
+	// 					'info'               =>  ''
+	// 				],
+	// 				'code' => 0,
+	// 			];
+
+	// 			echo json_encode($data);
+	// 			exit();
+	// 		}
+	// 	} else {
+
+	// 		$modelUsuarios = new UsuarioModel();
+	// 		$id_usuario = $_POST['id_usuario_update'];
+
+	// 		$datos = array(
+	// 			'cedula'    	=> $_POST['cedula_update'],
+	// 			'usuario'		=> $_POST['usuario_update'],
+	// 			'nombre'		=> $_POST['nombre_update'],
+	// 			'apellido'		=> $_POST['apellido_update'],
+	// 			'correo'		=> $_POST['correo_update'],
+	// 			'contrasena'	=> $_POST['contrasena_update'],
+	// 			'rol'			=> $_POST['rol_update'],
+	// 			'estatus'		=> $_POST['estatus_update'],
+	// 		);
+
+	// 		$resultado = $modelUsuarios->modificarUsuario($id_usuario, $datos);
+
+	// 		if ($resultado) {
+	// 			$data = [
+	// 				'data' => [
+	// 					'success'            =>  true,
+	// 					'message'            => 'Guardado exitosamente',
+	// 					'info'               =>  'Los datos del usuario han sido modificados'
+	// 				],
+	// 				'code' => 1,
+	// 			];
+
+	// 			echo json_encode($data);
+	// 			exit();
+	// 		} else {
+	// 			$data = [
+	// 				'data' => [
+	// 					'success'            =>  false,
+	// 					'message'            => 'Ocurrió un error al modificar los datos del usuario',
+	// 					'info'               =>  ''
+	// 				],
+	// 				'code' => 0,
+	// 			];
+
+	// 			echo json_encode($data);
+	// 			exit();
+	// 		}
+	// 	}
+	// }
 	/*----------Metodo para inactivar Usuario-------*/
 
 	public function inactivarUsuario()
@@ -722,5 +728,65 @@ EOT;
 			echo json_encode($data);
 			exit();
 		}
+	}
+
+
+	public function modificarUsuario(){
+
+		$modelUsuario  = new UsuarioModel();
+		$modelPersonas = new PersonasModel();
+
+		$id_persona   = $_POST['id_persona'];
+		$id_usuario   = $_POST['id_usuario'];
+		$datos = array(
+			'tipo_documento'   => $_POST['tipo_doc'],
+			'n_documento'      => $_POST['documento'],
+			'p_nombre'         => $_POST['p_nombre'],
+			's_nombre'         => $_POST['s_nombre'],
+			'p_apellido'       => $_POST['p_apellido'],
+			's_apellido'       => $_POST['s_apellido'],
+			'correo'           => $_POST['correo'],
+			'telefono'         => $_POST['telefono'],
+		    'direccion'        => $_POST['direccion'],
+		);
+
+		$resultado_p = $modelPersonas->modificarPersona($id_persona, $datos);
+
+		$datosUsuario = array(
+			'id_rol' => $_POST['rol'],
+			'usuario' => $_POST['usuario']
+		);
+
+		$resultado = $modelUsuario->modificarUsuario($id_usuario, $datosUsuario);
+
+		if($resultado || $resultado_p)
+		{
+			$data = [
+				'data' => [
+					'success'            =>  true,
+					'message'            => 'Guardado exitosamente',
+					'info'               =>  'Los datos de la especialidad han sido modificados'
+				],
+				'code' => 1,
+			];
+	
+			echo json_encode($data);
+			exit();
+		}
+		else {
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Ocurrió un error al modificar los datos de la especialidad',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+	
+			echo json_encode($data);
+			exit();
+		}
+
+
 	}
 }

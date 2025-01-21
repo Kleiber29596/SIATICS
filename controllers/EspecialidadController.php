@@ -127,8 +127,9 @@ class EspecialidadController {
 		{
 
 			$id_especialidad      = $listar['id_especialidad'];
-			$nombre_especialidad  = $listar['nombre_especialidad'];
-			$estatus_especialidad = $listar['estatus_especialidad'];
+			$especialidad  		  = $listar['nombre_especialidad'];
+			$modalidad 			  = $listar['modalidad'];
+			$tm_porcita			  = $listar['tm_porcita'];
 		}
 
 		$data = [
@@ -137,8 +138,10 @@ class EspecialidadController {
 				'message'              => 'Registro encontrado',
 				'info'                 =>  '',
 				'id_especialidad'      => $id_especialidad,
-				'nombre_especialidad'  => $nombre_especialidad,
-				'estatus_especialidad' => $estatus_especialidad,
+				'especialidad'  => $especialidad,
+				'modalidad' 		   => $modalidad,
+				'tm_porcita'		   => $tm_porcita
+
 			],
 			'code' => 0,
 		];
@@ -153,8 +156,9 @@ class EspecialidadController {
 		$modelEspecialidad = new EspecialidadModel();
 		$id_especialidad = $_POST['id_especialidad'];
 		$datos = array(
-			'nombre_especialidad'   => $_POST['update_nombre_especialidad'],
-			'estatus_especialidad'  => $_POST['update_estatus_especialidad'],
+			'nombre_especialidad'   => $_POST['especialidad'],
+			'modalidad'      => $_POST['modalidad'],
+			'tm_porcita'     => $_POST['tm_porcita'],
 		);
 
 		$resultado = $modelEspecialidad->modificarEspecialidad($id_especialidad, $datos);

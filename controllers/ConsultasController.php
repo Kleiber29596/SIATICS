@@ -34,7 +34,7 @@ public function listarConsultas()
 		// DB table to use 
 		$table = <<<EOT
         (
-		SELECT DISTINCT c.id_consulta, c.id_tipo_consulta, c.id_persona, c.fecha_registro, c.edad, t.codigo, t.motivo,  CONCAT(p.tipo_documento, '-', p.n_documento) AS documento, CONCAT(p.p_nombre, ' ', p.s_nombre, ' ', p.p_apellido, ' ', p.s_apellido) AS nombre_apellido,  e.modalidad FROM consultas c INNER JOIN tipo_consulta t ON c.id_tipo_consulta = t.id_tipo_consulta
+		SELECT DISTINCT c.id_consulta, c.id_tipo_consulta, c.id_persona,  DATE_FORMAT(c.fecha_registro, '%d/%m/%Y') AS fecha_registro, c.edad, t.codigo, t.motivo,  CONCAT(p.tipo_documento, '-', p.n_documento) AS documento, CONCAT(p.p_nombre, ' ', p.s_nombre, ' ', p.p_apellido, ' ', p.s_apellido) AS nombre_apellido,  e.modalidad FROM consultas c INNER JOIN tipo_consulta t ON c.id_tipo_consulta = t.id_tipo_consulta
 INNER JOIN personas p ON c.id_persona = p.id_persona
 INNER JOIN especialidad e ON c.id_especialidad = e.id_especialidad
 ORDER BY c.id_consulta DESC

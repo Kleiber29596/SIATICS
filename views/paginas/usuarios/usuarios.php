@@ -81,7 +81,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
 ?>
 
 <div class="pagetitle">
-    <h1>Usuarios</h1>
+    <h1>Usuarios <i class="bi bi-people-fill"></i></h1>
 </div><!-- End Page Title -->
 
 <section class="section">
@@ -400,7 +400,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" id="formActualizarMedicamento">
+                <form action="" id="formActualizarUsuario">
 
                     <div class="row">
 
@@ -432,7 +432,36 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                 digitos y máximo 8.
                             </p>
                         </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="usuario_update">Usuario</label>
+                                <input class="form-control" type="text" id="usuario_u" name="usuario_u" maxlength="40"
+                                    placeholder="Ingresa el nombre de usuario">
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-3">
+
+                            <div class="form-group">
+                                <label for="rol_update">Rol</label>
+                                <select class="form-control" name="rol_u" id="rol_u">
+                                    <option value="">Seleccione</option>
+                                    <?php
+                                    foreach ($roles_update as $roles_update) {
+                                    ?>
+                                    <option value="<?= $roles_update['id'] ?>"><?= $roles_update['rol'] ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                        </div>
+
                     </div>
+
 
 
                     <div class="row">
@@ -441,6 +470,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                             <label class="formulario__label" for="nombres">Primer nombre</label>
                             <div class="form-group">
                                 <input id="id_usuario_update" name="id_usuario_update" type="hidden" value="">
+                                <input id="id_persona_u" name="id_persona_u" type="hidden" value="">
                                 <input class="form-control formulario__validacion__input" type="text" id="p_nombre_u"
                                     name="p_nombre_u" placeholder="Primer nombre" required>
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -486,6 +516,14 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
 
                     <div class="row">
 
+                    <div class="col-sm-4" id="grupo_telefono">
+                                <label class="formulario__label" for="telefono">Telefono</label>
+                                <div class="form-group">
+                                    <input class="form-control formulario__validacion__input" type="text" id="telefono_u"
+                                        name="telefono_u" placeholder="telefono...">
+                                </div>
+                            </div>
+
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="correo_update">Correo</label>
@@ -502,95 +540,22 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                             </div>
                         </div>
 
-                        <!-- <div class="col-sm-4">
-<div class="form-group">
-<label for="contrasena_update">Contraseña</label>
-<input class="form-control" type="password" id="contrasena_update_u" name="contrasena_update"
-    maxlength="60" placeholder="Ingresa la contraseña">
-</div>
-</div>
+                        <div class="modal-footer">
 
-<div class="col-sm-4">
-<div class="form-group">
-<label for="telefono_update">Confirmar contraseña</label>
-<input class="form-control" type="password" id="confirmar_contrasena_update"
-    name="confirmar_contrasena_update" maxlength="60" placeholder="Ingresa la contraseña">
-</div>
-</div> -->
-
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="usuario_update">Usuario</label>
-                                <input class="form-control" type="text" id="usuario_u" name="usuario_u" maxlength="40"
-                                    placeholder="Ingresa el nombre de usuario">
-                            </div>
+                            <button type="button" class="btn btn-secondary" title="Cerrar el modal"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="modificar_usuario"
+                                title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
                         </div>
 
-
-                        <div class="col-sm-4">
-
-                            <div class="form-group">
-                                <label for="rol_update">Rol</label>
-                                <select class="form-control" name="rol_u" id="rol_u">
-                                    <option value="">Seleccione</option>
-                                    <?php
-            foreach ($roles_update as $roles_update) {
-            ?>
-                                    <option value="<?= $roles_update['id'] ?>"><?= $roles_update['rol'] ?></option>
-                                    <?php
-            }
-            ?>
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="estatus_update">Estatus</label>
-                                <select class="form-control" name="estatus_u" id="estatus_u">
-                                    <option value="">Seleccione</option>
-                                    <option value="1">Activo</option>
-                                    <option value="2">Inactivo</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4" id="cont_input_file" style="display: none;">
-                            <div class="form-group">
-                                <label for="Foto">Foto</label>
-                                <input type="file" class=" form-control" name="archivo" id="subirfotoUpdate"
-                                    accept="image/*">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <img class="img-circle" id="img_update_preview" style="width:100%;" src="" alt="">
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="check_foto" name="check_foto">
-                            <label class="custom-control-label" for="check_foto">Actualizar foto de perfil</label>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-
-                        <button type="button" class="btn btn-secondary" title="Cerrar el modal"
-                            data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="modificar_usuario"
-                            title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
                     </div>
                 </form>
             </div>
+
         </div>
     </div>
 </div>
-
-
-
+</div>
 
 
 
@@ -606,7 +571,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalVisualizarUsuarioLabel">Usuario <i
-                        class="bi bi-person-circle fs-2"></i></h5>
+                        class="bi bi-person-circle c"></i></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -622,6 +587,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                 <br>
                                 <p id="documento_u" class="mb-1"></p>
                                 <p id="nombre_usuario" class="mb-1"></p>
+                                <p id="rol_usuario" class="mb-1"></p>
                                 <p id="nombre_apellido_u" class="mb-1"></p>
                                 <p id="estatus_usuario" class="mb-1"></p>
                             </a>

@@ -70,7 +70,7 @@ class UsuarioModel extends ModeloBase {
 	/*------------ Metodo para mostrar un registro --------*/
 	public function listarDatosUsuario($id) {
 		$db = new ModeloBase();
-		$query = "SELECT p.id_persona, p.tipo_documento, p.n_documento, p.p_nombre, p.s_nombre, p.p_apellido, p.s_apellido, p.correo, p.direccion, DATE_FORMAT(p.fecha_nacimiento, '%d/%m/%Y') AS fecha_nac, p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, u.usuario, u.id_rol, u.estatus, u.foto, r.rol, u.id FROM  usuario AS u INNER JOIN  personas AS p ON p.id_persona = u.id_Persona INNER JOIN roles AS r ON r.id = u.id_rol  WHERE u.id  = ".$id."";
+		$query = "SELECT p.id_persona, p.tipo_documento, p.n_documento, p.p_nombre, p.s_nombre, p.p_apellido, p.s_apellido, p.correo, p.direccion, DATE_FORMAT(p.fecha_nacimiento, '%d/%m/%Y') AS fecha_nac, p.fecha_nacimiento, p.sexo, p.telefono,  p.correo, p.fecha_registro, p.direccion, p.telefono, u.usuario, u.id_rol, u.estatus, u.foto, r.rol, u.id, u.id_rol FROM  usuario AS u INNER JOIN  personas AS p ON p.id_persona = u.id_Persona INNER JOIN roles AS r ON r.id = u.id_rol  WHERE u.id  = ".$id."";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
@@ -80,7 +80,7 @@ class UsuarioModel extends ModeloBase {
 	public function modificarUsuario($id, $datos) {
 		$db = new ModeloBase();
 		try {
-			$editar = $db->editar('usuario',' ', $id, $datos);
+			$editar = $db->editar('usuario','id', $id, $datos);
 			return $editar;
 		} catch (PDOException $e) {
 			echo $e->getMessage();

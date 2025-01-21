@@ -736,30 +736,30 @@ $(document).ready(function () {
               `
                     <button type="button" class="btn btn-primary btn-sm" onclick="verUsuario(` +
               row[6] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
+              `)"><i class="bi bi-eye-fill"></i></button>&nbsp;
     
                    <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionUsuario(` +
               row[6] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
     
-                   <button type="button" class="btn btn-danger btn-sm" onclick="inactivarUsuario(` +
+                   <button type="button" class="btn btn-success btn-sm" title="Inactivar Usuario" onclick="inactivarUsuario(` +
               row[6] +
-              `)"><i class="fas fa-trash"></i></button>  `;
+              `)"><i class="bi bi-toggle-off fs-6"></i></button>  `;
             return botones;
           } else {
             let botones =
               `
                 <button type="button" class="btn btn-primary btn-sm" onclick="verUsuario(` +
               row[6] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
+              `)"><i class="bi bi-eye-fill"></i></button>&nbsp;
 
                <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionUsuario(` +
               row[6] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
 
-               <button type="button" class="btn btn-success btn-sm" onclick="inactivarUsuario(` +
+               <button type="button" class="btn btn-danger btn-sm" title="Activar usuario" onclick="inactivarUsuario(` +
               row[6] +
-              `)"><i class="fas fa-fas fa-retweet"></i></button>  `;
+              `)"><i class="bi bi-toggle-on fs-6"></i></button>  `;
             return botones;
           }
         },
@@ -1206,58 +1206,6 @@ $(document).ready(function () {
 
 
 
-
-/* -------------- Ver Usuario ------------------ */
-function verUsuario(id) {
-  let id_usuario = id;
-
-  $.ajax({
-    url: "index.php?page=verUsuario",
-    type: "post",
-    dataType: "json",
-    data: {
-      id_usuario: id_usuario,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success == true) {
-        document.getElementById("cedula_usuario").innerHTML =
-          "Cedula: " + response.data.cedula;
-        document.getElementById("nombre_usuario").innerHTML =
-          response.data.nombre + " " + response.data.apellido;
-        document.getElementById("foto_usuario").innerHTML =
-          "Foto: " + response.data.foto;
-        document.getElementById("usuario_usuario").innerHTML =
-          "Usuario: " + response.data.usuario;
-        document.getElementById("apellido_usuario").innerHTML =
-          "Apellido: " + response.data.apellido;
-        document.getElementById("correo_usuario").innerHTML =
-          "Correo: " + response.data.correo;
-
-        document.getElementById("fecha_usuario").innerHTML =
-          "Fecha: " + response.data.fecha;
-
-        let ruta_img = "foto_usuario/" + response.data.foto;
-
-        document.getElementById("foto_usuario").setAttribute("src", ruta_img);
-
-        if (response.data.estatus == 1) {
-          document.getElementById("estatus_usuario").innerHTML =
-            "Estado: <button class='btn btn-success'>Activo</button>";
-        } else {
-          document.getElementById("estatus_usuario").innerHTML =
-            "Estado: <button class='btn btn-danger'>inactivo</button>";
-        }
-
-        $("#modalVisualizarUsuario").modal("show");
-      } else {
-      }
-    })
-    .fail(function () {
-      console.log("error");
-    });
-}
-
 /*Listar datos para actualizacion de usuario*/
 function listarActualizacionUsuario(id) {
   let id_usuario = id;
@@ -1269,7 +1217,7 @@ function listarActualizacionUsuario(id) {
   let segundo_nombre    = document.getElementById("s_nombre_u").value;
   let primer_apellido   = document.getElementById("p_apellido_u").value;
   let segundo_apellido  = document.getElementById("s_apellido_u").value;
-  let estatus           = document.getElementById("estatus_u").value;
+  // let estatus           = document.getElementById("estatus_u").value;
   let listar = "listar";
 
   $.ajax({
@@ -1283,6 +1231,7 @@ function listarActualizacionUsuario(id) {
     .done(function (response) {
       if (response.data.success == true) {
         document.getElementById("id_usuario_update").value = response.data.id;
+        document.getElementById("id_persona_u").value = response.data.id_persona;
         document.getElementById("n_documento_u").value       = response.data.documento;
         document.getElementById("tipo_documento_u").value    = response.data.tipo_doc;
         document.getElementById("p_nombre_u").value   = response.data.p_nombre;
@@ -1290,11 +1239,12 @@ function listarActualizacionUsuario(id) {
         document.getElementById("p_apellido_u").value   = response.data.p_apellido;
         document.getElementById("s_apellido_u").value   = response.data.s_apellido;
         document.getElementById("usuario_u").value = response.data.usuario;
+        document.getElementById("telefono_u").value = response.data.telefono;
         document.getElementById("correo_u").value = response.data.correo;
         document.getElementById("direccion_u").value = response.data.direccion;
-        document.getElementById("estatus_u").value = response.data.estatus;
-        document.getElementById("rol_u").value = response.data.rol;
-        document.getElementById("img_update_preview").setAttribute("src", "foto_usuario/" + response.data.foto);
+        // document.getElementById("estatus_u").value = response.data.estatus;
+        document.getElementById("rol_u").value = response.data.id_rol;
+        // document.getElementById("img_update_preview").setAttribute("src", "foto_usuario/" + response.data.foto);
 
         $("#modalActualizarUsuarios").modal("show");
       } else {
@@ -1416,8 +1366,8 @@ function inactivarUsuario(id) {
   var id_usuario = id;
 
   Swal.fire({
-    title: "¿Está seguro de moficar el estado del usuario?",
-    // text: "El paciente sera dado de alta y el registro quedara guardado en la traza.",
+    title: "¿Está seguro de modificar el estado del usuario?",
+    text: "El usuario quedara inactivo, pero su registro quedara guardado en la traza.",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -1897,12 +1847,12 @@ $(document).ready(function () {
         render: function (data, type, row, meta) {
           let botones =
             `
-                <button type="button" class="btn btn-primary btn-sm" onclick="listarVer(` +
-            row[1] +
-            `)"><i class="fas fa-eye"></i></button>&nbsp;
+                <button type="button" class="btn btn-primary btn-sm" onclick="verEspecialidad(` +
+            row[3] +
+            `)"><i class="bi bi-eye-fill"></i></button>&nbsp;
 
-               <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionDoctor(` +
-            row[1] +
+               <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionEspecialidad(` +
+            row[3] +
             `)"><i class="fas fa-edit"></i></button>&nbsp;
 
             `;
@@ -2119,6 +2069,7 @@ function verUsuario(id) {
         document.getElementById("nombre_apellido_u").innerHTML ='<span class="badge" style="font-size: 15px;">Nombre/Apellido: </span>'+response.data.nombre_apellido;
         document.getElementById("nombre_usuario").innerHTML ='<span class="badge" style="font-size: 15px;">Usuario: </span>'+ response.data.usuario;
         document.getElementById("documento_u").innerHTML ='<span class="badge" style="font-size: 15px;">N° documento: </span>'+ response.data.documento;
+        document.getElementById("rol_usuario").innerHTML ='<span class="badge" style="font-size: 15px;">Rol: </span>'+ response.data.rol;
         document.getElementById("fecha_u").innerHTML = response.data.fecha;
         document.getElementById("foto_usuario").setAttribute('src', `libs/img/${response.data.foto}`);
 
@@ -2144,105 +2095,112 @@ function verUsuario(id) {
 var modificar_usuario;
 if ((modificar_usuario = document.getElementById("modificar_usuario"))) {
   modificar_usuario.addEventListener("click", modificarUsuario, false);
-
-  function modificarUsuario() {
-    let id_usuario = document.getElementById("id_usuario").value;
-    let origen = document.getElementById("origen_update").value;
-    let cedula = document.getElementById("cedula_update").value;
-    let nombre = document.getElementById("nombre_update").value;
-    let apellido = document.getElementById("apellido_update").value;
-    let usuario = document.getElementById("usuario_update").value;
-    let contrasena = document.getElementById("contrasena_update").value;
-    let correo = document.getElementById("correo_update").value;
-    let estatus = document.getElementById("estatus_update").value;
-
-    $.ajax({
-      url: "index.php?page=modificarUsuario",
-      type: "post",
-      dataType: "json",
-      data: {
-        id_usuario: id_usuario,
-        origen: origen,
-        cedula: cedula,
-        nombre: nombre,
-        apellido: apellido,
-        usuario: usuario,
-        contrasena: contrasena,
-        estatus: estatus,
-        correo: correo,
-        estatus: estatus,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formActualizarUsuario").reset();
-
-          $("#modalActualizarUsuarios").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tablaUsuario").DataTable().ajax.reload();
-        } else {
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}
-
-/* -------------- Activar e Inactivar Usuario ------------------ */
-function inactivarUsuario(id) {
-  var id_usuario = id;
-
-  Swal.fire({
-    title: "¿Está seguro de moficar el estado del usuario?",
-    text: "El paciente sera dado de alta y el registro quedara guardado en la traza.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Si",
-    cancelButtonText: "Cancelar",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      $.ajax({
-        url: "index.php?page=inactivarUsuario",
+  async function modificarUsuario() {
+    let id_usuario = document.getElementById("id_usuario_update").value;
+    let id_persona = document.getElementById("id_persona_u").value;
+    let documento_u = document.getElementById("n_documento_u").value;
+    let tipo_doc_u = document.getElementById("tipo_documento_u").value;
+    let p_nombre_u = document.getElementById("p_nombre_u").value;
+    let s_nombre_u = document.getElementById("s_nombre_u").value;
+    let p_apellido_u = document.getElementById("p_apellido_u").value;
+    let s_apellido_u = document.getElementById("s_apellido_u").value;
+    let correo_u = document.getElementById("correo_u").value;
+    let direccion_u = document.getElementById("direccion_u").value;
+    let telefono = document.getElementById("telefono_u").value;
+  
+    // Datos usuario
+    let rol = document.getElementById("rol_u").value;
+    let usuario = document.getElementById("usuario_u").value;
+  
+    try {
+      const response = await $.ajax({
+        url: "index.php?page=modificarUsuario",
         type: "post",
         dataType: "json",
         data: {
           id_usuario: id_usuario,
-        },
-      })
-        .done(function (response) {
-          if (response.data.success == true) {
-            $("#tablaUsuario").DataTable().ajax.reload();
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: response.data.message,
-              confirmButtonColor: "#0d6efd",
-              text: response.data.info,
-            });
-          }
-        })
-        .fail(function () {
-          console.log("error");
+          id_persona: id_persona,
+          documento: documento_u,
+          tipo_doc: tipo_doc_u,
+          p_nombre: p_nombre_u,
+          s_nombre: s_nombre_u,
+          p_apellido: p_apellido_u,
+          s_apellido: s_apellido_u,
+          correo: correo_u,
+          direccion: direccion_u,
+          telefono: telefono,
+          rol: rol,
+          usuario: usuario,
+        }
+      });
+  
+      if (response.data.success == true) {
+        document.getElementById("formActualizarUsuario").reset();
+        $("#modalActualizarUsuarios").modal("hide");
+  
+        Swal.fire({
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
         });
+  
+        $("#tablaUsuario").DataTable().ajax.reload();
+      } else {
+        Swal.fire({
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
+      }
+    } catch (error) {
+      console.error("Error en la solicitud AJAX: ", error);
     }
-  });
+  }
 }
+
+// /* -------------- Activar e Inactivar Usuario ------------------ */
+// function inactivarUsuario(id) {
+//   var id_usuario = id;
+
+//   Swal.fire({
+//     title: "¿Está seguro de moficar el estado del usuario?",
+//     text: "El paciente sera dado de alta y el registro quedara guardado en la traza.",
+//     icon: "warning",
+//     showCancelButton: true,
+//     confirmButtonColor: "#3085d6",
+//     cancelButtonColor: "#d33",
+//     confirmButtonText: "Si",
+//     cancelButtonText: "Cancelar",
+//   }).then((result) => {
+//     if (result.isConfirmed) {
+//       $.ajax({
+//         url: "index.php?page=inactivarUsuario",
+//         type: "post",
+//         dataType: "json",
+//         data: {
+//           id_usuario: id_usuario,
+//         },
+//       })
+//         .done(function (response) {
+//           if (response.data.success == true) {
+//             $("#tablaUsuario").DataTable().ajax.reload();
+//           } else {
+//             Swal.fire({
+//               icon: "error",
+//               title: response.data.message,
+//               confirmButtonColor: "#0d6efd",
+//               text: response.data.info,
+//             });
+//           }
+//         })
+//         .fail(function () {
+//           console.log("error");
+//         });
+//     }
+//   });
+// }
 
 var agregar_especialidad;
 if ((agregar_especialidad = document.getElementById("agregar_especialidad"))) {
@@ -2305,6 +2263,22 @@ if(modalidad){
     } else {
       campoTM.style.display = 'none'; // Ocultar campo de texto
       tm_cita.value = 'N/A';
+    }
+  });
+
+}
+
+const modalidad_update = document.getElementById('modalidad_update');
+const TM_cita_update = document.getElementById('TM_cita_update');
+if(modalidad_update){
+  const campoTM_update = document.getElementById('divTM_update');
+
+  modalidad_update.addEventListener('change', function() {
+    if (this.value == 'Por cita') {
+      campoTM_update.style.display = 'inline-block'; // Mostrar campo de texto
+    } else {
+      campoTM_update.style.display = 'none'; // Ocultar campo de texto
+      TM_cita_update.value = 'N/A';
     }
   });
 
@@ -2815,13 +2789,6 @@ const fechaNacInput = document.getElementById("fecha_nac");
 function listarActualizacionEspecialidad(id) {
   let id_especialidad = id;
 
-  let update_nombre_especialidad = document.getElementById(
-    "update_nombre_especialidad"
-  ).value;
-  let update_estatus_especialidad = document.getElementById(
-    "update_estatus_especialidad"
-  ).value;
-
   let listar = "listar";
 
   $.ajax({
@@ -2829,18 +2796,35 @@ function listarActualizacionEspecialidad(id) {
     type: "post",
     dataType: "json",
     data: {
-      id_especialidad: id_especialidad,
+      id_especialidad: id_especialidad
+
     },
   })
     .done(function (response) {
       if (response.data.success == true) {
         document.getElementById("id_especialidad").value =
           response.data.id_especialidad;
-        document.getElementById("update_nombre_especialidad").value =
-          response.data.nombre_especialidad;
-        document.getElementById("update_estatus_especialidad").value =
-          response.data.estatus_especialidad;
+      document.getElementById(
+            "update_especialidad"
+          ).value = response.data.especialidad;
+      document.getElementById(
+            "modalidad_update"
+          ).value = response.data.modalidad;
+        
+      document.getElementById(
+            "TM_cita_update"
+          ).value = response.data.tm_porcita;
+      
+      if(response.data.tm_porcita !== 'N/A') {
+        document.getElementById("divTM_update").removeAttribute('style');
+
+      } else {
+        document.getElementById("divTM_update").setAttribute('style','display:none');
+      }
+
+        
         $("#modalActualizarEspecialidad").modal("show");
+
       } else {
       }
     })
@@ -2860,52 +2844,63 @@ if (
     false
   );
 
-  function modificarEspecialidad() {
-    let id_especialidad = document.getElementById("id_especialidad").value;
-    let update_nombre_especialidad = document.getElementById(
-      "update_nombre_especialidad"
+  async  function modificarEspecialidad() {
+
+    let id_especialidad = document.getElementById(
+      "id_especialidad"
     ).value;
-    let update_estatus_especialidad = document.getElementById(
-      "update_estatus_especialidad"
+    let especialidad = document.getElementById(
+      "update_especialidad"
     ).value;
-    $.ajax({
-      url: "index.php?page=modificarEspecialidad",
-      type: "post",
-      dataType: "json",
-      data: {
-        id_especialidad: id_especialidad,
-        update_nombre_especialidad: update_nombre_especialidad,
-        update_estatus_especialidad: update_estatus_especialidad,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formActualizarEspecialidad").reset();
+    let modalidad = document.getElementById(
+      "modalidad_update"
+    ).value;
+  
+    let tm_porcita = document.getElementById(
+      "TM_cita_update"
+    ).value;
 
-          $("#modalActualizarEspecialidad").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_especialidad").DataTable().ajax.reload();
-        } else {
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
+    try {
+      const response = await $.ajax({
+        url: "index.php?page=modificarEspecialidad",
+        type: "post",
+        dataType: "json",
+        data: {
+          id_especialidad: id_especialidad,
+          especialidad: especialidad,
+          modalidad: modalidad,
+          tm_porcita: tm_porcita
         }
-      })
-      .fail(function () {
-        console.log("error");
       });
+    
+      if (response.data.success == true) {
+        document.getElementById("formActualizarEspecialidad").reset();
+        $("#modalActualizarEspecialidad").modal("hide");
+    
+        Swal.fire({
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
+    
+        $("#tbl_especialidad").DataTable().ajax.reload();
+      } else {
+        Swal.fire({
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
+      }
+    } catch (error) {
+      console.error("Error en la solicitud AJAX: ", error);
+    }
   }
 }
+
+
+
 
 /* -------------- Activar e Inactivar Especialidad------------------ */
 function inactivarEspecialidad(id) {
@@ -6174,6 +6169,67 @@ function verMotivo(id) {
         document.getElementById("ver_especialidad_motivo").innerHTML =  `<strong>Especialidad</strong>: `+ response.data.nombre_especialidad;
 
         $("#modalVisualizarMotivo").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+// new DataTable('#example');
+
+
+$(document).ready(function () {
+  $("#example").DataTable({
+    pageLength: 3,
+    dom: "Bfrtip",
+    language: {
+      decimal: "",
+      emptyTable: "No hay información",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+      infoFiltered: "(Filtrado de _MAX_ total entradas)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ Entradas",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "Sin resultados encontrados",
+      paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior",
+      },
+    },
+  });
+});
+
+
+
+
+/* -------------- Ver Motivo ------------------ */
+function verEspecialidad(id) {
+  let id_especialidad = id;
+
+  $.ajax({
+    url: "index.php?page=listarActualizacionEspecialidad",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_especialidad: id_especialidad,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("nombre_especialidad").innerHTML = `<strong>Nombre</strong>: `+ response.data.especialidad;
+        document.getElementById("ver_modalidad").innerHTML =  `<strong>Modalidad</strong>: `+ response.data.modalidad;
+        document.getElementById("ver_tm_porcita").innerHTML = response.data.tm_porcita !== 'N/A' ?  `<strong>Tiempo por cita</strong>: `+ response.data.tm_porcita+' Min' : `<strong>Tiempo por cita</strong>: `+ response.data.tm_porcita;
+
+
+        $("#modalVisualizarEspecialidad").modal("show");
       } else {
       }
     })

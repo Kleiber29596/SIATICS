@@ -939,7 +939,7 @@ public function listarDatosUpdate()
 				'data' => [
 					'success'            =>  true,
 					'message'            => 'Guardado exitosamente',
-					'info'               =>  'Los datos de la persona han sido modificados'
+					'info'               =>  'Los datos del usuario han sido modificados'
 				],
 				'code' => 1,
 			];
@@ -950,7 +950,7 @@ public function listarDatosUpdate()
 			$data = [
 				'data' => [
 					'success'            =>  false,
-					'message'            => 'Ocurrió un error al modificar los datos de la persona',
+					'message'            => 'Ocurrió un error al modificar los datos del usuario',
 					'info'               =>  ''
 				],
 				'code' => 0,

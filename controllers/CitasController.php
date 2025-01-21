@@ -42,7 +42,7 @@ class CitasController
 		// DB table to use 
 		$table = <<<EOT
         (
-			SELECT CONCAT(p.tipo_documento,'-',p.n_documento) AS n_documento_paciente, CONCAT(p.p_nombre, ' ', p.p_apellido) AS nombre, c.fecha_cita, E.nombre_especialidad, c.estatus, c.id_cita FROM citas c INNER JOIN personas as p on c.id_persona = p.id_persona INNER JOIN especialidad AS E ON E.id_especialidad = c.id_especialidad ORDER BY c.id_cita DESC) temp
+			SELECT CONCAT(p.tipo_documento,'-',p.n_documento) AS n_documento_paciente, CONCAT(p.p_nombre, ' ', p.p_apellido) AS nombre, DATE_FORMAT(c.fecha_cita, '%d/%m/%Y') AS fecha_cita, E.nombre_especialidad, c.estatus, c.id_cita FROM citas c INNER JOIN personas as p on c.id_persona = p.id_persona INNER JOIN especialidad AS E ON E.id_especialidad = c.id_especialidad ORDER BY c.id_cita DESC) temp
 EOT;
 
 

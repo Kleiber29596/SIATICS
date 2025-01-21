@@ -16,7 +16,7 @@ function obtener_edad($fecha_nacimiento)
 }
 
 $id = intval($_GET['id']);
-
+//$id = 11;
 
 $objeto = new ConsultasController();
 
@@ -27,16 +27,23 @@ $medicamentos = $objeto->datosReceta($id);
 foreach ($recetas as $receta) {
     $paciente = $receta['paciente'];
     $cedula = $receta['ciPaciente'];
+    $edad = $receta['edad'];
     $doctor = $receta['autor'];
     $ciDoctor = $receta['ciDoctor'];
     $fecha_nacimiento = $receta['fecha_nacimiento'];
-
-   
+    $sexo = $receta['sexo'];
+    $diagnostico = $receta['diagnostico'];
+    $motivo_cosulta = $receta['motivo'];
+    $fecha_registro = $receta['fecha_registro'];
+    // $mpps = $receta['mpps'];
 }
 
+$fecha = DateTime::createFromFormat('Y-m-d', $fecha_nacimiento);
+$fechaFormateada = $fecha->format('d-m-Y');
 
-
-$edad = obtener_edad($fecha_nacimiento);
+$fecha_r = DateTime::createFromFormat('Y-m-d', $fecha_registro);
+$fecha_rFormateada = $fecha_r->format('d-m-Y');
+//$edad = obtener_edad($fecha_nacimiento);
 
 
 ?>
@@ -79,19 +86,47 @@ ob_start();
             padding: 20px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
+        .container td{
+            width: 40%;
         }
 
-        .header img {
+        .header {            
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        /*.header .img1 {
             max-width: 150px;
+            text-align: right;
+        }
+
+        .header .img2 {
+            max-width: 150px;
+            text-align: left;
         }
 
         .header h1 {
             margin: 0;
             font-size: 18px;
             text-transform: uppercase;
+        }*/
+
+        .header {            
+            margin-bottom: 20px;
+            width: 100%;
+            display: block;
+        }
+
+        .header .img1 {
+            max-width: 150px;
+            position: relative;
+            left: 75%;
+        }
+
+        .header .img2 {
+            max-width: 150px;
+            position: relative;
+            right: 22%;
         }
 
         .patient-info,
@@ -101,11 +136,10 @@ ob_start();
 
         .patient-info table,
         .footer table {
-            width: 30%;
+            width: 100%;
         }
 
-        .patient-info th,
-        .footer th {
+        .patient-info th {
             text-align: left;
             padding: 5px;
         }
@@ -113,61 +147,112 @@ ob_start();
         .indications {
             margin: 20px 0;
             border: 1px solid #000;
-            height: 200px;
+            min-height: 50px;
+            height: auto;
+        }
+
+        .datos_D{
+            width: 30%;
+            position: relative;
+            left: 65%;           
+        }
+
+        .datos_D th, 
+        .datos_D td {
+            text-align: center;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            border-top: 1px solid #000;
+            padding: 10px 0;
+            width: 95%;
+            margin: auto;
         }
 
         .footer p {
             font-size: 12px;
         }
+
         </style>
     </head>
 
     <body>
         <div class="container">
             <div class="header">
-                <img src="<?= SERVERURL?>libs/img/siatics2.png" alt="Logo Cáritas">
+                <img src="<?= SERVERURL?>libs/img/siatics2.png" alt="Logo Cáritas" class="img1">
+                <img src="<?= SERVERURL?>libs/img/logoCaritasVzla.png" alt="Logo Cáritas" class="img2">            
             </div>
-
+            <div>
+                <center><h2>Informe Médico</h2></center>
+                <p style="position: absolute; right: 5%;"><strong>fecha: </strong><?= $fecha_rFormateada; ?></p>
+                <hr>
+            </div>
             <div class="patient-info">
+                <h4><u>Datos de identificación</u></h4>
                 <table>
                     <tr>
                         <th>Paciente:</th>
                         <td><?= $paciente; ?></td>
-                    </tr>
-                    <tr>
                         <th>Cédula:</th>
                         <td><?= $cedula; ?></td>
-                    </tr>
-                    <tr>
                         <th>Edad:</th>
                         <td><?= $edad; ?></td>
                     </tr>
+                    <tr>
+                        <th>fecha de nacimiento:</th>
+                        <td><?= $fechaFormateada; ?></td>
+                        <th>sexo:</th>
+                        <td><?= $sexo; ?></td>
+                    </tr>
                 </table>
             </div>
-
-            <div class="indications" style="text-align:left;">
-                <?php foreach ($medicamentos as $m) { ?>
-                <p style="margin: left 4px;"> <?= $m['nombre_medicamento'].' '.$m['dosis'].' '.$m['unidad_medida'].' cada '.$m['frecuencia'].' por '.$m['duracion'] ;?></p>
-
-                <?php } ?>       
+            <h4><u>Motivo de consulta</u></h4>
+            <div>
+                <p style="margin: left 4px;"><?= $motivo_cosulta; ?></p>
             </div>
 
-            <div class="footer">
+            <h4><u>Medicaméntos a suministrar</u></h4>
+            <div>
+                <ul>
+                    <?php foreach ($medicamentos as $m) { ?>
+                    <li><p style="margin: left 4px;"> <?= '<strong>'.$m['nombre_medicamento'].':</strong> '.$m['dosis'].' '.$m['unidad_medida'].' cada '.$m['frecuencia'].' por '.$m['duracion'] ;?></p></li>
+                    <?php } ?> 
+                </ul>      
+            </div>
+
+            <h4><u>Desarrollo</u></h4>
+
+            <div class="indications" style="text-align:left;">
+                <p style="margin: left 4px;">
+                    <?= $diagnostico; ?>
+                </p>
+            </div>
+
+            <div class="datos_D">
                 <table>
                     <tr>
-                        <th>Doctor(a):</th>
+                        <th>Dr(a). </th>
                         <td><?php echo $doctor; ?></td>
                     </tr>
                     <tr>
-                        <th>CI:</th>
+                        <th>CI. </th>
                         <td><?php echo $ciDoctor; ?></td>
                     </tr>
                     <tr>
-                        <th>MPPS:</th>
-                        <td><?php echo $mpps; ?></td>
+                        <th>F.V.P. </th>
+                        <td></td>
                     </tr>
                 </table>
-                <p>* Un plato saludable es indicación de una alimentación balanceada. Las frutas y vegetales crudos son
+            </div>
+
+            <div class="footer">                
+                <p>* Un plato saludable es indicio de una alimentación balanceada. Las frutas y vegetales son
                     salud. ¡Que no falten en tu comida!</p>
             </div>
         </div>
@@ -202,6 +287,6 @@ $dompdf->setPaper('letter');
 
 $dompdf->render();
 
-$dompdf->stream("recipe.pdf", array("Atachment" => false));
+$dompdf->stream("recipe_".$cedula.".pdf", array("Atachment" => false));
 
 ?>
