@@ -2494,7 +2494,7 @@ agregar_representante = document.getElementById("agregar_representante")
 if (agregar_representante) {
   agregar_representante.addEventListener("click", agregarRepresentante, false);
 
-  function agregarRepresentante() {
+  async function agregarRepresentante() {
 
     /*Datos del representante */
 
@@ -2511,7 +2511,7 @@ if (agregar_representante) {
     let id_representado     = document.getElementById("id_representado").value;
     let fecha_nac_r         = document.getElementById("fecha_nac_r").value;
     let sexoR               = document.getElementsByName("sexo");
-    let tipo_persona         = document.getElementsByName("tipo_persona");
+    let tipo_persona         = document.getElementById("tipo_persona_r").value;
      // let id_representante    = document.getElementById("id_representante").value;
     // let id_persona_r        = document.getElementById("id_persona_r").value;
 
@@ -2524,200 +2524,319 @@ if (agregar_representante) {
       }
     }
 
-    $.ajax({
-      url: "index.php?page=registrarRepresentante",
-      type: "post",
-      dataType: "json",
-      data: {
-        
-        // Datos del representante
-        primer_nombre_r: primer_nombre_r,
-        segundo_nombre_r: segundo_nombre_r,
-        primer_apellido_r: primer_apellido_r,
-        segundo_apellido_r: segundo_apellido_r,
-        tipo_documento_r: tipo_documento_r,
-        n_documento_r: n_documento_r,
-        telefono_r: telefono_r,
-        correo_r: correo_r,
-        direccion_r: direccion_r,
-        parentesco: parentesco,
-        id_representado: id_representado,
-        fecha_nac_r: fecha_nac_r,
-        sexo: sexoSeleccionadoR,
-        tipo_persona: tipo_persona
-        // id_representante: id_representante,
-        // id_persona_r: id_persona_r
+    const data = {
+      primer_nombre_r: primer_nombre_r,
+      segundo_nombre_r: segundo_nombre_r,
+      primer_apellido_r: primer_apellido_r,
+      segundo_apellido_r: segundo_apellido_r,
+      tipo_documento_r: tipo_documento_r,
+      n_documento_r: n_documento_r,
+      telefono_r: telefono_r,
+      correo_r: correo_r,
+      direccion_r: direccion_r,
+      parentesco: parentesco,
+      id_representado: id_representado,
+      fecha_nac: fecha_nac_r,
+      sexo: sexoSeleccionadoR,
+      tipo_persona: tipo_persona
+    };
 
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-      
-          const limpiarEstilosValidacionRepresentante = () => {
-            // Listado de los campos a los que se les quiere quitar los estilos de validación
-            const campos = ['primer_nombre_r', 'segundo_nombre_r', 'primer_apellido_r', 'segundo_apellido_r', 'direccion_r', 'telefono_r', 'tipo_documento_r', 'n_documento_r', 'parentesco'];
-        
-            campos.forEach(campo => {
-                const grupo = document.getElementById(`grupo_${campo}`);
-                grupo.classList.remove('formulario__grupo-incorrecto', 'formulario__grupo-correcto'); // Remueve clases de validación
-                const icono = document.querySelector(`#grupo_${campo} i`);
-                if (icono) {
-                    icono.classList.remove('fa-check-circle', 'fa-times-circle'); // Remueve iconos de validación
-                }
-                const errorTexto = document.querySelector(`#grupo_${campo} .formulario__input-error`);
-                if (errorTexto) {
-                    errorTexto.classList.remove('formulario__input-error-activo'); // Oculta mensajes de error
-                }
-            });
-        };
-        
-        // Llamar a esta función cuando necesites limpiar los estilos de validación
-        limpiarEstilosValidacionRepresentante();
-        
-          document.getElementById("formRegistrarRepresentante").reset();
-
-          $("#modalAgregarRepresentante").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${response.data.id_representado}`;
-
- 
-
-
-        } else {
-          
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
+    try {
+      const response = await fetch("index.php?page=registrarRepresentante", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+
+      const result = await response.json();
+
+
+      if (result.data.success) {
+        const limpiarEstilosValidacionRepresentante = () => {
+          const campos = [
+            "primer_nombre_r",
+            "segundo_nombre_r",
+            "primer_apellido_r",
+            "segundo_apellido_r",
+            "direccion_r",
+            "telefono_r",
+            "tipo_documento_r",
+            "n_documento_r",
+            "parentesco",
+          ];
+
+          campos.forEach((campo) => {
+            const grupo = document.getElementById(`grupo_${campo}`);
+            grupo?.classList.remove(
+              "formulario__grupo-incorrecto",
+              "formulario__grupo-correcto"
+            );
+            const icono = document.querySelector(`#grupo_${campo} i`);
+            icono?.classList.remove("fa-check-circle", "fa-times-circle");
+            const errorTexto = document.querySelector(
+              `#grupo_${campo} .formulario__input-error`
+            );
+            errorTexto?.classList.remove("formulario__input-error-activo");
+          });
+        };
+
+        limpiarEstilosValidacionRepresentante();
+        document.getElementById("formRegistrarRepresentante").reset();
+        $("#modalAgregarRepresentante").modal("hide");
+
+        Swal.fire({
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          title: result.data.message,
+          text: result.data.info,
+        });
+
+        window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${result.data.id_representado}`;
+      } else {
+        Swal.fire({
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          title: result.data.message,
+          text: result.data.info,
+        });
+      }
+    } catch (error) {
+      console.error("Error al registrar el representado:", error);
+    }
   }
 }
 
 
 /* --------- REGISTRAR REPRESENTADO ----------- */
 
-agregar_representado = document.getElementById("agregar_representado")
-if (agregar_representado) {
-  agregar_representado.addEventListener("click", agregarRepresentado, false);
+// agregar_representado = document.getElementById("agregar_representado")
+// if (agregar_representado) {
+//   agregar_representado.addEventListener("click", agregarRepresentado, false);
 
-  function agregarRepresentado() {
+//   function agregarRepresentado() {
 
-    /*Datos del representado */
+//     /*Datos del representado */
 
-    let primer_nombre_re     = document.getElementById("primer_nombre_re").value;
-    let segundo_nombre_re    = document.getElementById("segundo_nombre_re").value;
-    let primer_apellido_re   = document.getElementById("primer_apellido_re").value;
-    let segundo_apellido_re  = document.getElementById("segundo_apellido_re").value;
-    let tipo_documento_re    = document.getElementById("tipo_documento_re").value;
-    let n_documento_re       = document.getElementById("n_documento_re").value;
-    let telefono_re          = document.getElementById("telefono_re").value;
-    let correo_re            = document.getElementById("correo_re").value;
-    let direccion_re         = document.getElementById("direccion_re").value;
-    let parentesco           = document.getElementById("parentesco_re").value;
-    let id_representante     = document.getElementById("id_representante").value;
-    let fecha_nac_re         = document.getElementById("fecha_nac_re").value;
-    let sexoRe               = document.getElementsByName("sexo");
-    let tipo_persona         = document.getElementsByName("tipo_persona");
+//     let primer_nombre_re     = document.getElementById("primer_nombre_re").value;
+//     let segundo_nombre_re    = document.getElementById("segundo_nombre_re").value;
+//     let primer_apellido_re   = document.getElementById("primer_apellido_re").value;
+//     let segundo_apellido_re  = document.getElementById("segundo_apellido_re").value;
+//     let tipo_documento_re    = document.getElementById("tipo_documento_re").value;
+//     let n_documento_re       = document.getElementById("n_documento_re").value;
+//     let telefono_re          = document.getElementById("telefono_re").value;
+//     let correo_re            = document.getElementById("correo_re").value;
+//     let direccion_re         = document.getElementById("direccion_re").value;
+//     let parentesco           = document.getElementById("parentesco_re").value;
+//     let id_representante     = document.getElementById("id_representante").value;
+//     let fecha_nac_re         = document.getElementById("fecha_nac_re").value;
+//     let sexoRe               = document.getElementsByName("sexo");
+//     let tipo_persona         = document.getElementsByName("tipo_persona");
     
     
-    for (let i = 0; i < sexoRe.length; i++) {
-      if (sexoRe[i].checked) {
-        // Si el radio está seleccionado, obtener su valor
-        var sexoSeleccionadoRe = sexoRe[i].value;
-        break;
-      }
-    }
+//     for (let i = 0; i < sexoRe.length; i++) {
+//       if (sexoRe[i].checked) {
+//         // Si el radio está seleccionado, obtener su valor
+//         var sexoSeleccionadoRe = sexoRe[i].value;
+//         break;
+//       }
+//     }
 
-    $.ajax({
-      url: "index.php?page=registrarRepresentado",
-      type: "post",
-      dataType: "json",
-      data: {
+//     $.ajax({
+//       url: "index.php?page=registrarRepresentado",
+//       type: "post",
+//       dataType: "json",
+//       data: {
         
-        // Datos del representado
-        primer_nombre_re: primer_nombre_re,
-        segundo_nombre_re: segundo_nombre_re,
-        primer_apellido_re: primer_apellido_re,
-        segundo_apellido_re: segundo_apellido_re,
-        tipo_documento_re: tipo_documento_re,
-        n_documento_re: n_documento_re,
-        telefono_re: telefono_re,
-        correo_re: correo_re,
-        direccion_re: direccion_re,
-        parentesco: parentesco,
-        id_representante: id_representante,
-        fecha_nac_re: fecha_nac_re,
-        sexo: sexoSeleccionadoRe,
-        tipo_persona: tipo_persona
+//         // Datos del representado
+//         primer_nombre_re: primer_nombre_re,
+//         segundo_nombre_re: segundo_nombre_re,
+//         primer_apellido_re: primer_apellido_re,
+//         segundo_apellido_re: segundo_apellido_re,
+//         tipo_documento_re: tipo_documento_re,
+//         n_documento_re: n_documento_re,
+//         telefono_re: telefono_re,
+//         correo_re: correo_re,
+//         direccion_re: direccion_re,
+//         parentesco: parentesco,
+//         id_representante: id_representante,
+//         fecha_nac_re: fecha_nac_re,
+//         sexo: sexoSeleccionadoRe,
+//         tipo_persona: tipo_persona
 
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
+//       },
+//     })
+//       .done(function (response) {
+//         if (response.data.success == true) {
       
-          const limpiarEstilosValidacionRepresentado = () => {
-            // Listado de los campos a los que se les quiere quitar los estilos de validación
-            const campos = ['primer_nombre_r', 'segundo_nombre_r', 'primer_apellido_r', 'segundo_apellido_r', 'direccion_r', 'telefono_r', 'tipo_documento_r', 'n_documento_r', 'parentesco'];
+//           const limpiarEstilosValidacionRepresentado = () => {
+//             // Listado de los campos a los que se les quiere quitar los estilos de validación
+//             const campos = ['primer_nombre_r', 'segundo_nombre_r', 'primer_apellido_r', 'segundo_apellido_r', 'direccion_r', 'telefono_r', 'tipo_documento_r', 'n_documento_r', 'parentesco'];
         
-            campos.forEach(campo => {
-                const grupo = document.getElementById(`grupo_${campo}`);
-                grupo.classList.remove('formulario__grupo-incorrecto', 'formulario__grupo-correcto'); // Remueve clases de validación
-                const icono = document.querySelector(`#grupo_${campo} i`);
-                if (icono) {
-                    icono.classList.remove('fa-check-circle', 'fa-times-circle'); // Remueve iconos de validación
-                }
-                const errorTexto = document.querySelector(`#grupo_${campo} .formulario__input-error`);
-                if (errorTexto) {
-                    errorTexto.classList.remove('formulario__input-error-activo'); // Oculta mensajes de error
-                }
-            });
-        };
+//             campos.forEach(campo => {
+//                 const grupo = document.getElementById(`grupo_${campo}`);
+//                 grupo.classList.remove('formulario__grupo-incorrecto', 'formulario__grupo-correcto'); // Remueve clases de validación
+//                 const icono = document.querySelector(`#grupo_${campo} i`);
+//                 if (icono) {
+//                     icono.classList.remove('fa-check-circle', 'fa-times-circle'); // Remueve iconos de validación
+//                 }
+//                 const errorTexto = document.querySelector(`#grupo_${campo} .formulario__input-error`);
+//                 if (errorTexto) {
+//                     errorTexto.classList.remove('formulario__input-error-activo'); // Oculta mensajes de error
+//                 }
+//             });
+//         };
         
-        // Llamar a esta función cuando necesites limpiar los estilos de validación
-        limpiarEstilosValidacionRepresentado();
+//         // Llamar a esta función cuando necesites limpiar los estilos de validación
+//         limpiarEstilosValidacionRepresentado();
         
-          document.getElementById("formRegistrarRepresentado").reset();
+//           document.getElementById("formRegistrarRepresentado").reset();
 
-          $("#modalAgregarRepresentado").modal("hide");
+//           $("#modalAgregarRepresentado").modal("hide");
 
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
+//           Swal.fire({
+//             icon: "success",
+//             confirmButtonColor: "#3085d6",
+//             title: response.data.message,
+//             text: response.data.info,
+//           });
 
-          window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${response.data.id_representante}`;
+//           window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${response.data.id_representante}`;
 
  
 
 
-        } else {
+//         } else {
           
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
+//           Swal.fire({
+//             icon: "danger",
+//             confirmButtonColor: "#3085d6",
+//             title: response.data.message,
+//             text: response.data.info,
+//           });
+//         }
+//       })
+//       .fail(function () {
+//         console.log("error");
+//       });
+//   }
+// }
+
+
+/* --------- REGISTRAR REPRESENTADO ----------- */
+
+const agregar_representado = document.getElementById("agregar_representado");
+
+if (agregar_representado) {
+  agregar_representado.addEventListener("click", agregarRepresentado, false);
+
+  async function agregarRepresentado() {
+    // Datos del representado
+    const primer_nombre_re = document.getElementById("primer_nombre_re").value;
+    const segundo_nombre_re = document.getElementById("segundo_nombre_re").value;
+    const primer_apellido_re = document.getElementById("primer_apellido_re").value;
+    const segundo_apellido_re = document.getElementById("segundo_apellido_re").value;
+    const tipo_documento_re = document.getElementById("tipo_documento_re").value;
+    const n_documento_re = document.getElementById("n_documento_re").value;
+    const telefono_re = document.getElementById("telefono_re").value;
+    const correo_re = document.getElementById("correo_re").value;
+    const direccion_re = document.getElementById("direccion_re").value;
+    const parentesco = document.getElementById("parentesco_re").value;
+    const id_representante = document.getElementById("id_representante").value;
+    const fecha_nac_re = document.getElementById("fecha_nac_re").value;
+    const sexoRe = document.getElementsByName("sexo");
+    const tipo_persona = document.getElementById("tipo_persona").value;
+    
+    let sexoSeleccionadoRe = "";
+    for (let i = 0; i < sexoRe.length; i++) {
+      if (sexoRe[i].checked) {
+        sexoSeleccionadoRe = sexoRe[i].value;
+        break;
+      }
+    }
+
+    const data = {
+      primer_nombre_re: primer_nombre_re,
+      segundo_nombre_re: segundo_nombre_re,
+      primer_apellido_re: primer_apellido_re,
+      segundo_apellido_re: segundo_apellido_re,
+      tipo_documento_re: tipo_documento_re,
+      n_documento_re: n_documento_re,
+      telefono_re: telefono_re,
+      correo_re: correo_re,
+      direccion_re: direccion_re,
+      parentesco: parentesco,
+      id_representante: id_representante,
+      fecha_nac: fecha_nac_re,
+      sexo: sexoSeleccionadoRe,
+      tipo_persona_re: tipo_persona,
+    };
+
+
+    try {
+      const response = await fetch("index.php?page=registrarRepresentado", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+
+      const result = await response.json();
+
+      if (result.data.success) {
+        const limpiarEstilosValidacionRepresentado = () => {
+          const campos = [
+            "primer_nombre_r",
+            "segundo_nombre_r",
+            "primer_apellido_r",
+            "segundo_apellido_r",
+            "direccion_r",
+            "telefono_r",
+            "tipo_documento_r",
+            "n_documento_r",
+            "parentesco",
+          ];
+
+          campos.forEach((campo) => {
+            const grupo = document.getElementById(`grupo_${campo}`);
+            grupo?.classList.remove(
+              "formulario__grupo-incorrecto",
+              "formulario__grupo-correcto"
+            );
+            const icono = document.querySelector(`#grupo_${campo} i`);
+            icono?.classList.remove("fa-check-circle", "fa-times-circle");
+            const errorTexto = document.querySelector(
+              `#grupo_${campo} .formulario__input-error`
+            );
+            errorTexto?.classList.remove("formulario__input-error-activo");
+          });
+        };
+
+        limpiarEstilosValidacionRepresentado();
+        document.getElementById("formRegistrarRepresentado").reset();
+        $("#modalAgregarRepresentado").modal("hide");
+
+        Swal.fire({
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          title: result.data.message,
+          text: result.data.info,
+        });
+
+        window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${result.data.id_representante}`;
+      } else {
+        Swal.fire({
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          title: result.data.message,
+          text: result.data.info,
+        });
+      }
+    } catch (error) {
+      console.error("Error al registrar el representado:", error);
+    }
   }
 }
 
@@ -6181,7 +6300,7 @@ function verMotivo(id) {
 
 
 $(document).ready(function () {
-  $("#example").DataTable({
+  $("#tbl_historia_consultas").DataTable({
     pageLength: 3,
     dom: "Bfrtip",
     language: {

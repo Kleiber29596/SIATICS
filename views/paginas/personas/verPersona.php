@@ -267,8 +267,8 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     $datos_representante         = $modelPersonas->verRepresentante($id_representado);
 
                                     foreach ($datos_representante as $datos_representante) {
-                                        $nombres_apellidos_r            = $datos_representante['nombres_apellidos']; 
                                         $documento_r                    = $datos_representante['documento']; 
+                                        $nombres_apellidos_r            = $datos_representante['nombres_apellidos']; 
                                         $direccion_r                    = $datos_representante['direccion']; 
                                         $telefono_r                     = $datos_representante['telefono']; 
                                         $correo_r                       = $datos_representante['correo'];
@@ -323,6 +323,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                         $correo_re                       = $datos_representado['correo'];
                                         $parentesco_re                   = $datos_representado['parentesco']; 
                                     }
+                                   
                                     
                                     ?>
 
@@ -425,7 +426,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                                     <h5>Histórico de consultas</h5>
                                                 </strong>
                                                 <div class="table-responsive" >
-                                                    <table class="table table-bordered table-hover display" style="width: 100%;" id="example" >
+                                                    <table class="table table-bordered table-hover display" style="width: 100%;" id="tbl_historia_consultas" >
 
                                                         <thead>
                                                             <tr class="table-success">
@@ -554,7 +555,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                 documento</label>
                             <div class="form-group">
                                 <input type="hidden" value="<?= $id_persona ?>" id="id_representante">
-                                <input type="hidden" name="tipo_persona" id="tipo_persona" value="Paciente">
+                                <input type="hidden" name="tipo_persona_r" id="tipo_persona_r" value="Paciente">
                                 <input class="form-control formulario__validacion__input" type="text" id="n_documento_r"
                                     name="n_documento_r" placeholder="Nº de documento">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -1048,7 +1049,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
                                     class="js-example-basic-multiple select2-selection--single select-multiple-medicamentos"
                                     style="width:100%" name="states[]" multiple="multiple">
 
-                                    <?php foreach ($selectMedicamentos as $m) { var_dump($medicamento);?>
+                                    <?php foreach ($selectMedicamentos as $m) { ?>
 
                                     <option value="<?= $m['id_presentacion_medicamento'] ?>">
                                         <?= $m['nombre_medicamento'] . ' ' . $m['presentacion'] ?>

@@ -241,7 +241,8 @@ class PersonasController
 	
 				$datos_enfermedades =  array(
 					'id_patologia'                 => $id_enfermedad,
-					'id_historia_medica'     	   => $id_historia_medica
+					'id_historia_medica'     	   => $id_historia_medica,
+					'id_persona_h'				   => $data['id_persona_h']
 					
 				);
 				$resultado_enferm = $modelPersonas->registrarEnfermedades($datos_enfermedades);
@@ -256,8 +257,7 @@ class PersonasController
 				'data' => [
 					'success'            =>  true,
 					'message'            => 'Guardado exitosamente',
-					'info'               =>  'La historia médica se ha guardado con exito',
-					'id_persona_h'	     => $data['id_persona_h']
+					'info'               =>  'La historia médica se ha guardado con exito'
 				],
 				'code' => 1,
 			];
@@ -284,20 +284,25 @@ class PersonasController
 	public function registrarRepresentante() {
 		$fecha_registro = date('Y-m-d');
 		$modelPersonas = new PersonasModel();
-		$id_representado = $_POST['id_representado'];
+		
+		$jsonData = file_get_contents('php://input');
+		$data = json_decode($jsonData, true);
+		$id_representado = $data['id_representado'];
 			
 		// Datos personales del representante
 		$datos = array(
-			'p_nombre'            => $_POST['primer_nombre_r'],
-			's_nombre'            => $_POST['segundo_nombre_r'],
-			'p_apellido'          => $_POST['primer_apellido_r'],
-			's_apellido'          => $_POST['segundo_apellido_r'],
-			'tipo_documento'      => $_POST['tipo_documento_r'],
-			'n_documento'         => $_POST['n_documento_r'],
-			'telefono'            => $_POST['telefono_r'],
-			'correo'              => $_POST['correo_r'],
-			'direccion'           => $_POST['direccion_r'],
-			'tipo_persona'        => $_POST['tipo_persona_r'],
+			'p_nombre'            => $data['primer_nombre_r'],
+			's_nombre'            => $data['segundo_nombre_r'],
+			'p_apellido'          => $data['primer_apellido_r'],
+			's_apellido'          => $data['segundo_apellido_r'],
+			'tipo_documento'      => $data['tipo_documento_r'],
+			'n_documento'         => $data['n_documento_r'],
+			'telefono'            => $data['telefono_r'],
+			'correo'              => $data['correo_r'],
+			'direccion'           => $data['direccion_r'],
+			'tipo_persona'        => $data['tipo_persona'],
+			'sexo'                => $data['sexo'],
+			'fecha_nacimiento'    => $data['fecha_nac'],
 			'fecha_registro'      => $fecha_registro
 		);
 
@@ -307,18 +312,19 @@ class PersonasController
 
 		// Datos tbl representante
 		$datosRepresentante = array(
-			'parentesco'         => $_POST['parentesco'],
+			'parentesco'         => $data['parentesco'],
 			'id_persona'         => $ultimo_id
 		);
 
 	$registro_r  = $modelPersonas->registrarRepresentante($datosRepresentante);
 	$ultimo_id_r = $registro_r['ultimo_id'];
 
-		// Datos tbl representado
-		$datosRepresentado = array(
-			// 'parentesco'         => $_POST['parentesco'],
-			'id_persona'         => $id_representado
-		);
+
+	// Datos tbl representado
+	$datosRepresentado = array(
+		// 'parentesco'         => $_POST['parentesco'],
+		'id_persona'         => $id_representado
+	);
 
 	$registro_representado  = $modelPersonas->registrarRepresentado($datosRepresentado);
 	$ultimo_id_representado = $registro_representado['ultimo_id'];
@@ -362,24 +368,27 @@ class PersonasController
 		
 	}
 
-
 	public function registrarRepresentado() {
 		$fecha_registro = date('Y-m-d');
 		$modelPersonas = new PersonasModel();
-		$id_representante = $_POST['id_representante'];
+		$jsonData = file_get_contents('php://input');
+		$data = json_decode($jsonData, true);
+		$id_representante = $data['id_representante'];
 			
 		// Datos personales del representante
 		$datos = array(
-			'p_nombre'            => $_POST['primer_nombre_re'],
-			's_nombre'            => $_POST['segundo_nombre_re'],
-			'p_apellido'          => $_POST['primer_apellido_re'],
-			's_apellido'          => $_POST['segundo_apellido_re'],
-			'tipo_documento'      => $_POST['tipo_documento_re'],
-			'n_documento'         => $_POST['n_documento_re'],
-			'telefono'            => $_POST['telefono_re'],
-			'correo'              => $_POST['correo_re'],
-			'direccion'           => $_POST['direccion_re'],
-			'tipo_persona'        => $_POST['tipo_persona_re'],
+			'p_nombre'            => $data['primer_nombre_re'],
+			's_nombre'            => $data['segundo_nombre_re'],
+			'p_apellido'          => $data['primer_apellido_re'],
+			's_apellido'          => $data['segundo_apellido_re'],
+			'tipo_documento'      => $data['tipo_documento_re'],
+			'n_documento'         => $data['n_documento_re'],
+			'telefono'            => $data['telefono_re'],
+			'correo'              => $data['correo_re'],
+			'direccion'           => $data['direccion_re'],
+			'tipo_persona'        => $data['tipo_persona_re'],
+			'sexo'                => $data['sexo'],
+			'fecha_nacimiento'    => $data['fecha_nac'],
 			'fecha_registro'      => $fecha_registro
 		);
 
@@ -389,7 +398,7 @@ class PersonasController
 
 		// Datos tbl representados
 		$datosRepresentado = array(
-			'parentesco'         => $_POST['parentesco'],
+			'parentesco'         => $data['parentesco'],
 			'id_persona'         => $ultimo_id_p
 		);
 
@@ -939,7 +948,7 @@ public function listarDatosUpdate()
 				'data' => [
 					'success'            =>  true,
 					'message'            => 'Guardado exitosamente',
-					'info'               =>  'Los datos del usuario han sido modificados'
+					'info'               =>  'Los datos de la persona han sido modificados'
 				],
 				'code' => 1,
 			];
@@ -950,7 +959,7 @@ public function listarDatosUpdate()
 			$data = [
 				'data' => [
 					'success'            =>  false,
-					'message'            => 'Ocurrió un error al modificar los datos del usuario',
+					'message'            => 'Ocurrió un error al modificar los datos de la persona',
 					'info'               =>  ''
 				],
 				'code' => 0,
