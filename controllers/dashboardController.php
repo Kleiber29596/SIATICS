@@ -127,6 +127,8 @@ class dashboardController
                 //total consultas por motivos y rango de fecha
                 $total_consultas_por_motivos = $modelDashboard->totalConsultasPorMotivosFiltroFecha($fechaDesde, $fechaHasta);
 
+                $t_total_consultas_por_motivos = $modelDashboard->tblTotalConsultasPorMotivosFiltroFecha($fechaDesde, $fechaHasta);
+
 
                 foreach ($data_total_citas as $data_total_citas) {
                         $total_citas = $data_total_citas["numeroCitas"];
@@ -145,16 +147,17 @@ class dashboardController
                 }
 
                 $datos = array(
-                        'total_citas'                   => $total_citas,
-                        'total_numero_consultas'        => $total_numero_consultas,
-                        'total_pacientes_atendidos'     => $total_pacientes_atendidos,
-                        'total_atendidos'               => $total_atendidos,
-                        'total_consultas_especialidad'  => json_encode($total_consultas_especialidad),
-                        'tota_pacientes_sexo'           => json_encode($tota_pacientes_sexo),
-                        'total_pacientes_edad'          => json_encode($total_pacientes_edad),
-                        'total_citas_edad'              => json_encode($total_citas_edad),
-                        'total_citas_sexo'              => json_encode($total_citas_sexo),
-                        'total_consultas_por_motivos'   => $total_consultas_por_motivos,
+                        'total_citas'                           => $total_citas,
+                        'total_numero_consultas'                => $total_numero_consultas,
+                        'total_pacientes_atendidos'             => $total_pacientes_atendidos,
+                        'total_atendidos'                       => $total_atendidos,
+                        'total_consultas_especialidad'          => json_encode($total_consultas_especialidad),
+                        'tota_pacientes_sexo'                   => json_encode($tota_pacientes_sexo),
+                        'total_pacientes_edad'                  => json_encode($total_pacientes_edad),
+                        'total_citas_edad'                      => json_encode($total_citas_edad),
+                        'total_citas_sexo'                      => json_encode($total_citas_sexo),
+                        'total_consultas_por_motivos'           => $total_consultas_por_motivos,
+                        't_total_consultas_por_motivos'         => json_encode($t_total_consultas_por_motivos),
                 );
 
                 return $datos;
