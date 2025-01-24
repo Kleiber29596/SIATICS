@@ -7,7 +7,7 @@ am4core.ready(function () {
 
   // Add data
 
-  let url = 'http://localhost/SIATICS/index.php?page=grafica';
+  let url = 'http://localhost/SIAMECS/index.php?page=grafica';
   fetch(url)
     .then(response => response.json())
     .then(datos => mostrar(datos))
@@ -113,7 +113,7 @@ am4core.ready(function () {
 
   // Add data
 
-  let url = 'http://localhost/SIATICS/index.php?page=sexo';
+  let url = 'http://localhost/SIAMECS/index.php?page=sexo';
   fetch(url)
     .then(response => response.json())
     .then(datos => mostrar(datos))
@@ -200,7 +200,7 @@ am4core.ready(function () {
 
   // Add data
 
-  let url = 'http://localhost/SIATICS/index.php?page=edad';
+  let url = 'http://localhost/SIAMECS/index.php?page=edad';
   fetch(url)
     .then(response => response.json())
     .then(datos => mostrar(datos))
@@ -290,7 +290,7 @@ am4core.ready(function () {
 
   // Add data
 
-  let url = 'http://localhost/SIATICS/index.php?page=chartCitasEdad';
+  let url = 'http://localhost/SIAMECS/index.php?page=chartCitasEdad';
   fetch(url)
     .then(response => response.json())
     .then(datos => mostrar(datos))
@@ -378,7 +378,7 @@ am4core.ready(function () {
 
   // Add data
 
-  let url = 'http://localhost/SIATICS/index.php?page=chartCitasSexo';
+  let url = 'http://localhost/SIAMECS/index.php?page=chartCitasSexo';
   fetch(url)
     .then(response => response.json())
     .then(datos => mostrar(datos))

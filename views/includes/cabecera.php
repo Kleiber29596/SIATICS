@@ -14,7 +14,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
     if (empty($usuario) && empty($id_usuario)) {
         // Redireccionar a la página "nueva_pagina.php"
-        header("Location: http://localhost/SIATICS/index.php?page=inicioUsuario");
+        header("Location: http://localhost/SIAMECS/index.php?page=inicioUsuario");
         exit; // Asegúrate de terminar la ejecución del código después de la redirección
     }
 } else {
@@ -31,7 +31,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     
     if (empty($usuario) && empty($id_usuario)) {
         // Redireccionar a la página "nueva_pagina.php"
-        header("Location: http://localhost/SIATICS/index.php?page=inicioUsuario");
+        header("Location: http://localhost/SIAMECS/index.php?page=inicioUsuario");
         exit; // Asegúrate de terminar la ejecución del código después de la redirección
     }
 
@@ -48,7 +48,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>SIATICS | INICIO</title>
+    <title>SIAMECS | INICIO</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 

@@ -34,7 +34,7 @@ function iniciarSesion(e)
                 text:  response.data.info
             });
 
-            location.replace('http://localhost/SIATICS/index.php?page=inicio');
+            location.replace('http://localhost/SIAMECS/index.php?page=inicio');
             
         }
         else

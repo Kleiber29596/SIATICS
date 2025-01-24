@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-01-2025 a las 02:28:04
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 7.4.33
+-- Tiempo de generación: 24-01-2025 a las 16:38:56
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -82,13 +82,6 @@ CREATE TABLE `citas` (
   `fecha_registro` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `citas`
---
-
-INSERT INTO `citas` (`id_cita`, `id_persona`, `id_especialidad`, `id_doctor`, `observacion`, `estatus`, `fecha_cita`, `fecha_registro`) VALUES
-(1, 1, 1, 36, 'Cuadro de depresión.', 1, '2025-01-18', '2025-01-11');
-
 -- --------------------------------------------------------
 
 --
@@ -130,30 +123,10 @@ CREATE TABLE `doctor` (
 --
 
 INSERT INTO `doctor` (`id_doctor`, `id_especialidad`, `id_persona`) VALUES
-(23, 8, 9),
-(24, 1, 10),
-(25, 3, 11),
-(26, 7, 12),
-(27, 4, 25),
-(28, 4, 4),
-(29, 4, 28),
-(30, 4, 29),
-(31, 4, 31),
-(32, 4, 32),
-(33, 4, 35),
-(34, 4, 37),
-(35, 4, 38),
-(36, 1, 39),
-(37, 1, 40),
-(38, 0, 67),
-(39, 1, 68),
-(40, 0, 69),
-(41, 0, 71),
-(42, 0, 72),
-(44, 0, 84),
-(45, 0, 85),
-(46, 1, 86),
-(47, 1, 1);
+(47, 10, 1),
+(51, 10, 21),
+(52, 1, 25),
+(54, 10, 27);
 
 -- --------------------------------------------------------
 
@@ -165,7 +138,7 @@ CREATE TABLE `especialidad` (
   `id_especialidad` int(11) NOT NULL,
   `nombre_especialidad` varchar(255) NOT NULL,
   `modalidad` varchar(50) NOT NULL,
-  `tm_porcita` int(10) NOT NULL
+  `tm_porcita` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -173,9 +146,10 @@ CREATE TABLE `especialidad` (
 --
 
 INSERT INTO `especialidad` (`id_especialidad`, `nombre_especialidad`, `modalidad`, `tm_porcita`) VALUES
-(1, 'PSICOLOGÍA', 'Por cita', 30),
-(3, 'PEDIATRIA', 'Sin cita', 0),
-(4, 'MEDICINA GENERAL', 'Sin cita', 0);
+(1, 'PSICOLOGÍA', 'Por cita', '30'),
+(3, 'PEDIATRIA', 'Por cita', '60'),
+(4, 'MEDICINA GENERAL', 'Sin cita', 'N/A'),
+(10, 'SIN ESPECIALIDAD', 'Sin cita', 'N/A');
 
 -- --------------------------------------------------------
 
@@ -318,6 +292,19 @@ CREATE TABLE `historia_medica` (
   `fecha_reg` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `historia_medica`
+--
+
+INSERT INTO `historia_medica` (`id`, `id_persona`, `tipo_sangre`, `fumador`, `frecuencia_f`, `alcohol`, `frecuencia_alcohol`, `actividad_fisica`, `frecuencia_ac_f`, `antec_fami`, `medicado`, `cirugia_hospitalaria`, `alergia`, `fecha_reg`) VALUES
+(1, 2, 'A+', 'No', '', 'No', '', 'Sí', 'Caminar 30 minutos diarios.', 'Asma (padre)', 'Sí', 'N/a', 'Mariscos', '2025-01-19 04:00:00'),
+(2, 36, 'O+', 'No', '', 'No', '', 'Sí', 'Caminar 30 minutos al día. ', 'Hipertensión', 'Sí', 'No', 'No', '2025-01-19 04:00:00'),
+(3, 37, 'AB+', 'Sí', '5 cigarros al día', 'Sí', '2 veces por semana', 'Sí', 'Caminar 20 minutos al día ', 'Enfermedad cardiaca', 'No', 'Angioplastia en el año 2019', 'Aspirina', '2025-01-19 04:00:00'),
+(4, 38, 'B-', 'No', '', 'No', '', 'Sí', 'Caminar 20 minutos diarios', 'Cáncer en la familia ', 'Sí', 'No', 'Ninguna', '2025-01-19 04:00:00'),
+(5, 39, 'A+', 'No', '', 'Sí', 'Ocasionalmente', 'Sí', 'Yoga 1 vez por semana', 'Diabetes tipo 2', 'Sí', 'No', 'Ninguna', '2025-01-19 04:00:00'),
+(6, 34, 'A+', 'No', '', 'Sí', 'Ocasionalmente ', 'Sí', 'Tres veces por semana.', 'Historia de migrañas en la familia', 'Sí', '', 'Ninguna', '2025-01-21 04:00:00'),
+(7, 35, 'B+', 'No', '', 'Sí', 'Una o dos veces por semana.', 'Sí', 'Una vez por semana.', 'Diabetes tipo 2', 'Sí', 'Extracción de vesícula biliar en 2018.', 'Penicilina', '2025-01-21 04:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -361,33 +348,11 @@ CREATE TABLE `horario` (
 --
 
 INSERT INTO `horario` (`id`, `id_doctor`, `dia`, `hora_entrada`, `hora_salida`) VALUES
-(1, 29, 'Martes', '06:00:00', '12:00:00'),
-(2, 29, 'Jueves', '06:00:00', '12:00:00'),
-(3, 30, 'Lunes', '06:00:00', '12:00:00'),
-(4, 30, 'Martes', '06:00:00', '12:00:00'),
-(5, 30, 'Miercoles', '06:00:00', '12:00:00'),
-(6, 31, 'Lunes', '06:00:00', '12:00:00'),
-(7, 31, 'Martes', '06:00:00', '12:00:00'),
-(8, 31, 'Miercoles', '06:00:00', '12:00:00'),
-(9, 32, 'Lunes', '06:00:00', '12:00:00'),
-(10, 32, 'Martes', '06:00:00', '12:00:00'),
-(11, 33, 'Lunes', '06:00:00', '12:00:00'),
-(12, 33, 'Martes', '06:00:00', '12:00:00'),
-(13, 34, 'Lunes', '06:00:00', '12:00:00'),
-(14, 34, 'Martes', '06:00:00', '12:00:00'),
-(15, 35, 'Lunes', '06:00:00', '12:00:00'),
-(16, 35, 'Martes', '06:00:00', '12:00:00'),
-(17, 36, 'Lunes', '06:00:00', '12:00:00'),
-(18, 36, 'Martes', '06:00:00', '12:00:00'),
-(19, 37, 'Lunes', '06:00:00', '12:00:00'),
-(20, 37, 'Martes', '06:00:00', '12:00:00'),
-(21, 38, 'Lunes', '08:11:00', '18:00:00'),
-(22, 39, 'Lunes', '06:00:00', '12:00:00'),
-(26, 44, 'Lunes', '06:00:00', '00:00:00'),
-(27, 45, 'Lunes', '06:00:00', '00:00:00'),
-(28, 46, 'Lunes', '06:00:00', '00:00:00'),
-(29, 46, 'Martes', '06:00:00', '12:00:00'),
-(30, 47, 'Lunes', '08:00:00', '12:00:00');
+(30, 47, 'Lunes', '08:00:00', '12:00:00'),
+(35, 51, 'Lunes', '08:00:00', '17:00:00'),
+(36, 52, 'Lunes', '08:00:00', '17:00:00'),
+(37, 52, 'Martes', '08:00:00', '17:00:00'),
+(40, 54, 'Lunes', '06:00:00', '13:00:00');
 
 -- --------------------------------------------------------
 
@@ -1866,28 +1831,6 @@ INSERT INTO `municipios` (`id_municipio`, `id_estado`, `municipio`) VALUES
 (460, 23, 'Sucre'),
 (461, 23, 'Valmore Rodríguez'),
 (462, 24, 'Libertador');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pacientes`
---
-
-CREATE TABLE `pacientes` (
-  `id_paciente` int(11) NOT NULL,
-  `id_persona` int(11) NOT NULL,
-  `estatus` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `pacientes`
---
-
-INSERT INTO `pacientes` (`id_paciente`, `id_persona`, `estatus`) VALUES
-(1, 2, 1),
-(1, 2, 1),
-(1, 2, 1),
-(1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -6512,7 +6455,21 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`id_persona`, `tipo_persona`, `n_documento`, `tipo_documento`, `p_nombre`, `s_nombre`, `p_apellido`, `s_apellido`, `fecha_nacimiento`, `sexo`, `telefono`, `direccion`, `correo`, `fecha_registro`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
-(1, 'usuario', '29596688', 'V', 'Kleiber', 'Antonio', 'Aranguren', 'Pacheco', '2003-11-08', 'Masculino', '04161454551', 'Ruiz pineda', 'kleiber8113@gmail.com', '2025-01-18', NULL, NULL, NULL);
+(1, 'usuario', '29596688', 'V', 'Kleiber', 'Antonio', 'Aranguren', 'Pacheco', '2003-11-08', 'Masculino', '04161454551', 'Ruiz pineda', 'kleiber8113@gmail.com', '2025-01-18', NULL, NULL, NULL),
+(21, 'usuario', '2784699', 'V', 'Alberto', '', 'Castro', '', '1945-08-11', 'Masculino', '04121565787', 'coro', 'alberto@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(25, 'usuario', '21375033', 'V', 'maria', 'fernanda', 'castro', 'diaz', '1992-09-09', 'Femenino', '04121565787', 'san antonio', 'mafer@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(26, 'usuario', '20093682', 'V', 'Paola', '', 'Pulgar', 'Diaz', '1995-01-01', 'Femenino', '04121565787', 'paraiso', 'paola@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(27, 'usuario', '30562365', 'V', 'Luis', 'Alfonso', 'Barrios', 'Mendez', '1990-08-01', 'Masculino', '04121565787', 'las adjuntas', 'luis@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(31, 'usuario', '20000000', 'V', 'Jeannette', '', 'Rincon', '', '1945-01-01', 'Femenino', '04143090518', 'montalban', 'rincon@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(32, 'Paciente', '24675901', 'V', 'Joaquín', 'Andrés', 'Castillo', 'Pérez', '1994-09-14', 'Masculino', '04143456789', 'Av. 5 de Julio, Caracas', 'joaquin.castillo@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(33, 'Paciente', '15497523', 'V', 'Ernesto', 'Felipe', 'Vargas', 'Romero', '1983-04-28', 'Masculino', '04141234560', 'Av. Sucre', 'Ernesto.vargas@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(34, 'Paciente', '26793651', 'V', 'Paula', 'María', 'Gutiérrez', 'Vásquez', '1998-09-27', 'Femenino', '04168901234', 'Propatria', 'paula.gutierrez530@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(35, 'Paciente', '14851253', 'V', 'Patricia', 'Isabel', 'Ramírez ', 'González ', '1980-07-17', 'Femenino', '04126789012', 'Las Adjuntas', 'patricia07.ramirez@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(36, 'Paciente', '5012357', 'V', 'Teresa', 'Lucia', 'Bravo', 'Cordero', '1960-08-21', 'Femenino', '04140123456', 'Los magallanes ', 'teresabravo@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(37, 'Paciente', '13305187', 'V', 'Mario', 'Antonio', 'Morales', 'Salazar', '1972-04-20', 'Masculino', '04129012345', 'San Martin', 'mario.morales@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(38, 'Paciente', '4567804', 'V', 'Hugo ', 'Alberto', 'Figuera', 'Fernández', '1955-12-05', 'Masculino', '04165678901', 'Av. Victoria', 'Hugo.figuera@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(39, 'Paciente', '11287974', 'V', 'María', 'Carolina', 'Medina', 'López', '1970-03-19', 'Femenino', '04142886499', 'La vega', 'Mariamedina.03@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(40, 'Paciente', '36431548', 'V', 'Isabella', 'Mariangel', 'Ríos', 'Gutiérrez', '2015-02-19', 'Femenino', '04145159852', 'Propatria', 'Isabella.rios@gmail.com', '2025-01-19', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -6715,18 +6672,6 @@ CREATE TABLE `representados` (
   `parentesco` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `representados`
---
-
-INSERT INTO `representados` (`id`, `id_persona`, `parentesco`) VALUES
-(2, 57, 'Hijo/a'),
-(3, 58, 'Hijo/a'),
-(4, 59, 'Hijo/a'),
-(7, 43, NULL),
-(8, 62, 'Hijo/a'),
-(9, 65, 'madre');
-
 -- --------------------------------------------------------
 
 --
@@ -6819,14 +6764,16 @@ INSERT INTO `tipo_consulta` (`id_tipo_consulta`, `codigo`, `motivo`, `id_especia
 (7, 7, 'SOLICITUD DE AYUDAS POR RIESGOS POTENCIALES PARA LA SALUD SOCIOECONÓMICOS Y PSICOSOCIALES: MIGRACIÓN FAMILIAR; VIOLENCIAS; INDIGENCIA (Z55-Z65; Z70.-- Z76.8)', 4, '0000-00-00'),
 (8, 8, 'CONSULTAS DE CONTROL DE SALUD GENERAL: NIÑOS Y ADULTOS SANOS (ZOO-Z01.-)', 4, '0000-00-00'),
 (9, 9, 'CONSULTAS PARA DESPISTAJES Y EXAMENES ESPECIALES: CA DE MAMAS, HTA, VISIÓN, DENTAL, CARDIOVASCULAR', 4, '0000-00-00'),
-(10, NULL, 'MOTIVO DE PSICOLOGÍA', 1, '2024-12-16'),
-(11, NULL, 'MOTIVO DE PEDRIATRIA', 3, '2024-12-17'),
-(12, NULL, 'MOTIVO DE PRUEBA', 3, '2024-12-26'),
-(13, NULL, 'MOTIVO 1', 1, '2024-12-26'),
-(14, NULL, 'MOTIVO 2', 1, '2024-12-26'),
-(15, NULL, 'MOTIVO 3', 4, '2024-12-26'),
-(16, NULL, 'MOTIVO 4', 4, '2024-12-26'),
-(17, NULL, 'MOTIV 5 DE PSICOLOGIA', 4, '2024-12-26');
+(18, NULL, 'PROBLEMAS EMOCIONALES', 1, '2025-01-21'),
+(19, NULL, 'DIFICULTADES RELACIONALES', 1, '2025-01-21'),
+(20, NULL, 'TRASTORNOS DEL COMPORTAMIENTO', 1, '2025-01-21'),
+(21, NULL, 'CRISIS DE VIDA', 1, '2025-01-21'),
+(22, NULL, 'DESARROLLO PERSONAL', 1, '2025-01-21'),
+(23, NULL, 'TRASTORNOS PSICOLÓGICOS', 1, '2025-01-21'),
+(24, NULL, 'ESTRÉS Y MANEJO DE LA ANSIEDAD', 1, '2025-01-21'),
+(25, NULL, 'PROBLEMAS DE ADAPTACIÓN', 1, '2025-01-21'),
+(26, NULL, 'TRASTORNOS DEL SUEÑO', 1, '2025-01-21'),
+(27, NULL, 'SALUD MENTAL EN NIÑOS Y ADOLESCENTES', 1, '2025-01-21');
 
 -- --------------------------------------------------------
 
@@ -6850,7 +6797,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `id_Persona`, `usuario`, `foto`, `contrasena`, `id_rol`, `estatus`, `fecha_registro`) VALUES
-(73, 1, 'kleiber2003', '', '$2y$10$kDzZRSN.Pru24unes6TX2OLhefYbVw3UdK8ET4fN6K1qs3lQnaIka', 2, 1, '2025-01-18');
+(73, 1, 'kleiber2003', '', '$2y$10$kDzZRSN.Pru24unes6TX2OLhefYbVw3UdK8ET4fN6K1qs3lQnaIka', 2, 1, '2025-01-18'),
+(77, 21, 'alberto', '', '$2y$10$q0hD7JgYcKZ7XPC3ZjDBA.Gh1Kec6OrxhpxXKFPtJLbvuAQ0AZDuy', 4, 1, '2025-01-19'),
+(78, 25, 'mafer', '', '$2y$10$tAkppxS.5To8jX5yMMiBP.vLwhgBDdoC0Lyjsm1TPmjhcjbTjYqZS', 3, 1, '2025-01-19'),
+(80, 27, 'luis', '', '$2y$10$.xlbfOTMBqpM7b2PkINKPeCxfGOiRJ7cHqOxlFdwlGXMAJZ12Rrcu', 6, 1, '2025-01-19');
 
 --
 -- Índices para tablas volcadas
@@ -7004,31 +6954,31 @@ ALTER TABLE `categoria_medicamento`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_cita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_cita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `consultas`
 --
 ALTER TABLE `consultas`
-  MODIFY `id_consulta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_consulta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `id_doctor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_doctor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
 --
 ALTER TABLE `especialidad`
-  MODIFY `id_especialidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_especialidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `historia_medica`
 --
 ALTER TABLE `historia_medica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `histo_medic`
@@ -7046,7 +6996,7 @@ ALTER TABLE `histo_patologias`
 -- AUTO_INCREMENT de la tabla `horario`
 --
 ALTER TABLE `horario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamentos`
@@ -7064,7 +7014,7 @@ ALTER TABLE `patologias`
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `presentacion`
@@ -7076,19 +7026,19 @@ ALTER TABLE `presentacion`
 -- AUTO_INCREMENT de la tabla `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `id_recipe` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_recipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `recipes_medicamentos`
 --
 ALTER TABLE `recipes_medicamentos`
-  MODIFY `id_recipe_medicamento` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_recipe_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `representados`
 --
 ALTER TABLE `representados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes`
@@ -7112,19 +7062,19 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tbl_temporal_medicamentos`
 --
 ALTER TABLE `tbl_temporal_medicamentos`
-  MODIFY `id_temporal_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_temporal_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_consulta`
 --
 ALTER TABLE `tipo_consulta`
-  MODIFY `id_tipo_consulta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_tipo_consulta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

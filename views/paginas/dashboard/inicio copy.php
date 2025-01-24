@@ -413,7 +413,7 @@ foreach ($get_pacientesAtendidosGeneral as $general) {
                                         let chart = am4core.create("grafica_tipos_consultas", am4charts.SlicedChart);
                                         chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
-                                        let url = 'http://localhost/SIATICS/index.php?page=todosTiposConsulta';
+                                        let url = 'http://localhost/SIAMECS/index.php?page=todosTiposConsulta';
                                         fetch(url)
                                             .then(response => response.json())
                                             .then(datos => mostrar(datos))

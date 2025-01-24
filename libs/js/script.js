@@ -2470,7 +2470,7 @@ if (agregarHistoriaMedicaButton) {
           text: result.data.info,
         });
 
-        window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${response.data.id_persona_h}`;
+        window.location.href = `http://localhost/SIAMECS/index.php?page=verPersona&id=${response.data.id_persona_h}`;
       } else {
         Swal.fire({
           icon: "danger",
@@ -2593,7 +2593,7 @@ if (agregar_representante) {
           text: result.data.info,
         });
 
-        window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${result.data.id_representado}`;
+        window.location.href = `http://localhost/SIAMECS/index.php?page=verPersona&id=${result.data.id_representado}`;
       } else {
         Swal.fire({
           icon: "error",
@@ -2702,7 +2702,7 @@ if (agregar_representante) {
 //             text: response.data.info,
 //           });
 
-//           window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${response.data.id_representante}`;
+//           window.location.href = `http://localhost/SIAMECS/index.php?page=verPersona&id=${response.data.id_representante}`;
 
  
 
@@ -2825,7 +2825,7 @@ if (agregar_representado) {
           text: result.data.info,
         });
 
-        window.location.href = `http://localhost/SIATICS/index.php?page=verPersona&id=${result.data.id_representante}`;
+        window.location.href = `http://localhost/SIAMECS/index.php?page=verPersona&id=${result.data.id_representante}`;
       } else {
         Swal.fire({
           icon: "error",
