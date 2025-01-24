@@ -474,6 +474,17 @@ function filtrarDatosDashboard() {
   const fechaDesde = document.getElementById("fechaDesdeDash").value;
   const fechaHasta = document.getElementById("fechaHastaDash").value;
 
+  if(fechaDesde ==  "" || fechaHasta == ""){
+    Swal.fire({
+      icon: "error",
+      confirmButtonColor: "#3085d6",
+      title: "Atención",
+      text: "Campos vacios, por favor seleccione una fecha de inicio y fin",
+    });
+
+    return false;
+  }
+
   // Crear la URL con los parámetros GET
   const url =
     "?page=inicio&fechaDesdeDash=" + fechaDesde + "&fechaHastaDash=" + fechaHasta;

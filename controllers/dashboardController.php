@@ -124,6 +124,9 @@ class dashboardController
                 //total citas por edad y rang de fechas
                 $total_citas_sexo = $modelDashboard->citaSexoFechaDesdeHasta($fechaDesde, $fechaHasta);
 
+                //total consultas por motivos y rango de fecha
+                $total_consultas_por_motivos = $modelDashboard->totalConsultasPorMotivosFiltroFecha($fechaDesde, $fechaHasta);
+
 
                 foreach ($data_total_citas as $data_total_citas) {
                         $total_citas = $data_total_citas["numeroCitas"];
@@ -151,6 +154,7 @@ class dashboardController
                         'total_pacientes_edad'          => json_encode($total_pacientes_edad),
                         'total_citas_edad'              => json_encode($total_citas_edad),
                         'total_citas_sexo'              => json_encode($total_citas_sexo),
+                        'total_consultas_por_motivos'   => $total_consultas_por_motivos,
                 );
 
                 return $datos;
