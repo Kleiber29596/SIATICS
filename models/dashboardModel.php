@@ -387,4 +387,18 @@ class dashboardModel extends ModeloBase
 
         return $resultado;
     }
+
+    public function tblTotalConsultasPorMotivosFiltroFecha($fechaDesde, $fechaHasta)
+    {
+        $db = new ModeloBase();
+        $query = "SELECT tc.motivo, COUNT(c.id_consulta) AS cantidad_consultas
+                    FROM tipo_consulta AS tc
+                    LEFT JOIN consultas AS c ON c.id_tipo_consulta = tc.id_tipo_consulta
+                    WHERE c.fecha_registro BETWEEN '$fechaDesde' AND '$fechaHasta'
+                    GROUP BY tc.motivo;";
+
+        $resultado = $db->FectAll($query);
+
+        return $resultado;
+    }
 }
