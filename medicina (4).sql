@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-01-2025 a las 16:38:56
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 25-01-2025 a las 05:56:27
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -106,6 +106,18 @@ CREATE TABLE `consultas` (
   `estatus` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `consultas`
+--
+
+INSERT INTO `consultas` (`id_consulta`, `id_especialidad`, `id_tipo_consulta`, `id_persona`, `diagnostico`, `peso`, `altura`, `presion_arterial`, `edad`, `id_recipe`, `id_doctor`, `id`, `fecha_registro`, `fecha_actualizacion`, `estatus`) VALUES
+(14, 4, 8, 39, 'Paciente femenino acude por cansancio y debilidad, se le diagnostica anemia. ', 68, 1, '120/80', NULL, 9, 59, 85, '2025-01-24', NULL, 0),
+(15, 4, 8, 37, 'Paciente masculino acude por dolor en el pecho, se le diagnóstica angina.', 82, 1, '135/90', NULL, 10, 59, 85, '2025-01-24', NULL, 0),
+(16, 4, 8, 36, 'Paciente femenino acude por dolor en las articulaciones, se le diagnóstica artritis. ', 70, 1, '130/85', NULL, 11, 59, 85, '2025-01-24', NULL, 0),
+(17, 4, 8, 34, 'Paciente femenino acude por dolor persistente de cabeza, se le diagnóstica cefalea tensional.', 65, 1, '110/70', NULL, 12, 59, 85, '2025-01-24', NULL, 0),
+(18, 4, 8, 35, 'Paciente femenino acude por dolor abdominal y diarrea, se le diagnóstica amebiasis.', 70, 1, '120/80', NULL, 13, 59, 85, '2025-01-24', NULL, 0),
+(19, 4, 1, 44, 'Paciente femenino acude por malestar leve postnatal, se le diagnóstico estrés posnatal y fatiga.', 62, 1, '110/70', NULL, 14, 59, 85, '2025-01-24', NULL, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -126,7 +138,9 @@ INSERT INTO `doctor` (`id_doctor`, `id_especialidad`, `id_persona`) VALUES
 (47, 10, 1),
 (51, 10, 21),
 (52, 1, 25),
-(54, 10, 27);
+(54, 10, 27),
+(58, 1, 42),
+(59, 4, 43);
 
 -- --------------------------------------------------------
 
@@ -297,13 +311,14 @@ CREATE TABLE `historia_medica` (
 --
 
 INSERT INTO `historia_medica` (`id`, `id_persona`, `tipo_sangre`, `fumador`, `frecuencia_f`, `alcohol`, `frecuencia_alcohol`, `actividad_fisica`, `frecuencia_ac_f`, `antec_fami`, `medicado`, `cirugia_hospitalaria`, `alergia`, `fecha_reg`) VALUES
-(1, 2, 'A+', 'No', '', 'No', '', 'Sí', 'Caminar 30 minutos diarios.', 'Asma (padre)', 'Sí', 'N/a', 'Mariscos', '2025-01-19 04:00:00'),
-(2, 36, 'O+', 'No', '', 'No', '', 'Sí', 'Caminar 30 minutos al día. ', 'Hipertensión', 'Sí', 'No', 'No', '2025-01-19 04:00:00'),
-(3, 37, 'AB+', 'Sí', '5 cigarros al día', 'Sí', '2 veces por semana', 'Sí', 'Caminar 20 minutos al día ', 'Enfermedad cardiaca', 'No', 'Angioplastia en el año 2019', 'Aspirina', '2025-01-19 04:00:00'),
-(4, 38, 'B-', 'No', '', 'No', '', 'Sí', 'Caminar 20 minutos diarios', 'Cáncer en la familia ', 'Sí', 'No', 'Ninguna', '2025-01-19 04:00:00'),
-(5, 39, 'A+', 'No', '', 'Sí', 'Ocasionalmente', 'Sí', 'Yoga 1 vez por semana', 'Diabetes tipo 2', 'Sí', 'No', 'Ninguna', '2025-01-19 04:00:00'),
-(6, 34, 'A+', 'No', '', 'Sí', 'Ocasionalmente ', 'Sí', 'Tres veces por semana.', 'Historia de migrañas en la familia', 'Sí', '', 'Ninguna', '2025-01-21 04:00:00'),
-(7, 35, 'B+', 'No', '', 'Sí', 'Una o dos veces por semana.', 'Sí', 'Una vez por semana.', 'Diabetes tipo 2', 'Sí', 'Extracción de vesícula biliar en 2018.', 'Penicilina', '2025-01-21 04:00:00');
+(1, 2, 'A+', 'No', '', 'No', '', 'Sí', 'Caminar 30 minutos diarios.', 'Asma (padre)', 'Sí', 'N/a', 'Mariscos', '2025-01-19 08:00:00'),
+(2, 36, 'O+', 'No', '', 'No', '', 'Sí', 'Caminar 30 minutos al día. ', 'Hipertensión', 'Sí', 'No', 'No', '2025-01-19 08:00:00'),
+(3, 37, 'AB+', 'Sí', '5 cigarros al día', 'Sí', '2 veces por semana', 'Sí', 'Caminar 20 minutos al día ', 'Enfermedad cardiaca', 'No', 'Angioplastia en el año 2019', 'Aspirina', '2025-01-19 08:00:00'),
+(4, 38, 'B-', 'No', '', 'No', '', 'Sí', 'Caminar 20 minutos diarios', 'Cáncer en la familia ', 'Sí', 'No', 'Ninguna', '2025-01-19 08:00:00'),
+(5, 39, 'A+', 'No', '', 'Sí', 'Ocasionalmente', 'Sí', 'Yoga 1 vez por semana', 'Diabetes tipo 2', 'Sí', 'No', 'Ninguna', '2025-01-19 08:00:00'),
+(6, 34, 'A+', 'No', '', 'Sí', 'Ocasionalmente ', 'Sí', 'Tres veces por semana.', 'Historia de migrañas en la familia', 'Sí', '', 'Ninguna', '2025-01-21 08:00:00'),
+(7, 35, 'B+', 'No', '', 'Sí', 'Una o dos veces por semana.', 'Sí', 'Una vez por semana.', 'Diabetes tipo 2', 'Sí', 'Extracción de vesícula biliar en 2018.', 'Penicilina', '2025-01-21 08:00:00'),
+(8, 44, 'A+', 'No', '', 'No', '', 'Sí', 'Caminar 15 minutos al día.', 'Depresión', 'No', 'Césarea', 'No', '2025-01-24 08:00:00');
 
 -- --------------------------------------------------------
 
@@ -352,7 +367,13 @@ INSERT INTO `horario` (`id`, `id_doctor`, `dia`, `hora_entrada`, `hora_salida`) 
 (35, 51, 'Lunes', '08:00:00', '17:00:00'),
 (36, 52, 'Lunes', '08:00:00', '17:00:00'),
 (37, 52, 'Martes', '08:00:00', '17:00:00'),
-(40, 54, 'Lunes', '06:00:00', '13:00:00');
+(40, 54, 'Lunes', '06:00:00', '13:00:00'),
+(48, 58, 'Lunes', '06:00:00', '12:00:00'),
+(49, 58, 'Martes', '06:00:00', '12:00:00'),
+(50, 58, 'Jueves', '06:00:00', '00:00:00'),
+(51, 59, 'Lunes', '08:00:00', '12:00:00'),
+(52, 59, 'Martes', '08:00:00', '12:00:00'),
+(53, 59, 'Jueves', '08:00:00', '12:00:00');
 
 -- --------------------------------------------------------
 
@@ -6458,7 +6479,6 @@ INSERT INTO `personas` (`id_persona`, `tipo_persona`, `n_documento`, `tipo_docum
 (1, 'usuario', '29596688', 'V', 'Kleiber', 'Antonio', 'Aranguren', 'Pacheco', '2003-11-08', 'Masculino', '04161454551', 'Ruiz pineda', 'kleiber8113@gmail.com', '2025-01-18', NULL, NULL, NULL),
 (21, 'usuario', '2784699', 'V', 'Alberto', '', 'Castro', '', '1945-08-11', 'Masculino', '04121565787', 'coro', 'alberto@gmail.com', '2025-01-19', NULL, NULL, NULL),
 (25, 'usuario', '21375033', 'V', 'maria', 'fernanda', 'castro', 'diaz', '1992-09-09', 'Femenino', '04121565787', 'san antonio', 'mafer@gmail.com', '2025-01-19', NULL, NULL, NULL),
-(26, 'usuario', '20093682', 'V', 'Paola', '', 'Pulgar', 'Diaz', '1995-01-01', 'Femenino', '04121565787', 'paraiso', 'paola@gmail.com', '2025-01-19', NULL, NULL, NULL),
 (27, 'usuario', '30562365', 'V', 'Luis', 'Alfonso', 'Barrios', 'Mendez', '1990-08-01', 'Masculino', '04121565787', 'las adjuntas', 'luis@gmail.com', '2025-01-19', NULL, NULL, NULL),
 (31, 'usuario', '20000000', 'V', 'Jeannette', '', 'Rincon', '', '1945-01-01', 'Femenino', '04143090518', 'montalban', 'rincon@gmail.com', '2025-01-19', NULL, NULL, NULL),
 (32, 'Paciente', '24675901', 'V', 'Joaquín', 'Andrés', 'Castillo', 'Pérez', '1994-09-14', 'Masculino', '04143456789', 'Av. 5 de Julio, Caracas', 'joaquin.castillo@gmail.com', '2025-01-19', NULL, NULL, NULL),
@@ -6469,7 +6489,10 @@ INSERT INTO `personas` (`id_persona`, `tipo_persona`, `n_documento`, `tipo_docum
 (37, 'Paciente', '13305187', 'V', 'Mario', 'Antonio', 'Morales', 'Salazar', '1972-04-20', 'Masculino', '04129012345', 'San Martin', 'mario.morales@gmail.com', '2025-01-19', NULL, NULL, NULL),
 (38, 'Paciente', '4567804', 'V', 'Hugo ', 'Alberto', 'Figuera', 'Fernández', '1955-12-05', 'Masculino', '04165678901', 'Av. Victoria', 'Hugo.figuera@gmail.com', '2025-01-19', NULL, NULL, NULL),
 (39, 'Paciente', '11287974', 'V', 'María', 'Carolina', 'Medina', 'López', '1970-03-19', 'Femenino', '04142886499', 'La vega', 'Mariamedina.03@gmail.com', '2025-01-19', NULL, NULL, NULL),
-(40, 'Paciente', '36431548', 'V', 'Isabella', 'Mariangel', 'Ríos', 'Gutiérrez', '2015-02-19', 'Femenino', '04145159852', 'Propatria', 'Isabella.rios@gmail.com', '2025-01-19', NULL, NULL, NULL);
+(40, 'Paciente', '36431548', 'V', 'Isabella', 'Mariangel', 'Ríos', 'Gutiérrez', '2015-02-19', 'Femenino', '04145159852', 'Propatria', 'Isabella.rios@gmail.com', '2025-01-19', NULL, NULL, NULL),
+(42, 'usuario', '20093682', 'V', 'Paola', '', 'Pulgar', 'Diaz', '1995-01-01', 'Femenino', '04149177039', 'El paraiso', 'paola@gmail.com', '2025-01-24', NULL, NULL, NULL),
+(43, 'usuario', '17570890', 'V', 'Pedro', 'Luis', 'González', 'Herrera', '1986-07-15', 'Masculino', '04127158368', 'El valle', 'pedrogonzalez@gmail.com', '2025-01-24', NULL, NULL, NULL),
+(44, 'Paciente', '27548961', 'V', 'Laura', 'Camila', 'Castro', 'Escobar', '2000-01-15', 'Femenino', '04166789012', '23 de enero', 'Laura.castro@gmail.com', '2025-01-24', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -6639,6 +6662,18 @@ CREATE TABLE `recipes` (
   `fecha_registro` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `recipes`
+--
+
+INSERT INTO `recipes` (`id_recipe`, `id_usuario`, `instrucciones`, `fecha_registro`) VALUES
+(9, 85, 'Puede ser necesario continuar dependiendo de los niveles de hemoglobina. ', '2025-01-24'),
+(10, 85, 'Controlar la presión arterial y el ritmo cardíaco', '2025-01-24'),
+(11, 85, 'Evitar actividades de alto impacto.', '2025-01-24'),
+(12, 85, 'Mantener hidratación. ', '2025-01-24'),
+(13, 85, 'Mantener hidratación y seguir dieta blanda. ', '2025-01-24'),
+(14, 85, 'Descansar y mantenerse hidratada.', '2025-01-24');
+
 -- --------------------------------------------------------
 
 --
@@ -6659,6 +6694,18 @@ CREATE TABLE `recipes_medicamentos` (
   `estatus` int(11) NOT NULL,
   `observacion_suspension` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `recipes_medicamentos`
+--
+
+INSERT INTO `recipes_medicamentos` (`id_recipe_medicamento`, `id_presentacion_medicamento`, `id_recipe`, `dosis`, `unidad_medida`, `frecuencia`, `cantidad`, `intervalo`, `fecha_registro`, `fecha_actualizacion`, `estatus`, `observacion_suspension`) VALUES
+(9, 44, 9, 400, 'mg', 24, 1, 'meses', '2025-01-24', NULL, 1, NULL),
+(10, 47, 10, 50, 'mg', 24, 2, 'meses', '2025-01-24', NULL, 1, NULL),
+(11, 12, 11, 400, 'mg', 8, 5, 'días', '2025-01-24', NULL, 1, NULL),
+(12, 14, 12, 500, 'mg', 8, 3, 'días', '2025-01-24', NULL, 1, NULL),
+(13, 35, 13, 750, 'mg', 8, 7, 'días', '2025-01-24', NULL, 1, NULL),
+(14, 14, 14, 500, 'mg', 8, 3, 'días', '2025-01-24', NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -6800,7 +6847,9 @@ INSERT INTO `usuario` (`id`, `id_Persona`, `usuario`, `foto`, `contrasena`, `id_
 (73, 1, 'kleiber2003', '', '$2y$10$kDzZRSN.Pru24unes6TX2OLhefYbVw3UdK8ET4fN6K1qs3lQnaIka', 2, 1, '2025-01-18'),
 (77, 21, 'alberto', '', '$2y$10$q0hD7JgYcKZ7XPC3ZjDBA.Gh1Kec6OrxhpxXKFPtJLbvuAQ0AZDuy', 4, 1, '2025-01-19'),
 (78, 25, 'mafer', '', '$2y$10$tAkppxS.5To8jX5yMMiBP.vLwhgBDdoC0Lyjsm1TPmjhcjbTjYqZS', 3, 1, '2025-01-19'),
-(80, 27, 'luis', '', '$2y$10$.xlbfOTMBqpM7b2PkINKPeCxfGOiRJ7cHqOxlFdwlGXMAJZ12Rrcu', 6, 1, '2025-01-19');
+(80, 27, 'luis', '', '$2y$10$.xlbfOTMBqpM7b2PkINKPeCxfGOiRJ7cHqOxlFdwlGXMAJZ12Rrcu', 6, 1, '2025-01-19'),
+(84, 42, 'paola', 'C:\\fakepath\\user.jpg', '$2y$10$ko00CXGmjMpwb./FTo2JBurIQXH3Zzk52puoU8udhJ4WQYYDxd8pa', 3, 1, '2025-01-24'),
+(85, 43, 'Pedro', 'C:\\fakepath\\WhatsApp Image 2025-01-21 at 10.05.01 PM.jpeg', '$2y$10$le50SLSZXuOWRCScA0/B5OTeO/3GEYc2hAgvCRKULbOXGAe.Imcsa', 3, 1, '2025-01-24');
 
 --
 -- Índices para tablas volcadas
@@ -6837,12 +6886,6 @@ ALTER TABLE `especialidad`
   ADD PRIMARY KEY (`id_especialidad`);
 
 --
--- Indices de la tabla `historia_medica`
---
-ALTER TABLE `historia_medica`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `histo_medic`
 --
 ALTER TABLE `histo_medic`
@@ -6855,12 +6898,6 @@ ALTER TABLE `histo_patologias`
   ADD PRIMARY KEY (`id_histo_patologia`);
 
 --
--- Indices de la tabla `horario`
---
-ALTER TABLE `horario`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `medicamentos`
 --
 ALTER TABLE `medicamentos`
@@ -6871,13 +6908,6 @@ ALTER TABLE `medicamentos`
 --
 ALTER TABLE `patologias`
   ADD PRIMARY KEY (`id_patologia`);
-
---
--- Indices de la tabla `personas`
---
-ALTER TABLE `personas`
-  ADD PRIMARY KEY (`id_persona`),
-  ADD UNIQUE KEY `n_documento` (`n_documento`);
 
 --
 -- Indices de la tabla `presentacion`
@@ -6960,25 +6990,19 @@ ALTER TABLE `citas`
 -- AUTO_INCREMENT de la tabla `consultas`
 --
 ALTER TABLE `consultas`
-  MODIFY `id_consulta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_consulta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `id_doctor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id_doctor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
 --
 ALTER TABLE `especialidad`
   MODIFY `id_especialidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT de la tabla `historia_medica`
---
-ALTER TABLE `historia_medica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `histo_medic`
@@ -6993,12 +7017,6 @@ ALTER TABLE `histo_patologias`
   MODIFY `id_histo_patologia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `horario`
---
-ALTER TABLE `horario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
-
---
 -- AUTO_INCREMENT de la tabla `medicamentos`
 --
 ALTER TABLE `medicamentos`
@@ -7011,12 +7029,6 @@ ALTER TABLE `patologias`
   MODIFY `id_patologia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `personas`
---
-ALTER TABLE `personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-
---
 -- AUTO_INCREMENT de la tabla `presentacion`
 --
 ALTER TABLE `presentacion`
@@ -7026,13 +7038,13 @@ ALTER TABLE `presentacion`
 -- AUTO_INCREMENT de la tabla `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `id_recipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_recipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `recipes_medicamentos`
 --
 ALTER TABLE `recipes_medicamentos`
-  MODIFY `id_recipe_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_recipe_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `representados`
@@ -7056,7 +7068,7 @@ ALTER TABLE `representantes_personas`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_temporal_medicamentos`
@@ -7074,7 +7086,7 @@ ALTER TABLE `tipo_consulta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

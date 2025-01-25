@@ -991,7 +991,7 @@ if ($rol == 4 || $rol == 5 || $rol == 6 || $rol == 1) {
 
                         <div class="mb-3 col-sm-12">
                             <div class="form-group" id="grupo_ciru_hospi">
-                                <label class="formulario__label" for="ciru_hospi">Cirugías o
+                                <label class="formulario__label" for="ciru_hospi">Cirugías u
                                     hospitalizaciones</label>
                                 <input class="form-control formulario__validacion__input" type="text" id="ciru_hospi"
                                     name="ciru_hospi" placeholder="Cirugías o hospitalizaciones...">

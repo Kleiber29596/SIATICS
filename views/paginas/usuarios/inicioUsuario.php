@@ -37,7 +37,7 @@
 
 <body style="background-image: url(./libs/img/mosaico.png);
     background-repeat: no-repeat;
-    background-position: center;">
+    ">
     <main>
         <div class="center">
                 <div class="flex" style="margin-top: 35px;">

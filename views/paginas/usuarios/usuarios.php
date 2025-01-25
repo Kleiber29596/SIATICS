@@ -157,7 +157,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                 <br>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label for="cedula">Numero de cedula</label>
+                                        <label for="cedula">Número de cédula</label>
                                         <input class="form-control" type="text" name="cedu" id="cedu" maxlength="10"
                                             placeholder="Ingresa el número de cédula" required>
                                     </div>
@@ -229,7 +229,7 @@ if ($rol == 3 || $rol == 4 ||  $rol == 5 || $rol == 1) {
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label for="numTelf">Numero de contacto</label>
+                                        <label for="numTelf">Número de contacto</label>
                                         <input class="form-control" type="text" name="numTelf" disabled id="numTelf"
                                             placeholder="Número de contacto" maxlength="11" required>
                                     </div>

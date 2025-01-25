@@ -1081,16 +1081,10 @@ if(confirmar_contrasena) {
           render: function (data, type, row, meta) {
             let botones =
               `
-                      <button type="button" class="btn btn-primary btn-sm" onclick="VerDatosPersona(` +
-              row[5] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
-      
-                     <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosConsulta(` +
+            <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosConsulta(` +
               row[5] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
   
-              <a href="index.php?page=imprimirRecipe&amp;id=`+ row[5]+`" target="_blank" class="btn btn-secondary btn-sm"><i
-              class="fas fa-print"></i></a>&nbsp;
        `;
             return botones;
           },
