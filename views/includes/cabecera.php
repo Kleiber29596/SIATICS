@@ -122,7 +122,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             <a href="#" class="logo d-flex align-items-center">
                 <!--<img src="libs/img/siatics2.png" alt="">
                     style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 60%; height:80px;">-->
-                <img src="libs/img/siatics2.png" alt="" style="max-height: 55px; margin: auto;">
+                <img src="libs/img/siatics2.png" alt="" style="max-height: 45px; margin: auto;">
                 <!---->
                 <!-- <span class="d-none d-lg-block">Jornadas De Ferias</span> -->
             </a>
@@ -147,7 +147,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <span class="badge bg-success" style="margin-right: 10px;"><?= $nombre_rol ?></span>
                         <img src="libs/img/user.jpg" alt="Profile" class="rounded-circle">
-                        <!--<img src="<?= SERVERURL ?>foto_usuario/<?= $foto ?>" alt="Profile" class="rounded-circle">-->
+                        <!--<img src="foto_usuario/<?= $foto ?>" alt="Profile" class="rounded-circle">-->
                         <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $usuario ?></span>
                         
                     </a><!-- End Profile Iamge Icon -->
@@ -170,7 +170,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                         <li>
 
                             <a class="dropdown-item d-flex align-items-center"
-                                href="<?= SERVERURL ?>index.php?page=logoutUsuario"
+                                href="index.php?page=logoutUsuario"
                                 id="cerrar_sesion" >
                                 <i class="bi bi-box-arrow-left"></i>
                                 <span>Cerrar sesion</span>
@@ -193,14 +193,14 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicio">
+                <a class="nav-link collapsed" href="index.php?page=inicio">
                     <i class="bi bi-grid"></i>
                     <span>Panel</span>
                 </a>
             </li><!-- Modulos-->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
+                <a class="nav-link collapsed" href="index.php?page=inicioPersonas">
                     <i class="bi bi-person"></i>
                     <span>Personas</span>
                 </a>
@@ -212,13 +212,13 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioConsultas">
+                        <a class="nav-link collapsed" href="index.php?page=inicioConsultas">
                             <i class="bi bi-circle"></i><span>Consultas</span>
                         </a>
                     </li>
 
                     <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioCitas">
+                        <a class="nav-link collapsed" href="index.php?page=inicioCitas">
                             <i class="bi bi-circle"></i><span>Citas</span>
                         </a>
                     </li>
@@ -232,32 +232,32 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             <li class="nav-heading">Configuracion</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=ModuloUsuario">
+                <a class="nav-link collapsed" href="index.php?page=ModuloUsuario">
                     <i class="bi bi-person"></i>
                     <span>Usuarios</span>
                 </a>
             </li><!-- End usuarios Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioRoles">
+                <a class="nav-link collapsed" href="index.php?page=inicioRoles">
                     <i class="bi bi-lock"></i> <span>Roles</span>
                 </a>
             </li><!-- End Roles Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioEspecialidad">
+                <a class="nav-link collapsed" href="index.php?page=inicioEspecialidad">
                     <i class="bi bi-lock"></i> <span>Especialidades</span>
                 </a>
             </li><!-- End Especialidades Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMotivos">
+                <a class="nav-link collapsed" href="index.php?page=inicioMotivos">
                     <i class="bi bi-lock"></i> <span>Motivos</span>
                 </a>
             </li><!-- End Especialidades Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
+                <a class="nav-link collapsed" href="index.php?page=inicioMedicamentos">
                     <i class="bi bi-capsule"></i> <span>Medicamentos</span>
                 </a>
             </li><!-- End Especialidades Page Nav -->
@@ -274,21 +274,21 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicio">
+                <a class="nav-link collapsed" href="index.php?page=inicio">
                     <i class="bi bi-grid"></i>
                     <span>Panel</span>
                 </a>
             </li><!-- Modulos-->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
+                <a class="nav-link collapsed" href="index.php?page=inicioPersonas">
                     <i class="bi bi-person"></i>
                     <span>Personas</span>
                 </a>
             </li><!-- End usuarios Page Nav -->
 
             <li>
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioCitas">
+                <a class="nav-link collapsed" href="index.php?page=inicioCitas">
                     <i class="bi bi-calendar"></i><span>Citas</span>
                 </a>
             </li>
@@ -304,14 +304,14 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicio">
+                <a class="nav-link collapsed" href="index.php?page=inicio">
                     <i class="bi bi-grid"></i>
                     <span>Panel</span>
                 </a>
             </li><!-- Modulos-->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
+                <a class="nav-link collapsed" href="index.php?page=inicioPersonas">
                     <i class="bi bi-person"></i>
                     <span>Personas</span>
                 </a>
@@ -323,13 +323,13 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioConsultas">
+                        <a class="nav-link collapsed" href="index.php?page=inicioConsultas">
                             <i class="bi bi-circle"></i><span>Consultas</span>
                         </a>
                     </li>
 
                     <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioCitas">
+                        <a class="nav-link collapsed" href="index.php?page=inicioCitas">
                             <i class="bi bi-circle"></i><span>Citas</span>
                         </a>
                     </li>
@@ -343,32 +343,32 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             <li class="nav-heading">Configuracion</li>
 
             <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=ModuloUsuario">
+                <a class="nav-link collapsed" href="index.php?page=ModuloUsuario">
                     <i class="bi bi-person"></i>
                     <span>Usuarios</span>
                 </a>
             </li> -->
 
             <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioRoles">
+                <a class="nav-link collapsed" href="index.php?page=inicioRoles">
                     <i class="bi bi-lock"></i> <span>Roles</span>
                 </a>
             </li> -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioEspecialidad">
+                <a class="nav-link collapsed" href="index.php?page=inicioEspecialidad">
                     <i class="bi bi-lock"></i> <span>Especialidades</span>
                 </a>
             </li><!-- End Especialidades Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMotivos">
+                <a class="nav-link collapsed" href="index.php?page=inicioMotivos">
                     <i class="bi bi-lock"></i> <span>Motivos</span>
                 </a>
             </li><!-- End Especialidades Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
+                <a class="nav-link collapsed" href="index.php?page=inicioMedicamentos">
                     <i class="bi bi-capsule"></i> <span>Medicamentos</span>
                 </a>
             </li><!-- End Especialidades Page Nav -->
@@ -386,30 +386,30 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             <li class="nav-heading">Configuracion</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=ModuloUsuario">
+                <a class="nav-link collapsed" href="index.php?page=ModuloUsuario">
                     <i class="bi bi-person"></i>
                     <span>Usuarios</span>
                 </a>
             </li> 
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioRoles">
+                <a class="nav-link collapsed" href="index.php?page=inicioRoles">
                     <i class="bi bi-lock"></i> <span>Roles</span>
                 </a>
             </li>
 
             <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioEspecialidad">
+                <a class="nav-link collapsed" href="index.php?page=inicioEspecialidad">
                     <i class="bi bi-lock"></i> <span>Especialidades</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMotivos">
+                <a class="nav-link collapsed" href="index.php?page=inicioMotivos">
                     <i class="bi bi-lock"></i> <span>Motivos</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioMedicamentos">
+                <a class="nav-link collapsed" href="index.php?page=inicioMedicamentos">
                     <i class="bi bi-capsule"></i> <span>Medicamentos</span>
                 </a>
             </li>   -->
